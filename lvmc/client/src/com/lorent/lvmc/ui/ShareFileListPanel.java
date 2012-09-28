@@ -12,6 +12,7 @@ package com.lorent.lvmc.ui;
 
 import com.lorent.common.dnd.MyDropTargetListener;
 import com.lorent.lvmc.controller.ControllerFacade;
+import com.lorent.lvmc.controller.ViewManager;
 import com.lorent.lvmc.dto.FileDto;
 import com.lorent.lvmc.util.PermissionUtil;
 import com.lorent.lvmc.util.StringUtil;
