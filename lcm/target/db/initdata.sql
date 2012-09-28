@@ -15,6 +15,8 @@ INSERT INTO authority (authority_name, mark, del) VALUES ('共享桌面', 'scree
 INSERT INTO authority (authority_name, mark, del) VALUES ('电子白板', 'whiteboard', 1);
 INSERT INTO authority (authority_name, mark, del) VALUES ('邀请加入会议', 'invitejoinconference', 1);
 INSERT INTO authority (authority_name, mark, del) VALUES ('踢出会议', 'kickfromconference', 1);
+INSERT INTO authority (authority_name, mark, del) VALUES ('投票管理', 'votemanage', 1);
+INSERT INTO authority (authority_name, mark, del) VALUES ('权限操作', 'authorityoperate', 1);
 
 INSERT INTO conference_type (type_name, del) VALUES ('讲座会议类型', 1);
 --INSERT INTO conference_type (type_name, del) VALUES ('自由会议类型', 1);
@@ -30,6 +32,8 @@ INSERT INTO conf_role_authority (authority_id, role_id) VALUES (3, 2);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (4, 2);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (5, 1);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (6, 1);
+INSERT INTO conf_role_authority (authority_id, role_id) VALUES (7, 2);
+INSERT INTO conf_role_authority (authority_id, role_id) VALUES (8, 1);
 
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 1);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 2);

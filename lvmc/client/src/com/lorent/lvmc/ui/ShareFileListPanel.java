@@ -10,14 +10,23 @@
  */
 package com.lorent.lvmc.ui;
 
+import com.lorent.common.dnd.MyDropTargetListener;
+import com.lorent.lvmc.controller.ControllerFacade;
+import com.lorent.lvmc.controller.ViewManager;
+import com.lorent.lvmc.dto.FileDto;
+import com.lorent.lvmc.util.PermissionUtil;
+import com.lorent.lvmc.util.StringUtil;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +37,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollBar;
 import javax.swing.JTabbedPane;
+import javax.swing.ListModel;
 import javax.swing.UIManager;
-
 import org.apache.log4j.Logger;
-
-import com.lorent.common.dnd.MyDropTargetListener;
-import com.lorent.lvmc.controller.ControllerFacade;
-import com.lorent.lvmc.controller.ViewManager;
-import com.lorent.lvmc.util.PermissionUtil;
-import com.lorent.lvmc.util.StringUtil;
 
 /**
  * 
