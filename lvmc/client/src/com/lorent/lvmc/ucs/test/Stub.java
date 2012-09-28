@@ -12,7 +12,7 @@ public class Stub {
 	private static final String username = "33012";
 	private static final String passwd = "123456";
 	private static final String callusername = "33030";
-	private static final String confno = "900005";
+	private static final String confno = "900003";
 	
 	
 	
