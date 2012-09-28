@@ -15,6 +15,8 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Administrator
