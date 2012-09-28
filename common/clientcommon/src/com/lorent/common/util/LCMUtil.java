@@ -136,15 +136,21 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.removeUserFromMcu", new Object[]{confNo,lccno});
     }
     
+    public boolean grantConfAuthority(String confNo,String lccno,String roleName) throws Exception{
+    	return (Boolean)client.execute("lcmConf.grantConfAuthority", new Object[]{confNo,lccno,roleName});
+    }
     
+    public boolean revokeConfAuthority(String confNo,String lccno,String roleName) throws Exception{
+    	return (Boolean)client.execute("lcmConf.revokeConfAuthority", new Object[]{confNo,lccno,roleName});
+    }
     
-    public static void main(String[] args) throws Exception{
+    public static void main2(String[] args) throws Exception{
         String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
-        lcm.inviteUserFromMcu("900005", "33012");
+        lcm.removeUCSConf("33012", "900001");
 	}
     
-    public static void main2(String[] args)throws Exception {
+    public static void main(String[] args)throws Exception {
 //        String m=LCMUtil.newInstance("http://127.0.0.1:6090/lcm/lcmRpc").getWhiteBoardNumber("416997");
 //        LCMRoleDto ms=LCMUtil.getMyRoleAndPermission("416997","41742");
 //        System.out.println("================"+ms);
