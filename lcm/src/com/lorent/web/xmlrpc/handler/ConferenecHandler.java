@@ -1,6 +1,6 @@
 package com.lorent.web.xmlrpc.handler;
 
-dfdsafasdf
+
 import java.net.URL;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
