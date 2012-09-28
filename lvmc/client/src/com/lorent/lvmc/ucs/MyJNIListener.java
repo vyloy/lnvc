@@ -27,7 +27,7 @@ public class MyJNIListener extends JNIEventAdapter{
 
     @Override
     public void callerrorCallBack(JNIEvent event) {
-        
+    	UCSClient.sendCallError((String)event.getParas()[0]);
     }
 
     @Override

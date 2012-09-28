@@ -87,4 +87,9 @@ public class UCSClient {
 		log.info("sendOutgoing username = " + username);
 		sendCommand("ucscb.outgoing", username);
 	}
+	
+	public static void sendCallError(String username){
+		log.info("sendCallError username = " + username);
+		sendCommand("ucscb.callerror", username);
+	}
 }

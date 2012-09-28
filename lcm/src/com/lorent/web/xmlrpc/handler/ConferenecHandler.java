@@ -1,6 +1,5 @@
 package com.lorent.web.xmlrpc.handler;
 
-
 import java.net.URL;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
