@@ -19,6 +19,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="css/tab.css">
   </head>
+  <script>
+  	function restartServer(){
+  		var f = window.confirm("确定重启服务器吗？");
+  		if(f){
+  			window.location = 'app/sysServerConfigAction_restartServer_sysserverconfig.action';
+  		}
+  	}
+  </script>
   <body>
   	<%
   		request.setCharacterEncoding("utf-8");
@@ -39,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<s:if test="buttonMap.edit">
 				<li>
-					<a href="app/sysServerConfigAction_restartServer_sysserverconfig.action" class="toplink">
+					<a href="javascript:restartServer();" class="toplink">
 						<s:text name="重启系统服务" />
 					</a>
 				</li>

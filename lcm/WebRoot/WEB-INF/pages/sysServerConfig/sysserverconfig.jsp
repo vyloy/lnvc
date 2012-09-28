@@ -24,7 +24,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="css/dialogue.css">
 	<script type="text/javascript" src="js/dialogue.js" charset="utf-8"></script>
-	
+	<script>
+		
+		var edit = '${requestScope.SysServerConfigEidt}';
+		$(document).ready(function(){
+			if(edit=='success'){
+	  		    window.parent.openConfirm("信息提示","<font color=#009900> 操 作 成 功！<br/>修改配置信息需重启服务器才生效！</font>",true,false,false);
+			}
+  		});
+	</script>
   <body style="overflow: auto;">
   	<s:include value="/WEB-INF/pages/include/sys_tab_top.jsp">
   		<s:param name="title">
@@ -44,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	<s:if test="errorMsg.equals('')" >
   	
-  	<s:form id="dialogue_form" action="app/sysServerConfigAction_saveconfig_sysserverconfigsuccess.action" validate="true">
+  	<s:form id="dialogue_form" action="app/sysServerConfigAction_saveconfig_sysserverconfig.action" validate="true">
   		<s:token />
     		
     		<fieldset>
@@ -62,6 +70,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</td>
     			<td class="dialogue_td_input" colspan="3">
     				<s:textfield name="sysServerconfigBean.mcuserverip"  cssStyle="width:300" theme="simple"/>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td class="dialogue_td_text">
+    				CS密码
+    			</td>
+    			<td class="dialogue_td_input" colspan="3">
+    				<s:textfield name="sysServerconfigBean.mcuserverpassword"  cssStyle="width:300" theme="simple"/>
     			</td>
     		</tr>
     		<!-- 
@@ -215,7 +231,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		</table>	
 			</fieldset>
     		
-    		<fieldset>
+    		<fieldset style="display: none;">
 				<legend>邮件服务配置</legend>
     		<table border="0" cellspacing="0" cellpadding="0" class="dialogue_table">
     		<colgroup>
