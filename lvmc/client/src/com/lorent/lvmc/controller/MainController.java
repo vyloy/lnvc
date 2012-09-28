@@ -622,6 +622,10 @@ public class MainController extends BaseController{
     public void removeUser(String lccno) throws Exception{
     	if (lccno != null && !lccno.equals("")) {
     		LoginInfo loginInfo = DataUtil.getLoginInfo();
+    		if(lccno.equals(loginInfo.getUsername())){
+    			this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("kick.oneself.error"));
+    			return;
+    		}
         	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
         	LCMUtil.newInstance(xmlrpcUrl).removeUserFromMcu(loginInfo.getConfno(), lccno);
     	}

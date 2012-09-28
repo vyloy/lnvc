@@ -63,19 +63,21 @@ public class MemberListItem extends javax.swing.JPanel {
 		}else{
 			memberName.setText(data.getNickname());
 		}
-		memberRole.setText("");
-		String roleText = "(";
+//		memberRole.setText("");
+		StringBuilder roleText = new StringBuilder();
+		roleText.append("(");
 		LCMRoleDto role = data.getRole();
 		if(role!=null){
-			
-			for (String roleName : role.getNames()) {
-				roleText = roleText + roleName + ",";
+			if(role.getNames().size()==0){
+				roleText.append(Constants.PARTICIPANT_STR);
+			}else{
+				for (String roleName : role.getNames()) {
+					roleText.append(roleName).append(",");
+				}
+				roleText.deleteCharAt(roleText.length()-1);
 			}
-			if (roleText.endsWith(",")) {
-				roleText = roleText.substring(0, roleText.length() - 1);
-			}
-			roleText = roleText + ")";
-			memberRole.setText(roleText);
+			roleText.append(")");
+			memberRole.setText(roleText.toString());
 		}
 
 		if (showPermission) {

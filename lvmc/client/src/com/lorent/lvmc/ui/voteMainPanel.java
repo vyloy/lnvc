@@ -27,6 +27,7 @@ import org.jivesoftware.smack.Connection;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.bean.VoteDataDto;
 import com.lorent.lvmc.controller.ControllerFacade;
+import com.lorent.lvmc.controller.ViewManager;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.StringUtil;
@@ -705,6 +706,13 @@ public class voteMainPanel extends javax.swing.JPanel {
 
 	public void setjTabbedPane1(javax.swing.JTabbedPane jTabbedPane1) {
 		this.jTabbedPane1 = jTabbedPane1;
+	}
+	
+	public void setVoteManage(boolean f){
+		ViewManager.setComponentByAuthority(this.addthemeBtn, f);
+		ViewManager.setComponentByAuthority(this.updateThemeBtn, f);
+		ViewManager.setComponentByAuthority(this.startVoteBtn, f);
+		ViewManager.setComponentByAuthority(this.voteFinishBtn, f);
 	}
 
 }

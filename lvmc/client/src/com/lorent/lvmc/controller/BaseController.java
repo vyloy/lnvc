@@ -8,6 +8,7 @@ package com.lorent.lvmc.controller;
 import java.awt.Toolkit;
 
 import com.lorent.lvmc.service.ServiceFactory;
+import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.DataUtil;
 
 import javax.swing.ImageIcon;
@@ -49,4 +50,8 @@ public abstract class BaseController {
 //        commander.setParamter("TrayIconCommander", trayiconCommander);
 //        ControllerFacade.execute(commander);
 //    }
+    
+    protected String getXmlrpcUrl(){
+    	return "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
+    }
 }

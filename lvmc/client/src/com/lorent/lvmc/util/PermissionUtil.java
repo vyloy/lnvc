@@ -9,6 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.lorent.common.dto.LCMRoleDto;
 import com.lorent.lvmc.event.AuthorityCheckListener;
+import com.lorent.lvmc.event.DeleteDocumentAuthorityCheckListener;
+import com.lorent.lvmc.event.FileUploadAuthorityCheckListener;
+import com.lorent.lvmc.event.InviteJoinConferenceAuthorityCheckListener;
+import com.lorent.lvmc.event.KickFromConferenceAuthorityCheckListener;
+import com.lorent.lvmc.event.ScreenShareAuthorityCheckListener;
+import com.lorent.lvmc.event.ShareDocumentAuthorityCheckListener;
+import com.lorent.lvmc.event.VoteManageAuthorityCheckListener;
 
 /**
  *
@@ -22,8 +29,20 @@ public class PermissionUtil {
     public final static String SCREEN_SHARE = "screenshare";
     public final static String DELETE_DOCUMENT = "deletedocument";
     public final static String INVITE_JOIN_CONFERENCE = "invitejoinconference";
-    public final static String KICK_FROM_CONFERENCE = "kickfromconference"; 
+    public final static String KICK_FROM_CONFERENCE = "kickfromconference";
+    public final static String VOTE_MANAGE = "votemanage";
+    public final static String AUTHORITY_OPERATE = "authorityoperate";
     public static Map<String,AuthorityCheckListener> authroityListeners = new ConcurrentHashMap<String,AuthorityCheckListener>();
+    
+    static{
+    	addAuthorityListeners(FILE_UPLOAD,new FileUploadAuthorityCheckListener());
+    	addAuthorityListeners(SHARE_DOCUMENT,new ShareDocumentAuthorityCheckListener());
+    	addAuthorityListeners(SCREEN_SHARE,new ScreenShareAuthorityCheckListener());
+    	addAuthorityListeners(DELETE_DOCUMENT,new DeleteDocumentAuthorityCheckListener());
+    	addAuthorityListeners(INVITE_JOIN_CONFERENCE,new InviteJoinConferenceAuthorityCheckListener());
+    	addAuthorityListeners(KICK_FROM_CONFERENCE,new KickFromConferenceAuthorityCheckListener());
+    	addAuthorityListeners(VOTE_MANAGE, new VoteManageAuthorityCheckListener());
+    }
     
     public static boolean hasPermission(String permission){
         LCMRoleDto role = DataUtil.getValue(DataUtil.Key.myPermission);

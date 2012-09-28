@@ -360,6 +360,10 @@ public class ViewManager {
          return  newInstance==null?new ShapedGradientDockingTheme():newInstance;
     }
     
+    public static void setComponentByAuthority(java.awt.Component c,boolean f){
+    	c.setEnabled(f);
+    }
+    
     
 //    public static void changeSkin(String skinFileName) throws Exception{
 //    	com.lorent.commonconfig.ConfigUtil cu = new com.lorent.commonconfig.ConfigUtil(Constants.SKIN_PATH + "/" + skinFileName,false);  

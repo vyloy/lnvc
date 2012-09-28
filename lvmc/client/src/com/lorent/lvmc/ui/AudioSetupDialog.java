@@ -415,8 +415,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel2.add(jPanel24, gridBagConstraints);
 
-		jTabbedPane1.addTab(StringUtil
-				.getUIString("InviteDialog.inviteButton.txt"), jPanel2);
+		jTabbedPane1.addTab(StringUtil.getUIString("Convention.txt"), jPanel2);
 
 		jPanel28.setBorder(javax.swing.BorderFactory
 				.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -521,13 +520,14 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	//GEN-END:initComponents
 
 	private void narratorSliderStateChanged(javax.swing.event.ChangeEvent evt) {
-		JSlider source = (JSlider)evt.getSource();
-	    if (!source.getValueIsAdjusting()){
-	    	Map<String,String> map = new HashMap<String,String>();
-	    	map.put(Constants.AudioParam.NarratorVolume.toString(), String.valueOf(source.getValue()));
-	    	ControllerFacade.execute("videoAudioSetupController", "setAudioParas",
-					map);
-	    }
+		JSlider source = (JSlider) evt.getSource();
+		if (!source.getValueIsAdjusting()) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put(Constants.AudioParam.NarratorVolume.toString(), String
+					.valueOf(source.getValue()));
+			ControllerFacade.execute("videoAudioSetupController",
+					"setAudioParas", map);
+		}
 	}
 
 	private void micSliderStateChanged(javax.swing.event.ChangeEvent evt) {

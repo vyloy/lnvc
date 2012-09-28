@@ -102,7 +102,9 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 		//		model.removeAllElements();
 
 		boolean flag = PermissionUtil.hasPermission(PermissionUtil.FILE_UPLOAD);
-		uploadFileButton.setVisible(flag);
+		uploadFileButton.setEnabled(flag);
+		boolean flag1 = PermissionUtil.hasPermission(PermissionUtil.DELETE_DOCUMENT);
+		this.deleteButton.setEnabled(flag1);
 		new MyDropTargetListener(fileList, DnDConstants.ACTION_COPY_OR_MOVE){
 
 			@Override
@@ -528,7 +530,24 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 	private javax.swing.JButton uploadFileButton;
 
 	// End of variables declaration//GEN-END:variables
+	
+	public void setVisibleOfDeleteButton(boolean f){
+//		this.deleteButton.setVisible(f);
+		ViewManager.setComponentByAuthority(this.deleteButton, f);
+	}
 
+	public void setVisibleOfUploadFileButton(boolean f){
+//		this.uploadFileButton.setVisible(f);
+		ViewManager.setComponentByAuthority(this.uploadFileButton, f);
+	}
+	
+	public void setVisibleOfLoadBoard(boolean f){
+//		this.loadBoardButton.setVisible(f);
+//		this.loadToBoardMenuItem.setVisible(f);
+		ViewManager.setComponentByAuthority(this.loadBoardButton, f);
+		ViewManager.setComponentByAuthority(this.loadToBoardMenuItem, f);
+	}
+	
 	public JPopupMenu getFileListPopupMenu() {
 		return fileListPopupMenu;
 	}

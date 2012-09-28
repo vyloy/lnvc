@@ -4,6 +4,7 @@
  */
 package com.lorent.lvmc.controller;
 
+import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.bean.ChatRecordBean;
@@ -164,6 +165,10 @@ public class ChatConctroller extends BaseController{
 	    		String reason = StringUtil.getUIString("info.confischange");
 	    		ControllerFacade.execute("mainController", "exitApplicationWithoutConfirm", true, reason);
     		}
+    	}else if(BroadcastEvent.REVOKE_CONF_AUTHORITY.equals(body)){
+    		ControllerFacade.execute("authorityController", "updateAuthorityByRevokeAuthority",msg);
+    	}else if(BroadcastEvent.GRANT_CONF_AUTHORITY.equals(body)){
+    		ControllerFacade.execute("authorityController", "updateAuthorityByGrantAuthority",msg);
     	}
     }
 }

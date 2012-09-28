@@ -287,6 +287,9 @@ public class LvmcOpenfireUtil {
         while(occupants.hasNext()){
         	String name = getNameFromOccupant(occupants.next());
         	log.info("获取会议在线人员：" + name);
+        	if(name.equals(Constants.SUPPER_USER)){
+        		continue;
+        	}
             ret.add(name);
 //            log.debug(occupants.next());
         }

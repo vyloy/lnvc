@@ -115,4 +115,10 @@ public class Constants {
         }
         System.out.println(sb.toString());
     }
+    
+    public static final String COMPERE_STR = "主持人";
+    public static final String NARRATOR_STR = "主讲人";
+    public static final String PARTICIPANT_STR = "普通会议者";
+    public static final int GRANT_AUTHORITY = 1;
+    public static final int REVOKE_AUTHORITY = -1;
 }
