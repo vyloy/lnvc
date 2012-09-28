@@ -122,4 +122,8 @@ public class Constant {
 	public static int getHeartBeatIntevalTime(){
 		return Integer.parseInt(PropertiesUtil.getConstant(HEARTBEAT_INTEVAL_TIME));
 	}
+	
+	public enum RequestAtrributeKeys{
+		SysServerConfigEidt
+	}
  }

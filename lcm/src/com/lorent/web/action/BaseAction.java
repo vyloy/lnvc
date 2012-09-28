@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.util.ServletContextAware;
 import org.hibernate.criterion.DetachedCriteria;
 
 import com.lorent.exception.ArgsException;
@@ -25,7 +29,7 @@ import com.lorent.util.PageUtil;
 import com.lorent.util.StringUtil;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-public abstract class BaseAction<E,ID> extends ActionSupport implements ModelDriven<E> {
+public abstract class BaseAction<E,ID> extends ActionSupport implements ModelDriven<E>,ServletRequestAware , ServletContextAware {
 	/**
 	 * 
 	 */
@@ -62,6 +66,11 @@ public abstract class BaseAction<E,ID> extends ActionSupport implements ModelDri
 	protected String ascOrDesc = PageUtil.DESC;
 	//排序属性
 	protected String orderString = "id";
+	
+	protected HttpServletRequest request;
+	protected HttpSession session;
+	protected ServletContext application;
+
 	
 	protected Map<String, Boolean> buttonMap = new HashMap<String, Boolean>();
 	{
@@ -407,4 +416,18 @@ public abstract class BaseAction<E,ID> extends ActionSupport implements ModelDri
 	public String getCallBackUrl() {
 		return callBackUrl;
 	}
+	
+	 @Override
+	 public void setServletRequest(HttpServletRequest arg0) {
+         this.request = arg0;
+         if(request!=null){
+        	 this.session = this.request.getSession();
+         }
+	 }
+	 @Override
+	 public void setServletContext(ServletContext arg0) {
+	 	this.application = arg0;
+	 }
+	 
+	 
 }

@@ -10,11 +10,15 @@ import org.apache.log4j.Logger;
 
 import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMRoleDto;
+import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.dao.ConferenceNewDao;
 import com.lorent.exception.ArgsException;
 import com.lorent.exception.ServerException;
 import com.lorent.model.AuthorityBean;
+import com.lorent.model.ConfRoleAuthorityBean;
+import com.lorent.model.ConfUserAuthorityBean;
 import com.lorent.model.ConfUserRoleBean;
+import com.lorent.model.ConferenceBean;
 import com.lorent.model.ConferenceNewBean;
 import com.lorent.model.ConferenceRoleBean;
 import com.lorent.model.ConferenceTypeBean;
@@ -441,6 +445,110 @@ ConferenceNewService{
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public boolean grantAuthority(String confNo, String lccno,String roleName)
+			throws Exception {
+		ConferenceRoleBean roleBean = new ConferenceRoleBean();
+		roleBean.setRoleName(roleName);
+		List<ConferenceRoleBean> roles = daoFacade.getConferenceRoleDao().getByExample(roleBean);
+		if(roles!=null && roles.size()==1){
+			ConfRoleAuthorityBean raBean = new ConfRoleAuthorityBean();
+			raBean.setRoleId(roles.get(0).getId());
+			List<ConfRoleAuthorityBean> roleAuthorities = daoFacade.getConfRoleAuthorityDao().getByExample(raBean);
+			UserBean user = new UserBean();
+			user.setLccAccount(lccno);
+			List<UserBean> users = daoFacade.getUserDao().getByExample(user);
+			ConferenceNewBean conference = new ConferenceNewBean();
+			conference.setConfNo(confNo);
+			List<ConferenceNewBean> conferences = daoFacade.getConferenceNewDao().getByExample(conference);
+			ConferenceUserBean cuBean = new ConferenceUserBean();
+			cuBean.setConferenceId(conferences.get(0).getId());
+			cuBean.setUserId(users.get(0).getId());
+			List<ConferenceUserBean> conferenceUsers = daoFacade.getConferenceUserDao().getByExample(cuBean);
+			if(roleName.equals("主持人")){
+				List paras = new ArrayList();
+				paras.add(roles.get(0).getId());
+				paras.add(conferences.get(0).getId());
+				daoFacade.getConfUserRoleDao().executeUpdate("delete from ConfUserAuthorityBean cua " +
+						"where cua.id in (select ua.id from ConfUserAuthorityBean ua,ConferenceUserBean cu," +
+						"ConferenceNewBean c,ConfRoleAuthorityBean ra " +
+						"where c.id=cu.conferenceId and ra.roleId=? and c.id=? " +
+						"and cu.id=ua.conferenceUserId and ra.authorityId=ua.authorityId)" , paras);
+				List paras1 = new ArrayList();
+				paras1.add(roles.get(0).getId());
+				paras1.add(conferences.get(0).getId());
+				paras1.add(roles.get(0).getId());
+				daoFacade.getConfUserRoleDao().executeUpdate("delete from ConfUserRoleBean cur " +
+						"where cur.conferenceUserId=(select cu.id from ConferenceUserBean cu,ConfUserRoleBean ur,ConferenceNewBean c where cu.id=ur.conferenceUserId and c.id=cu.conferenceId and ur.roleId=? and c.id=?)" +
+						" and cur.roleId=?", paras1);
+				
+			}
+			ConfUserRoleBean curBean = new ConfUserRoleBean();
+			curBean.setConferenceUserId(conferenceUsers.get(0).getId());
+			curBean.setRoleId(roles.get(0).getId());
+			List<ConfUserRoleBean> confUserRoles = daoFacade.getConfUserRoleDao().getByExample(curBean);
+			if(confUserRoles == null || confUserRoles.size()<1){
+				daoFacade.getConfUserRoleDao().save(curBean);
+			}
+			List<AuthorityBean> authorityList = new ArrayList<AuthorityBean>();
+			for(ConfRoleAuthorityBean confRoleAuthorityBean:roleAuthorities){
+				ConfUserAuthorityBean confUserAuthorityBean = new ConfUserAuthorityBean();
+				confUserAuthorityBean.setAuthorityId(confRoleAuthorityBean.getAuthorityId());
+				confUserAuthorityBean.setConferenceUserId(conferenceUsers.get(0).getId());
+				List<ConfUserAuthorityBean> confUserAuthorities = daoFacade.getConfUserAuthorityDao().getByExample(confUserAuthorityBean);
+				if(confUserAuthorities == null || confUserAuthorities.size()<1){
+					daoFacade.getConfUserAuthorityDao().save(confUserAuthorityBean);
+				}
+				confUserAuthorityBean = null;
+				AuthorityBean authorityBean = daoFacade.getAuthorityDao().get(confRoleAuthorityBean.getAuthorityId());
+				authorityList.add(authorityBean);
+			}
+			
+			OpenfireUtil.getInstance().sendConfAuthorityUpdateBroadcast(BroadcastEvent.GRANT_CONF_AUTHORITY, confNo, lccno,authorityList,roleName);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean revokeAuthority(String confNo, String lccno,String roleName)
+			throws Exception {
+		ConferenceRoleBean roleBean = new ConferenceRoleBean();
+		roleBean.setRoleName(roleName);
+		List<ConferenceRoleBean> roles = daoFacade.getConferenceRoleDao().getByExample(roleBean);
+		List params = new ArrayList();
+		if(roles!=null && roles.size()==1){
+			
+			List list = daoFacade.getConferenceUserDao().queryByHql("select cu.id,cu.conferenceId,cu.userId from ConferenceUserBean cu where cu.conferenceId=(select c.id from ConferenceNewBean c where c.confNo='"+confNo+"') and cu.userId=(select u.id from UserBean u where u.lccAccount='"+lccno+"')");
+			if(list!=null && list.size()==1){
+				ConfRoleAuthorityBean raBean = new ConfRoleAuthorityBean();
+				raBean.setRoleId(roles.get(0).getId());
+				List<ConfRoleAuthorityBean> roleAuthorities = daoFacade.getConfRoleAuthorityDao().getByExample(raBean);
+				Object[] objs = (Object[])list.get(0);
+				Integer confefenceUserId = (Integer)objs[0];
+				Integer conferenceId = (Integer)objs[1];
+				Integer userId = (Integer)objs[2];
+				ConfUserRoleBean confUserRoleBean = new ConfUserRoleBean();
+				confUserRoleBean.setConferenceUserId(confefenceUserId);
+				confUserRoleBean.setRoleId(roles.get(0).getId());
+				daoFacade.getConfUserRoleDao().executeUpdate("delete from ConfUserRoleBean cur where cur.roleId=" + roles.get(0).getId() + " and cur.conferenceUserId="+confefenceUserId, params);//.delete(confUserRoleBean);
+				List<AuthorityBean> authorityList = new ArrayList<AuthorityBean>();
+				ConfUserAuthorityBean confUserAuthorityBean = new ConfUserAuthorityBean();
+				
+				for(ConfRoleAuthorityBean confRoleAuthorityBean:roleAuthorities){
+					confUserAuthorityBean.setAuthorityId(confRoleAuthorityBean.getAuthorityId());
+					confUserAuthorityBean.setConferenceUserId(confefenceUserId);
+					daoFacade.getConfUserAuthorityDao().executeUpdate("delete from ConfUserAuthorityBean cua where cua.authorityId="+confRoleAuthorityBean.getAuthorityId()+" and cua.conferenceUserId="+confefenceUserId, params);
+					AuthorityBean authorityBean = daoFacade.getAuthorityDao().get(confRoleAuthorityBean.getAuthorityId());
+					authorityList.add(authorityBean);
+				}
+				OpenfireUtil.getInstance().sendConfAuthorityUpdateBroadcast(BroadcastEvent.REVOKE_CONF_AUTHORITY, confNo, lccno,authorityList,roleName);
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

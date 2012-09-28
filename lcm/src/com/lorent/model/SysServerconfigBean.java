@@ -51,7 +51,14 @@ public class SysServerconfigBean implements Cloneable{
 	private String csUserPasswd;
 	
 	private String serialport;
+	private String mcuserverpassword;
 	
+	public String getMcuserverpassword() {
+		return mcuserverpassword;
+	}
+	public void setMcuserverpassword(String mcuserverpassword) {
+		this.mcuserverpassword = mcuserverpassword;
+	}
 	public String getSerialport() {
 		return serialport;
 	}

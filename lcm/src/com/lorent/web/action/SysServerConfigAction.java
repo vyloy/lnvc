@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -15,6 +17,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,8 +26,10 @@ import com.lorent.exception.ArgsException;
 import com.lorent.exception.CustomSqlException;
 import com.lorent.model.McuServerBean;
 import com.lorent.model.SysServerconfigBean;
+import com.lorent.util.Constant;
 import com.lorent.util.PropertiesUtil;
 import com.lorent.util.StringUtil;
+import com.opensymphony.xwork2.ActionContext;
 
 public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integer> {
 
@@ -121,6 +126,27 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 		
 	}
 	
+	
+	public void editMcuconfig(String key,String value) throws Exception{
+		String modify="sed -i -e \"s:\\("+key+"\\).*:\\1"+" = "+value+":\" "+mcuconfigurl;
+		log.info("执行命令："+modify);
+		String[] cmds = new String[]{"/bin/sh", "-c", modify};
+		Process pro;
+		pro = Runtime.getRuntime().exec(cmds);
+		int ret = pro.waitFor();
+		BufferedReader br2 = new BufferedReader (new InputStreamReader(pro.getInputStream()));   
+		String msg = null;
+		while ((msg = br2.readLine()) != null) {
+			log.info("修改命令执行结果"+msg);   
+		}
+		br2 = new BufferedReader (new InputStreamReader(pro.getErrorStream()));   
+		msg = null;
+		while ((msg = br2.readLine()) != null) {
+			log.error("修改命令执行错误"+msg);
+		}
+		log.info("----------修改执行结束-----------");
+	}
+	
 	public String saveconfig()throws Exception{
 		validData();
 		
@@ -147,23 +173,12 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 					this.index=0;
 					re= dealWithSpecialcode(re);
 				}
-				String modify="sed -i -e \"s:\\("+this.mux_cs_ip+"\\).*:\\1"+" = "+re+":\" "+mcuconfigurl;
-				log.info("执行命令："+modify);
-				String[] cmds = new String[]{"/bin/sh", "-c", modify};
-				Process pro;
-				pro = Runtime.getRuntime().exec(cmds);
-				int ret = pro.waitFor();
-				BufferedReader br2 = new BufferedReader (new InputStreamReader(pro.getInputStream()));   
-				String msg = null;
-				while ((msg = br2.readLine()) != null) {
-					log.info("修改命令执行结果"+msg);   
-				}
-				br2 = new BufferedReader (new InputStreamReader(pro.getErrorStream()));   
-				msg = null;
-				while ((msg = br2.readLine()) != null) {
-					log.error("修改命令执行错误"+msg);
-				}
-				log.info("----------修改执行结束-----------");
+				editMcuconfig(this.mux_cs_ip,re);
+				
+			}
+			if(null!=sysServerconfigBean.getMcuserverpassword()&&!sysServerconfigBean.getMcuserverpassword().equals(oldServerconfigBean.getMcuserverip())){
+				String re=sysServerconfigBean.getMcuserverpassword();
+				editMcuconfig(this.mux_cs_password,re.trim());
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -212,7 +227,7 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 			}
 			
 			//修改邮件服务的配置  
-				 String file = emailUrl;
+				 /*String file = emailUrl;
 //				 String projectname=ServletActionContext.getRequest().getContextPath();
 				 String filepath=System.getProperty("user.dir").replace("bin", "conf");
 //			     String path = filepath+projectname+file;
@@ -272,7 +287,7 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-			     }
+			     }*/
 		}
 		try {
 			oldServerconfigBean=(SysServerconfigBean) sysServerconfigBean.clone();
@@ -284,6 +299,10 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 		} catch (CustomSqlException e) {
 			log.error(e.getMessage(), e);
 		}
+//		ActionContext ctx = ActionContext.getContext();       
+//		HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
+//		protected HttpServletResponse response = (HttpServletResponse)ctx.get(ServletActionContext.HTTP_RESPONSE); 
+	    request.setAttribute(Constant.RequestAtrributeKeys.SysServerConfigEidt.toString(), "success");
 		return SUCCESS;
 	}
 
@@ -335,6 +354,7 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 	String mcuconfigurl=PropertiesUtil.getConstant("mcuconfigurl");
 	//mcu服务器ip
 	private String mux_cs_ip="mux_cs_ip";
+	private String mux_cs_password="password";
 	//服务器ip
 	private String cs_ip="cs_ip =";
 	//获取lcm配置信息url
@@ -380,9 +400,40 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 		}
 	}
 
+	private String getMcuconfigValue(String key){
+		String value = null;
+		try {
+			String cmd = "sed -n '/^"+key+"/p' "+mcuconfigurl;
+			String[] cmds = new String[]{"/bin/sh", "-c", cmd};
+			Process pro = Runtime.getRuntime().exec(cmds);	   
+			int ret = pro.waitFor();
+			BufferedReader br2 = new BufferedReader (new InputStreamReader(pro.getInputStream()));   
+			String msg = null;
+			while ((msg = br2.readLine()) != null) {
+				log.info("命令执行结果"+msg);   
+				if(msg.indexOf(key)>=0){
+					value = msg.substring(msg.indexOf(key)+key.length()+2);
+					break;
+				}
+			}
+			br2 = new BufferedReader (new InputStreamReader(pro.getErrorStream()));   
+			msg = null;
+			while ((msg = br2.readLine()) != null) {
+				log.error("命令执行错误"+msg);
+			}
+			log.info("----------执行结束-----------");
+			
+		} catch (Exception e) {
+            e.printStackTrace();
+		}
+		return value;
+	}
+	
 	private void initServermcu() {
 		try {
-			String cmd = "sed -n '/^"+this.mux_cs_ip+"/p' "+mcuconfigurl;
+			sysServerconfigBean.setMcuserverip(getMcuconfigValue(this.mux_cs_ip));
+			sysServerconfigBean.setMcuserverpassword(getMcuconfigValue(this.mux_cs_password));
+			/*String cmd = "sed -n '/^"+this.mux_cs_ip+"/p' "+mcuconfigurl;
 			String[] cmds = new String[]{"/bin/sh", "-c", cmd};
 			Process pro = Runtime.getRuntime().exec(cmds);	   
 			int ret = pro.waitFor();
@@ -392,6 +443,8 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 				log.info("命令执行结果"+msg);   
 				if(msg.indexOf(this.mux_cs_ip)>=0){
 					sysServerconfigBean.setMcuserverip(msg.substring(msg.indexOf(this.mux_cs_ip)+11));
+				}else if(msg.indexOf(this.mux_cs_password)>=0){
+					sysServerconfigBean.setMcuserverpassword(msg.substring(msg.indexOf(this.mux_cs_password)+10));
 				}
 			}
 			br2 = new BufferedReader (new InputStreamReader(pro.getErrorStream()));   
@@ -399,7 +452,7 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 			while ((msg = br2.readLine()) != null) {
 				log.error("命令执行错误"+msg);
 			}
-			log.info("----------执行结束-----------");
+			log.info("----------执行结束-----------");*/
 			
 		} catch (Exception e) {
             e.printStackTrace();

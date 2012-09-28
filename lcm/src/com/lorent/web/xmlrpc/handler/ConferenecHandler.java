@@ -629,7 +629,7 @@ public class ConferenecHandler extends BaseHandler {
 		conferenceNewPo.setConferenceName(confno);
 		conferenceNewPo.setNeedApply(0);
 		conferenceNewPo.setDel(1);
-		conferenceNewPo.setDefaultRoleId(2);//TODO 主讲人
+		conferenceNewPo.setDefaultRoleId(3);//TODO 普通会议人
 		conferenceNewPo.setConferenceTypeId(1);//TODO 讲座会议
 		conferenceNewPo.setTopic(confno);
 		conferenceNewPo.setDescription(confno);
@@ -817,6 +817,14 @@ public class ConferenecHandler extends BaseHandler {
 			objs[i] = strs;
 		}
 		return objs;
+	}
+	
+	public boolean grantConfAuthority(String confNo,String lccno,String roleName) throws Exception{
+		return serviceFacade.getConferenceNewService().grantAuthority(confNo,lccno,roleName);
+	}
+	
+	public boolean revokeConfAuthority(String confNo,String lccno,String roleName) throws Exception{
+		return serviceFacade.getConferenceNewService().revokeAuthority(confNo,lccno,roleName);
 	}
 	
 	//--------------------------------------供 VOVO 调用(不带业务逻辑)end ----------------------------------

@@ -17,6 +17,7 @@ import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import com.lorent.common.tree.MemberBean;
+import com.lorent.model.AuthorityBean;
 import com.lorent.model.ConferenceNewBean;
 import com.lorent.model.UserBean;
 
@@ -362,6 +363,25 @@ public class OpenfireUtil {
 		msg.setProperty("msgType", "ConfNotice");
 		msg.setBody(msgText);
 		conn.sendPacket(msg);
+		conn.disconnect();
+	}
+
+	public void sendConfAuthorityUpdateBroadcast(String bodyContent,
+			String confNo, String lccno, List<AuthorityBean> authorityList,String roleName) throws Exception{
+		XMPPConnection conn = initXMPPConnection();
+		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
+		MultiUserChat muc = new MultiUserChat(conn, confNo + "@conference." + conn.getServiceName());
+		muc.join(PropertiesUtil.getConstant("initdata.admin.name"));
+		Message msg = muc.createMessage();
+		msg.setBody(bodyContent);
+		msg.setProperty("lccno", lccno);
+		msg.setProperty("roleName", roleName);
+		if(authorityList!=null && authorityList.size()>0){
+			for(AuthorityBean authorityBean:authorityList){
+				msg.setProperty(authorityBean.getMark(), authorityBean.getAuthorityName());
+			}
+		}
+		muc.sendMessage(msg);
 		conn.disconnect();
 	}
 }

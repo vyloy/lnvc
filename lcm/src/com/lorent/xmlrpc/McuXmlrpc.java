@@ -215,7 +215,8 @@ public class McuXmlrpc {
 	
 	public static void main(String[] args)throws Exception{
 		String xmlrpcUrl = "http://10.168.250.12:6080/lcmRPC"; 
-		McuXmlrpc.inviteConfUser(xmlrpcUrl, "326579", "33039");
+//		McuXmlrpc.inviteConfUser(xmlrpcUrl, "326579", "33039");
+		McuXmlrpc.createForwardConference(xmlrpcUrl,"9 8");
 		/*
 		String menu = "\n1.getConfList\n" +
 				"2.getConfByConfno\n" +
