@@ -25,6 +25,8 @@
 	    		<prop key="do*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
 	    		<prop key="importFromXLS">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
 	    		<prop key="exportToXLS">PROPAGATION_REQUIRED,readOnly</prop>
+	    		<prop key="grantAuthority">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="revokeAuthority">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
 	   		</props>
 	  	</property>
 	  	<property name="postInterceptors">
