@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="ConferenceTypeRoleBean" table="conference_type_role">
+		<id name="id"> 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="conferenceTypeId" column="conference_type_id" />
+		<property name="conferenceRoleId" column="conference_role_id" />
+		<property name="maxnum" column="maxnum" />
+		<property name="minnum" column="minnum" />
+	</class>
+</hibernate-mapping>

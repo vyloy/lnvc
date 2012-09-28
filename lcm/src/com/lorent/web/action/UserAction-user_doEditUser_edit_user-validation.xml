@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="username" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.username")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="maxLength">20</param>
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.username"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z]+$]]></param>
+			<message>${getText("page.validate.error.strformaterror",{getText("page.validate.param.username")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="realName">
+		<field-validator type="stringlength">
+			<param name="maxLength">20</param>
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.realName"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.realName")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="email">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.email")})}</message>
+		</field-validator>
+		<field-validator type="email" short-circuit="true">
+			<message>${getText("page.validate.error.emailformat",{getText("page.validate.param.email")})}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">50</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.email"),maxLength})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="mobile">
+		<field-validator type="regex">   
+			<param name="trim">true</param>
+          	<param name="expression"><![CDATA[^1[358][0-9]\d{8}$]]></param>   
+          	<message>${getText("page.validate.error.mobileformat",{getText("page.validate.param.mobile")})}</message>   
+      	</field-validator> 
+	</field>
+	
+	<field name="phone">
+		<field-validator type="regex">   
+			<param name="trim">true</param>
+          	<param name="expression"><![CDATA[^0\d{2,3}[-_\s]\d{7,8}$]]></param>   
+          	<message>${getText("page.validate.error.phoneformat",{getText("page.validate.param.phone")})}</message>   
+      	</field-validator> 
+	</field>
+	<field name="realPassword">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.password")})}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<param name="minLength">6</param>
+			<message>${getText("page.validate.user.passwordrange",{minLength, maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z]+$]]></param>
+			<message>${getText("page.validate.error.strformaterror",{getText("page.validate.param.password")})}</message>
+		</field-validator>
+	</field>
+	<field name="repeatPassword">
+		<field-validator type="requiredstring">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.repeatPassword")})}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<param name="minLength">6</param>
+			<message>${getText("page.validate.user.passwordrange",{minLength, maxLength})}</message>
+		</field-validator>
+		<field-validator type="fieldexpression">
+			<param name="expression"><![CDATA[(realPassword==repeatPassword)]]></param>
+			<message>${getText("page.validate.error.passnotmatch")}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z]+$]]></param>
+			<message>${getText("page.validate.error.strformaterror",{getText("page.validate.param.repeatPassword")})}</message>
+		</field-validator>
+	</field>
+	<field name="oldPassword">
+		<field-validator type="fieldexpression" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[(hideValue==0 || (oldPassword!=null && oldPassword!=""))]]></param>
+			<message>${getText("page.validate.error.required",{getText("page.display.text.oldpassword")})}</message>
+		</field-validator>
+		<!-- <field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<param name="minLength">6</param>
+			<message>${getText("page.validate.user.passwordrange",{minLength, maxLength})}</message>
+		</field-validator> -->
+	</field>
+	<field name="newPassword">
+		<field-validator type="fieldexpression" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[(hideValue==0 || (newPassword!=null && newPassword!=""))]]></param>
+			<message>${getText("page.validate.error.required",{getText("page.display.text.newpassword")})}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<param name="minLength">6</param>
+			<message>${getText("page.validate.user.passwordrange",{minLength, maxLength})}</message>
+		</field-validator>
+	</field>
+	<field name="rePass">
+		<field-validator type="fieldexpression" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[(hideValue==0 || (rePass!=null && rePass!=""))]]></param>
+			<message>${getText("page.validate.error.required",{getText("page.display.text.repeatpassword")})}</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<param name="minLength">6</param>
+			<message>${getText("page.validate.user.passwordrange",{minLength, maxLength})}</message>
+		</field-validator>
+	</field>
+</validators>

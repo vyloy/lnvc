@@ -1,0 +1,4 @@
+-Dclientcommon="${workspace_loc:clientcommon}"
+-Dastpack="${workspace_loc:astpack}"
+-DWhiteBoardClient="${workspace_loc:WhiteBoardClient}"
+-DWhiteBoardCommon="${workspace_loc:WhiteBoardCommon}"

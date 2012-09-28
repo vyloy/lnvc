@@ -1,0 +1,123 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url"><value>jdbc:postgresql://10.168.150.75:5432/lcmDB_Dev</value></property>
+		<property name="driverClassName"><value>org.postgresql.Driver</value></property>
+		<property name="username"><value>lcmadmin</value></property>
+		<property name="password" value="password" />
+	</bean>
+    <!-- <bean name="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/postgres" />
+	</bean> -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.PostgreSQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">25</prop>
+				<prop key="hibernate.query.factory_class">
+					org.hibernate.hql.ast.ASTQueryTranslatorFactory
+				</prop>
+				<prop key="hibernate.cache.provider_class">
+					net.sf.ehcache.hibernate.EhCacheProvider
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/lorent/model/mapping/AclClass.hbm.xml</value>
+				<value>com/lorent/model/mapping/AclEntry.hbm.xml</value>
+				<value>com/lorent/model/mapping/AclObjectIdentity.hbm.xml</value>
+				<value>com/lorent/model/mapping/AclSid.hbm.xml</value>
+				<value>com/lorent/model/mapping/UserBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/RoleBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/McuServerBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/McuMixerBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/CustomerBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/CityBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/ConferenceBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/ConferenceNoBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/DepartmentBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/OperateRecord.hbm.xml</value>
+				<value>com/lorent/model/mapping/BillingBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/RatesBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/ConfNoStatusBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/CronConferenceBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/UserStatusBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/SipConfBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/MediaBean.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- generic dao -->
+	<bean id="genericDao" class="com.lorent.dao.GenericDaoImpl" abstract="true">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- user dao -->
+	<bean id="userDao" class="com.lorent.dao.impl.UserDaoImpl" parent="genericDao" />
+	<!-- role dao -->
+	<bean id="roleDao" class="com.lorent.dao.impl.RoleDaoImpl" parent="genericDao" />
+	<!-- acl class dao -->
+	<bean id="aclClassDao" class="com.lorent.dao.impl.AclClassDaoImpl" parent="genericDao" />
+	<!-- acl entry dao -->
+	<bean id="aclEntryDao" class="com.lorent.dao.impl.AclEntryDaoImpl" parent="genericDao" />
+	<!-- acl objectidentity dao -->
+	<bean id="aclObjectIdentityDao" class="com.lorent.dao.impl.AclObjectIdentityDaoImpl" parent="genericDao" />
+	<!-- acl sid dao -->
+	<bean id="aclSidDao" class="com.lorent.dao.impl.AclSidDaoImpl" parent="genericDao" />
+	<!-- mcu server dao -->
+	<bean id="mcuServerDao" class="com.lorent.dao.impl.McuServerDaoImpl" parent="genericDao" />
+	<!-- mcu mixer dao -->
+	<bean id="mcuMixerDao" class="com.lorent.dao.impl.McuMixerDaoImpl" parent="genericDao" />
+	<!-- customer dao -->
+	<bean id="customerDao" class="com.lorent.dao.impl.CustomerDaoImpl" parent="genericDao" />
+	<!-- static dao -->
+	<bean id="staticDao" class="com.lorent.dao.impl.StaticDao" parent="genericDao" />	
+	<!-- conference dao -->
+	<bean id="conferenceDao" class="com.lorent.dao.impl.ConferenceDaoImpl" parent="genericDao" />
+	<!-- operaterecord dao -->
+	<bean id="operateRecordDao" class="com.lorent.dao.impl.OperateRecordDaoImpl" parent="genericDao" />
+	<!-- billing dao -->
+	<bean id="billingDao" class="com.lorent.dao.impl.BillingDaoImpl" parent="genericDao" />
+	<!-- rates dao -->
+	<bean id="ratesDao" class="com.lorent.dao.impl.RatesDaoImpl" parent="genericDao" />
+	<!-- department dao -->
+	<bean id="departmentDao" class="com.lorent.dao.impl.DepartmentDaoImpl" parent="genericDao" />
+	<!-- cronConference dao -->
+	<bean id="cronConferenceDao" class="com.lorent.dao.impl.CronConferenceDaoImpl" parent="genericDao" />
+	<!-- sip conf dao -->
+	<bean id="sipConfDao" class="com.lorent.dao.impl.SipConfDaoImpl" parent="genericDao" />
+	<!-- conferenceNo dao -->
+	<bean id="conferenceNoDao" class="com.lorent.dao.impl.ConferenceNoDaoImpl" parent="genericDao" />
+	<!-- media dao -->
+	<bean id="mediaDao" class="com.lorent.dao.impl.MediaDaoImpl" parent="genericDao" />
+	
+	<!-- daofacade  -->
+	<bean id="daoFacade" class="com.lorent.dao.impl.DaoFacade">
+		<property name="roleDao" ref="roleDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="aclClassDao" ref="aclClassDao" />
+		<property name="aclEntryDao" ref="aclEntryDao" />
+		<property name="aclObjectIdentityDao" ref="aclObjectIdentityDao" />
+		<property name="aclSidDao" ref="aclSidDao" />
+		<property name="mcuServerDao" ref="mcuServerDao" />
+		<property name="mcuMixerDao" ref="mcuMixerDao" />
+		<property name="customerDao" ref="customerDao" />
+		<property name="staticDao" ref="staticDao" />
+		<property name="conferenceDao" ref="conferenceDao" />
+		<property name="operateRecordDao" ref="operateRecordDao" />
+		<property name="billingDao" ref="billingDao" />
+		<property name="ratesDao" ref="ratesDao" />
+		<property name="departmentDao" ref="departmentDao" />
+		<property name="cronConferenceDao" ref="cronConferenceDao" />
+		<property name="sipConfDao" ref="sipConfDao" />
+		<property name="conferenceNoDao" ref="conferenceNoDao" />		
+		<property name="mediaDao" ref="mediaDao" />
+	</bean>
+</beans>

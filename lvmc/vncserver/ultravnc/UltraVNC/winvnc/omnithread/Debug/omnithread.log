@@ -1,0 +1,18 @@
+﻿Build started 2012-2-27 14:55:23.
+     1>Project "E:\ultravnc\UltraVNC\winvnc\omnithread\omnithread.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\omnithread.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Z7 /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D WIN32 /D _WINDOWS /D __NT__ /D _WINSTATIC /D __WIN32__ /D _WIN32_WINNT=0x400 /D _CRT_SECURE_NO_WARNINGS /Gm- /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt nt.cpp
+         nt.cpp
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"E:\ultravnc\UltraVNC\winvnc\Debug\omnithread.lib" /NOLOGO Debug\nt.obj
+         omnithread.vcxproj -> E:\ultravnc\UltraVNC\winvnc\Debug\omnithread.lib
+       FinalizeBuildStatus:
+         Deleting file "Debug\omnithread.unsuccessfulbuild".
+         Touching "Debug\omnithread.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\winvnc\omnithread\omnithread.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.03

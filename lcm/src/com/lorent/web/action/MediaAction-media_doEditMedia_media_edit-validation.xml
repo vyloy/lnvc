@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="addMedia.mediaName" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.media.medianame")})}</message>
+		</field-validator>
+	</field>
+	<field name="upload" >
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.media.mediafile")})}</message>
+		</field-validator>
+	</field>
+</validators>

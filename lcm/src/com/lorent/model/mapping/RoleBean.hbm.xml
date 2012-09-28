@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="RoleBean" table="sys_role">
+		<id name="id">
+			<column name="role_id" />
+			<generator class="identity" />
+		</id>	
+		<property name="roleName" column="role_name" />
+		<property name="roleDesc" column="role_desc" />
+		<property name="customerId" column="customer_id" />
+		<!-- <set name="users" table="sys_userinrole"  lazy="extra" >
+			<key column="role_id" />
+			<many-to-many class="UserBean" column="user_id" lazy="proxy" />
+		</set> -->
+		<property name="roleCode" column="role_code" />
+		<property name="status" column="status" />
+	</class>
+</hibernate-mapping>

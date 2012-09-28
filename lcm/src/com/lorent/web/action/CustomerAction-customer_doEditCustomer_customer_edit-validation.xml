@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="customerName" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.customername")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="maxLength">20</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.customername"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.customername")})}</message>
+		</field-validator>
+	</field>
+	<field name="customerUserlimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.customeruserlimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.customer.userrange",{min,max})}</message>
+		</field-validator>
+	</field>
+	<!-- <field name="perConfNoLimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.perconfnolimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.customer.pernorange",{min,max})}</message>
+		</field-validator>
+	</field>
+	<field name="imdConfNoLimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.imdconfnolimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.customer.imdnorange",{min,max})}</message>
+		</field-validator>
+	</field>
+	<field name="appConfNoLimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.appconfnolimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.customer.appnorange",{min,max})}</message>
+		</field-validator>
+	</field>
+	<field name="confMeetingNoLimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confmeetingnolimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.customer.confmeetingnorange",{min,max})}</message>
+		</field-validator>
+	</field> -->
+	<field name="confPeopleLimit">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confpeoplelimit")})}</message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">1</param>
+			<param name="max">16</param>
+			<message>${getText("page.validate.customer.confpeoplenorange",{min,max})}</message>
+		</field-validator>
+	</field>
+	<field name="customerStatus">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.status")})}</message>
+		</field-validator>
+	</field>
+	<field name="customerAddress">
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">30</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.address"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5\_\s\-]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter.s",{getText("page.validate.param.address")})}</message>
+		</field-validator>
+	</field>
+	<field name="customerContact">
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.contact"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.contact")})}</message>
+		</field-validator>
+	</field>
+	<field name="customerPhone">
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">20</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.phone"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^0\d{2,3}[-_\s]\d{7,8}$]]></param>
+			<message>${getText("page.validate.error.phoneformat",{getText("page.validate.param.phone")})}</message>
+		</field-validator>
+	</field>
+	<!-- <field name="mcuServer">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.customermcuserver")})}</message>
+		</field-validator>
+	</field>
+	<field name="rates.id">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.customerrates")})}</message>
+		</field-validator>
+	</field> -->
+	<field name="customerDesc">
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">200</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.desc"),maxLength})}</message>
+		</field-validator>
+	</field>
+</validators>

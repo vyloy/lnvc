@@ -1,0 +1,8 @@
+export LNT_ROOT_DIR=`echo $PWD|awk -F / '{print $4}'`
+export LCP_DIR=`echo $PWD|awk -F / '{print $5}'`
+export LNT_ROOT=$HOME/$LNT_ROOT_DIR
+export PATH=$LNT_ROOT/tools/gcc-3.4.3-glibc-2.3.5/i686-unknown-linux-gnu/bin:$PATH
+export C_INCLUDE_PATH="$LNT_ROOT/tools/gcc-3.4.3-glibc-2.3.5/i686-unknown-linux-gnu/i686-unknown-linux-gnu/include"
+export BUILDNUMBER_M=`svnversion -c $LNT_ROOT/$LCP_DIR/build/rules`
+export BUILDNUMBER=`echo $BUILDNUMBER_M | awk -F : '{print $2}'`
+export VIDEO=1

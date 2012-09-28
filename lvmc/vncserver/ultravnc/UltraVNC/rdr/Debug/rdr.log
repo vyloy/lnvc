@@ -1,0 +1,29 @@
+﻿Build started 2012-2-27 14:55:24.
+     1>Project "E:\ultravnc\UltraVNC\rdr\rdr.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\rdr.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.. /I../zlib /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FdInStream.cxx FdOutStream.cxx InStream.cxx NullOutStream.cxx ZlibInStream.cxx ZlibOutStream.cxx
+         ZlibOutStream.cxx
+         ZlibInStream.cxx
+         NullOutStream.cxx
+         InStream.cxx
+         FdOutStream.cxx
+         FdInStream.cxx
+         Generating Code...
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:".\Debug\rdr.lib" /NOLOGO .\Debug/FdInStream.obj
+         .\Debug/FdOutStream.obj
+         .\Debug/InStream.obj
+         .\Debug/NullOutStream.obj
+         .\Debug/ZlibInStream.obj
+         .\Debug/ZlibOutStream.obj
+         rdr.vcxproj -> E:\ultravnc\UltraVNC\rdr\.\Debug\rdr.lib
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\rdr.unsuccessfulbuild".
+         Touching ".\Debug\rdr.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\rdr\rdr.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.75

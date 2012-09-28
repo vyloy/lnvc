@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
+   	
+    <bean id="mainController" class="com.lorent.vovo.controller.MainController" parent="baseController" scope="singleton"/>
+    <bean id="groupChatController" class="com.lorent.vovo.controller.GroupChatController" parent="baseController" scope="singleton"/>
+    <bean id="chatController" class="com.lorent.vovo.controller.ChatController" parent="baseController" scope="singleton"/>
+    <bean id="sharefileController" class="com.lorent.vovo.controller.ShareFileController" parent="baseController" scope="singleton"/>
+    <bean id="conferenceController" class="com.lorent.vovo.controller.ConferenceController" parent="baseController" scope="singleton"/>
+    <bean id="organController" class="com.lorent.vovo.controller.OrganController" parent="baseController" scope="singleton"/>
+    <bean id="phoneController" class="com.lorent.vovo.controller.PhoneController" parent="baseController" scope="singleton"/>
+    <bean id="screenShotController" class="com.lorent.vovo.controller.ScreenShotController" parent="baseController" scope="singleton"/>
+</beans>

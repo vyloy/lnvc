@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="UserStatusBean" table="sys_userstatus">
+		<id name="id" unsaved-value="0"> 
+			<column name="userstatus_id" />
+			<generator class="identity" />
+		</id>
+		<property name="startTime" column="start_time" />
+		<property name="endTime" column="end_time" />
+		<property name="userId" column="user_id" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,126 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+	<http auto-config="false"
+		 entry-point-ref="authenticationProcessingFilterEntryPoint"
+		 access-denied-page="/app/toPage_accessDenied.action" > 
+		<port-mappings>
+			<port-mapping http="8080" https="8443"/>
+		</port-mappings>
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/imageCode*" filters="none"/>
+		<intercept-url pattern="/login/**" filters="none"/>
+		<intercept-url pattern="/images/**" filters="none" />
+		<intercept-url pattern="/css/**" filters="none" />
+		<intercept-url pattern="/js/**" filters="none" />
+		<intercept-url pattern="/lcmRpc/**" filters="none" />
+		<intercept-url pattern="/file/**" filters="none" />
+		<intercept-url pattern="/**" access="ROLE_CUSTOMER_USER,ROLE_ADMIN,ROLE_MEMBER_USER,ROLE_CUSTOMER_DEP_ADMIN,ROLE_CUSTOMER_ADMIN" requires-channel="https" />
+		<logout invalidate-session="true" logout-success-url="/login/loginPage_toLoginPage.action" logout-url="/security_logout"/>
+		<concurrent-session-control max-sessions="1" expired-url="/login/loginPage_toLoginPage.action?error=sessionexpired" />
+		<remember-me />
+	</http>
+	
+	<authentication-provider user-service-ref="userService">
+		<password-encoder hash="md5">
+			<salt-source user-property="username" />
+		</password-encoder>
+	</authentication-provider>
+		
+	<!-- method security -->
+	<!--<global-method-security secured-annotations="enabled" jsr250-annotations="enabled">
+		<protect-pointcut expression="execution()" access=""/>
+		<protect-pointcut expression="" access=""/>
+	</global-method-security>-->
+	<!-- =============================== authentication filter ======================================= -->
+	<beans:bean id="authenticationProcessingFilter" class="com.lorent.web.intercetor.CustomAuthenticationProcessingFilter">
+		<custom-filter before="AUTHENTICATION_PROCESSING_FILTER" />
+		<beans:property name="defaultTargetUrl" value="/app/toPage_index.action" />
+		<beans:property name="authenticationFailureUrl" value="/login/loginPage_toLoginPage.action?error=true"></beans:property>
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
+		<beans:property name="serviceFacade" ref="serviceFacade" />
+	</beans:bean>
+	<authentication-manager alias="authenticationManager"/>
+	
+	<beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">    
+        <beans:property name="loginFormUrl" value="/login/loginPage_toLoginPage.action" />    
+        <beans:property name="forceHttps" value="true" />
+    </beans:bean>
+    
+    <!-- ~~~~~~~~~~~============== ACL intercepter ==============~~~~~~~~~~~~ -->
+    <!-- ACL permission masks used by this application -->
+    <beans:bean id="administrationPermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <beans:property name="staticField" value="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>
+    </beans:bean>
+    <beans:bean id="readPermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <beans:property name="staticField" value="org.springframework.security.acls.domain.BasePermission.READ"/>
+    </beans:bean>
+    <beans:bean id="writePermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <beans:property name="staticField" value="org.springframework.security.acls.domain.BasePermission.WRITE"/>
+    </beans:bean>
+    <beans:bean id="deletePermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <beans:property name="staticField" value="org.springframework.security.acls.domain.BasePermission.DELETE"/>
+    </beans:bean>
+ 
+
+    <beans:bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <beans:constructor-arg>
+        <beans:list>
+            <beans:bean class="org.springframework.security.GrantedAuthorityImpl">
+                <beans:constructor-arg value="ROLE_ADMIN"/>
+            </beans:bean>
+            <beans:bean class="org.springframework.security.GrantedAuthorityImpl">
+                <beans:constructor-arg value="ROLE_ADMIN"/>
+            </beans:bean>
+            <beans:bean class="org.springframework.security.GrantedAuthorityImpl">
+                <beans:constructor-arg value="ROLE_ADMIN"/>
+            </beans:bean>
+        </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>    
+    
+    <beans:bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+     
+    <!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+    <beans:bean id="afterInvocationManager"
+          class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
+        <beans:property name="providers">
+            <beans:list>
+                <beans:ref local="afterAclRead"/>
+                <beans:ref local="afterAclCollectionRead"/>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+    <!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
+    <beans:bean id="afterAclCollectionRead"
+          class="org.springframework.security.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
+        <beans:constructor-arg ref="securityMutableAclService"/>
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref local="administrationPermission"/>
+                <beans:ref local="readPermission"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <!-- Processes AFTER_ACL_READ configuration settings -->
+    <beans:bean id="afterAclRead" class="org.springframework.security.afterinvocation.AclEntryAfterInvocationProvider">
+    <!--<bean id="afterAclRead" class="com.denksoft.springstarter.util.security.CustomAclEntryAfterInvocationProvider">-->
+        <beans:constructor-arg ref="securityMutableAclService"/>
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref local="administrationPermission"/>
+                <beans:ref local="readPermission"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+    
+</beans:beans>

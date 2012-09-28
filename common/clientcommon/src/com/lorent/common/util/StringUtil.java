@@ -1,0 +1,44 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.lorent.common.util;
+
+import java.lang.reflect.Array;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Set;
+
+/**
+ *
+ * @author jack
+ */
+public class StringUtil {
+    
+    public static String getResourceString(String file, String key){
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(file); 
+        return bundle.getString(key);
+    }
+    
+    public static String getFormatString(String oriStr, Object...paras){
+        return MessageFormat.format(oriStr, paras);
+    }
+    
+    public static <T> T[] parseListToArray(List<T> list, Class<T> clazz){
+            T[] t = (T[])Array.newInstance(clazz, list.size());
+            for(int i = 0; i < list.size(); i++){
+                    t[i] = list.get(i);
+            }
+            return t;
+    }
+    
+    public static <T> T[] parseSetToArray(Set<T> set, Class<T> clazz){
+    	T[] t = (T[])Array.newInstance(clazz, set.size());
+        set.toArray(t);
+	    return t;
+    }
+    
+    public static String convertFilePath2DOSCommandStr(String filePath){
+    	return "\"" + filePath + "\"";
+    }
+}

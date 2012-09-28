@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="ratesName" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.ratesname")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="maxLength">20</param>
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.ratesname"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.ratesname")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="ratesType">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.ratestype")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="ratesTarriff">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.tarriff")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="endTime">
+		<field-validator type="fieldexpression">
+			<param name="expression"><![CDATA[((endTime==null&&startTime==null)||endTime>startTime)]]></param>
+			<message>${getText("page.validate.conf.endtimebeforestarttime")}</message>
+		</field-validator>
+	</field>
+	
+</validators>

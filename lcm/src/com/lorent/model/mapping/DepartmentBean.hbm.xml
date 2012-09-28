@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="DepartmentBean" table="sys_deparment">
+		<id name="id"> 
+			<column name="deparment_id" />
+			<generator class="identity" />
+		</id>
+		<property name="departmentName" column="deparment_name" />
+		<property name="departmentDesc" column="deparment_desc" />
+		<property name="customerId" column="deparment_customer_id" />
+		<!--  <set name="users"  table="sys_userindeparment" lazy="extra">
+			<key column="deparment_id" />
+			<many-to-many class="UserBean" column="user_id" lazy="proxy" />
+		</set>-->
+		<!-- <many-to-one name="parent" class="DepartmentBean" column="deparment_parent" lazy="false"/> -->
+		<property name="isRoot" column="deparment_isroot" />
+		<property name="status" column="status" />
+		<property name="order" column="deparment_order" />
+		<property name="code" column="code" />
+		<property name="searchStr" column="searchstr" />
+		<property name="parentId" column="deparment_parent" />
+	</class>
+</hibernate-mapping>

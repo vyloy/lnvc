@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="BillingBean" table="sys_billing">
+		<id name="id"> 
+			<column name="billing_id" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="conference" class="ConferenceBean" column="conf_id" cascade="none" lazy="proxy" not-found="ignore"/>
+		<many-to-one name="rates" class="RatesBean" column="rates_id" cascade="none" lazy="proxy" not-found="ignore"/>
+		<property name="isPay" column="is_pay" />
+		<property name="totalCost" column="total_cost" />
+		<property name="actualCost" column="actual_cost" />
+		<property name="customerCode" column="customer_code" />
+		<property name="customerName" column="customer_name" />
+		<property name="confName" column="conf_name" />
+	</class>
+</hibernate-mapping>

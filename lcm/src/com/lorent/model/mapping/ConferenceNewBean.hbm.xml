@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="ConferenceNewBean" table="conference">
+		<id name="id"> 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="conferenceName" column="conference_name" />
+		<property name="creator" column="creator" />
+		<property name="needApply" column="need_apply" />
+		<property name="defaultRoleId" column="default_role_id" />
+		<property name="conferenceTypeId" column="conference_type_id" />
+		<property name="del" column="del" />
+		<property name="confNo" column="confno" />
+		<property name="topic" column="topic" />
+		<property name="description" column="description" />
+		<property name="password" column="password"></property>
+	</class>
+</hibernate-mapping>

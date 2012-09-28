@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='utf-8'?>
+<events-configuration>
+	<event id="test">
+        <listener class="main" method="recieveMessage" />
+    </event>
+    <event id="initGroupChat">
+        <listener class="groupChat" method="initGroupChat" />
+    </event>
+    <event id="quitGroupChat">
+        <listener class="groupChat" method="quitGroupChatCallback" />
+    </event>
+    <event id="dismissGroupChat">
+        <listener class="groupChat" method="dismissGroupChatCallback" />
+    </event>
+    <event id="showJoinGroupChat">
+        <listener class="groupChat" method="showJoinGroupChat" />
+    </event>
+    <event id="recieveGroupChatApplyIn">
+        <listener class="groupChat" method="recieveGroupChatApplyIn" />
+    </event>
+    <event id="refleshGroupChatMemberList">
+        <listener class="groupChat" method="refleshGroupChatMemberList" />
+    </event>
+    <event id="fetchGroupChatAuthority">
+        <listener class="groupChat" method="fetchGroupChatAuthorityCallBack" />
+    </event>
+    <event id="updateGroupChatAuthority">
+        <listener class="groupChat" method="updateGroupChatAuthorityCallBack" />
+    </event>
+    <event id="addMemberToGroupChatCallBack">
+        <listener class="groupChat" method="addMemberToGroupChatCallBack" />
+    </event>
+    <event id="searchGroupChatCallBack">
+        <listener class="groupChat" method="searchGroupChatCallBack" />
+    </event>
+    <event id="memberChange">
+        <listener class="organ" method="memberChange" />
+    </event>
+    <event id="deptChange">
+        <listener class="organ" method="deptChange" />
+    </event>
+    <event id="userStatusChange">
+        <listener class="organ" method="userStatusChange" />
+    </event> 
+    <event id="showConferenceBubbleDialog">
+        <listener class="conference" method="showConferenceBubbleDialog" />
+    </event> 
+    <event id="recieveRefuseJoinGroupChatMessage">
+        <listener class="groupChat" method="recieveRefuseJoinGroupChatMessage" />
+    </event>
+    <event id="changeGroupChatTopicAndDescCallBack">
+        <listener class="groupChat" method="changeGroupChatTopicAndDescCallBack" />
+    </event>
+    <event id="leafGroupChatByKick">
+        <listener class="groupChat" method="leafGroupChatByKick" />
+    </event>
+    <event id="ownerKickOneFromGroupChat">
+        <listener class="groupChat" method="ownerKickOneFromGroupChat" />
+    </event>    
+    <event id="showMessage">
+        <listener class="chat" method="showMessage" />
+    </event>
+    <event id="getFriendMessage">
+        <listener class="chat" method="getFriendMessage" />
+    </event>
+    <event id="oneLeftFromGroupChat">
+        <listener class="groupChat" method="oneLeftFromGroupChat" />
+    </event>
+    <event id="dataIsReady">
+    	<listener class="main" method="dataIsReady" />
+    </event>
+    <event id="recSendFileMsg">
+    	<listener class="chat" method="recSendFileMsg" />
+    </event>
+    <event id="getOtherMsg">
+    	<listener class="chat" method="getOtherMsg" />
+    </event>
+    <event id="updateFileProcess">
+    	<listener class="chat" method="updateFileProcess" />
+    </event>
+    <event id="sendFileComplete">
+    	<listener class="chat" method="sendFileComplete" />
+    </event>
+    <event id="otherRejectSendFile">
+    	<listener class="chat" method="otherRejectSendFile" />
+    </event>
+    <event id="transferTimeOut">
+    	<listener class="chat" method="transferTimeOut" />
+    </event>
+    <event id="transferInterrupt">
+    	<listener class="chat" method="transferInterrupt" />
+    </event>
+    <event id="agreeOneJoinGroupChat">
+    	<listener class="groupChat" method="agreeOneJoinGroupChat" />
+    </event>
+    <event id="recieveInviteMsg">
+    	<listener class="groupChat" method="recieveInviteMsg" />
+    </event>
+    <event id="registerOK">
+    	<listener class="phone" method="registerOK" />
+    </event>
+    <event id="registerFail">
+    	<listener class="phone" method="registerFail" />
+    </event>
+    <event id="callIncoming">
+    	<listener class="phone" method="callIncoming" />
+    </event>
+    <event id="callHangup">
+    	<listener class="phone" method="callHangup" />
+    </event>
+    <event id="callConnected">
+    	<listener class="phone" method="callConnected" />
+    </event>
+    <event id="callError">
+    	<listener class="phone" method="callError" />
+    </event>
+    <event id="relogin">
+    	<listener class="main" method="relogin" />
+    </event>
+    <event id="sendOfflineMessageFail">
+    	<listener class="chat" method="sendOfflineMessageFail" />
+    </event>
+    <event id="serverDisconnect">
+    	<listener class="main" method="serverDisconnect" />
+    </event>
+    <event id="reconnectionSuccessful">
+    	<listener class="main" method="reconnectionSuccessful" />
+    </event>
+</events-configuration>

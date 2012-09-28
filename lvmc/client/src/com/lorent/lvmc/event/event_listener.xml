@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<events-configuration>
+    <!-- 收到聊天室消息 -->
+    <event id="getRoomMsg">
+        <listener class="chatController" method="recieveMessage" />
+    </event>
+    <event id="getRoomPrivateChatMsg">
+        <listener class="chatController" method="recievePrivateMessage" />
+    </event>
+    <event id="getAdminMsg">
+        <listener class="chatController" method="recieveAdminMessage" />
+    </event>
+    <!-- LCC注册成功 -->
+    <event id="lccRegisterCallBackOK">
+        <listener class="phoneController" method="lccRegisterCallBackOK"/>
+    </event>
+    <!-- LCC注册失败 -->
+    <event id="lccRegisterCallBackFail">
+        <listener class="phoneController" method="lccRegisterCallBackFail"/>
+    </event>
+    <!-- 电话接通 -->
+    <event id="lccConnected">
+        <listener class="phoneController" method="lccConnected"/>
+    </event>
+    <!-- 电话接通 -->
+    <event id="lccHandupCallBack">
+        <listener class="phoneController" method="lccHandupCallBack"/>
+    </event>
+    <!-- 呼叫错误 -->
+    <event id="lccCallerrorCallBack">
+        <listener class="phoneController" method="lccCallerrorCallBack"/>
+    </event>
+    <!-- 被踢出聊天室 -->
+    <event id="kickByRoom">
+        <listener class="mainController" method="kickByRoom" />
+    </event>
+    <!-- mcu会议人员变动 -->
+    <event id="memberinfoCallBack">
+        <listener class="phoneController" method="memberinfoCallBack"/>
+    </event>
+    <!-- 会议人员变动 -->
+    <event id="roomMemberChange">
+       <listener class="mainController" method="roomMemberChange"/>
+       <listener class="videoViewsController" method="roomMemberChange"/>
+       <listener class="shareDesktopController" method="roomMemberChange"/>
+    </event>
+    <!-- 下载共享文件过程 -->
+    <event id="downLoadShareFileProgress">
+       <listener class="shareFileListController" method="downLoadShareFileProgress"/>
+    </event>
+    <!-- 取消下载共享文件过程 -->
+    <event id="cancelDownLoadShareFileProgress">
+       <listener class="shareFileListController" method="cancelDownLoadShareFileProgress"/>
+    </event>
+    <!-- 上传共享文件过程 -->
+    <event id="upLoadShareFileProgress">
+       <listener class="shareFileListController" method="upLoadShareFileProgress"/>
+    </event>
+    <!-- 取消上传共享文件过程 -->
+    <event id="cancelUpLoadShareFileProgress">
+       <listener class="shareFileListController" method="cancelUpLoadShareFileProgress"/>
+    </event>
+    <!-- 服务器通知刷新文件列表 -->
+    <event id="serverCallClientGetFileList">
+       <listener class="shareFileListController" method="serverCallClientGetFileList"/>
+    </event>
+    <!-- 服务器返回文件列表 -->
+    <event id="serverReturnFileNames">
+       <listener class="shareFileListController" method="serverReturnFileNames"/>
+    </event>
+    <!-- 会议投票 -->
+    <event id="meetingVote">
+       <listener class="voteController" method="errorMsg"/>
+    </event>
+    <event id="create_vote">
+       <listener class="voteController" method="create_voteSuccess"/>
+    </event>
+    <event id="update_vote">
+       <listener class="voteController" method="update_voteSuccess"/>
+    </event>
+    <event id="insert_select">
+       <listener class="voteController" method="insert_selectSuccess"/>
+    </event>
+    <event id="update_select">
+       <listener class="voteController" method="update_selectSuccess"/>
+    </event>
+    <event id="delete_select">
+       <listener class="voteController" method="delete_selectSuccess"/>
+    </event>
+    <event id="count">
+       <listener class="voteController" method="countSuccess"/>
+    </event>
+    <event id="dovote">
+       <listener class="voteController" method="dovoteSuccess"/>
+    </event>
+    <event id="load_vote">
+       <listener class="voteController" method="load_voteSuccess"/>
+    </event>
+    <event id="search_vote_record">
+       <listener class="voteController" method="search_vote_recordSuccess"/>
+    </event>
+    <!--  重复登录   -->
+    <event id="relogin">
+       <listener class="mainController" method="relogin"/>
+    </event>
+    <!--  与OPENFIRE链接中断   -->
+    <event id="exitApplicationByNotLinkOpenfire">
+       <listener class="mainController" method="exitApplicationByNotLinkOpenfire"/>
+    </event>
+    <!--  重新链接   -->
+    <event id="reconnect">
+       <listener class="mainController" method="reconnect"/>
+       <listener class="voteController" method="reconnect"/>
+    </event>
+    <!-- 网络连接中断 -->
+    <event id="openfireDisconnectByNetwork">
+       <listener class="mainController" method="openfireDisconnectByNetwork"/>
+       <listener class="voteController" method="disconnect"/>
+    </event>
+    
+    
+</events-configuration>

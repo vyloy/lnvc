@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url"><value>jdbc:postgresql://10.168.150.75:5432/lcmDB_Dev</value></property>
+		<property name="driverClassName"><value>org.postgresql.Driver</value></property>
+		<property name="username"><value>lcmadmin</value></property>
+		<property name="password" value="password" />
+	</bean> -->
+    <bean name="monitorDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/mysql" />
+	</bean>
+	<bean id="monitorSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="monitorDataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.query.factory_class">
+					org.hibernate.hql.ast.ASTQueryTranslatorFactory
+				</prop>
+				<prop key="hibernate.cache.provider_class">
+					net.sf.ehcache.hibernate.EhCacheProvider
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/lorent/model/mapping/MonitorNetBean.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="monitorStaticDao" class="com.lorent.dao.impl.MonitorStaticDao">
+		<property name="sessionFactory" ref="monitorSessionFactory" />
+	</bean>
+	
+	<!-- daofacade  -->
+	<bean id="daoFacade" class="com.lorent.dao.impl.DaoFacade">
+		<property name="roleDao" ref="roleDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="aclClassDao" ref="aclClassDao" />
+		<property name="aclEntryDao" ref="aclEntryDao" />
+		<property name="aclObjectIdentityDao" ref="aclObjectIdentityDao" />
+		<property name="aclSidDao" ref="aclSidDao" />
+		<property name="mcuServerDao" ref="mcuServerDao" />
+		<property name="mcuMixerDao" ref="mcuMixerDao" />
+		<property name="customerDao" ref="customerDao" />
+		<property name="staticDao" ref="staticDao" />
+		<property name="conferenceDao" ref="conferenceDao" />
+		<property name="operateRecordDao" ref="operateRecordDao" />
+		<property name="billingDao" ref="billingDao" />
+		<property name="ratesDao" ref="ratesDao" />
+		<property name="departmentDao" ref="departmentDao" />
+		<property name="cronConferenceDao" ref="cronConferenceDao" />
+		<property name="sipConfDao" ref="sipConfDao" />
+		<property name="conferenceNoDao" ref="conferenceNoDao" />		
+		<property name="mediaDao" ref="mediaDao" />
+		<property name="monitorStaticDao" ref="monitorStaticDao" />
+	</bean>
+</beans>

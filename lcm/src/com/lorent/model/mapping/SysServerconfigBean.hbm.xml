@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="SysServerconfigBean" table="sys_serverconfig">
+		<id name="id">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="mcuport" column="mcuport" />
+		<property name="cstimeout" column="cstimeout" />
+		<property name="fileport" column="fileport" />
+		<property name="filemaxlimit" column="filemaxlimit" />
+		<property name="desktopport" column="desktopport" />
+		<property name="desktopport2" column="desktopport2" />
+		<property name="desktopport3" column="desktopport3" />
+		<property name="whiteport" column="whiteport" />
+		<property name="whitenumber" column="whitenumber" />
+		<property name="emailport" column="	emailport" />
+		<property name="openfireport" column="openfireport" />
+		<property name="def0" column="def0" />
+		<property name="def1" column="def1" />
+		<property name="def2" column="def2" />
+		<property name="def3" column="def3" />
+		<property name="def4" column="def4" />
+		<property name="def5" column="def5" />
+		<property name="allownfilestyle" column="allownfilestyle" />
+		<property name="desktoppassword" column="desktoppassword" />
+		<property name="emailacount" column="emailacount" />
+		<property name="emailpassword" column="emailpassword" />
+		<property name="serverip" column="serverip" />
+
+
+	</class>
+</hibernate-mapping>

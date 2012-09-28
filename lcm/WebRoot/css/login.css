@@ -1,0 +1,112 @@
+/* CSS Document */
+body,body *{
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	text-align:center;
+	background-color: #14305e;
+	font-size:12px; 
+	font-family:Arial;
+	overflow-x:hidden; 
+	overflow-y:auto;
+}
+.contentContainer{
+	padding-top:160px;
+	margin-top:-70px;
+	margin-left:-80px;
+	background-image: url(../images/login_images/login_body_pg.gif);
+	background-color: #143051;
+}
+.login_form{
+	margin:0px auto 0px auto;
+	width: 790px;
+	height: 421px;
+	background-image: url(../images/login_images/login_content_bg.gif);
+	position: relative;
+}
+.inputUl{
+	position: absolute;
+	top:237px !important;
+	top: 230px;
+	left: 370px;
+	width: 300px;
+	height: 80px;
+	color: #fff;
+}
+.inputUl li{
+	list-style: none;
+	clear: both;
+	height:5px;
+ 	margin: 3px 0px 3px 0px;
+}
+.inputUl li *{
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+.inputUl span{
+	width: 80px;
+	text-align: right;
+	display: block;
+}
+.inputUl input,.inputUl select{
+	width:100px; 
+	height:17px; 
+	background-color:#87adbf; 
+	border:solid 1px #153966; 
+	font-size:12px; 
+	color:#283439;
+}
+#inputCode{
+	width: 50px;
+}
+.inputUl img{
+	width: 42px;
+	margin-left: 2px;
+	cursor: pointer;
+}
+.inputUl button{
+	width:72px;
+	height: 18px;
+	background-image: url(../images/login_images/login_button.gif);
+	border: none;
+	margin-left: 30px;
+	color: #fff;
+	margin-top: 3px;
+	cursor:pointer;
+}
+.inputUl select{
+	color: #000;
+	width:72px;
+	margin-left: 30px;
+	margin-top: 3px;
+	text-align: center;
+	cursor:pointer;
+}
+.msgDiv{
+	width:100%;
+	text-align:center;
+	color:#F79F41;
+	position:absolute;
+	top:470px;
+	left:40px;
+	font-size: 14px;
+}
+.remenberme_text,.remenberme_input,.download_lcc{
+	position:absolute;
+	top:320px;
+}
+.remenberme_input{
+	left:470px;
+	top:322px;
+}
+.remenberme_text{
+	width:100px;
+	left:370px;
+	color:#fff;
+}
+.download_lcc{
+	width:100px;
+	left:600px;
+}

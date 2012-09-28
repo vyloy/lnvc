@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="departmentName" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.depname")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="maxLength">20</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.depname"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.depname")})}</message>
+		</field-validator>
+	</field>
+	<!-- <field name="parent">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.parentdep")})}</message>
+		</field-validator>
+	</field> -->
+	<field name="departmentDesc">
+		<field-validator type="stringlength">
+			<param name="trim">true</param>
+			<param name="maxLength">200</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.desc"),maxLength})}</message>
+		</field-validator>
+	</field>
+</validators>

@@ -1,0 +1,69 @@
+﻿Build started 2012-2-28 10:28:53.
+     1>Project "E:\ultravnc\UltraVNC\zipunzip_src\zip20\windll\visualc\lib\zip32.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file ".\Release\zip32.lastbuildstate".
+       InitializeBuildStatus:
+         Creating ".\Release\zip32.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\.. /I..\..\..\win32 /I..\..\..\windll /Zi /nologo /W3 /WX- /Ox /Ob2 /Oi /Ot /Oy- /GL /D NDEBUG /D _WINDOWS /D WIN32 /D NO_ASM /D WINDLL /D MSDOS /D USE_ZIPMAIN /D ZIPLIB /D _VC80_UPGRADE=0x0600 /GF /Gm- /EHsc /MT /Zp16 /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\..\api.c ..\..\..\crc32.c ..\..\..\crctab.c ..\..\..\crypt.c ..\..\..\deflate.c ..\..\..\fileio.c ..\..\..\globals.c ..\..\..\win32\nt.c ..\..\..\trees.c ..\..\..\ttyio.c ..\..\..\util.c ..\..\..\win32\win32.c ..\..\..\win32\win32zip.c ..\..\windll.c ..\..\..\zip.c ..\..\..\zipfile.c ..\..\..\zipup.c
+         api.c
+     1>..\..\..\api.c(112): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>..\..\..\api.c(141): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\string.h(175) : see declaration of 'strncat'
+     1>..\..\..\api.c(146): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\string.h(175) : see declaration of 'strncat'
+     1>..\..\..\api.c(151): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\string.h(175) : see declaration of 'strncat'
+     1>..\..\..\api.c(188): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         crc32.c
+         crctab.c
+         crypt.c
+         deflate.c
+         fileio.c
+         globals.c
+         nt.c
+         trees.c
+         ttyio.c
+         util.c
+         win32.c
+     1>..\..\..\win32\win32.c(324): warning C4244: 'return' : conversion from 'time_t' to 'int', possible loss of data
+         win32zip.c
+     1>..\..\..\win32\win32zip.c(658): warning C4013: 'printff' undefined; assuming extern returning int
+         windll.c
+         zip.c
+         zipfile.c
+         zipup.c
+     1>..\..\..\zipup.c(1113): warning C4013: 'deflate_copy' undefined; assuming extern returning int
+       ResourceCompile:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _VC80_UPGRADE=0x0600 /l"0x0409" /I"\DATA\ultravnc\UltraVNC Project Root\UltraVNC\zipunzip_src\zip20\windll" /nologo /fo".\Release\windll.res" ..\..\windll.rc 
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:".\..\Release\libs\zip32.lib" /NOLOGO .\Release\windll.res
+         .\Release/api.obj
+         .\Release/crc32.obj
+         .\Release/crctab.obj
+         .\Release/crypt.obj
+         .\Release/deflate.obj
+         .\Release/fileio.obj
+         .\Release/globals.obj
+         .\Release/nt.obj
+         .\Release/trees.obj
+         .\Release/ttyio.obj
+         .\Release/util.obj
+         .\Release/win32.obj
+         .\Release/win32zip.obj
+         .\Release/windll.obj
+         .\Release/zip.obj
+         .\Release/zipfile.obj
+         .\Release/zipup.obj
+     1>LINK : warning LNK4068: /MACHINE not specified; defaulting to X86
+         zipup.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+     1>LINK : warning LNK4068: /MACHINE not specified; defaulting to X86
+         zip32.vcxproj -> E:\ultravnc\UltraVNC\zipunzip_src\zip20\windll\visualc\lib\.\..\Release\libs\zip32.lib
+       FinalizeBuildStatus:
+         Deleting file ".\Release\zip32.unsuccessfulbuild".
+         Touching ".\Release\zip32.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\zipunzip_src\zip20\windll\visualc\lib\zip32.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.54

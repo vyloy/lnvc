@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="CityBean" table="static_city">
+		<id name="id" unsaved-value="0">
+			<column name="city_id" />
+			<generator class="identity" />
+		</id>
+		<property name="cityName" column="city_name" />
+		<property name="cityCode" column="city_code" />
+	</class>
+</hibernate-mapping>

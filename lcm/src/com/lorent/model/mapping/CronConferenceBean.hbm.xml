@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="CronConferenceBean" table="sys_cron_conference">
+		<id name="id"> 
+			<column name="conf_id" />
+			<generator class="identity" />
+		</id>
+		<property name="confSubject" column="conf_subject" />
+		<property name="confPass" column="conf_pass" />
+		<property name="confAllowBefore" column="conf_allow_before" />
+		<property name="confMode" column="conf_mode" />
+		<property name="confType" column="conf_type" /> 
+		<property name="confMemberCount" column="conf_member_count" />
+		<property name="confVideoCount" column="conf_video_count" />
+		<many-to-one name="confHost" class="UserBean" column="conf_host_id" lazy="proxy" fetch="join" />
+		<property name="confDesc" column="conf_desc" />
+		<property name="confPublic" column="conf_public" />
+		<property name="ismix" column="ismix" />
+		<property name="requiredLogin" column="conf_required_login" />
+		<many-to-one name="owner" class="UserBean" column="conf_owner_id" lazy="proxy" fetch="join" />
+		<many-to-one name="customer" column="conf_customer_id" class="CustomerBean" lazy="proxy" fetch="join" />
+		<set name="users"  inverse="false" table="sys_userincronconf" lazy="extra" fetch="join" >
+			<key column="cron_conf_id" />
+			<many-to-many class="UserBean" column="user_id" lazy="proxy" />
+		</set>
+		<!--  <many-to-one name="conferenceNo" class="ConferenceNoBean" column="call_no_id" lazy="proxy" fetch="join" />-->
+		<property name="mcuMixerKey" column="conf_mcu_mixerkey" />
+		<property name="mcuMediaLayOut" column="conf_mcu_medialayout" />
+		<property name="mcuMediaQuality" column="conf_mcu_mediaquality" />
+		<property name="status" column="status" />
+		<property name="cronType" column="cron_type" />
+		<property name="cronTime" column="cron_time" />
+		<property name="cronExpression" column="cron_expression" />
+		<property name="length" column="cron_length" />
+		<property name="cronHours" column="cron_hours" />
+		<property name="confno" column="conf_no" />
+		<property name="mediaId" column="conf_media" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+﻿Build started 2012-2-28 10:28:47.
+     1>Project "E:\ultravnc\UltraVNC\zlib-1.2.5\contrib\vstudio\vc9\zlibstat.vcxproj" on node 3 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "x86\ZlibStatRelease\Tmp\zlibstat.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "x86\ZlibStatRelease\Tmp\zlibstat.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\.. /I..\..\masmx86 /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D _CRT_NONSTDC_NO_DEPRECATE /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_WARNINGS /D ASMV /D ASMINF /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x86\ZlibStatRelease\Tmp\\" /Fd"x86\ZlibStatRelease\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\..\adler32.c ..\..\..\compress.c ..\..\..\crc32.c ..\..\..\deflate.c ..\..\..\gzclose.c ..\..\..\gzlib.c ..\..\..\gzread.c ..\..\..\gzwrite.c ..\..\..\infback.c ..\..\..\inffast.c ..\..\..\inflate.c ..\..\..\inftrees.c ..\..\minizip\ioapi.c ..\..\..\trees.c ..\..\..\uncompr.c ..\..\minizip\unzip.c ..\..\minizip\zip.c ..\..\..\zutil.c
+         adler32.c
+         compress.c
+         crc32.c
+         deflate.c
+         gzclose.c
+         gzlib.c
+         gzread.c
+         gzwrite.c
+         infback.c
+         inffast.c
+         inflate.c
+         inftrees.c
+         ioapi.c
+         trees.c
+         uncompr.c
+         unzip.c
+         zip.c
+         zutil.c
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /l"0x040c" /nologo /fo"x86\ZlibStatRelease\Tmp\zlib.res" zlib.rc 
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"x86\ZlibStatRelease\zlibstat.lib" ..\..\masmx86\match686.obj ..\..\masmx86\inffas32.obj /NOLOGO x86\ZlibStatRelease\Tmp\zlib.res
+         x86\ZlibStatRelease\Tmp\adler32.obj
+         x86\ZlibStatRelease\Tmp\compress.obj
+         x86\ZlibStatRelease\Tmp\crc32.obj
+         x86\ZlibStatRelease\Tmp\deflate.obj
+         x86\ZlibStatRelease\Tmp\gzclose.obj
+         x86\ZlibStatRelease\Tmp\gzlib.obj
+         x86\ZlibStatRelease\Tmp\gzread.obj
+         x86\ZlibStatRelease\Tmp\gzwrite.obj
+         x86\ZlibStatRelease\Tmp\infback.obj
+         x86\ZlibStatRelease\Tmp\inffast.obj
+         x86\ZlibStatRelease\Tmp\inflate.obj
+         x86\ZlibStatRelease\Tmp\inftrees.obj
+         x86\ZlibStatRelease\Tmp\ioapi.obj
+         x86\ZlibStatRelease\Tmp\trees.obj
+         x86\ZlibStatRelease\Tmp\uncompr.obj
+         x86\ZlibStatRelease\Tmp\unzip.obj
+         x86\ZlibStatRelease\Tmp\zip.obj
+         x86\ZlibStatRelease\Tmp\zutil.obj /MACHINE:X86 /NODEFAULTLIB 
+         zlibstat.vcxproj -> E:\ultravnc\UltraVNC\zlib-1.2.5\contrib\vstudio\vc9\x86\ZlibStatRelease\zlibstat.lib
+       FinalizeBuildStatus:
+         Deleting file "x86\ZlibStatRelease\Tmp\zlibstat.unsuccessfulbuild".
+         Touching "x86\ZlibStatRelease\Tmp\zlibstat.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\zlib-1.2.5\contrib\vstudio\vc9\zlibstat.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.93
