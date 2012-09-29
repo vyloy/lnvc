@@ -97,21 +97,14 @@ public class UserHandler extends BaseHandler {
 		return userList;
 	}
 	
-	public boolean createUser(Map map)throws Exception{
+	public boolean addOrUpdateUCSUser(Object[] users)throws Exception{
+		if(users == null || users.length == 0){
+			return false;
+		}
+		serviceFacade.getUserService().createOrUpdateUCSUser(users);
 		return true;
 	}
 	
-	public boolean modifyUser(Map map)throws Exception{
-		return true;
-	}
-	
-	public boolean deleteUser(int userid)throws Exception{
-		return true;
-	}
-	
-	public boolean searchUser()throws Exception{
-		return true;
-	}
 	
 	
 }

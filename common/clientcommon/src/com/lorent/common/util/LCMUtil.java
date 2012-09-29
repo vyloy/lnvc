@@ -148,11 +148,25 @@ public class LCMUtil {
     	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
     }
     
+	/**
+	 * 
+	 * @param users 每一个Object是String[],其中Str[0]=username,Str[1]=realname,Str[2]=lccno,Str[3]=passwd
+	 * @return
+	 */
+    public void addOrUpdateUCSUser(Object[] users)throws Exception{
+    	client.execute("lcmUser.addOrUpdateUCSUser", new Object[]{users});
+    }
+    
     public static void main(String[] args) throws Exception{
         String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
-        Object[] confs = lcm.getUCSConf();
-        System.out.println(confs);
+        String[] str = new String[4];
+        str[0] = "testUser";
+        str[1] = "testR";
+        str[2] = "102";
+        str[3] = "1234";
+        lcm.addOrUpdateUCSUser(new Object[]{str});
+        
 	}
     
     public static void main2(String[] args)throws Exception {
