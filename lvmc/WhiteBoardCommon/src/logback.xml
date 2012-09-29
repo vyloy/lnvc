@@ -14,7 +14,8 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>./logs/whiteboard.%d{yyyy-MM-dd}.log
+			<FileNamePattern>
+			${user.home}\lorent\logs\whiteboard.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
 			<MaxHistory>7</MaxHistory>
 		</rollingPolicy>

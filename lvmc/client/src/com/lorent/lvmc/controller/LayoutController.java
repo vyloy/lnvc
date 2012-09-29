@@ -102,7 +102,12 @@ public class LayoutController extends BaseController {
             String filepath = com.lorent.lvmc.util.Constants.LayoutDataPath + "/" + filename + ".obj";
             File file = new File(filepath);
             if (!file.exists()) {
-                throw new Exception(filename + StringUtil.getErrorString("LayoutController.layoutNotExist"));
+            	File layoutPath = new File(com.lorent.lvmc.util.Constants.LayoutDataPath);
+            	layoutPath.mkdirs();
+//            	FileUtil.fileCopy("/layouts/default.obj", filepath);
+//            	com.lorent.common.util.FileUtil.localFileCopy(com.lorent.lvmc.util.Constants.AppPath+"/layouts/"+filename+".obj", filepath);
+            	FileUtil.fileCopy("/com/lorent/lvmc/config/"+filename+".obj", filepath);
+//                throw new Exception(filename + StringUtil.getErrorString("LayoutController.layoutNotExist"));
             }
             FileInputStream fileInputStream = new FileInputStream(filepath);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
