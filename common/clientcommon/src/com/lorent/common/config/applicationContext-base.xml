@@ -1,0 +1,10 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
+   	
+    <bean id="baseController" class="com.lorent.lvmc.controller.BaseController" abstract="true" >
+    </bean>
+    <bean id="baseService" class="com.lorent.lvmc.service.BaseService" abstract="true" >
+    </bean>
+</beans>

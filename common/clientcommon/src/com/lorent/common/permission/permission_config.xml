@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permission-configuration>
+    <checks id="permission">
+        <check name="com.lorent.lvmc.permission.WhiteBoardPermissionCheck"/>
+        <check name="com.lorent.lvmc.permission.WhiteBoardPermissionCheck"/>
+    </checks>
+    
+    <checks id="permission">
+        <check name="com.lorent.lvmc.permission.WhiteBoardPermissionCheck"/>
+    </checks>
+</permission-configuration>

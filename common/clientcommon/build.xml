@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Client Common" basedir=".">
+
+	<property name="compile.dir" value="${basedir}/bin" />
+	<property name="release.dir" value="${basedir}/release" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="jar.file" value="clientcommon.jar" />
+
+	<target name="compile" description="Compiles code">
+		<delete dir="${compile.dir}" />
+		<mkdir dir="${compile.dir}" />
+		<javac destdir="${compile.dir}" srcdir="${src.dir}" includeAntRuntime="no" debug="on" source="1.6" target="1.6">
+			<classpath>
+				<fileset dir="${lib.dir}" includes="**/*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" description="make jar" depends="compile">
+		<delete file="${jar.file}" />
+		<jar jarfile="${jar.file}" basedir="${compile.dir}"/>
+	</target>
+</project>
