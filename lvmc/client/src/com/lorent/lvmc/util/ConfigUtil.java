@@ -35,9 +35,13 @@ public class ConfigUtil {
         properties = new Properties();
         InputStreamReader inputStreamReader = null;
         try {
-            String filepath = com.lorent.lvmc.util.Constants.AppPath + "/" + fileName;
+            String filepath = com.lorent.lvmc.util.Constants.UserPath + "/lorent/lvmc/" + fileName;
             File file = new File(filepath);
             if (!file.exists()) {
+            	File path = new File(com.lorent.lvmc.util.Constants.UserPath + "/lorent/lvmc/");
+            	path.mkdirs();
+            	FileUtil.fileCopy("/com/lorent/lvmc/config/"+fileName, filepath);
+            	/*
                 if (!file.createNewFile()) {
                     try {
                         throw new Exception("创建文件: "+filepath+"  失败!");
@@ -45,6 +49,7 @@ public class ConfigUtil {
                         log.error("init" ,ex);
                     }
                 }
+                */
                 properties.load(ConfigUtil.class.getResourceAsStream("/com/lorent/lvmc/config/lvmc.conf"));
                 properties.store(new FileOutputStream(file), "");
             }else{
@@ -59,7 +64,7 @@ public class ConfigUtil {
     public static void setProperty(String key,String value) throws Exception{
         properties.setProperty(key, value);
         try {
-            FileOutputStream outputStream = new FileOutputStream(com.lorent.lvmc.util.Constants.AppPath + "/"+fileName);
+            FileOutputStream outputStream = new FileOutputStream(com.lorent.lvmc.util.Constants.UserPath + "/lorent/lvmc/"+fileName);
             properties.store(outputStream, "");
             outputStream.close();
         } catch (IOException ex) {

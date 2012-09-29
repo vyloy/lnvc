@@ -15,10 +15,11 @@ public class Constants {
     public static final int WHITEPANEL_STATE_PAN_DESELECT = 1;
     public static final int WHITEPANEL_PAN_ICON_WIDHT_OFFSET = 0;
     public static final int WHITEPANEL_PAN_ICON_HEIGHT_OFFSET = 32;
+    public static final String UserPath = System.getProperty("user.home").replace("\\", "/");
     public static final String AppPath = System.getProperty("user.dir").replace("\\", "/");
     public static final String UserDataPath = System.getProperty("user.dir").replace("\\", "/")+"/UserData";
     public static final String DllPath = System.getProperty("user.dir").replace("\\", "/")+"/dll";
-    public static final String LayoutDataPath = System.getProperty("user.dir").replace("\\", "/")+"/layouts";
+    public static final String LayoutDataPath = System.getProperty("user.home").replace("\\", "/")+"/lorent/lvmc/layouts";
     public static final String SKIN_PATH = System.getProperty("user.dir").replace("\\", "/")+"/skin";
     
     public static final int OPER_ADD = 0;

@@ -1,5 +1,7 @@
 package com.lorent.lvmc.ucs;
 
+import java.util.Date;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -11,6 +13,8 @@ import org.apache.xmlrpc.webserver.WebServer;
 
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.PlatformUtil;
+import com.lorent.common.util.StringUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
@@ -49,7 +53,7 @@ public class UCSServer {
         webServer.start();
 	}
 	
-	public boolean init(){
+	public boolean init() throws Exception{
 		log.info("init()");
 		LCCUtil.getInstance().addEventListener(new MyJNIListener());
 		LCCUtil.getInstance().setVideo(true, null);
@@ -128,12 +132,31 @@ public class UCSServer {
 		return LCCUtil.getInstance().doAnswer(username);
 	}
 	
-	public boolean callmeeting(final String confno){
-		log.info("callmeeting : confno = " + confno);
-		showConf(confno, false);
+	public boolean setconfserverip(String ip){
+		try {
+			ConfigUtil.setProperty("serverIP", ip);
+		} catch (Exception e) {
+			log.error("setconfserverip", e);
+		}
 		return true;
 	}
 	
+	public boolean callmeeting(final String confno){
+		log.info("callmeeting : confno = " + confno);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try{
+					UIManager.setLookAndFeel(new McWinLookAndFeel());
+					Launcher.startLvmcFromOutSide(new String[]{confno, confno, data.username, data.passwd, ConfigUtil.getProperty("serverIP")}, Constants.AppName.UCS);
+				}catch(Exception e){
+					log.error("callmeeting", e);
+				}
+			}
+		});
+		return true;
+	}
 	private void showConf(final String confno, final boolean isAnswer){
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -292,9 +315,5 @@ public class UCSServer {
 		return LCCUtil.getInstance().setMuteMic(enable);
 	}
 	
-	public boolean answermeeting(String confno){
-		log.info("answermeeting confno = " + confno);
-		showConf(confno, true);
-		return true;
-	}
+	
 }
