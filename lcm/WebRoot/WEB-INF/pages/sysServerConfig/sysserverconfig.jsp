@@ -25,7 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/dialogue.css">
 	<script type="text/javascript" src="js/dialogue.js" charset="utf-8"></script>
 	<script>
-		
 		var edit = '${requestScope.SysServerConfigEidt}';
 		$(document).ready(function(){
 			if(edit=='success'){
