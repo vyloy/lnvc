@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
+   	
+    <bean id="baseController" class="com.lorent.lvmc.controller.BaseController" abstract="true" >
+        <property name="services" ref="serviceFactory"/>
+    </bean>
+    <bean id="mainController" class="com.lorent.lvmc.controller.MainController" parent="baseController" scope="singleton"/>
+    <bean id="layoutController" class="com.lorent.lvmc.controller.LayoutController" parent="baseController" scope="singleton"/>
+    <bean id="videoViewsController" class="com.lorent.lvmc.controller.VideoViewsController" parent="baseController" scope="singleton"/>
+    <bean id="phoneController" class="com.lorent.lvmc.controller.PhoneController" parent="baseController" scope="singleton"/>
+    <bean id="chatController" class="com.lorent.lvmc.controller.ChatConctroller" parent="baseController" scope="singleton"/>
+    <bean id="shareFileListController" class="com.lorent.lvmc.controller.ShareFileListController" parent="baseController" scope="singleton"/>
+    <bean id="shareDesktopController" class="com.lorent.lvmc.controller.ShareDesktopController" parent="baseController" scope="singleton"/>
+    <bean id="voteController" class="com.lorent.lvmc.controller.VoteController" parent="baseController" scope="singleton"/>
+    <bean id="fileChooserController" class="com.lorent.lvmc.controller.JFileChooserController" parent="baseController" scope="singleton"/>
+    <bean id="screenShotController" class="com.lorent.lvmc.controller.ScreenShotController" parent="baseController" scope="singleton"/>
+    <bean id="videoAudioSetupController" class="com.lorent.lvmc.controller.VideoAudioSetupController" parent="baseController" scope="singleton"/>
+    <bean id="authorityController" class="com.lorent.lvmc.controller.AuthorityController" parent="baseController" scope="singleton"/>
+</beans>

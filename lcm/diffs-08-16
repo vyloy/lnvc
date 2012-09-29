@@ -1,0 +1,68 @@
+Index: WebRoot/WEB-INF/classes/ApplicationResources.properties
+===================================================================
+--- WebRoot/WEB-INF/classes/ApplicationResources.properties	(revision 2295)
++++ WebRoot/WEB-INF/classes/ApplicationResources.properties	(working copy)
+@@ -1,2 +0,0 @@
+-# Resources for parameter 'ApplicationResources'
+-# Project lrview
+\ No newline at end of file
+Index: src/com/lorent/dao/MCUServerMixerDao.java
+===================================================================
+--- src/com/lorent/dao/MCUServerMixerDao.java	(revision 2295)
++++ src/com/lorent/dao/MCUServerMixerDao.java	(working copy)
+@@ -7,4 +7,5 @@
+ 	public MCUServerMixerBean findMcuMixerByMixerId(Integer mixerId)throws Exception;
+ 	public List<MCUServerMixerBean> findMcuMixerByServerId(Integer serverId)throws Exception;
+ 	public MCUServerMixerBean saveOrUpdateMixer(MCUServerMixerBean mixer)throws Exception;
++	public boolean deleteMixer(MCUServerMixerBean mixer)throws Exception;
+ }
+Index: src/com/lorent/util/McuUtil.java
+===================================================================
+--- src/com/lorent/util/McuUtil.java	(revision 2295)
++++ src/com/lorent/util/McuUtil.java	(working copy)
+@@ -197,7 +197,6 @@
+ 			XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+ 			config.setServerURL(new URL(serverUrl));
+ 			config.setEnabledForExtensions(true);
+-			
+ 			XmlRpcClient client = new XmlRpcClient();
+ 			client.setConfig(config);
+ 			Object[] params = new Object[] {mcu_numb, mediaPath, mcuIp, operateType};
+@@ -306,23 +305,31 @@
+ 		client.setConfig(config);
+ 		Object[]result = (Object[])client.execute("ConfMgr.getMixerIds",new Object[]{});
+ 		if(result==null||result.length==0)return null;
++		Set<MCUServerMixerBean>resultMixers = new HashSet<MCUServerMixerBean>();
+ 		for(int i=0;i<result.length;i++){
+ 			String mixerString = result[i].toString();
+ 			MCUServerMixerBean mixer = new MCUServerMixerBean();
+ 			mixer.setMcuServerId(1);
+ 			mixer.setMixerName(mixerString.split("@")[0]);
+ 			mixer.setMixerUrl(mixerString.split("@")[1]);
+-			if(!mixers.contains(mixer)){
+-				mixer = serviceFacade.getMcuServerMixerService().saveOrUpdate(mixer);
+-				MIXERS_CHANGED = true;
+-			}
++			resultMixers.add(mixer);
++//			if(!mixers.contains(mixer)){
++//				mixer = serviceFacade.getMcuServerMixerService().saveOrUpdate(mixer);
++//				MIXERS_CHANGED = true;
++//			}
+ 		}
+-		if(!MIXERS_CHANGED)return mixers;
++		Iterator<MCUServerMixerBean>iterator;
+ 		List<MCUServerMixerBean>mixerList = serviceFacade.getMcuServerMixerService().findMcuMixerByServerId(SERVERID);
+ 		if(mixerList!=null){
+-			Iterator<MCUServerMixerBean>iterator=mixerList.iterator();
++			iterator=mixerList.iterator();
+ 			while(iterator.hasNext())mixers.add(iterator.next());
+ 		}
++		iterator = mixers.iterator();
++		while(iterator.hasNext()){
++			MCUServerMixerBean mixer = iterator.next();
++			if(!resultMixers.contains(mixer))serviceFacade.getMcuServerMixerService();
++		}
++		if(!MIXERS_CHANGED)return mixers;
+ 		return mixers;
+ 	}
+ 	

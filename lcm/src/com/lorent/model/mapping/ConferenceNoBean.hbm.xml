@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="ConferenceNoBean" table="sys_confno" >
+		<id name="id" unsaved-value="0"> 
+			<column name="no_id" />
+			<generator class="identity" />
+		</id>
+		<property name="noCode" column="no_code" />
+		<property name="customerId" column="no_customer_id" />
+		<property name="isUsed" column="no_is_used" />
+		<!--<property name="startTime" column="start_time" />
+		<property name="endTime" column="end_time" />-->
+		<set name="noStatus" table="sys_nostatus" cascade="all" inverse="false" lazy="false"  >
+			<key column="no_id" />
+			<one-to-many class="ConfNoStatusBean" />
+		</set>
+	</class>
+</hibernate-mapping>

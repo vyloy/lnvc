@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- mcuweb配置 -->
+<beans>
+<!-- 
+	<bean id="mcuWebClient" class="com.lorent.xmlrpc.McuWebClient"
+		depends-on="springUtil">
+		<property name="serverUrl">
+			<value>http://10.168.230.17/mcuWeb/xmlrpc</value>
+		</property>
+		<property name="webUrl">
+			<value>http://10.168.230.17/mcuWeb</value>
+		</property>
+		<property name="user">
+			<value>foo</value>
+		</property>
+		<property name="password">
+			<value>bar</value>
+		</property>
+		<property name="mixerMap">
+			<map>
+			  <entry key="defaultMixer@http://10.168.230.17:8080/mcu">				
+				<ref bean="defaultMixer"/>
+			  </entry>
+			</map>
+		</property>
+		<property name="mosaicMap">
+			<map>
+			  <entry key="1x1" value="0"/>	
+			  <entry key="2x2" value="1"/>	
+			  <entry key="3x3" value="2"/>	
+			  <entry key="3+4" value="3"/>	
+			  <entry key="1+7" value="4"/>				
+			  <entry key="1+5" value="5"/>		
+
+			</map>
+		</property>
+		<property name="profileMap">
+			<map>
+			  <entry key="low">				
+				<ref bean="profile_low"/>
+			  </entry>
+			  <entry key="medium">				
+				<ref bean="profile_medium"/>
+			  </entry>
+			  <entry key="high">				
+				<ref bean="profile_high"/>
+			  </entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="defaultMixer" class="org.murillo.mcuWeb.MediaMixer">
+		<constructor-arg index="0" value="defaultMixer"/>
+        <constructor-arg index="1" value="http://10.168.230.17:8080/mcu"/>
+		<constructor-arg index="2" value="10.168.230.17"/>
+	</bean>
+
+	<bean id="profile_low" class="org.murillo.mcuWeb.Profile">
+		<constructor-arg index="0" value="low"/>
+        <constructor-arg index="1" value="0"/>
+		<constructor-arg index="2" value="128"/>
+		<constructor-arg index="3" value="true"/>
+		<constructor-arg index="4" value="10"/>
+		<constructor-arg index="5" value="4"/>
+		<constructor-arg index="6" value="12"/>
+	</bean>
+	<bean id="profile_medium" class="org.murillo.mcuWeb.Profile">
+		<constructor-arg index="0" value="medium"/>
+        <constructor-arg index="1" value="1"/>
+		<constructor-arg index="2" value="512"/>
+		<constructor-arg index="3" value="true"/>
+		<constructor-arg index="4" value="15"/>
+		<constructor-arg index="5" value="2"/> 
+		<constructor-arg index="6" value="8"/>
+	</bean>
+	<bean id="profile_high" class="org.murillo.mcuWeb.Profile">
+		<constructor-arg index="0" value="high"/>
+        <constructor-arg index="1" value="1"/>
+		<constructor-arg index="2" value="2048"/>
+		<constructor-arg index="3" value="false"/>
+		<constructor-arg index="4" value="30"/>
+		<constructor-arg index="5" value="2"/>
+		<constructor-arg index="6" value="6"/>
+	</bean>
+	<bean id="baseDao" class="com.lorent.dao.BaseDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	 -->
+</beans>

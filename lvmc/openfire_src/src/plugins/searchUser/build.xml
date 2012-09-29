@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="IM" default="release" basedir=".">
+
+    <property name="openfire.path"
+        value="H:/project/openfire_src/target/openfire" />
+    <property name="classes.dir" value="classes" />
+    <property name="lib.dir" value="lib" />
+
+    <target name="jar">
+        
+        <jar jarfile="${openfire.path}/plugins/testplugin.jar">
+            <fileset dir=".">
+                <include name="lib/*.jar" />
+                <include name="plugin.xml" />
+                <include name="logo_small.gif" />
+                <include name="logo_large.gif" />
+                <include name="readme.html" />
+                <include name="changelog.html" />
+                <include name="build.xml" />
+            </fileset>
+        </jar>
+
+    </target>
+
+    <target name="release" depends="jar">
+    </target>
+
+</project>

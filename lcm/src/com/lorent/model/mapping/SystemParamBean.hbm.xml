@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="SystemParamBean" table="sys_params">
+		<id name="id"> 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="module" column="module" type="string"/>
+		<property name="key" column="key" type="string"/>
+		<property name="value" column="value" type="string"/>
+		<property name="description" column="descript" type="string"/>
+	</class>
+</hibernate-mapping>

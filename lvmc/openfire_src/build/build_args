@@ -1,0 +1,5 @@
+//release
+-Dclientcommon="${workspace_loc:clientcommon}"
+
+//build one plugin(after target openfire)
+-Dplugin="monitoring"

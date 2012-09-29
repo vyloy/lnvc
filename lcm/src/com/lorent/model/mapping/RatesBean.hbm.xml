@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="RatesBean" table="sys_rates">
+		<id name="id"> 
+			<column name="rates_id" />
+			<generator class="identity" />
+		</id>
+		<property name="ratesName" column="rates_name" />
+		<property name="startTime" column="start_time" />
+		<property name="endTime" column="end_time" />
+		<property name="ratesType" column="rates_type" />
+		<property name="ratesTarriff" column="rates_tarriff" />
+		<property name="status" column="status" />
+		<property name="ratesStatus" column="rates_status" />
+	</class>
+</hibernate-mapping>

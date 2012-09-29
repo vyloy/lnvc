@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="MediaBean" table="sys_media" >
+		<id name="id"> 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="mediaName" column="media_name" />
+		<property name="mediaPath" column="media_path" />
+		<property name="fileName" column="file_name" />
+		<property name="originalName" column="original_name" />		
+		<property name="mediaDesc" column="media_desc" />
+		<property name="status" column="status" />
+		<many-to-one name="customer" column="customer_id" class="CustomerBean"/>
+	</class>
+</hibernate-mapping>

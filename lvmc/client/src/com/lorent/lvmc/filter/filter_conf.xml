@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<filters-configuration>
+    <!-- 权限过滤 -->
+    <filters id="permission">
+        <filter name="permissionFilter"/>
+    </filters>
+    
+    <filters id="fileChooserFilters">
+        <filter name="isMaxWhiteBoard"/>
+        <filter name="checkFileSupportConvert"/>
+    </filters>
+</filters-configuration>

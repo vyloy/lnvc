@@ -39,7 +39,7 @@ public class LCCUtil {
     public static final int CALL_TYPE_SOUND_AND_VIDEO = 3;
     public static final int LCC_TYPE_MIX = 0;
     public static final int LCC_TYPE_MUX = 1;
-    public static int TIME_OUT = 60 * 10;
+    public static int TIME_OUT = 60000;
     public static int OK = 0;
     public static int FAIL = 1;
     
@@ -227,15 +227,16 @@ public class LCCUtil {
     }
 
     protected void javacallerrorcb(int callIndex) {
-    	String lccno = getLccnoFromCallIndex(callIndex);
-        log.info("call error callback : lccno = " + lccno + " & callIndex = " + callIndex);
-        JNIEvent event = new JNIEvent(getInstance(),JNIEvent.CALLERROR_CB,new Object[]{lccno, calls.get(lccno).type});
-        sendJNIMessage(event);
-        String key = getLccnoFromCallIndex(callIndex);
-    	if(key != null){
-    		calls.remove(key);
-    	}
-    	isCalling = false;
+    	synchronized (this) {
+        	String lccno = getLccnoFromCallIndex(callIndex);
+            log.info("call error callback : lccno = " + lccno + " & callIndex = " + callIndex);
+            JNIEvent event = new JNIEvent(getInstance(),JNIEvent.CALLERROR_CB,new Object[]{lccno, calls.get(lccno).type});
+            sendJNIMessage(event);
+        	if(lccno != null){
+        		calls.remove(lccno);
+        	}
+        	isCalling = false;
+		}
     }
 
     protected void javaunintcompletecb(String nMsg) {
@@ -472,13 +473,15 @@ public class LCCUtil {
     }
     
     public void doCall(String username, int type){
-        int callIndex = this.call(username);
-        log.info("doCall username = " + username + " & type = " + type + " & callindex = " + callIndex);
-        StoreData data = new StoreData();
-        data.callIndex = callIndex;
-        data.type = type;
-        calls.put(username, data);
-        isCalling = true;
+    	synchronized (this) {
+            int callIndex = this.call(username);
+            log.info("doCall username = " + username + " & type = " + type + " & callindex = " + callIndex);
+            StoreData data = new StoreData();
+            data.callIndex = callIndex;
+            data.type = type;
+            calls.put(username, data);
+            isCalling = true;
+		}
     }
 
     public int doHangup(String username) {

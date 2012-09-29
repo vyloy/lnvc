@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
+     <!-- base action -->
+     <bean name="baseAction" class="com.lorent.web.action.BaseAction" scope="session" abstract="true">
+     	<property name="serviceFacade" ref="serviceFacade" />
+     </bean>
+     <!-- login page action -->
+     <bean name="loginPageAction" class="com.lorent.web.action.LoginPageAction" scope="session" />
+     <!-- app to page action -->
+     <bean name="toPageAction" class="com.lorent.web.action.ToPageAction" />
+     <!-- user action -->
+     <bean name="userAction" class="com.lorent.web.action.UserAction" scope="session" parent="baseAction" />
+     <!-- mcu action -->
+     <bean name="mcuAction" class="com.lorent.web.action.McuAction" scope="session" parent="baseAction" />
+     <!-- customer action -->
+     <bean name="customerAction" class="com.lorent.web.action.CustomerAction" scope="session" parent="baseAction" />
+     <!-- conference action -->
+     <bean name="conferenceAction" class="com.lorent.web.action.ConferenceAction" scope="session" parent="baseAction" />
+     <!-- billing action -->
+     <bean name="billingAction" class="com.lorent.web.action.BillingAction" scope="session" parent="baseAction" />
+     <!-- rates action -->
+     <bean name="ratesAction" class="com.lorent.web.action.RatesAction" scope="session" parent="baseAction" />
+     <!-- logger action -->
+     <bean name="loggerAction" class="com.lorent.web.action.LoggerAction" scope="session" parent="baseAction" />
+     <!-- department action -->
+     <bean name="departmentAction" class="com.lorent.web.action.DepartmentAction" scope="session" parent="baseAction" />
+     <!-- cron conference action -->
+     <bean name="cronConferenceAction" class="com.lorent.web.action.CronConferenceAction" scope="session" parent="baseAction" />
+     <!-- media action -->
+     <bean name="mediaAction" class="com.lorent.web.action.MediaAction" scope="session" parent="baseAction" />
+     <!-- confmeeting action -->
+     <bean name="confmeetingAction" class="com.lorent.web.action.ConfMeetingAction" scope="session" parent="baseAction" />
+</beans> 

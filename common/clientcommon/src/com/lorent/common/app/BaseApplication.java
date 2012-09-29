@@ -14,7 +14,6 @@ import com.lorent.common.manager.MessageManager;
 import com.lorent.common.manager.ViewManager;
 import com.lorent.common.permission.NoPermissionException;
 import com.lorent.common.permission.PermissionUtil;
-import com.lorent.common.util.PlatformUtil;
 
 public abstract class BaseApplication {
 	public Logger log = Logger.getLogger(BaseApplication.class);
@@ -40,6 +39,7 @@ public abstract class BaseApplication {
 	
 
 	protected void beforeStart()throws Exception{
+		
 	}
 	
 	protected void init() throws Exception{

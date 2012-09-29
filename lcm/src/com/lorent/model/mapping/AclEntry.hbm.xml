@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="AclEntry" table="acl_entry">
+		<id name="id" unsaved-value="0" >
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="aclObject" class="AclObjectIdentity" column="acl_object_identity" not-null="true" lazy="false" />
+		<property name="aceOrder" column="ace_order" not-null="true" />
+		<many-to-one name="aclSid" column="sid" class="AclSid" not-null="true" lazy="false" />
+		<property name="mask" column="mask" not-null="true" />
+		<property name="granting" column="granting" />
+		<property name="auditSuccess" column="audit_success" not-null="true" />
+		<property name="auditFailure" column="audit_failure" not-null="true" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="AclObjectIdentity" table="acl_object_identity">
+		<id name="id" unsaved-value="0" >
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="aclClass" column="object_id_class" class="AclClass" not-null="true" lazy="false" />
+		<property name="objectId" column="object_id_identity" not-null="true" />
+		<many-to-one name="parentAclObject" column="parent_object" class="AclObjectIdentity" lazy="false" />
+		<many-to-one name="aclSid" column="owner_sid" class="AclSid" lazy="false" />
+		<property name="inheriting" column="entries_inheriting" />
+	</class>
+</hibernate-mapping>

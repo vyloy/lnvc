@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="McuServerBean" table="mcu_server">
+		<id name="id"> 
+			<column name="server_id" />
+			<generator class="identity" />
+		</id>
+		<property name="serverName" column="server_name" />
+		<property name="serverIp" column="server_ip" />
+		<property name="serverDesc" column="server_desc" />
+		<property name="serverStatus" column="server_status" />
+		<set name="mixers" cascade="all" inverse="false" order-by="mixer_name asc" lazy="false">
+			<key column="mixer_server_id" />
+			<one-to-many class="McuMixerBean" />
+		</set>
+		<!--<set name="customers"  cascade="save-update" inverse="false" order-by="customer_name asc" lazy="extra" fetch="join">
+			<key column="mcu_server_id" />
+			<one-to-many class="CustomerBean" />
+		</set>-->
+		<property name="serverUrl" column="server_url" />
+		<property name="rpcPass" column="rpc_pass" />
+		<property name="customerSize"
+		 formula="(select count(customer.customer_id) from sys_customer as customer where customer.mcu_server_id=server_id and customer.status=1)" />
+		<property name="csIP" column="cs_ip" />
+		<property name="csPort" column="cs_port" />
+		<property name="csUsername" column="cs_username" />
+		<property name="csUserPasswd" column="cs_user_passwd" />
+	</class>
+</hibernate-mapping>

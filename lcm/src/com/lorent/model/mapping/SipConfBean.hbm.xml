@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="SipConfBean" table="sip_conf" dynamic-insert="true" dynamic-update="true">
+		<id name="id"> 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="name" column="name" />
+		<property name="secret" column="secret" />
+		<property name="context" column="context" />
+		<property name="host" column="host" />
+		<property name="nat" column="nat" />
+		<property name="type" column="type" />
+		<property name="disAllow" column="disallow" />
+		<property name="allow" column="allow" />
+		<property name="username" column="username" />
+		<property name="nonExpired" column="non_expired" />
+		<property name="nonLocked" column="non_locked" />
+		<property name="canreinvite" column="canreinvite" />
+		
+		
+		<property name="latitude" column="latitude" />
+		<property name="department_id" column="department_id" />
+		<property name="isuser" column="isuser" />
+		<property name="longitude" column="longitude" />
+		<property name="warning" column="warning" />
+		<property name="monitorname" column="monitorname" />
+	</class>
+</hibernate-mapping>

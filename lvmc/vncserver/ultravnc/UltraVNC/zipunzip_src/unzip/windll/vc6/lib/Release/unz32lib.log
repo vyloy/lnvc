@@ -1,0 +1,61 @@
+﻿Build started 2012-2-28 10:28:54.
+     1>Project "E:\ultravnc\UltraVNC\zipunzip_src\unzip\windll\vc6\lib\unz32lib.vcxproj" on node 3 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file ".\Release\unz32lib.lastbuildstate".
+       InitializeBuildStatus:
+         Creating ".\Release\unz32lib.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../../.. /Zi /nologo /W3 /WX- /Ox /Ob2 /Oi /Ot /Oy- /GL /D NDEBUG /D _WINDOWS /D WIN32 /D WINDLL /D DLL /D UNZIPLIB /D USE_EF_UT_TIME /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MT /Zp16 /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\..\api.c ..\..\..\crc32.c ..\..\..\win32\crc_i386.c ..\..\..\crctab.c ..\..\..\crypt.c ..\..\..\explode.c ..\..\..\extract.c ..\..\..\fileio.c ..\..\..\globals.c ..\..\..\inflate.c ..\..\..\list.c ..\..\..\match.c ..\..\..\win32\nt.c ..\..\..\process.c ..\..\..\unreduce.c ..\..\..\unshrink.c ..\..\..\win32\win32.c ..\..\windll.c ..\..\..\zipinfo.c
+         api.c
+         crc32.c
+         crc_i386.c
+         crctab.c
+         crypt.c
+         explode.c
+         extract.c
+     1>..\..\..\extract.c(1637): warning C4013: 'inflate_copy' undefined; assuming extern returning int
+         fileio.c
+         globals.c
+         inflate.c
+         list.c
+         match.c
+         nt.c
+         process.c
+         unreduce.c
+         unshrink.c
+         win32.c
+     1>..\..\..\win32\win32.c(810): warning C4244: 'return' : conversion from 'time_t' to 'int', possible loss of data
+         windll.c
+         zipinfo.c
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(E:\ultravnc\UltraVNC\zipunzip_src\unzip\windll\vc6\lib\.\../Release/libs\unz32lib.lib) does not match the Library's OutputFile property value (E:\ultravnc\UltraVNC\zipunzip_src\unzip\windll\vc6\Release\libs\unzip32.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(unz32lib) does not match the Library's OutputFile property value (unzip32). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"../Release/libs/unzip32.lib" /NOLOGO .\Release/api.obj
+         .\Release/crc32.obj
+         .\Release/crc_i386.obj
+         .\Release/crctab.obj
+         .\Release/crypt.obj
+         .\Release/explode.obj
+         .\Release/extract.obj
+         .\Release/fileio.obj
+         .\Release/globals.obj
+         .\Release/inflate.obj
+         .\Release/list.obj
+         .\Release/match.obj
+         .\Release/nt.obj
+         .\Release/process.obj
+         .\Release/unreduce.obj
+         .\Release/unshrink.obj
+         .\Release/win32.obj
+         .\Release/windll.obj
+         .\Release/zipinfo.obj
+         zipinfo.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+         unz32lib.vcxproj -> E:\ultravnc\UltraVNC\zipunzip_src\unzip\windll\vc6\lib\.\../Release/libs\unz32lib.lib
+       FinalizeBuildStatus:
+         Deleting file ".\Release\unz32lib.unsuccessfulbuild".
+         Touching ".\Release\unz32lib.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\zipunzip_src\unzip\windll\vc6\lib\unz32lib.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.23

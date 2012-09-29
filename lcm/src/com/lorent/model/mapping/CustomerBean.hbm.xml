@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.lorent.model">
+	<class name="CustomerBean" table="sys_customer" where="status=1" dynamic-insert="true" dynamic-update="true">
+		<id name="id"> 
+			<column name="customer_id" />
+			<generator class="identity" />
+		</id>
+		<property name="customerName" column="customer_name" />
+		<property name="customerDesc" column="customer_desc" />
+		<many-to-one name="mcuServer" class="McuServerBean" column="mcu_server_id" cascade="none" lazy="proxy" fetch="join" />
+		<property name="customerCode" column="customer_code" />
+		<property name="customerStatus" column="customer_status" />
+		<property name="customerAddress" column="customer_address" />
+		<property name="customerContact" column="customer_contact" />
+		<property name="customerPhone" column="customer_phone" />
+		<property name="customerUserlimit" column="customer_userlimit" />
+		<property name="customerNolimit" column="customer_nolimit" />	
+		<!-- <set name="nos" table="sys_confno" cascade="all" inverse="false"  order-by="no_code asc" lazy="extra">
+			<key column="no_customer_id" />
+			<one-to-many class="ConferenceNoBean" />
+		</set> -->
+		<many-to-one name="rates" class="RatesBean" column="rates_id" lazy="proxy" fetch="join" />
+		<property name="status" column="status" />
+		<property name="perConfNoLimit" column="customer_pernolimit" />		
+		<property name="imdConfNoLimit" column="customer_imdnolimit" />		
+		<property name="appConfNoLimit" column="customer_appnolimit" />		
+		<property name="confMeetingNoLimit" column="customer_meetingnolimit" />		
+		<property name="confPeopleLimit" column="conf_people_limit" />		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,262 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
+   
+	 <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+  
+   	<bean id="operateRecordAdvice" class="com.lorent.advice.OperateRecordAdvice">
+    	<property name="serviceFacade" ref="serviceFacade" />
+    </bean>
+   
+	 <bean id="parentService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+	  	<property name="transactionManager" ref="transactionManager" />
+	  	<property name="transactionAttributes">
+	   		<props>
+	    		<prop key="createDepartment">PROPAGATION_REQUIRES_NEW,-java.lang.Exception</prop>
+	    		<prop key="createUser">PROPAGATION_REQUIRES_NEW,-java.lang.Exception</prop>
+	    		<prop key="create*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="remove*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="renew*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="stop*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="do*">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="importFromXLS">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="exportToXLS">PROPAGATION_REQUIRED,readOnly</prop>
+	    		<prop key="grantAuthority">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	    		<prop key="revokeAuthority">PROPAGATION_REQUIRED,-java.lang.Exception</prop>
+	   		</props>
+	  	</property>
+	  	<property name="postInterceptors">
+	  		<list>
+	  			<ref bean="operateRecordAdvice"/>
+	  		</list>
+	  	</property>
+	 </bean>
+    <!-- generic service -->
+    <bean id="genericService" class="com.lorent.service.impl.GenericServiceImpl" abstract="true">
+    	<property name="daoFacade" ref="daoFacade" />
+    	<property name="serviceFacade" ref="serviceFacade" />
+    </bean>  
+            
+    <!-- user service -->
+	<bean id="userService" parent="parentService">
+	     <property name="target">
+		   	<bean class="com.lorent.service.impl.UserServiceImpl" parent="genericService">
+		     	<property name="dao" ref="userDao" />
+		   	</bean>
+	   	</property>
+   	</bean>
+
+    <!-- role service -->
+    <bean id="roleService" class="com.lorent.service.impl.RoleServiceImpl" parent="genericService">
+    	<property name="dao" ref="roleDao" />
+    </bean>
+
+   	
+    <!-- mcu server service -->
+    <bean id="mcuServerService" parent="parentService">
+	     <property name="target">
+		    <bean class="com.lorent.service.impl.McuServerServiceImpl" parent="genericService">
+		    	<property name="dao" ref="mcuServerDao" />
+		    </bean>
+	   	</property>
+   	</bean>
+   	
+    <!-- mcu mixer service -->
+    <bean id="mcuMixerService" parent="parentService">
+	     <property name="target">
+		    <bean class="com.lorent.service.impl.McuMixerServiceImpl" parent="genericService">
+		    	<property name="dao" ref="mcuMixerDao" />
+		    </bean>
+	   	</property>
+   	</bean>
+   	
+    <!-- customer service -->
+    <bean id="customerService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.CustomerServiceImpl" parent="genericService">
+		    	<property name="dao" ref="customerDao" />
+		    </bean>
+	   	</property>
+   	</bean>
+   	
+    <!-- static service -->
+    <bean id="staticService" class="com.lorent.service.impl.StaticService" parent="genericService" />
+
+    <!-- conference service -->
+    <bean id="conferenceService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<!-- cronConference service -->
+    <bean id="cronConferenceService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.CronConferenceServiceImpl" parent="genericService">
+		    	<property name="dao" ref="cronConferenceDao" />
+		    </bean>
+	   	</property>
+   	</bean>
+   	
+   	<!-- department service -->
+    <bean id="departmentService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.DepartmentServiceImpl" parent="genericService">
+		    	<property name="dao" ref="departmentDao" />
+		    </bean>
+	   	</property>
+   	</bean>		   
+   	 
+	<!-- operaterecord service -->
+    <bean id="operateRecordService" class="com.lorent.service.impl.OperateRecordServiceImpl" parent="genericService">
+    	<property name="dao" ref="operateRecordDao" />
+    </bean>
+    <!-- billing service -->
+    <bean id="billingService" class="com.lorent.service.impl.BillingServiceImpl" parent="genericService">
+    	<property name="dao" ref="billingDao" />
+    </bean>
+    <!-- rates service -->
+    <bean id="ratesService" class="com.lorent.service.impl.RatesServiceImpl" parent="genericService">
+    	<property name="dao" ref="ratesDao" />
+    </bean>
+    
+    <bean id="conferenceNoService" class="com.lorent.service.impl.ConferenceNoServiceImpl" parent="genericService">
+    	<property name="dao" ref="conferenceNoDao" />
+    </bean>    
+    
+    <bean id="mediaService" class="com.lorent.service.impl.MediaServiceImpl" parent="genericService">
+    	<property name="dao" ref="mediaDao" />
+    </bean> 
+    
+    <bean id="monitorService" class="com.lorent.service.impl.MonitorService">
+    	<property name="daoFacade" ref="daoFacade" />
+    </bean> 
+    
+    <bean id="sipConfService" class="com.lorent.service.impl.SipConfServiceImpl">
+    	<property name="dao" ref="sipConfDao" />
+    </bean> 
+    
+    <bean id="conferenceTypeService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceTypeServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceTypeDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+    
+    <bean id="authorityService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.AuthorityServiceImpl" parent="genericService">
+		    	<property name="dao" ref="authorityDao" />
+		    </bean>
+	   	</property>
+   	</bean>
+   	
+   	<bean id="conferenceRoleService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceRoleServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceRoleDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+    <bean id="confRoleAuthorityService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConfRoleAuthorityServiceImpl" parent="genericService">
+		    	<property name="dao" ref="confRoleAuthorityDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="conferenceTypeRoleService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceTypeRoleServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceTypeRoleDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="conferenceNewService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceNewServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceNewDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="conferenceUserService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConferenceUserServiceImpl" parent="genericService">
+		    	<property name="dao" ref="conferenceUserDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="confUserRoleService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConfUserRoleServiceImpl" parent="genericService">
+		    	<property name="dao" ref="confUserRoleDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="confUserAuthorityService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.ConfUserAuthorityServiceImpl" parent="genericService">
+		    	<property name="dao" ref="confUserAuthorityDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+   	<bean id="sysServerConfigService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.SysServerConfigServiceImpl" parent="genericService">
+		    	<property name="dao" ref="sysServerConfigDao" />
+		    </bean>
+	   	</property>
+   	</bean>	
+    <!-- service facade -->
+    <bean id="serviceFacade" class="com.lorent.service.impl.ServiceFacade">
+    	<property name="roleService" ref="roleService" />
+    	<property name="userService" ref="userService" />
+    	<property name="mcuServerService" ref="mcuServerService" />
+    	<property name="mcuMixerService" ref="mcuMixerService" />
+    	<property name="customerService" ref="customerService" />
+    	<property name="staticService" ref="staticService" />
+    	<property name="conferenceService" ref="conferenceService" />
+    	<property name="operateRecordService" ref="operateRecordService" />
+    	<property name="billingService" ref="billingService" />
+    	<property name="ratesService" ref="ratesService" />
+    	<property name="departmentService" ref="departmentService" />
+    	<property name="cronConferenceService" ref="cronConferenceService" />
+    	<property name="conferenceNoService" ref="conferenceNoService" />
+    	<property name="mediaService" ref="mediaService" />
+    	<property name="monitorService" ref="monitorService" />
+    	<property name="sipConfService" ref="sipConfService" />
+    	<property name="conferenceTypeService" ref="conferenceTypeService" />
+    	<property name="authorityService" ref="authorityService" />
+    	<property name="conferenceRoleService" ref="conferenceRoleService" />
+    	<property name="confRoleAuthorityService" ref="confRoleAuthorityService" />
+    	<property name="conferenceTypeRoleService" ref="conferenceTypeRoleService" />
+    	<property name="conferenceNewService" ref="conferenceNewService" />
+    	<property name="conferenceUserService" ref="conferenceUserService" />
+    	<property name="confUserRoleService" ref="confUserRoleService" />
+    	<property name="confUserAuthorityService" ref="confUserAuthorityService" />
+    	
+    	<property name="sysServerConfigService" ref="sysServerConfigService" />
+    </bean>
+    
+    <!-- acl service -->
+    <!-- acl mutable service -->
+    <bean id="securityMutableAclService" class="com.lorent.service.impl.MutableAclServiceImpl">
+    	<property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+    	<property name="auditLogger" ref="auditLogger" />
+    	<property name="daoFacade" ref="daoFacade" />
+    </bean>
+    
+    <!-- server init servlet -->
+	<bean id="serverInitServlet" class="com.lorent.web.util.ServerInitServlet">
+		<property name="serviceFacade" ref="serviceFacade" />
+	</bean>
+	
+	<bean id="mycontext" class="com.lorent.util.MyContext">
+	</bean>
+</beans>

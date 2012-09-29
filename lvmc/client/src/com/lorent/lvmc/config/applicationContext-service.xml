@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
+   	
+    <bean id="baseService" class="com.lorent.lvmc.service.BaseService" abstract="true"/>
+    <bean id="loginService" class="com.lorent.lvmc.service.LoginService" parent="baseService" scope="singleton"/>
+    <bean id="chatService" class="com.lorent.lvmc.service.ChatService" parent="baseService" scope="singleton"/>
+    <bean id="confService" class="com.lorent.lvmc.service.ConfService" parent="baseService" scope="singleton"/>
+    <bean id="shareFileService" class="com.lorent.lvmc.service.ShareFileService" parent="baseService" scope="singleton"/>
+    <bean id="voteService" class="com.lorent.lvmc.service.VoteService" parent="baseService" scope="singleton"/>
+    <bean id="screenShareService" class="com.lorent.lvmc.service.ScreenShareService" parent="baseService" scope="singleton"/>
+    <bean id="serviceFactory" class="com.lorent.lvmc.service.ServiceFactory" scope="singleton">
+        <property name="loginService" ref="loginService"/>
+        <property name="confService" ref="confService"/>
+        <property name="shareFileService" ref="shareFileService"/>
+         <property name="voteService" ref="voteService"/>
+         <property name="screenShareService" ref="screenShareService"/>
+    </bean>
+</beans>

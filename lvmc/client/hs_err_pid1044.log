@@ -1,0 +1,254 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x10032ce4, pid=1044, tid=1912
+#
+# JRE version: 6.0_26-b03
+# Java VM: Java HotSpot(TM) Client VM (20.1-b02 mixed mode, sharing windows-x86 )
+# Problematic frame:
+# C  [lcccore.dll+0x32ce4]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x042ca400):  JavaThread "XML-RPC-0" [_thread_in_native, id=1912, stack(0x044e0000,0x04530000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x00000098
+
+Registers:
+EAX=0x00000000, EBX=0x3394ebb0, ECX=0x0452f3d4, EDX=0x00000000
+ESP=0x0452f3c8, EBP=0x0452f408, ESI=0x046d17e0, EDI=0x042ca400
+EIP=0x10032ce4, EFLAGS=0x00210246
+
+Top of Stack: (sp=0x0452f3c8)
+0x0452f3c8:   10032daa 00000000 0452f3d4 00000000
+0x0452f3d8:   00000000 00000000 00000000 10004cdd
+0x0452f3e8:   00000000 00000000 100015e4 00000000
+0x0452f3f8:   3394ebb0 1002fd93 00000000 00000000
+0x0452f408:   0452f448 01b09fc7 042ca528 0452f45c
+0x0452f418:   00000000 00000000 23b58830 23c01150
+0x0452f428:   0452f428 3394ebb0 0452f45c 339534b8
+0x0452f438:   00000000 3394ebb0 00000000 0452f458 
+
+Instructions: (pc=0x10032ce4)
+0x10032cc4:   08 57 e8 15 a5 05 00 83 c4 04 e8 cd fe ff ff 5f
+0x10032cd4:   5e 5d 33 c0 5b c3 cc cc cc cc cc cc 8b 44 24 04
+0x10032ce4:   8b 90 98 00 00 00 8b 4c 24 08 3b 11 75 24 8b 90
+0x10032cf4:   9c 00 00 00 3b 51 04 75 19 8b 90 a0 00 00 00 3b 
+
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX=0x3394ebb0 is an oop
+{method} 
+ - klass: {other class}
+ECX=0x0452f3d4 is pointing into the stack for thread: 0x042ca400
+EDX=0x00000000 is an unknown value
+ESP=0x0452f3c8 is pointing into the stack for thread: 0x042ca400
+EBP=0x0452f408 is pointing into the stack for thread: 0x042ca400
+ESI=0x046d17e0 is an unknown value
+EDI=0x042ca400 is a thread
+
+
+Stack: [0x044e0000,0x04530000],  sp=0x0452f3c8,  free space=316k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [lcccore.dll+0x32ce4]  Java_com_lorent_util_LCCUtil_javacallbackinit+0x2394
+j  com.lorent.util.LCCUtil.setsipport(I)I+0
+j  com.lorent.util.LCCUtil.register(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V+70
+j  com.lorent.lvmc.ucs.UCSServer.register()Z+140
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xfae4b]
+V  [jvm.dll+0x18c531]
+V  [jvm.dll+0xfaecd]
+V  [jvm.dll+0x105043]
+V  [jvm.dll+0x105986]
+V  [jvm.dll+0xb710e]
+C  [java.dll+0x715d]  Java_sun_reflect_NativeMethodAccessorImpl_invoke0+0x15
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  org.apache.xmlrpc.server.ReflectiveXmlRpcHandler.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.apache.xmlrpc.server.ReflectiveXmlRpcHandler.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+204
+j  org.apache.xmlrpc.server.XmlRpcServerWorker.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+30
+j  org.apache.xmlrpc.server.XmlRpcServer.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+12
+j  org.apache.xmlrpc.server.XmlRpcStreamServer.execute(Lorg/apache/xmlrpc/common/XmlRpcStreamRequestConfig;Lorg/apache/xmlrpc/common/ServerStreamConnection;)V+33
+j  org.apache.xmlrpc.webserver.Connection.run()V+20
+j  org.apache.xmlrpc.util.ThreadPool$Poolable$1.run()V+68
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0xfae4b]
+V  [jvm.dll+0x18c531]
+V  [jvm.dll+0xfaff1]
+V  [jvm.dll+0xfb04b]
+V  [jvm.dll+0xb56b9]
+V  [jvm.dll+0x1190d4]
+V  [jvm.dll+0x1411ac]
+C  [msvcr71.dll+0x9565]  endthreadex+0xa0
+C  [kernel32.dll+0x51114]  BaseThreadInitThunk+0x12
+C  [ntdll.dll+0x5b299]  RtlInitializeExceptionChain+0x63
+C  [ntdll.dll+0x5b26c]  RtlInitializeExceptionChain+0x36
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.lorent.util.LCCUtil.setsipport(I)I+0
+j  com.lorent.util.LCCUtil.register(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V+70
+j  com.lorent.lvmc.ucs.UCSServer.register()Z+140
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  org.apache.xmlrpc.server.ReflectiveXmlRpcHandler.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.apache.xmlrpc.server.ReflectiveXmlRpcHandler.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+204
+j  org.apache.xmlrpc.server.XmlRpcServerWorker.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+30
+j  org.apache.xmlrpc.server.XmlRpcServer.execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;+12
+j  org.apache.xmlrpc.server.XmlRpcStreamServer.execute(Lorg/apache/xmlrpc/common/XmlRpcStreamRequestConfig;Lorg/apache/xmlrpc/common/ServerStreamConnection;)V+33
+j  org.apache.xmlrpc.webserver.Connection.run()V+20
+j  org.apache.xmlrpc.util.ThreadPool$Poolable$1.run()V+68
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x042a9800 JavaThread "Thread-2" [_thread_in_native, id=6116, stack(0x04e50000,0x04ea0000)]
+  0x042cc800 JavaThread "Thread-1" [_thread_blocked, id=4864, stack(0x045b0000,0x04600000)]
+=>0x042ca400 JavaThread "XML-RPC-0" [_thread_in_native, id=1912, stack(0x044e0000,0x04530000)]
+  0x01951c00 JavaThread "DestroyJavaVM" [_thread_blocked, id=5880, stack(0x00350000,0x003a0000)]
+  0x042a8c00 JavaThread "XML-RPC Weblistener" [_thread_in_native, id=5024, stack(0x04490000,0x044e0000)]
+  0x019dbc00 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=3552, stack(0x03df0000,0x03e40000)]
+  0x019c2c00 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=4168, stack(0x03da0000,0x03df0000)]
+  0x019c1c00 JavaThread "Attach Listener" daemon [_thread_blocked, id=3084, stack(0x03d50000,0x03da0000)]
+  0x019c0c00 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=3060, stack(0x03d00000,0x03d50000)]
+  0x019b0400 JavaThread "Finalizer" daemon [_thread_blocked, id=3048, stack(0x03cb0000,0x03d00000)]
+  0x019ae400 JavaThread "Reference Handler" daemon [_thread_blocked, id=4492, stack(0x03c60000,0x03cb0000)]
+
+Other Threads:
+  0x01972800 VMThread [stack: 0x03c10000,0x03c60000] [id=3364]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x01afa218] Threads_lock - owner thread: 0x01972800
+
+Heap
+ def new generation   total 4928K, used 299K [0x23730000, 0x23c80000, 0x28c80000)
+  eden space 4416K,   2% used [0x23730000, 0x237461b0, 0x23b80000)
+  from space 512K,  41% used [0x23b80000, 0x23bb4c38, 0x23c00000)
+  to   space 512K,   0% used [0x23c00000, 0x23c00000, 0x23c80000)
+ tenured generation   total 10944K, used 538K [0x28c80000, 0x29730000, 0x33730000)
+   the space 10944K,   4% used [0x28c80000, 0x28d06b00, 0x28d06c00, 0x29730000)
+ compacting perm gen  total 12288K, used 2251K [0x33730000, 0x34330000, 0x37730000)
+   the space 12288K,  18% used [0x33730000, 0x33962e08, 0x33963000, 0x34330000)
+    ro space 10240K,  54% used [0x37730000, 0x37caeb78, 0x37caec00, 0x38130000)
+    rw space 12288K,  55% used [0x38130000, 0x387d49c8, 0x387d4a00, 0x38d30000)
+
+Code Cache  [0x01b00000, 0x01bb0000, 0x03b00000)
+ total_blobs=258 nmethods=117 adapters=77 free_code_cache=32858816 largest_free_block=4032
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	H:\Java\jdk1.6.0_26\bin\javaw.exe
+0x77610000 - 0x7774c000 	F:\Windows\SYSTEM32\ntdll.dll
+0x76450000 - 0x76524000 	F:\Windows\system32\kernel32.dll
+0x75840000 - 0x7588a000 	F:\Windows\system32\KERNELBASE.dll
+0x75d10000 - 0x75db0000 	F:\Windows\system32\ADVAPI32.dll
+0x76720000 - 0x767cc000 	F:\Windows\system32\msvcrt.dll
+0x76860000 - 0x76879000 	F:\Windows\SYSTEM32\sechost.dll
+0x76150000 - 0x761f1000 	F:\Windows\system32\RPCRT4.dll
+0x76530000 - 0x765f9000 	F:\Windows\system32\USER32.dll
+0x76360000 - 0x763ae000 	F:\Windows\system32\GDI32.dll
+0x77750000 - 0x7775a000 	F:\Windows\system32\LPK.dll
+0x76600000 - 0x7669d000 	F:\Windows\system32\USP10.dll
+0x76340000 - 0x7635f000 	F:\Windows\system32\IMM32.DLL
+0x77770000 - 0x7783c000 	F:\Windows\system32\MSCTF.dll
+0x7c340000 - 0x7c396000 	H:\Java\jdk1.6.0_26\jre\bin\msvcr71.dll
+0x6d8a0000 - 0x6db4f000 	H:\Java\jdk1.6.0_26\jre\bin\client\jvm.dll
+0x73bc0000 - 0x73bf2000 	F:\Windows\system32\WINMM.dll
+0x75690000 - 0x756db000 	F:\Windows\system32\apphelp.dll
+0x6d850000 - 0x6d85c000 	H:\Java\jdk1.6.0_26\jre\bin\verify.dll
+0x6d3d0000 - 0x6d3ef000 	H:\Java\jdk1.6.0_26\jre\bin\java.dll
+0x76330000 - 0x76335000 	F:\Windows\system32\PSAPI.DLL
+0x6d890000 - 0x6d89f000 	H:\Java\jdk1.6.0_26\jre\bin\zip.dll
+0x6d6b0000 - 0x6d6c3000 	H:\Java\jdk1.6.0_26\jre\bin\net.dll
+0x76410000 - 0x76445000 	F:\Windows\system32\WS2_32.dll
+0x76320000 - 0x76326000 	F:\Windows\system32\NSI.dll
+0x751a0000 - 0x751dc000 	F:\Windows\system32\mswsock.dll
+0x75190000 - 0x75196000 	F:\Windows\System32\wship6.dll
+0x74cf0000 - 0x74cf5000 	F:\Windows\System32\wshtcpip.dll
+0x10000000 - 0x10154000 	H:\Java\jdk1.6.0_26\jre\bin\lcccore.dll
+0x70880000 - 0x7091b000 	F:\Windows\WinSxS\x86_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.4927_none_d08a205e442db5b5\MSVCR80.dll
+0x6e850000 - 0x6e8d7000 	F:\Windows\WinSxS\x86_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.4927_none_d08a205e442db5b5\MSVCP80.dll
+0x65000000 - 0x65051000 	H:\Java\jdk1.6.0_26\bin\swscale.dll
+0x62a80000 - 0x62aa7000 	H:\Java\jdk1.6.0_26\bin\avutil.dll
+0x66780000 - 0x67109000 	H:\Java\jdk1.6.0_26\bin\avcodec.dll
+0x68400000 - 0x68410000 	H:\Java\jdk1.6.0_26\bin\avcore.dll
+0x659c0000 - 0x65a61000 	H:\Java\jdk1.6.0_26\bin\avformat.dll
+0x6fdc0000 - 0x6fde1000 	F:\Windows\system32\MSVFW32.dll
+0x769c0000 - 0x77609000 	F:\Windows\system32\SHELL32.dll
+0x763b0000 - 0x76407000 	F:\Windows\system32\SHLWAPI.dll
+0x74690000 - 0x7482e000 	F:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7600.16661_none_420fe3fa2b8113bd\COMCTL32.dll
+0x6fe20000 - 0x6fe33000 	F:\Windows\system32\AVICAP32.dll
+0x74c60000 - 0x74c69000 	F:\Windows\system32\VERSION.dll
+0x689c0000 - 0x68aac000 	H:\Java\jdk1.6.0_26\bin\libx264-105.dll
+0x75060000 - 0x750a4000 	F:\Windows\system32\DNSAPI.dll
+0x75a60000 - 0x75bbc000 	F:\Windows\system32\ole32.dll
+0x76200000 - 0x7628f000 	F:\Windows\system32\OLEAUT32.dll
+0x6eff0000 - 0x6f062000 	F:\Windows\system32\dsound.dll
+0x74030000 - 0x74055000 	F:\Windows\system32\POWRPROF.dll
+0x75fb0000 - 0x7614d000 	F:\Windows\system32\SETUPAPI.dll
+0x75810000 - 0x75837000 	F:\Windows\system32\CFGMGR32.dll
+0x759b0000 - 0x759c2000 	F:\Windows\system32\DEVOBJ.dll
+0x74230000 - 0x74269000 	F:\Windows\system32\MMDevAPI.DLL
+0x74570000 - 0x74665000 	F:\Windows\system32\PROPSYS.dll
+0x73b90000 - 0x73bc0000 	F:\Windows\system32\wdmaud.drv
+0x73ab0000 - 0x73ab4000 	F:\Windows\system32\ksuser.dll
+0x74010000 - 0x74017000 	F:\Windows\system32\AVRT.dll
+0x73940000 - 0x73976000 	F:\Windows\system32\AUDIOSES.DLL
+0x738c0000 - 0x738c8000 	F:\Windows\system32\msacm32.drv
+0x738a0000 - 0x738b4000 	F:\Windows\system32\MSACM32.dll
+0x73890000 - 0x73897000 	F:\Windows\system32\midimap.dll
+0x756e0000 - 0x756ec000 	F:\Windows\system32\CRYPTBASE.dll
+0x76290000 - 0x76313000 	F:\Windows\system32\CLBCatQ.DLL
+0x74530000 - 0x74570000 	F:\Windows\system32\uxtheme.dll
+0x726d0000 - 0x72798000 	F:\Program Files\360\360Safe\safemon\safemon.dll
+0x75bc0000 - 0x75cb5000 	F:\Windows\system32\WININET.dll
+0x76880000 - 0x769b6000 	F:\Windows\system32\urlmon.dll
+0x75890000 - 0x759ae000 	F:\Windows\system32\CRYPT32.dll
+0x757d0000 - 0x757dc000 	F:\Windows\system32\MSASN1.dll
+0x75db0000 - 0x75fad000 	F:\Windows\system32\iertutil.dll
+0x74b20000 - 0x74b41000 	F:\Windows\system32\ntmarta.dll
+0x75cc0000 - 0x75d05000 	F:\Windows\system32\WLDAP32.dll
+0x757e0000 - 0x7580d000 	F:\Windows\system32\WINTRUST.dll
+0x6ee90000 - 0x6ee9b000 	F:\Windows\system32\msdmo.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 
+java_command: com.lorent.lvmc.ucs.Start
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=H:\Java\jdk1.6.0_26
+CLASSPATH=.
+PATH=H:/Genuitec/Common/binary/com.sun.java.jdk.win32.x86_1.6.0.013/jre/bin/client;H:/Genuitec/Common/binary/com.sun.java.jdk.win32.x86_1.6.0.013/jre/bin;F:\Program Files\Common Files\NetSarang;F:\Windows\system32;F:\Windows;F:\Windows\System32\Wbem;F:\Windows\System32\WindowsPowerShell\v1.0\;H:\TortoiseSVN\bin;F:\Program Files\Common Files\Adobe\AGL;H:\Java\jdk1.6.0_26\bin
+USERNAME=Jack
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 13, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7600 
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 6 model 15 stepping 13, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3
+
+Memory: 4k page, physical 2061624k(620420k free), swap 4123248k(2111244k free)
+
+vm_info: Java HotSpot(TM) Client VM (20.1-b02) for windows-x86 JRE (1.6.0_26-b03), built on May  4 2011 00:50:59 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Wed Sep 19 15:49:24 2012
+elapsed time: 15 seconds
+

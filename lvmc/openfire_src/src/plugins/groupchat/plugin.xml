@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Plugin configuration for the broadcast plugin.
+-->
+<plugin>
+    <class>org.jivesoftware.openfire.plugin.groupchat.GroupChatPlugin</class>
+    <name>GroupChatPlugin</name>
+    <description>conference vote</description>
+    <author>lorent developer</author>
+    <version>0.0</version>
+    <date>4/19/2010</date>
+    <url>http://www.igniterealtime.org</url>
+    <databaseKey>groupchat</databaseKey>
+    <databaseVersion>0</databaseVersion>
+    <minServerVersion>3.7.0</minServerVersion>
+</plugin>

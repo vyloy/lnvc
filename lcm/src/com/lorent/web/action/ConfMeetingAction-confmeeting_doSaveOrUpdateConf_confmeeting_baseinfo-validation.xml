@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="realPassword">
+		<field-validator type="fieldexpression" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[(confPublic==1||(realPassword!=null&&realPassword!=""))]]></param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confpass")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.confpass"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z]+$]]></param>
+			<message>${getText("page.validate.error.strformaterror",{getText("page.validate.param.confpass")})}</message>
+		</field-validator>
+	</field>
+</validators>

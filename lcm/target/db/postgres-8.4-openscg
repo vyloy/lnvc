@@ -1,0 +1,297 @@
+#!/bin/bash
+#
+# chkconfig: 2345 85 15
+# description: Control PostgreSQL 8.4 server process 
+
+### BEGIN INIT INFO
+# Provides:          postgres-8.4-openscg
+# Required-Start:    
+# Required-Stop:     
+# Should-Start:  
+# Should-Stop:  
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: PostgreSQL 8.4 
+# Description: PostgreSQL 8.4 Server       
+### END INIT INFO
+
+#Create non-existent postgres user and group
+createpguser()
+{
+    if ! getent group postgres > /dev/null 
+    then
+       /usr/sbin/groupadd postgres
+    fi
+
+    if getent passwd postgres > /dev/null 
+    then
+      POSTGRES_HOME=`su postgres -c "echo \$HOME"`
+      if [ ! -e $POSTGRES_HOME ]; 
+      then
+       /usr/sbin/usermod -d /opt/postgres/8.4 postgres
+      fi
+    else
+	/usr/sbin/useradd -m -c "PostgreSQL" -d /opt/postgres/8.4 -g postgres postgres
+        #Required for OpenSuse platforms
+        /usr/sbin/usermod -p "*" postgres
+    fi
+}
+
+setStartup() 
+{
+  echo "Configuring PostgreSQL server startup scripts"
+  if type "/sbin/chkconfig" &> /dev/null ; then
+    /sbin/chkconfig --add postgres-8.4-openscg 
+    if [ $? -ne 0 ]; then
+        echo "Unable to configure PostgreSQL server boot script"
+    fi
+  fi
+  if type "/usr/sbin/update-rc.d" &> /dev/null ; then
+    /usr/sbin/update-rc.d postgres-8.4-openscg defaults 85 15
+    if [ $? -ne 0 ]; then
+        echo "Unable to configure PostgreSQL server boot script"
+    fi
+  fi
+}
+
+initCluster()
+{
+  local PASSWORD=$1
+  local PORT=$2
+  local BOOT=$3
+  if [ ! -d /opt/postgres/8.4/data ];
+  then
+    mkdir -p /opt/postgres/8.4/data
+  fi
+  createpguser
+  chown postgres:postgres /opt/postgres/8.4/data
+
+  touch /tmp/initpass.$$
+  chmod 600 /tmp/initpass.$$
+  echo $PASSWORD > /tmp/initpass.$$
+  chown postgres:postgres /tmp/initpass.$$
+  
+  if type "/usr/bin/chcon" &> /dev/null ; then
+    /usr/bin/chcon -t textrel_shlib_t /opt/postgres/8.4/lib/libedit.so &> /dev/null 
+  fi
+
+  su - postgres -c "LD_LIBRARY_PATH=/opt/postgres/8.4/lib:$LD_LIBRARY_PATH /opt/postgres/8.4/bin/initdb  -E utf8 -A md5 --pwfile /tmp/initpass.$$ -D /opt/postgres/8.4/data -U postgres"
+
+  rc=`echo $?`
+  rm -f /tmp/initpass.$$
+  if [ ! "$rc" == "0" ]; then
+    echo " "
+    echo "ERROR: Unable to Initialize Postgres DB (rc=$rc)"
+    exit 
+  fi
+  if [ ! -d /opt/postgres/8.4/data/pg_log ];
+  then
+    mkdir /opt/postgres/8.4/data/pg_log
+  fi
+  chown postgres:postgres /opt/postgres/8.4/data/pg_log
+
+  #Do some search and replace on postgresql.conf
+  if [ -f /opt/postgres/8.4/data/postgresql.conf ];
+  then
+    su - postgres -c "sed -e \"s@\#listen_addresses = 'localhost'@listen_addresses = '*'@g\" -e \"s@\#port = 5432@port = $PORT@g\" /opt/postgres/8.4/data/postgresql.conf > /tmp/pgconf.$$"
+    mv /tmp/pgconf.$$ /opt/postgres/8.4/data/postgresql.conf
+    chown postgres:postgres /opt/postgres/8.4/data/postgresql.conf
+  fi
+
+  #Set up server startup via chkconfig (for Redhat like distros) and/or update-rc.d (for Ubuntu like distros)
+  if [ "$BOOT" == "y" -o "$BOOT" == "Y" ];
+  then
+    setStartup
+  fi
+  
+}
+
+start()
+{
+  if [ `id -un` != "postgres" -a `id -u` != "0" ] ;
+  then
+   echo "ERROR: Must be root or postgres to start PostgreSQL server."
+   exit 1
+  fi
+
+  #First time initialization
+  if [ ! -d /opt/postgres/8.4/data -o ! -f /opt/postgres/8.4/data/postgresql.conf ];
+  then
+    if [[ `id -u` != "0" ]]; then  
+    echo "ERROR: Must be a Superuser to configure PostgreSQL server."
+    exit 1
+    fi
+
+    echo "PostgreSQL 8.4 Configuration"
+    echo "---------------------------------"
+    echo "This will initialize PostgreSQL database cluster. The following"
+    echo "questions will determine the database server port, superuser password"
+    echo " and to start server on system boot. Press <ENTER> to accept defaults."
+    echo ""
+
+    local DONE=0
+    while [ $DONE -ne 1 ]; do
+      echo "Specify PostgreSQL server port [5432]:"
+      read  PGPORT
+      if [ x"$PGPORT" == x"" ];
+      then 
+        PGPORT=5432
+      fi
+      #Valid port is a numeric value between 1024-65535
+      echo $PGPORT | egrep '^[0-9]+$' >/dev/null 2>&1
+      if [ $? -eq 1 ];
+      then
+        echo "ERROR: Invalid port number. Valid range is 1024-65535"
+        continue
+      fi
+      if [ $PGPORT -lt 1024 -o $PGPORT -gt 65535 ];
+      then
+        echo "ERROR: Invalid port number. Valid range is 1024-65535"
+        continue
+      fi
+      DONE=1 
+    done
+
+    echo "Specify superuser password [password]:"
+    read  -s PGPASSWORD
+    echo "Do you want PostgreSQL server to be started on boot (y/n) [y]:"
+    read  PGBOOT
+
+    #Assign default values
+    if [ x"$PGPASSWORD" == x"" ];
+    then 
+      PGPASSWORD=password
+    fi
+    if [ x"$PGBOOT" == x"" ];
+    then 
+      PGBOOT=y
+    fi
+    initCluster $PGPASSWORD $PGPORT $PGBOOT
+
+    #Fix for psql dumb terminal issue
+    local LD_PRELOAD_VALUE=""
+    for libreadline in `find -L /lib -type f -name libreadline.\* 2> /dev/null`
+    do
+      LD_PRELOAD_VALUE="$libreadline:$LD_PRELOAD_VALUE"
+    done
+    if [ x"$LD_PRELOAD_VALUE" != x"" ];
+    then
+      LD_PRELOAD_VALUE="export LD_PRELOAD=$LD_PRELOAD_VALUE"
+    fi
+
+    #Dump environment values
+cat <<ENVEOF > /opt/postgres/8.4/pg84-openscg.env 
+#!/bin/bash
+$LD_PRELOAD_VALUE
+export PGHOME=/opt/postgres/8.4
+export PGDATA=/opt/postgres/8.4/data
+export PATH=/opt/postgres/8.4/bin:\$PATH
+export LD_LIBRARY_PATH=/opt/postgres/8.4/lib:\$LD_LIBRARY_PATH
+export PGUSER=postgres
+export PGDATABASE=postgres
+export PGPORT=$PGPORT
+ENVEOF
+  fi
+
+  echo "Starting PostgreSQL 8.4: "
+  su - postgres -c "LD_LIBRARY_PATH=/opt/postgres/8.4/lib:$LD_LIBRARY_PATH /opt/postgres/8.4/bin/pg_ctl -w start -D /opt/postgres/8.4/data -l \"/opt/postgres/8.4/data/pg_log/startup.log\""
+
+  if [ -f "/opt/postgres/8.4/data/postmaster.pid" ]; then
+  	MYPID=$(sed -n '1,1p' /opt/postgres/8.4/data/postmaster.pid)
+	echo -17 > /proc/$MYPID/oom_adj
+  fi
+	
+ if [ $? -eq 0 ];
+ then
+   echo "PostgreSQL 8.4 started successfully"
+   echo "To load this postgres into your environment, source the env file:"
+   echo ". /opt/postgres/8.4/pg84-openscg.env"
+   exit 0
+ else
+  echo "The PostgreSQL server start seems to have some problems, please see logs for details."
+  exit 1
+ fi
+}
+
+stop()
+{
+  if [ `id -un` != "postgres" -a `id -u` != "0" ] ;
+  then
+   echo "ERROR: Must be root or postgres to stop PostgreSQL server."
+   exit 1
+  fi
+  if [ ! -f /opt/postgres/8.4/data/postgresql.conf ]; then
+    echo "PostgreSQL server is not initialized."
+    exit 0
+  fi
+  echo "Stopping PostgreSQL 8.4: "
+  su - postgres -c "LD_LIBRARY_PATH=/opt/postgres/8.4/lib:$LD_LIBRARY_PATH /opt/postgres/8.4/bin/pg_ctl stop -m fast -w -D /opt/postgres/8.4/data"
+}
+
+reload()
+{
+  if [ `id -un` != "postgres" -a `id -u` != "0" ] ;
+  then
+   echo "ERROR: Must be root or postgres to reload PostgreSQL server."
+   exit 1
+  fi
+  if [ ! -f /opt/postgres/8.4/data/postgresql.conf ]; then
+    echo "PostgreSQL server is not initialized."
+    exit 1
+  fi
+  echo "Reloading PostgreSQL 8.4: "
+  su - postgres -c "LD_LIBRARY_PATH=/opt/postgres/8.4/lib:$LD_LIBRARY_PATH /opt/postgres/8.4/bin/pg_ctl reload -D /opt/postgres/8.4/data"
+}
+
+restart() 
+{
+  if [ `id -un` != "postgres" -a `id -u` != "0" ] ;
+  then
+   echo "ERROR: Must be root or postgres to restart PostgreSQL server."
+   exit 1
+  fi
+  if [ ! -f /opt/postgres/8.4/data/postgresql.conf ];
+  then
+    echo "PostgreSQL server is not initialized."
+    exit 1
+  fi
+  if [ -f "/opt/postgres/8.4/data/postmaster.pid" ]; then
+    stop
+    sleep 3
+    start
+  else
+    start
+  fi
+}
+# Determine arguments passed to script
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  reload)
+        reload
+        ;;
+  restart)
+        restart
+        ;;
+  status)
+        if [ `id -un` != "postgres" -a `id -u` != "0" ] ;
+        then
+          echo "ERROR: Must be root or postgres to get PostgreSQL server status."
+          exit 1
+        fi
+        if [ ! -f /opt/postgres/8.4/data/postgresql.conf ];
+        then
+          echo "PostgreSQL server is not initialized."
+          exit 1
+        fi
+        su - postgres -c "LD_LIBRARY_PATH=/opt/postgres/8.4/lib:$LD_LIBRARY_PATH /opt/postgres/8.4/bin/pg_ctl status -D /opt/postgres/8.4/data"
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+

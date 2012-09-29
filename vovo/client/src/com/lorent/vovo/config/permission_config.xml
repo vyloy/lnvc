@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permission-configuration>
+    <checks id="KickOneFromGroupChatPermissionCheck">
+        <check name="com.lorent.vovo.permission.KickOneFromGroupChatPermissionCheck"/>
+    </checks>
+    <checks id="SetGroupChatInfoPermissionCheck">
+        <check name="com.lorent.vovo.permission.SetGroupChatInfoPermissionCheck"/>
+    </checks>
+</permission-configuration>

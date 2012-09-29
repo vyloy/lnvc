@@ -1,0 +1,12 @@
+#!/bin/bash
+export JAVA_HOME=/opt/lcp/common/jdk/jre
+export TOMCAT_HOME=USER_INSTALL_DIR/apache-tomcat-6.0.29
+export CLASSPATH=.
+
+isInclude=$(echo $PATH | grep $JAVA_HOME/bin)
+#echo $isTest
+if [ ! $isInclude  ]; 
+then export PATH=$JAVA_HOME/bin:$PATH
+fi
+
+export LORENT_HOME=USER_INSTALL_DIR

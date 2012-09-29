@@ -7,5 +7,6 @@ public class BroadcastEvent {
 	public static final String ADD_USER = "ADD_USER";
 	public static final String UPDATE_USER = "UPDATE_USER";
 	public static final String DELETE_USER = "DELETE_USER";
-	
+	public static final String GRANT_CONF_AUTHORITY = "GRANT_CONF_AUTHORITY";
+	public static final String REVOKE_CONF_AUTHORITY = "REVOKE_CONF_AUTHORITY";
 }

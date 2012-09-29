@@ -1,0 +1,9 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
+   	
+    <bean id="permissionFilter" class="com.lorent.lvmc.filter.PermissionFilter" scope="singleton"/>
+    <bean id="isMaxWhiteBoard" class="com.lorent.lvmc.filter.MaxWhiteBoardFilter" scope="singleton"/>
+    <bean id="checkFileSupportConvert" class="com.lorent.lvmc.filter.CheckFileSupportConvertFilter" scope="singleton"/>
+</beans>

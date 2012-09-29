@@ -1,0 +1,30 @@
+#!/bin/sh
+INSTALL_DIR=/opt/lcp/lcm
+
+lcm_start(){
+	cd $INSTALL_DIR
+	./tomcat_start.sh
+}
+lcm_stop(){
+	cd $INSTALL_DIR
+	./tomcat_stop.sh
+}
+case "$1" in
+  start)
+        lcm_start
+        ;;
+  stop)
+        lcm_stop
+        ;;
+  restart)
+        lcm_stop
+        lcm_start
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1;
+        ;;
+esac
+
+exit 0
+

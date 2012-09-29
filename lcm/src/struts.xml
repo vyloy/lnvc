@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="com.lorent.resources.messageResource,com.lorent.resources.Const" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.serve.browserCache" value="false" />
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.multipart.maxSize" value="1000000000" />
+	<constant name="struts.i18n.reload" value="true" />
+	
+	<package name="login" extends="struts-default" namespace="/login">
+		<global-results>
+			<result name="input">/exception.jsp</result>
+		</global-results>
+		<action name="loginPage_*" class="loginPageAction" method="{1}">
+			<result name="success" type="redirect">/login/login.jsp</result>
+			<result name="login">/login/login.jsp</result>
+		</action>
+	</package>
+	<package name="application" extends="struts-default" namespace="/app">
+		<interceptors>
+			<interceptor name="customerInterceptor" class="com.lorent.web.intercetor.CustomerInterceptor" />
+			<interceptor name="customerExceptionInterceptor" class="com.lorent.web.intercetor.CustomerExceptionInterceptor" />
+			<interceptor-stack name="customerDefaultStack">
+				<interceptor-ref name="customerInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			<interceptor-stack name="customerExceptionStack">
+				<interceptor-ref name="customerInterceptor" />
+				<interceptor-ref name="customerExceptionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="customerDefaultStack" />
+		<global-exception-mappings>
+			<exception-mapping result="allexcep" exception="java.lang.Exception" />
+		</global-exception-mappings>
+		<action name="toPage_pages_*_*" class="toPageAction">
+			<result name="success" >/WEB-INF/pages/{1}/{2}.jsp</result>
+		</action>
+		<action name="toPage_*" class="toPageAction">
+			<result name="success" type="redirect">/{1}.jsp</result>
+		</action>	
+		<action name="*Action_*_*" class="{1}Action" method="{2}">
+			<interceptor-ref name="customerExceptionStack" />
+			<result name="success">/WEB-INF/pages/{1}/{3}.jsp</result>
+			<result name="allexcep">/exception.jsp</result>
+			<!--<interceptor-ref name="customerExceptionInterceptor" />-->
+			<!--<result name="allexcep" type="redirectAction">/excepion.action</result>-->
+		</action>
+		<action name="*_*_*" class="{1}Action" method="{2}">
+			<!--<interceptor-ref name="token" />-->
+			<interceptor-ref name="tokenSession"/>
+			<interceptor-ref name="customerDefaultStack" />
+			<!--<interceptor-ref name="completeStack" />
+			<interceptor-ref name="execAndWait" />
+			<interceptor-ref name="customerDefaultStack" />-->
+			<result name="input">/WEB-INF/pages/{1}/{3}.jsp</result>
+			<result name="success">/success.jsp</result>
+			<result name="allexcep">/WEB-INF/pages/{1}/{3}.jsp</result>
+			<!--<result name="invalid.token">/WEB-INF/pages/{1}/{3}.jsp</result>-->
+			<!--<result name="wait">/wait.jsp</result>-->
+		</action>
+		<action name="downloadAction" class="com.lorent.web.action.FileDownloadAction">
+			<result type="stream">
+				<param name="contentType">application/octet-stream</param> 
+				<param name="inputName">inputStream</param> 
+				<param name="contentDisposition">attachment;filename="${fileName}"</param> 
+				<param name="bufferSize">4096</param> 
+			</result>
+		</action>
+	</package>
+	
+	<package name="ajax" extends="struts-default,json-default" namespace="/ajax">
+		<global-exception-mappings>
+			<exception-mapping result="allexcep" exception="java.lang.Exception" />
+		</global-exception-mappings>
+		<action name="*_*" class="{1}Action" method="{2}">
+			<interceptor-ref name="jsonValidationWorkflowStack"/> 
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+</struts>    

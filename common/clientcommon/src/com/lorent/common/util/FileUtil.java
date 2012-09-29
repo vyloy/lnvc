@@ -174,12 +174,9 @@ public class FileUtil {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		FileUtil.localFileCopy("D:\\MyEclipseWorkspaces\\lnvc20\\lvmc\\client\\layouts\\default.obj", "D:\\Users\\panda\\lorent\\lvmc\\layouts\\enjoinlayout.obj");
 		List<File> allFiles = FileUtil.getAllFiles(new File("D:\\Users\\panda\\Desktop\\V Vo"));
 		for (File file : allFiles) {
 			System.out.println(file);
 		}
-		
-		
 	}
 }

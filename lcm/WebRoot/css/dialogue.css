@@ -1,0 +1,298 @@
+/*==================index_model_dialogue==================*/
+.dialogue_over_bg{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+	background-color: #086AC4;
+}
+.model_dialogue{
+	width: 600px;
+	height: 380px;
+	position: absolute;
+	top:200px;
+	left: 200px;
+	background-image: url(../images/border_bg_left.gif);
+	background-repeat: repeat-y;
+	background-color:#fff;
+	display: none;
+}
+.dialogue_container{
+	position: relative;
+	background-image: url(../images/border_bg_right.gif);
+	background-repeat: repeat-y;
+	width: 100%;
+	height: 100%;
+	background-position: 100%;
+}
+.dialogue_top_border{
+	width: 100%;
+	height: 26px;
+	background-image: url(../images/top_top_border.gif);
+	background-repeat: repeat-x;
+	cursor:pointer;
+}
+.top_border_left,.top_boder_right,.dialogue_button_close{
+	position: absolute;
+	top: 0px;
+}
+.top_border_left{left: 0px;}
+.top_boder_right{right: -1px;}
+.dialogue_button_close{
+	top:5px;
+	right: 10px;
+	cursor:pointer; 
+}
+.index_dialogue_title{
+	position:absolute;
+	width: 100px;
+	top:5px!important;
+	top:7px;
+	left:30px;
+	text-align: left;
+	color: #fff;
+	font-size: 13px;
+	font-weight: bold;
+}
+.dialogue_bottom{
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	height: 30px;
+	background-image: url(../images/dialogue_bottom_bg.gif);
+	background-repeat: repeat-x;
+	width: 100%;
+	z-index: 90;
+}
+.dialogue_bottom_left,.dialogue_bottom_right{
+	bottom: 0px;
+	position: absolute;
+}
+.dialogue_bottom_left{left:0px;}
+.dialogue_bottom_right{right: -1px;}
+.index_dialogue_iframe{
+	position: absolute;
+	top:39px;
+	left: 12px;
+	display: block;
+	background-color: #fff;
+}
+.dialogue_body{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	font-size: 12px;
+	color: #344B50;
+	background-color: #fff;
+}
+.dialogue_body *{
+	font-size: 12px;
+	color: #344B50;
+}
+.dialogue_button_div,.confirm_button_div,.pass_button_div{
+	width: 100%;
+	height: 27px;
+	vertical-align: middle;	
+	position: absolute;
+	bottom:25px!important;
+	bottom:20px;
+	text-align: center;
+	left: 5px;
+	visibility: hidden;
+	z-index: 100;
+}
+.dialogue_content_hr{
+	border: 1px solid #0B36B1;
+}
+.dialogue_button_div button,.confirm_button_div button,.pass_button_div button{
+	width: 60px;
+	height: 23px;
+	line-height:20px;
+	vertical-align:middle;
+	cursor: pointer;
+	border:none;
+	background-image: url(../images/dialogue_button_bg.gif);
+	color: #fff;
+	margin-left: 5px;
+	margin-top: 8px;
+}
+.dialogue_table{
+	margin: 0px;
+	padding: 0px;
+	background-color: #a8c7ce;
+	width: 95%;
+	margin: 0px auto 0px auto;
+}
+.dialogue_table div{
+	width: 120px;
+	margin-top: -5px;
+}
+.dialogue_table col{
+	white-space: nowrap;
+	overflow: hidden;
+}
+.dialogue_table td{
+	height: 31px;
+	background-color: #fff;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	vertical-align: top;
+}
+td.dialogue_td_text{
+	text-align: right;
+	vertical-align:middle;
+	padding-right: 3px;
+}
+td.dialogue_td_input{
+	text-align: left;
+	vertical-align:middle;
+	padding-top:5px;
+
+}
+.dialogue_table input,.textarea,.dialogue_table select{
+	height: 18px;
+	width: 120px;
+	border: 1px solid #5AC8FB;
+	margin-top: -5px;
+}
+.textarea,textarea{
+	width:330px;
+	height: 50px;
+	border: 1px solid #5AC8FB;
+	max-width: 330px;
+	max-height: 100px;
+	resize: none;
+}
+.dialogue_table select{
+	cursor: pointer;
+}
+.dialogue_click_text{
+	text-decoration: underline;
+	cursor: pointer;
+	width: 300px;
+	margin-top: -5px;
+}
+.mcu_click_text{
+	width: 100px;
+}
+.dialog_msg_div{
+	width: 100%;
+	height: 20px;
+	color: #F79F41;
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+.disable_tr{
+	display: none;
+	margin-top: -1px;
+	background-color: #ccc;
+	border:1px solid #aaa;
+	padding: 10px;
+	width: 200px;
+	position: absolute;
+	text-align: right;
+}
+.disable_tr input{
+	height: 18px;
+	width: 120px;
+	border: 1px solid #5AC8FB;
+}
+.dialogue_td_input div{
+	margin-top: -5px;
+}
+.disable_tr a{float: right;margin-left: 5px;}
+.mcu_disable_dialogue{
+	top: 30px;
+	right: 55px;
+}
+.customer_disable_dialogue{
+	top:20px;
+	right: 110px;
+}
+.user_disable_dialogue{
+	top:110px;
+	right: 80px;
+}
+.tabbedpanel{
+	width: 100%;
+	height: 100%;
+	margin-top: 2px;
+}
+.tabpanel_div{
+	width: 100%;
+	padding: 10px;
+	height: 397px;
+	text-align: center;
+	
+}
+.tab_panel_table{
+	width: 90%;
+	margin-left: -5px !important;
+	margin: 10px auto 0px auto;
+}
+.date_input{
+	padding: 0px;
+}
+textarea.dialogue_textarea{
+	width: 370px;
+	max-width: 370px;
+	height: 75px;
+	text-align: left;
+}
+
+.tab_data_table{
+	width: 100%;
+	table-layout:fixed;
+	font-size: 12px;
+	font-weight: lighter;
+	background-color: #a8c7ce;
+	text-align: center;
+}
+.tab_data_table td{
+	height: 20px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: #fff;
+}
+.tab_data_table_header td{
+	background-color: #D3EAEF;
+}
+.dialogue_tab_container{
+	width: 97%;
+	height: 100%;
+	overflow-y:auto; 
+	overflow-x:hidden;
+}
+.dialogue_showText{
+	position: absolute;
+	top:40px;
+	left: 12px;
+	display: none;
+	font-size: 14px;
+	color: #FA3152;
+}
+.dialogue_hide_text{
+	display: none;
+}
+.required{
+	color: red;
+}
+.field_desc{
+	text-align: center;
+	vertical-align: middle;
+	font-size: 9px;
+	color: red;
+}

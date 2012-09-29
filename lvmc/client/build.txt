@@ -1,0 +1,5 @@
+-Dclientcommon="${workspace_loc:clientcommon}"
+-Dwhiteboardclient="${workspace_loc:WhiteBoardClient}"
+-Dwhiteboardcommon="${workspace_loc:WhiteBoardCommon}"
+-Djhotdraw="${workspace_loc:JHotDraw}"
+-Dvncviewer="${workspace_loc:VncViewer}"

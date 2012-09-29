@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<!--  <field name="confSubject" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confname")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="maxLength">20</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.confname"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z\u4e00-\u9fa5]+$]]></param>
+			<message>${getText("page.validate.error.specialfilter",{getText("page.validate.param.confname")})}</message>
+		</field-validator>
+	</field>-->
+	
+	<!--  <field name="conferenceNo">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confno")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="confHost">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confhost")})}</message>
+		</field-validator>
+	</field>-->
+	
+	<field name="realPassword">
+		<field-validator type="fieldexpression" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[(confPublic==1||(realPassword!=null&&realPassword!=""))]]></param>
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confpass")})}</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="trim">true</param>
+			<param name="maxLength">15</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.confpass"),maxLength})}</message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="trim">true</param>
+			<param name="expression"><![CDATA[^[0-9A-Za-z]+$]]></param>
+			<message>${getText("page.validate.error.strformaterror",{getText("page.validate.param.confpass")})}</message>
+		</field-validator>
+	</field>
+	
+	<!-- <field name="confMemberCount">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confmembercount")})}</message>
+		</field-validator>
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">100</param>
+			<message>${getText("page.validate.conf.memberlimit",{min,max})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="mcuMixerKey">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.mixer")})}</message>
+		</field-validator>
+	</field>-->
+	
+	<field name="mcuMediaLayOut">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.medialayout")})}</message>
+		</field-validator>
+	</field>
+	
+	<!-- <field name="confVideoCount">
+		<field-validator type="required" short-circuit="true">
+			<message>${getText("page.validate.error.required",{getText("page.validate.param.confvideocount")})}</message>
+		</field-validator>
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">9</param>
+			<message>${getText("page.validate.conf.videolimit",{min,max})}</message>
+		</field-validator>
+	</field> 
+	
+	<field name="mcuMediaQuality">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.requiredforchoose",{getText("page.validate.param.mediaquality")})}</message>
+		</field-validator>
+	</field>-->
+	
+	<field name="confDesc">
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="maxLength">300</param>
+			<message>${getText("page.validate.error.inputlength",{getText("page.validate.param.desc"),maxLength})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="cronType">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.required",{getText("page.cronconf.pertype")})}</message>
+		</field-validator>
+	</field>
+	
+	<field name="length">
+		<field-validator type="required">
+			<message>${getText("page.validate.error.required",{getText("page.cronconf.lengthsec")})}</message>
+		</field-validator>
+		<field-validator type="int">
+			<param name="min">1</param>
+			<param name="max">120</param>
+			<message>${getText("page.validate.error.cronlengthlimit",{min,max})}</message>
+		</field-validator>
+	</field>
+</validators>

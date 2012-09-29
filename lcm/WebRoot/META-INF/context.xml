@@ -1,0 +1,33 @@
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+	
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+    <!-- 
+    	realDriverClassName:org.postgresql.Driver
+     -->
+	<Resource name="jdbc/postgres" auth="Container" type="javax.sql.DataSource" 
+			driverClassName="com.p6spy.engine.spy.P6SpyDriver"
+			url="jdbc:postgresql://127.0.0.1:5432/lcmDB_Dev"
+			username="lcmadmin" password="password"
+			maxActive="100" maxWait="1000" maxIdle="30"
+			removeAbandoned="true"/>
+
+	<Resource name="jdbc/mysql" auth="Container" type="javax.sql.DataSource" 
+			driverClassName="com.p6spy.engine.spy.P6SpyDriver"
+			url="jdbc:mysql://10.168.130.9:3306/XFCMSDB"
+			username="root" password="xfsdbpasswd"
+			maxActive="100" maxWait="1000" maxIdle="30"
+			removeAbandoned="true"/>
+
+	<Resource name="mail/Session" auth="Container" type="javax.mail.Session"
+			mail.smtp.host="smtp.gmail.com" mail.smtp.auth="true" mail.smtp.port="587"
+			mail.transport.protocol="smtp" mail.smtp.starttls.enable="true"
+			mail.smtp.username="conference@lorentnetworks.com" mail.smtp.password="lorentnetwork"
+			mail.smtp.connectiontimeout="3000" mail.smtp.timeout="3000" />
+</Context>

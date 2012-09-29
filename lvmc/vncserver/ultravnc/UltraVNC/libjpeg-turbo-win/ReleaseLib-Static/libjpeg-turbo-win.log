@@ -1,0 +1,183 @@
+﻿Build started 2012-2-28 10:28:49.
+     1>Project "E:\ultravnc\UltraVNC\libjpeg-turbo-win\libjpeg-turbo-win.vcxproj" on node 3 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "ReleaseLib-Static\libjpeg-turbo-win.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "ReleaseLib-Static\libjpeg-turbo-win.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jccolmmx.obj" "simd/jccolmmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jccolss2.obj" "simd/jccolss2.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnt3dn.obj" "simd/jcqnt3dn.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqntmmx.obj" "simd/jcqntmmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnts2f.obj" "simd/jcqnts2f.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnts2i.obj" "simd/jcqnts2i.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqntsse.obj" "simd/jcqntsse.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcsammmx.obj" "simd/jcsammmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcsamss2.obj" "simd/jcsamss2.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdcolmmx.obj" "simd/jdcolmmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdcolss2.obj" "simd/jdcolss2.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdmermmx.obj" "simd/jdmermmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdmerss2.obj" "simd/jdmerss2.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdsammmx.obj" "simd/jdsammmx.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdsamss2.obj" "simd/jdsamss2.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jf3dnflt.obj" "simd/jf3dnflt.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfmmxfst.obj" "simd/jfmmxfst.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfmmxint.obj" "simd/jfmmxint.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfss2fst.obj" "simd/jfss2fst.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfss2int.obj" "simd/jfss2int.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfsseflt.obj" "simd/jfsseflt.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\ji3dnflt.obj" "simd/ji3dnflt.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxfst.obj" "simd/jimmxfst.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxint.obj" "simd/jimmxint.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxred.obj" "simd/jimmxred.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2flt.obj" "simd/jiss2flt.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2fst.obj" "simd/jiss2fst.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2int.obj" "simd/jiss2int.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2red.obj" "simd/jiss2red.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jisseflt.obj" "simd/jisseflt.asm"
+         nasm -fwin32 -DWIN32 -DMSVC -Iwin/ -Isimd/ -o "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jsimdcpu.obj" "simd/jsimdcpu.asm"
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I./win /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _CRT_SECURE_NO_WARNINGS /D WITH_SIMD /D _UNICODE /D UNICODE /Gm- /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"ReleaseLib-Static\\" /Fd"ReleaseLib-Static\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt jcapimin.c jcapistd.c jccoefct.c jccolor.c jcdctmgr.c jchuff.c jcinit.c jcmainct.c jcmarker.c jcmaster.c jcomapi.c jcparam.c jcphuff.c jcprepct.c jcsample.c jctrans.c jdapimin.c jdapistd.c jdatadst.c jdatasrc.c jdcoefct.c jdcolor.c jddctmgr.c jdhuff.c jdinput.c jdmainct.c jdmarker.c jdmaster.c jdmerge.c jdphuff.c jdpostct.c jdsample.c jdtrans.c jerror.c jfdctflt.c jfdctfst.c jfdctint.c jidctflt.c jidctfst.c jidctint.c jidctred.c jmemmgr.c jmemnobs.c jquant1.c jquant2.c simd\jsimd_i386.c jutils.c
+         jcapimin.c
+         jcapistd.c
+         jccoefct.c
+         jccolor.c
+     1>jccolor.c(268): warning C4101: 'col' : unreferenced local variable
+         jcdctmgr.c
+     1>jcdctmgr.c(182): warning C4018: '<=' : signed/unsigned mismatch
+         jchuff.c
+         jcinit.c
+         jcmainct.c
+         jcmarker.c
+         jcmaster.c
+         jcomapi.c
+         jcparam.c
+         jcphuff.c
+         jcprepct.c
+         jcsample.c
+         jctrans.c
+         jdapimin.c
+         jdapistd.c
+         jdatadst.c
+         jdatasrc.c
+         Compiling...
+         jdcoefct.c
+         jdcolor.c
+     1>jdcolor.c(226): warning C4101: 'col' : unreferenced local variable
+         jddctmgr.c
+         jdhuff.c
+     1>jdhuff.c(779): warning C4018: '<' : signed/unsigned mismatch
+         jdinput.c
+         jdmainct.c
+         jdmarker.c
+         jdmaster.c
+         jdmerge.c
+         jdphuff.c
+         jdpostct.c
+         jdsample.c
+         jdtrans.c
+         jerror.c
+         jfdctflt.c
+         jfdctfst.c
+         jfdctint.c
+         jidctflt.c
+         jidctfst.c
+         jidctint.c
+         Compiling...
+         jidctred.c
+         jmemmgr.c
+         jmemnobs.c
+         jquant1.c
+         jquant2.c
+         jsimd_i386.c
+         jutils.c
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\libjpeg-turbo-win.lib) does not match the Library's OutputFile property value (E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\libjpeg-turbo-win-static.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(libjpeg-turbo-win) does not match the Library's OutputFile property value (libjpeg-turbo-win-static). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\libjpeg-turbo-win-static.lib" /NOLOGO /LTCG "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jccolmmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jccolss2.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnt3dn.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqntmmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnts2f.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqnts2i.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcqntsse.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcsammmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jcsamss2.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdcolmmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdcolss2.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdmermmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdmerss2.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdsammmx.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jdsamss2.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jf3dnflt.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfmmxfst.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfmmxint.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfss2fst.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfss2int.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jfsseflt.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\ji3dnflt.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxfst.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxint.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jimmxred.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2flt.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2fst.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2int.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jiss2red.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jisseflt.obj"
+         "E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\jsimdcpu.obj"
+         "ReleaseLib-Static\jcapimin.obj"
+         "ReleaseLib-Static\jcapistd.obj"
+         "ReleaseLib-Static\jccoefct.obj"
+         "ReleaseLib-Static\jccolor.obj"
+         "ReleaseLib-Static\jcdctmgr.obj"
+         "ReleaseLib-Static\jchuff.obj"
+         "ReleaseLib-Static\jcinit.obj"
+         "ReleaseLib-Static\jcmainct.obj"
+         "ReleaseLib-Static\jcmarker.obj"
+         "ReleaseLib-Static\jcmaster.obj"
+         "ReleaseLib-Static\jcomapi.obj"
+         "ReleaseLib-Static\jcparam.obj"
+         "ReleaseLib-Static\jcphuff.obj"
+         "ReleaseLib-Static\jcprepct.obj"
+         "ReleaseLib-Static\jcsample.obj"
+         "ReleaseLib-Static\jctrans.obj"
+         "ReleaseLib-Static\jdapimin.obj"
+         "ReleaseLib-Static\jdapistd.obj"
+         "ReleaseLib-Static\jdatadst.obj"
+         "ReleaseLib-Static\jdatasrc.obj"
+         "ReleaseLib-Static\jdcoefct.obj"
+         "ReleaseLib-Static\jdcolor.obj"
+         "ReleaseLib-Static\jddctmgr.obj"
+         "ReleaseLib-Static\jdhuff.obj"
+         "ReleaseLib-Static\jdinput.obj"
+         "ReleaseLib-Static\jdmainct.obj"
+         "ReleaseLib-Static\jdmarker.obj"
+         "ReleaseLib-Static\jdmaster.obj"
+         "ReleaseLib-Static\jdmerge.obj"
+         "ReleaseLib-Static\jdphuff.obj"
+         "ReleaseLib-Static\jdpostct.obj"
+         "ReleaseLib-Static\jdsample.obj"
+         "ReleaseLib-Static\jdtrans.obj"
+         "ReleaseLib-Static\jerror.obj"
+         "ReleaseLib-Static\jfdctflt.obj"
+         "ReleaseLib-Static\jfdctfst.obj"
+         "ReleaseLib-Static\jfdctint.obj"
+         "ReleaseLib-Static\jidctflt.obj"
+         "ReleaseLib-Static\jidctfst.obj"
+         "ReleaseLib-Static\jidctint.obj"
+         "ReleaseLib-Static\jidctred.obj"
+         "ReleaseLib-Static\jmemmgr.obj"
+         "ReleaseLib-Static\jmemnobs.obj"
+         "ReleaseLib-Static\jquant1.obj"
+         "ReleaseLib-Static\jquant2.obj"
+         "ReleaseLib-Static\jsimd_i386.obj"
+         "ReleaseLib-Static\jutils.obj"
+         libjpeg-turbo-win.vcxproj -> E:\ultravnc\UltraVNC\winvnc\ReleaseLib-Static\libjpeg-turbo-win.lib
+       FinalizeBuildStatus:
+         Deleting file "ReleaseLib-Static\libjpeg-turbo-win.unsuccessfulbuild".
+         Touching "ReleaseLib-Static\libjpeg-turbo-win.lastbuildstate".
+     1>Done Building Project "E:\ultravnc\UltraVNC\libjpeg-turbo-win\libjpeg-turbo-win.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.53
