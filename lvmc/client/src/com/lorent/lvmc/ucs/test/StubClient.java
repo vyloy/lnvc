@@ -133,5 +133,10 @@ public class StubClient {
 		sendCommand("ucs.answermeeting", confno);
 		return true;
 	}
-	
+
+	public static boolean setconfserverip(String ip){
+		log.info("setconfserverip : ip = "+ip);
+		sendCommand("ucs.setconfserverip", ip);
+		return true;
+	}
 }

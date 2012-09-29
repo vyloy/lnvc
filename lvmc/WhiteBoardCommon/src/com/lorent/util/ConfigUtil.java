@@ -27,6 +27,7 @@ public class ConfigUtil {
     private static Properties properties;
     private static final String[] fileNames = new String[]{"server.conf","lvmc.conf"};
     private static String appPath = System.getProperty("user.dir").replace("\\", "/");
+    private static String userHomePath = System.getProperty("user.home").replace("\\", "/");
     static{
         init();
     }
@@ -36,7 +37,7 @@ public class ConfigUtil {
         InputStreamReader inputStreamReader = null;
         try {
         	for(String fileName:fileNames){
-        		String filepath = appPath + "/" + fileName;
+        		String filepath = userHomePath + "/" + fileName;
         		File file = new File(filepath);
         		if (file.exists()) {
         			inputStreamReader = new InputStreamReader(new FileInputStream(filepath), "UTF-8");
@@ -51,7 +52,7 @@ public class ConfigUtil {
     public static void setProperty(String key,String value) throws Exception{
         properties.setProperty(key, value);
         try {
-            FileOutputStream outputStream = new FileOutputStream(appPath + "/edited.txt");
+            FileOutputStream outputStream = new FileOutputStream(userHomePath + "/edited.txt");
             properties.store(outputStream, "");
             outputStream.close();
         } catch (IOException ex) {

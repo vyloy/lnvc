@@ -9,9 +9,9 @@ public class Stub {
 	private static final String exePort = "20002";
 	private static final String serverIP = "10.168.250.12";
 	private static final int serverPort = 5060;
-	private static final String username = "33012";
+	private static final String username = "33013";
 	private static final String passwd = "123456";
-	private static final String callusername = "33030";
+	private static final String callusername = "33039";
 	private static final String confno = "900003";
 	
 	
@@ -83,7 +83,8 @@ public class Stub {
 				StubClient.setusername(username);
 				StubClient.setpassword(passwd);
 				StubClient.register();
-//				StubClient.callmeeting(confno);
+				StubClient.setconfserverip(serverIP);
+				StubClient.callmeeting(confno);
 			}
 			System.out.println(info);
 			sel = sc.nextInt();

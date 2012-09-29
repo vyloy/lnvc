@@ -2,6 +2,8 @@ package com.lorent.lvmc.ucs;
 
 import org.apache.log4j.Logger;
 
+import com.lorent.common.util.PlatformUtil;
+import com.lorent.common.util.StringUtil;
 import com.lorent.util.LCCUtil;
 
 public class Start {
@@ -16,10 +18,28 @@ public class Start {
 	public static String calling;
 	
 	public void execute(String[] args){
-		log.info("ucs phone module start");
+		String slog = "";
+		for (String string : args) {
+			slog = slog +"  "+string;
+		}
+		log.info("ucs phone module start "+slog);
+		
 		try{
 			int dllPort = Integer.parseInt(args[0]);
 			int myPort = Integer.parseInt(args[1]);
+			if (PlatformUtil.getOSVersion() >= 6.0f) {
+				if (PlatformUtil.isUserAnAdmin() && !args[args.length-1].equals("SECURITY_MANDATORY_MEDIUM_RID")) {
+					String createProcessPath = com.lorent.lvmc.util.Constants.AppPath + "/createprocess.exe";
+					createProcessPath = StringUtil.convertFilePath2DOSCommandStr(createProcessPath);
+					String lvmcPath = com.lorent.lvmc.util.Constants.AppPath + "/lvmc.exe";
+					lvmcPath = StringUtil.convertFilePath2DOSCommandStr(lvmcPath+" "+dllPort+" "+myPort+" SECURITY_MANDATORY_MEDIUM_RID");
+					String cmdStr = createProcessPath+" "+lvmcPath;
+					log.info(cmdStr);
+					Process process = Runtime.getRuntime().exec(cmdStr);
+	                process.waitFor();
+	                System.exit(0);
+				}
+			}
 			UCSClient.init(dllPort);
 			UCSServer.init(myPort);
 			UCSClient.sendMyState(UCSClient.START_SUCCESS);
