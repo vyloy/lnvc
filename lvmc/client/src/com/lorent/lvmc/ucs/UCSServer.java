@@ -311,4 +311,9 @@ public class UCSServer {
 		return true;
 	}
 	
+	public Object[] getconflist()throws Exception{
+		log.info("getconflist");
+		return getLCMUtil().getUCSConf();
+	}
+	
 }
