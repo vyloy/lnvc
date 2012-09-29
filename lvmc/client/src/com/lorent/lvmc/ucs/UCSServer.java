@@ -143,20 +143,10 @@ public class UCSServer {
 	
 	public boolean callmeeting(final String confno){
 		log.info("callmeeting : confno = " + confno);
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try{
-					UIManager.setLookAndFeel(new McWinLookAndFeel());
-					Launcher.startLvmcFromOutSide(new String[]{confno, confno, data.username, data.passwd, ConfigUtil.getProperty("serverIP")}, Constants.AppName.UCS);
-				}catch(Exception e){
-					log.error("callmeeting", e);
-				}
-			}
-		});
+		showConf(confno, false);
 		return true;
 	}
+	
 	private void showConf(final String confno, final boolean isAnswer){
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -315,5 +305,10 @@ public class UCSServer {
 		return LCCUtil.getInstance().setMuteMic(enable);
 	}
 	
+	public boolean answermeeting(String confno){
+		log.info("answermeeting confno = " + confno);
+		showConf(confno, true);
+		return true;
+	}
 	
 }
