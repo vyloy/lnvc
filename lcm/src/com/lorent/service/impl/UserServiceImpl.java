@@ -807,5 +807,11 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 		daoFacade.getStaticDao().saveOrUpdate(data);
 	}
 	
+	@Override
+	public void deleteUCSUser(UserBean user)throws Exception{
+		user.setStatus(Constant.RECORD_STATUS_DELETED);
+		daoFacade.getUserDao().update(user);
+	}
+	
 	
 }
