@@ -8,6 +8,7 @@ import com.lorent.common.component.FadeWindow;
 import com.lorent.common.component.ImageAwtPanel;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.common.util.PlatformUtil;
+import com.lorent.common.util.ProcessUtil;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MemberDto;
 import com.lorent.lvmc.ui.ConfirmDialog;
@@ -610,6 +611,7 @@ public class ShareDesktopController extends BaseController {
 			
             boolean processExists = com.lorent.common.util.ProcessUtil.getInstance().processExists("winvnc.exe");
             if (!processExists) {
+            	/*
             	Double osVersion = PlatformUtil.getOSVersion();
             	if ( osVersion >= 6.0f) {
             		Process startScreenShareProcess = services.getScreenShareService().startScreenShareProcess();
@@ -618,6 +620,9 @@ public class ShareDesktopController extends BaseController {
             	else{
             		services.getScreenShareService().installScreenShareService();
             	}
+            	*/
+            	Process startScreenShareProcess = services.getScreenShareService().startScreenShareProcess();
+            	DataUtil.setValue(DataUtil.Key.ScreenShareProcess, startScreenShareProcess);
             }
 
 			screenshareflag = true;
@@ -648,6 +653,8 @@ public class ShareDesktopController extends BaseController {
 		}
 	}
 
+	
+	
 	public void stopScreenShare() throws Exception {
 		log.info("取消共享桌面");
 		try {
