@@ -455,7 +455,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		Map<String, String> paras = new HashMap<String, String>();
 		paras.put(Constants.VideoParam.VideoEquipment.toString(), String
 				.valueOf(video.getIndex()));
-		ControllerFacade.execute("videoAudioSetupController", "setVideoParas",
+		ControllerFacade.execute("videoAudioSetupController", "setVideoEquimentPara",
 				paras);
 	}
 

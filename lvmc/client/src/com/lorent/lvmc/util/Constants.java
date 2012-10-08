@@ -96,7 +96,7 @@ public class Constants {
     	PixelType,
     	PixelValue,
     	FrameRate,
-    	BandWidth
+    	VideoBitrate
     }
     
     public enum AudioParam{

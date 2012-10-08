@@ -6,10 +6,12 @@
 
 package com.lorent.lvmc.ui;
 
+import java.awt.event.ActionEvent;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.AbstractButton;
 import javax.swing.JLabel;
@@ -29,6 +31,7 @@ import com.lorent.lvmc.util.StringUtil;
  */
 public class VideoSetupDialog extends javax.swing.JDialog {
 
+	private boolean isInitFinish = false;
 	private double bw;
 	private JRadioButton[] highQualityButtons = new JRadioButton[] {
 			new JRadioButton("1920*1080"), new JRadioButton("1280*720"),
@@ -39,6 +42,9 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 			new JRadioButton("352*288"), new JRadioButton("320*240"),
 			new JRadioButton("176*144"), new JRadioButton("160*120") };
 
+	private static Map<String,String> map = new ConcurrentHashMap<String,String>();
+	
+	
 	/** Creates new form VideoSetupDialog */
 	public VideoSetupDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -55,17 +61,30 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 		initData();
 	}
 
-	public void initData() {
-		String pixelType = ConfigUtil.getProperty(
+	public static void setParaMap(){
+		map.put(com.lorent.lvmc.util.Constants.VideoParam.PixelType.toString(), ConfigUtil.getProperty(
 				com.lorent.lvmc.util.Constants.VideoParam.PixelType.toString(),
-				StringUtil.getUIString("video.pixel.standardquality"));
+				StringUtil.getUIString("video.pixel.standardquality")));
+		map.put(Constants.VideoParam.FrameRate.toString(), ConfigUtil.getProperty(
+				Constants.VideoParam.FrameRate.toString(), "15"));
+		map.put(Constants.VideoParam.VideoBitrate.toString(), ConfigUtil
+				.getProperty(Constants.VideoParam.VideoBitrate.toString(),"128"));
+		map.put("videowidth", ConfigUtil.getProperty("videowidth", "640"));
+		map.put("videoheight", ConfigUtil.getProperty("videoheight", "360"));
+		map.put("svideowidth", ConfigUtil.getProperty("svideowidth", "352"));
+		map.put("svideoheight", ConfigUtil.getProperty("svideoheight", "288"));
+	}
+	
+	public void initData() {
+		if(map.size()<1){
+			setParaMap();
+		}
+		String pixelType = map.get(com.lorent.lvmc.util.Constants.VideoParam.PixelType.toString());
 		this.jComboBox1.setSelectedItem(pixelType);
-		int frameRate = ConfigUtil.getIntProperty(
-				Constants.VideoParam.FrameRate.toString(), 15);
+		int frameRate = Integer.parseInt(map.get(Constants.VideoParam.FrameRate.toString()));
 		this.jSlider1.setValue(frameRate);
 		try {
-			double bandWidth = Double.parseDouble(ConfigUtil
-					.getProperty("VideoBitrate","128"));
+			double bandWidth = Double.parseDouble(map.get("VideoBitrate"));
 			int bandWidthValue = computeBandWidthSliderValue(bandWidth);
 			this.jSlider2.setValue(bandWidthValue);
 			setBandwidthLabel(bandWidth);
@@ -75,6 +94,8 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 		setPixelValueButton();
 		
 		setFrameRateLabelValue();
+		isInitFinish = true;
+		this.setVideoParas(false);
 	}
 	
 	public void setBandwidthLabel(double bandWidth){
@@ -710,7 +731,7 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		this.dispose();
-		Map<String, String> paras = new HashMap<String, String>();
+		/*Map<String, String> paras = new HashMap<String, String>();
 		String pixelType = (String) this.jComboBox1.getSelectedItem();
 		paras.put(Constants.VideoParam.PixelType.toString(), pixelType);
 		Enumeration<AbstractButton> buttons = this.pixelbuttonGroup
@@ -728,43 +749,56 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 				.put(Constants.VideoParam.BandWidth.toString(), String
 						.valueOf(bw));
 		ControllerFacade.execute("videoAudioSetupController", "setVideoParas",
-				paras);
+				paras);*/
+		setVideoParas(true);
+	}
+	
+	private void setVideoParas(boolean isSave){
+		Map<String, String> paras = new HashMap<String, String>();
+		String pixelType = (String) this.jComboBox1.getSelectedItem();
+		paras.put(Constants.VideoParam.PixelType.toString(), pixelType);
+		Enumeration<AbstractButton> buttons = this.pixelbuttonGroup
+				.getElements();
+		while (buttons.hasMoreElements()) {
+			JRadioButton button = (JRadioButton) buttons.nextElement();
+			if (button.isSelected()) {
+				paras.put(Constants.VideoParam.PixelValue.toString(), button
+						.getText());
+				break;
+			}
+		}
+		paras.put(Constants.VideoParam.FrameRate.toString(), String
+				.valueOf(this.jSlider1.getValue()));
+		paras
+				.put(Constants.VideoParam.VideoBitrate.toString(), String
+						.valueOf((int)bw));
+		ControllerFacade.execute("videoAudioSetupController", "setVideoParas",
+				paras,isSave);
+	}
+	
+	private void restoreVideoParas(){
+		Map<String, String> paras = new HashMap<String, String>();
+		paras.putAll(map);
+		if(paras.get(Constants.VideoParam.PixelType.toString()).equals(StringUtil
+				.getUIString("video.pixel.highquality"))){
+				paras.put(Constants.VideoParam.PixelValue.toString(), paras.get("videowidth")+"*"+paras.get("videoheight"));
+			}else{
+				paras.put(Constants.VideoParam.PixelValue.toString(), paras.get("svideowidth")+"*"+paras.get("svideoheight"));
+			}
+		ControllerFacade.execute("videoAudioSetupController", "setVideoParas",
+				paras,false);
 	}
 
 	private void jSlider2StateChanged(javax.swing.event.ChangeEvent evt) {
 		setBandWidthLabelValue();
-		if (!this.jSlider2.getValueIsAdjusting()) {
-			Map<String, String> paras = new HashMap<String, String>();
-			paras.put(Constants.VideoParam.BandWidth.toString(), String
-					.valueOf(bw));
-			ControllerFacade.execute("videoAudioSetupController",
-					"setVideoParas", paras);
+		if (!this.jSlider2.getValueIsAdjusting() && isInitFinish) {
+//			Map<String, String> paras = new HashMap<String, String>();
+//			paras.put(Constants.VideoParam.VideoBitrate.toString(), String
+//					.valueOf(bw));
+//			ControllerFacade.execute("videoAudioSetupController",
+//					"setVideoParas", paras);
+			setVideoParas(false);
 		}
-		//		javax.swing.JSlider source = (javax.swing.JSlider) evt.getSource();
-		//		double fps = (double) source.getValue();
-		//		double value = computeBandWidth(fps);
-		//		if(value>=1024){
-		//			value = value/1024;
-		//			value = MathUtil.getTwoDecimal(value);
-		//			this.bandwidthLabel.setText(String.valueOf(value) + " Mbps");
-		//		}else{
-		//			this.bandwidthLabel.setText(String.valueOf(value)
-		//					+ " Kbps");
-		//		}
-		//		if (value >= 1) {
-		//			value = MathUtil.getTwoDecimal(value);
-		//			this.bandwidthLabel.setText(String.valueOf(value) + " Mbps");
-		//		} else {
-		//			if(fps==1){
-		//				this.bandwidthLabel.setText(String.valueOf(1)
-		//						+ " Kbps");
-		//			}else{
-		//				this.bandwidthLabel.setText(String.valueOf((int) (value * 1000))
-		//						+ " Kbps");
-		//			}
-		//			
-		//		}
-
 	}
 
 	private void setBandWidthLabelValue() {
@@ -812,19 +846,32 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 		pixelbuttonGroup = new javax.swing.ButtonGroup();
 		this.pixelButtonPanel.removeAll();
 		pixelButtonPanel.setLayout(new java.awt.GridLayout(6, 1));
-		String videowidth = ConfigUtil.getProperty("videowidth", "352");
-		String videoheight = ConfigUtil.getProperty("videoheight", "288");
+		String videowidth = map.get("videowidth");
+		String videoheight = map.get("videoheight");
 		String pixelValue = videowidth + "*" + videoheight;
-
+		String svideowidth = map.get("svideowidth");
+		String svideoheight = map.get("svideoheight");
+		String spixelValue = svideowidth + "*" + svideoheight;
 		if (pixelType.equals(StringUtil
 				.getUIString("video.pixel.highquality"))) {
 			for (int i = 0; i < this.highQualityButtons.length; i++) {
 				pixelbuttonGroup.add(highQualityButtons[i]);
 				this.pixelButtonPanel.add(highQualityButtons[i]);
+				highQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JRadioButton btn = (JRadioButton)e.getSource();
+						btn.setSelected(true);
+						setVideoParas(false);
+					}
+					
+				});
 				if (pixelValue != null
 						&& pixelValue.equals(highQualityButtons[i]
 								.getText())) {
 					highQualityButtons[i].setSelected(true);
+				}else{
+					highQualityButtons[i].setSelected(false);
 				}
 			}
 		} else if (pixelType.equals(StringUtil
@@ -832,10 +879,21 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 			for (int i = 0; i < this.standardQualityButtons.length; i++) {
 				pixelbuttonGroup.add(standardQualityButtons[i]);
 				this.pixelButtonPanel.add(standardQualityButtons[i]);
-				if (pixelValue != null
-						&& pixelValue.equals(standardQualityButtons[i]
+				standardQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JRadioButton btn = (JRadioButton)e.getSource();
+						btn.setSelected(true);
+						setVideoParas(false);
+					}
+					
+				});
+				if (spixelValue != null
+						&& spixelValue.equals(standardQualityButtons[i]
 								.getText())) {
 					standardQualityButtons[i].setSelected(true);
+				}else{
+					standardQualityButtons[i].setSelected(false);
 				}
 			}
 		}
@@ -845,8 +903,9 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 	}
 
 	private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {
-		if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+		if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED && isInitFinish) {
 			setPixelValueButton();
+			setVideoParas(false);
 		}
 	}
 
@@ -857,12 +916,13 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 
 	private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {
 		setFrameRateLabelValue();
-		if (!this.jSlider1.getValueIsAdjusting()) {
-			Map<String, String> paras = new HashMap<String, String>();
-			paras.put(Constants.VideoParam.FrameRate.toString(), String
-					.valueOf(this.jSlider1.getValue()));
-			ControllerFacade.execute("videoAudioSetupController",
-					"setVideoParas", paras);
+		if (!this.jSlider1.getValueIsAdjusting() && isInitFinish) {
+//			Map<String, String> paras = new HashMap<String, String>();
+//			paras.put(Constants.VideoParam.FrameRate.toString(), String
+//					.valueOf(this.jSlider1.getValue()));
+//			ControllerFacade.execute("videoAudioSetupController",
+//					"setVideoParas", paras);
+			setVideoParas(false);
 		}
 	}
 
@@ -879,6 +939,7 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
 		this.dispose();
+		restoreVideoParas();
 	}
 
 	/**
