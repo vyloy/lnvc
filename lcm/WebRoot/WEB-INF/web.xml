@@ -119,7 +119,12 @@
   </listener>
   <context-param>
   	<param-name>contextConfigLocation</param-name>
-  	<param-value>/WEB-INF/applicationContext-*.xml</param-value>
+  	<param-value>
+  		/WEB-INF/applicationContext-dao.xml,
+	  	/WEB-INF/applicationContext-service.xml,
+	  	/WEB-INF/applicationContext-action.xml,
+	  	/WEB-INF/applicationContext-security.xml
+  	</param-value>
   </context-param>
   <!-- image code servlet -->
   <servlet>
