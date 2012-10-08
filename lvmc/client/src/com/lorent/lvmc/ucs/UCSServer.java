@@ -323,7 +323,7 @@ public class UCSServer {
 	 */
 	public boolean addorupdateuser(Object[] users)throws Exception{
 		for(Object user : users){
-			String[] temp = (String[])user;
+			Object[] temp = (Object[])user;
 			log.info("addOrUpdateUser username = " + temp[0] + " & realname = " + temp[1] + " & lccno = " + temp[2] + " & passwd = " + temp[3]);
 		}
 		getLCMUtil().addOrUpdateUCSUser(users);
