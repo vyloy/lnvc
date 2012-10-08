@@ -3,7 +3,9 @@ package com.lorent.lvmc.ucs;
 import org.apache.log4j.Logger;
 
 import com.lorent.common.util.PlatformUtil;
+import com.lorent.common.util.ProcessUtil;
 import com.lorent.common.util.StringUtil;
+import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.util.LCCUtil;
 
 public class Start {
@@ -25,6 +27,7 @@ public class Start {
 		log.info("ucs phone module start "+slog);
 		
 		try{
+			clearScreenShare();
 			int dllPort = Integer.parseInt(args[0]);
 			int myPort = Integer.parseInt(args[1]);
 			if (PlatformUtil.getOSVersion() >= 6.0f) {
@@ -53,6 +56,19 @@ public class Start {
 			}
 			System.exit(0);
 		}
+	}
+	
+	private void clearScreenShare() throws Exception{
+		if (ProcessUtil.getInstance().processExists("winvnc.exe")) {
+    		log.info("clearScreenShare taskkill winvnc");
+    		Process process = Runtime.getRuntime().exec("cmd /c taskkill /f /im winvnc.exe /t ");
+            process.waitFor();
+            log.info("clearScreenShare taskkill winvnc end");
+		}
+		log.info("clearScreenShare  delete service");
+		Process process = Runtime.getRuntime().exec("cmd /c sc delete uvnc_service");
+        process.waitFor();
+        log.info("clearScreenShare delete service end");
 	}
 	
 	private class HeartThread extends Thread{

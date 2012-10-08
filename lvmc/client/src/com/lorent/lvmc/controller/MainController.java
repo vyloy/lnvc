@@ -258,6 +258,7 @@ public class MainController extends BaseController{
 			            
 			            boolean processExists = com.lorent.common.util.ProcessUtil.getInstance().processExists("winvnc.exe");
 			            if (!processExists) {
+			            	/*
 			            	if ( osVersion >= 6.0f) {
 								//higher than Vista
 				            	Process startScreenShareProcess = services.getScreenShareService().startScreenShareProcess();
@@ -266,6 +267,9 @@ public class MainController extends BaseController{
 				            else{
 				            	services.getScreenShareService().installScreenShareService();
 				            }
+			            	*/
+			            	Process startScreenShareProcess = services.getScreenShareService().startScreenShareProcess();
+			            	DataUtil.setValue(DataUtil.Key.ScreenShareProcess, startScreenShareProcess);
 						}
 					} catch (Exception e) {
 						log.error("",e);
