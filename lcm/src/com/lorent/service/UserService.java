@@ -79,4 +79,5 @@ public interface UserService extends IGenericService<UserDao,UserBean, Integer>,
 	public static final int COMMENT=11;
 	
 	public void createOrUpdateUCSUser(Object[] users)throws Exception;
+	public void deleteUCSUser(UserBean user) throws Exception;
 }
