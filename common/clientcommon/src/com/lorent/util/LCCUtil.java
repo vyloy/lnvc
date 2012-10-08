@@ -408,18 +408,6 @@ public class LCCUtil {
     
     private native int senddtmf(int callindex, int type, String dtmf);
     
-//    private native int start_video(int callindex);
-//    
-//    private native int stop_video(int callindex);
-    
-//    private native int start_local_video(int callindex, long hwnd);
-//    
-//    private native int stop_local_video(int callindex);
-//    
-//    private native int start_remote_video(int callindex, long hwnd);
-//    
-//    private native int stop_remote_video(int callindex);
-    
     private native int holdcall(int callindex, int enable);
     
     private native int transfercall(int call_index, String sipUrl);
@@ -427,6 +415,8 @@ public class LCCUtil {
     private native int setplaybackmute(int callindex, int enable);
     
     private native int setcaptruremute(int enable);
+    
+    private native int setvideoproperty(int fps, int bitrate, int width, int height);
     //===========================================================================
     
     static {
@@ -840,6 +830,19 @@ public class LCCUtil {
     		return this.transfercall(callindex, transferTo);
     	}
     	return FAIL;
+    }
+    
+    /**
+     * 动态设置视频参数
+     * @param fps 帧率
+     * @param bitrate 码流
+     * @param width 视频宽度
+     * @param height 视频高度
+     * @return
+     */
+    public int setVideoProperty(int fps, int bitrate, int width, int height){
+    	log.info("setVideoProperty fps = " + fps + " & bitrate = " + bitrate + " & width = " + width + " & height = " + height);
+    	return this.setvideoproperty(fps, bitrate, width, height);
     }
     
     
