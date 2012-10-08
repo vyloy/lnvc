@@ -316,4 +316,18 @@ public class UCSServer {
 		return getLCMUtil().getUCSConf();
 	}
 	
+	/**
+	 * 
+	 * @param users 每一个Object是String[],其中Str[0]=username,Str[1]=realname,Str[2]=lccno,Str[3]=passwd
+	 * @return
+	 */
+	public boolean addorupdateuser(Object[] users)throws Exception{
+		for(Object user : users){
+			String[] temp = (String[])user;
+			log.info("addOrUpdateUser username = " + temp[0] + " & realname = " + temp[1] + " & lccno = " + temp[2] + " & passwd = " + temp[3]);
+		}
+		getLCMUtil().addOrUpdateUCSUser(users);
+		return true;
+	}
+	
 }
