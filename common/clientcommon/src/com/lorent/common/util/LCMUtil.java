@@ -144,13 +144,32 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.revokeConfAuthority", new Object[]{confNo,lccno,roleName});
     }
     
-    public static void main2(String[] args) throws Exception{
+    public Object[] getUCSConf()throws Exception{
+    	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
+    }
+    
+	/**
+	 * 
+	 * @param users 每一个Object是String[],其中Str[0]=username,Str[1]=realname,Str[2]=lccno,Str[3]=passwd
+	 * @return
+	 */
+    public void addOrUpdateUCSUser(Object[] users)throws Exception{
+    	client.execute("lcmUser.addOrUpdateUCSUser", new Object[]{users});
+    }
+    
+    public static void main(String[] args) throws Exception{
         String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
-        lcm.removeUCSConf("33012", "900001");
+        String[] str = new String[4];
+        str[0] = "testUser";
+        str[1] = "testR";
+        str[2] = "102";
+        str[3] = "1234";
+        lcm.addOrUpdateUCSUser(new Object[]{str});
+        
 	}
     
-    public static void main(String[] args)throws Exception {
+    public static void main2(String[] args)throws Exception {
 //        String m=LCMUtil.newInstance("http://127.0.0.1:6090/lcm/lcmRpc").getWhiteBoardNumber("416997");
 //        LCMRoleDto ms=LCMUtil.getMyRoleAndPermission("416997","41742");
 //        System.out.println("================"+ms);

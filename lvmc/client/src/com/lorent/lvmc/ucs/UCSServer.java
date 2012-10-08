@@ -1,5 +1,7 @@
 package com.lorent.lvmc.ucs;
 
+import java.util.Date;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -11,6 +13,8 @@ import org.apache.xmlrpc.webserver.WebServer;
 
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.PlatformUtil;
+import com.lorent.common.util.StringUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
@@ -49,7 +53,7 @@ public class UCSServer {
         webServer.start();
 	}
 	
-	public boolean init(){
+	public boolean init() throws Exception{
 		log.info("init()");
 		LCCUtil.getInstance().addEventListener(new MyJNIListener());
 		LCCUtil.getInstance().setVideo(true, null);
@@ -126,6 +130,15 @@ public class UCSServer {
 	public int answercall(String username){
 		log.info("answercall : username = " + username);
 		return LCCUtil.getInstance().doAnswer(username);
+	}
+	
+	public boolean setconfserverip(String ip){
+		try {
+			ConfigUtil.setProperty("serverIP", ip);
+		} catch (Exception e) {
+			log.error("setconfserverip", e);
+		}
+		return true;
 	}
 	
 	public boolean callmeeting(final String confno){
@@ -297,4 +310,10 @@ public class UCSServer {
 		showConf(confno, true);
 		return true;
 	}
+	
+	public Object[] getconflist()throws Exception{
+		log.info("getconflist");
+		return getLCMUtil().getUCSConf();
+	}
+	
 }

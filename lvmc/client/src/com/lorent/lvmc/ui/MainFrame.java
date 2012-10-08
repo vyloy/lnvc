@@ -33,9 +33,9 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.controller.ViewManager;
+import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
 import com.lorent.lvmc.util.StringUtil;
-import com.lorent.util.ConfigUtil;
 
 /**
  *

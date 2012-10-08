@@ -261,4 +261,8 @@ public class StaticDao extends HibernateDaoSupport implements Serializable{
 			save(sp);
 		}
 	}
+	
+	public <T> void saveOrUpdate(List<T> list){
+		getHibernateTemplate().saveOrUpdateAll(list);
+	}
 }

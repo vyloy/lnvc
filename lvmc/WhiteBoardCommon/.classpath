@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/mina-core-2.0.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/fastjson-1.1.20.jar" sourcepath="D:/Java/fastjson-1.1.20-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fastjson-1.1.20.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/logback-classic-1.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/logback-core-1.0.0.jar"/>
