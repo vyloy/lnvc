@@ -220,7 +220,7 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 		//画背景颜色
 		Graphics2D g2 = (Graphics2D) g;
 		Color color = g2.getColor();
-		g2.setComposite(AlphaComposite.getInstance(3, 0.3F));
+		g2.setComposite(AlphaComposite.getInstance(3, 0.4F));
 		g2.setColor(Color.BLACK);
 		g2.fillRect(scaleImgX, scaleImgY, scaleImgWidth, scaleImgHeigth);
 		g2.setColor(color);

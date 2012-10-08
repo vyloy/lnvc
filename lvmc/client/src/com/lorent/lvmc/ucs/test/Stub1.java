@@ -5,8 +5,8 @@ import java.util.Scanner;
 import com.lorent.lvmc.ucs.Start;
 
 public class Stub1 {
-	private static final String dllPort = "20006";
-	private static final String exePort = "20009";
+	private static final String dllPort = "20003";
+	private static final String exePort = "20004";
 	private static final String serverIP = "10.168.250.12";
 	private static final int serverPort = 5060;
 	private static final String username = "32121";

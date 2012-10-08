@@ -18,11 +18,11 @@ public class TestCustomHeadFrame extends javax.swing.JFrame {
 	/** Creates new form TestCustomHeadFrame */
 	public TestCustomHeadFrame() {
 		initComponents();
-//		CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
-//				"C://Documents and Settings//test//桌面//QQ截图20120910145040.jpg");
-		//截图.png
 		CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
-		"C://Documents and Settings//test//桌面//head_1.jpg");
+				"C://Documents and Settings//test//桌面//QQ截图20120910145040.jpg");
+//		截图.png
+//		CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
+//		"C://Documents and Settings//test//桌面//head_1.jpg");
 		System.out.println("h:" + customHeadOperatePanel.getPreferredSize().height + ";" + "w:"
 				+ customHeadOperatePanel.getPreferredSize().width);
 		jPanel1.add(customHeadOperatePanel);
