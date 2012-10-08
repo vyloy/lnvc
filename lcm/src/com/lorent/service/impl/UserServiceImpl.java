@@ -2,6 +2,7 @@ package com.lorent.service.impl;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -773,6 +774,37 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 		}
 		result.append(db.getDepartmentName());
 		return result.toString();
+	}
+
+	/**
+	 * 
+	 * @param users 每一个Object是String[],其中Str[0]=username,Str[1]=realname,Str[2]=lccno,Str[3]=passwd
+	 * @return
+	 */
+	@Override
+	public void createOrUpdateUCSUser(Object[] users)throws Exception{
+		List<UserBean> data = new ArrayList<UserBean>();
+		CustomerBean customer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		DepartmentBean rootDepartment = serviceFacade.getCustomerService().getRootDepartment(customer.getId());
+		for(Object user : users){
+			Object[] values = (Object[])user;
+			UserBean temp = new UserBean();
+			temp.setUsername(values[0].toString());
+			temp.setStatus(Constant.RECORD_STATUS_VALID);
+			List<UserBean> result = serviceFacade.getUserService().getByExample(temp);
+			if(result == null || result.size() == 0){//不存在
+				temp.setCustomer(customer);
+				temp.setDepartment(rootDepartment);
+			}else{
+				temp = result.get(0);
+			}
+			temp.setRealName(values[1].toString());
+			temp.setLccAccount(values[2].toString());
+			temp.setPassword(MD5Builder.getMD5(values[3].toString(),values[0].toString()));
+			temp.setMd5passwd(MD5Builder.getMD5(values[3].toString()));
+			data.add(temp);
+		}
+		daoFacade.getStaticDao().saveOrUpdate(data);
 	}
 	
 	

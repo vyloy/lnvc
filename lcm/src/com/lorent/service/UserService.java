@@ -77,4 +77,6 @@ public interface UserService extends IGenericService<UserDao,UserBean, Integer>,
 	public static final int PASSWORD=9;
 	public static final int LCC_NO=10;
 	public static final int COMMENT=11;
+	
+	public void createOrUpdateUCSUser(Object[] users)throws Exception;
 }
