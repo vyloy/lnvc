@@ -764,6 +764,7 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 			if (button.isSelected()) {
 				paras.put(Constants.VideoParam.PixelValue.toString(), button
 						.getText());
+				break;
 			}
 		}
 		paras.put(Constants.VideoParam.FrameRate.toString(), String
