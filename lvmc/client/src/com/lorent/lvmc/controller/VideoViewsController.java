@@ -588,6 +588,7 @@ public class VideoViewsController extends BaseController {
     
     public void loadVideoIntoVideoViewsPanelItem(MemberDto data,VideoViewsPanelItem targetPanelItem) throws Exception{
         targetPanelItem.setConfno(DataUtil.getLoginInfo().getConfno());
+        java.awt.Dimension originSize = targetPanelItem.getPreferredSize();
         if (targetPanelItem.isViewingVideo()) {
             targetPanelItem.disableVideo();
         }
@@ -600,6 +601,7 @@ public class VideoViewsController extends BaseController {
         targetPanelItem.enableVideo();
         targetPanelItem.setViewingVideo(true);
         targetPanelItem.getButtonPanel().setVisible(true);
+        targetPanelItem.setPreferredSize(originSize);
     }
     
     private VideoViewsPanelItem addVideoIntoVideoViewsPanel(String confno, String lccUserName, String nickName) throws Exception{
@@ -700,6 +702,7 @@ public class VideoViewsController extends BaseController {
         else if (source instanceof VideoViewsPanelItem) {
             VideoViewsPanelItem sourceItem = (VideoViewsPanelItem) source;
             if (targetPanelItem != null) {
+            	java.awt.Dimension originSize = targetPanelItem.getPreferredSize();
                 VideoViewsPanel videoViewsPanel = ViewManager.getComponent(VideoViewsPanel.class);
                 String meetingID1 = sourceItem.getConfno();
                 String sTemp1 = sourceItem.getLccUserName();
@@ -776,6 +779,8 @@ public class VideoViewsController extends BaseController {
                 if (changedLayoutName.equals(defLayoutName) && targetPanelItem.equals(individual)){
                     changeLayout(changedLayoutName);
                 }
+                targetPanelItem.setPreferredSize(originSize);
+                reflash(videoViewsPanel);
                 printLogicIndex();
             }
         }
