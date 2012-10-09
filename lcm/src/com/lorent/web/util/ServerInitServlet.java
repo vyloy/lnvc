@@ -74,8 +74,8 @@ public class ServerInitServlet extends GenericServlet implements Servlet {
 	private void startUcstarSync() {
 		String ip = PropertiesUtil.getConstant("ucstar.ip");
 		String port = PropertiesUtil.getConstant("ucstar.port");
-		String delete = PropertiesUtil.getConstant("ucstar.deleteSync");
-		String all = PropertiesUtil.getConstant("ucstar.allSync");
+		String delete = PropertiesUtil.getConstant("ucstar.deleteSync",null);
+		String all = PropertiesUtil.getConstant("ucstar.allSync",null);
 		ConfigProcesser dc = ConfigProcesser.parse(delete);
 		ConfigProcesser ac = ConfigProcesser.parse(all);
 		if(dc==null&&ac==null)
