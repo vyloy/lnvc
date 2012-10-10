@@ -24,6 +24,7 @@ import com.lorent.lvmc.util.Constants;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.MathUtil;
 import com.lorent.lvmc.util.StringUtil;
+import com.lorent.lvmc.util.VideoAudioSetupUtil;
 
 /**
  *
@@ -753,7 +754,7 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 		setVideoParas(true);
 	}
 	
-	private void setVideoParas(boolean isSave){
+	public void setVideoParas(boolean isSave){
 		Map<String, String> paras = new HashMap<String, String>();
 		String pixelType = (String) this.jComboBox1.getSelectedItem();
 		paras.put(Constants.VideoParam.PixelType.toString(), pixelType);
@@ -852,7 +853,7 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 		String svideowidth = map.get("svideowidth");
 		String svideoheight = map.get("svideoheight");
 		String spixelValue = svideowidth + "*" + svideoheight;
-		if (pixelType.equals(StringUtil
+		/*if (pixelType.equals(StringUtil
 				.getUIString("video.pixel.highquality"))) {
 			for (int i = 0; i < this.highQualityButtons.length; i++) {
 				pixelbuttonGroup.add(highQualityButtons[i]);
@@ -896,12 +897,16 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 					standardQualityButtons[i].setSelected(false);
 				}
 			}
-		}
+		}*/
+		VideoPixelButtonSetAction buttonSetAction = (VideoPixelButtonSetAction)VideoAudioSetupUtil.getAction(pixelType, VideoPixelButtonSetAction.class.getName());
+		buttonSetAction.execute(pixelValue, spixelValue, highQualityButtons, standardQualityButtons, pixelbuttonGroup, pixelButtonPanel, this);
 		this.pixelButtonPanel.revalidate();
 		this.pixelButtonPanel.repaint();
 		this.repaint();
 	}
 
+	
+	
 	private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {
 		if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED && isInitFinish) {
 			setPixelValueButton();

@@ -85,7 +85,7 @@ public class PhoneController extends BaseController {
 //					width = ConfigUtil.getIntProperty("svideowidth", 352);
 //					height = ConfigUtil.getIntProperty("svideoheight", 288);
 //				}
-				VideoAudioSetupUtil.GetAction action = (VideoAudioSetupUtil.GetAction)VideoAudioSetupUtil.getAction(pixType, VideoAudioSetupUtil.GetAction.class.getName());
+				VideoAudioSetupUtil.GetVideoPixConfigAction action = (VideoAudioSetupUtil.GetVideoPixConfigAction)VideoAudioSetupUtil.getAction(pixType, VideoAudioSetupUtil.GetVideoPixConfigAction.class.getName());
 				int[] pix = action.execute();
 				width = pix[0];
 				height = pix[1];

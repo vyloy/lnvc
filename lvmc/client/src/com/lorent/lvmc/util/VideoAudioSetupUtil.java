@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lorent.lvmc.ui.VideoPixelButtonSetAction;
+import com.lorent.lvmc.ui.HighQualityVideoPixelButtonSetAction;
+import com.lorent.lvmc.ui.StandardQualityVideoPixelButtonSetAction;
+
 public class VideoAudioSetupUtil {
 
 	private static Map<String,HashMap<String,Object>> map = new ConcurrentHashMap<String,HashMap<String,Object>>();
@@ -11,11 +15,15 @@ public class VideoAudioSetupUtil {
 	static{
 		VideoAudioSetupUtil util = new VideoAudioSetupUtil();
 		HashMap<String,Object> highQualityPerforms = new HashMap<String,Object>();
-		highQualityPerforms.put(SetAction.class.getName(), util.new SetHighQualityAction());
-		highQualityPerforms.put(GetAction.class.getName(), util.new GetHighQualityAction());
+		highQualityPerforms.put(SetVideoPixelConfigAction.class.getName(), util.new SetHighQualityVideoPixelConfigAction());
+		highQualityPerforms.put(GetVideoPixConfigAction.class.getName(), util.new GetHighQualityVideoPixelConfigAction());
+		highQualityPerforms.put(VideoPixelButtonSetAction.class.getName(), new HighQualityVideoPixelButtonSetAction());
+		
 		HashMap<String,Object> standardQualityPerforms = new HashMap<String,Object>();
-		standardQualityPerforms.put(SetAction.class.getName(), util.new SetStandardQualityAction());
-		standardQualityPerforms.put(GetAction.class.getName(), util.new GetStandardQualityAction());
+		standardQualityPerforms.put(SetVideoPixelConfigAction.class.getName(), util.new SetStandardQualityVideoPixelConfigAction());
+		standardQualityPerforms.put(GetVideoPixConfigAction.class.getName(), util.new GetStandardQualityVideoPixelConfigAction());
+		standardQualityPerforms.put(VideoPixelButtonSetAction.class.getName(), new StandardQualityVideoPixelButtonSetAction());
+		
 		map.put(StringUtil.getUIString("video.pixel.highquality"), highQualityPerforms);
 		map.put(StringUtil.getUIString("video.pixel.standardquality"), standardQualityPerforms);
 	}
@@ -29,11 +37,11 @@ public class VideoAudioSetupUtil {
 		return obj;
 	}
 	
-	public abstract class SetAction{
+	public abstract class SetVideoPixelConfigAction{
 		public abstract void execute(int w,int h);
 	}
 	
-	public class SetHighQualityAction extends SetAction{
+	public class SetHighQualityVideoPixelConfigAction extends SetVideoPixelConfigAction{
 		public void execute(int w,int h){
 			try{
 				ConfigUtil.setProperty("videoheight", String.valueOf(h));
@@ -44,7 +52,7 @@ public class VideoAudioSetupUtil {
 		}
 	}
 	
-	public class SetStandardQualityAction extends SetAction{
+	public class SetStandardQualityVideoPixelConfigAction extends SetVideoPixelConfigAction{
 		public void execute(int w,int h){
 			try{
 				ConfigUtil.setProperty("svideoheight", String.valueOf(h));
@@ -55,11 +63,11 @@ public class VideoAudioSetupUtil {
 		}
 	}
 	
-	public abstract class GetAction{
+	public abstract class GetVideoPixConfigAction{
 		public abstract int[] execute();
 	}
 	
-	public class GetHighQualityAction extends GetAction{
+	public class GetHighQualityVideoPixelConfigAction extends GetVideoPixConfigAction{
 		public int[] execute(){
 			int[] pix = new int[2];
 			try{
@@ -72,7 +80,7 @@ public class VideoAudioSetupUtil {
 		}
 	}
 	
-	public class GetStandardQualityAction extends GetAction{
+	public class GetStandardQualityVideoPixelConfigAction extends GetVideoPixConfigAction{
 		public int[] execute(){
 			int[] pix = new int[2];
 			try{

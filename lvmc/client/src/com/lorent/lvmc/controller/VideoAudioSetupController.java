@@ -69,7 +69,7 @@ public class VideoAudioSetupController extends BaseController {
 //				ConfigUtil.setProperty("svideoheight", String.valueOf(vh));
 //				ConfigUtil.setProperty("svideowidth", String.valueOf(vw));
 //			}
-			VideoAudioSetupUtil.SetAction action = (VideoAudioSetupUtil.SetAction)VideoAudioSetupUtil.getAction(paras.get(Constants.VideoParam.PixelType.toString()), VideoAudioSetupUtil.SetAction.class.getName());
+			VideoAudioSetupUtil.SetVideoPixelConfigAction action = (VideoAudioSetupUtil.SetVideoPixelConfigAction)VideoAudioSetupUtil.getAction(paras.get(Constants.VideoParam.PixelType.toString()), VideoAudioSetupUtil.SetVideoPixelConfigAction.class.getName());
 			action.execute(vw, vh);
 			ConfigUtil.setProperty(Constants.VideoParam.PixelType.toString(), paras.get(Constants.VideoParam.PixelType.toString()));
 			ConfigUtil.setProperty(Constants.VideoParam.VideoBitrate.toString(), paras.get(Constants.VideoParam.VideoBitrate.toString()));
