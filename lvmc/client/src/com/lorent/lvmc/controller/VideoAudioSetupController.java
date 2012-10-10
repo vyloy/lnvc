@@ -8,6 +8,7 @@ import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.StringUtil;
+import com.lorent.lvmc.util.VideoAudioSetupUtil;
 import com.lorent.util.LCCUtil;
 
 public class VideoAudioSetupController extends BaseController {
@@ -60,14 +61,16 @@ public class VideoAudioSetupController extends BaseController {
 		}
 		LCCUtil.getInstance().setVideoProperty(fps, bitRate, vw, vh);
 		if(isSave){
-			if(paras.get(Constants.VideoParam.PixelType.toString()).equals(StringUtil
-				.getUIString("video.pixel.highquality"))){
-				ConfigUtil.setProperty("videoheight", String.valueOf(vh));
-				ConfigUtil.setProperty("videowidth", String.valueOf(vw));
-			}else{
-				ConfigUtil.setProperty("svideoheight", String.valueOf(vh));
-				ConfigUtil.setProperty("svideowidth", String.valueOf(vw));
-			}
+//			if(paras.get(Constants.VideoParam.PixelType.toString()).equals(StringUtil
+//				.getUIString("video.pixel.highquality"))){
+//				ConfigUtil.setProperty("videoheight", String.valueOf(vh));
+//				ConfigUtil.setProperty("videowidth", String.valueOf(vw));
+//			}else{
+//				ConfigUtil.setProperty("svideoheight", String.valueOf(vh));
+//				ConfigUtil.setProperty("svideowidth", String.valueOf(vw));
+//			}
+			VideoAudioSetupUtil.SetAction action = (VideoAudioSetupUtil.SetAction)VideoAudioSetupUtil.getAction(paras.get(Constants.VideoParam.PixelType.toString()), VideoAudioSetupUtil.SetAction.class.getName());
+			action.execute(vw, vh);
 			ConfigUtil.setProperty(Constants.VideoParam.PixelType.toString(), paras.get(Constants.VideoParam.PixelType.toString()));
 			ConfigUtil.setProperty(Constants.VideoParam.VideoBitrate.toString(), paras.get(Constants.VideoParam.VideoBitrate.toString()));
 			ConfigUtil.setProperty(Constants.VideoParam.FrameRate.toString(), paras.get(Constants.VideoParam.FrameRate.toString()));
