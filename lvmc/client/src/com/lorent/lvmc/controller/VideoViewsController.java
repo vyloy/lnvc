@@ -740,47 +740,39 @@ public class VideoViewsController extends BaseController {
                 sourceItem.setLccUserName(sTemp2);
                 sourceItem.setNickName(sNickName2);
                 sourceItem.setConfno(meetingID2);
+                
                 if (sTemp1 == null || sTemp1.equals("")) {
                     targetPanelItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/nothing.png")));
                     targetPanelItem.getButtonPanel().setVisible(false);
                 } else {
                     targetPanelItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/screen.png")));
-                    Thread.sleep(100);
                     targetPanelItem.getVideoPanel().DrawImage();
                     targetPanelItem.getButtonPanel().setVisible(true);
+                }
+                if (viewing1) {
+                	targetPanelItem.setViewingVideo(true);
+                	targetPanelItem.changeVideo();
+                	Thread.sleep(100);
+                }
+                if (viewing2) {
+                	sourceItem.setViewingVideo(true);
+                	sourceItem.changeVideo();
+                	Thread.sleep(100);
                 }
                 if (sTemp2 == null || sTemp2.equals("")) {
                     sourceItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/nothing.png")));
                     sourceItem.getButtonPanel().setVisible(false);
                 } else {
                     sourceItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/screen.png")));
-                    Thread.sleep(100);
                     sourceItem.getVideoPanel().DrawImage();
                     sourceItem.getButtonPanel().setVisible(true);
                 }
 
-                sourceItem.getVideoPanel().repaint();
-                Thread.sleep(100);
-                reflash(videoViewsPanel);
-
-                if (viewing1) {
-//                    targetPanelItem.enableVideo();
-                    targetPanelItem.setViewingVideo(true);
-//                    changeVideo(meetingID, sTemp1, panelItem.getVideoPanel());
-                    targetPanelItem.changeVideo();
-                }
-                if (viewing2) {
-//                    sourceItem.enableVideo();
-                    sourceItem.setViewingVideo(true);
-//                    changeVideo(meetingID, sTemp2, sourceItem.getVideoPanel());
-                    sourceItem.changeVideo();
-                }
-                
                 if (changedLayoutName.equals(defLayoutName) && targetPanelItem.equals(individual)){
                     changeLayout(changedLayoutName);
                 }
                 targetPanelItem.setPreferredSize(originSize);
-                reflash(videoViewsPanel);
+//                reflash(videoViewsPanel);
                 printLogicIndex();
             }
         }
