@@ -37,7 +37,8 @@ public class VideoSetupDialog extends javax.swing.JDialog {
 	private JRadioButton[] highQualityButtons = new JRadioButton[] {
 			new JRadioButton("1920*1080"), new JRadioButton("1280*720"),
 			new JRadioButton("640*360"), new JRadioButton("960*540"),
-			new JRadioButton("1280*800"), new JRadioButton("1024*768") };
+			//new JRadioButton("1280*800"), 
+			new JRadioButton("1024*768") };
 	private JRadioButton[] standardQualityButtons = new JRadioButton[] {
 			new JRadioButton("720*576"), new JRadioButton("640*480"),
 			new JRadioButton("352*288"), new JRadioButton("320*240"),
