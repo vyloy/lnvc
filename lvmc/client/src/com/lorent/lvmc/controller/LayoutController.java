@@ -92,7 +92,7 @@ public class LayoutController extends BaseController {
             }
             ConfigUtil.setProperty("video.layout", layoutStr);
         }
-        
+        this.showMessageDialog(null, StringUtil.getUIString("saveLayout.success"));
     }
 
     public void changeLayoutOnly(DockingLayoutMeetingPanel dockingLayoutMeetingPanel, String filename) throws Exception {
