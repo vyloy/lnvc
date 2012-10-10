@@ -29,6 +29,7 @@ import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.LvmcUtil;
 import com.lorent.lvmc.util.MessageUtil;
 import com.lorent.lvmc.util.StringUtil;
+import com.lorent.lvmc.util.VideoAudioSetupUtil;
 import com.lorent.util.LCCUtil;
 
 /**
@@ -71,8 +72,23 @@ public class PhoneController extends BaseController {
                 LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
             	LCCUtil.getInstance().doAEC(ConfigUtil.getBoolProperty("enableAEC"));
         		LCCUtil.getInstance().setVideo(true, null);
-                int width = ConfigUtil.getIntProperty("videowidth");
-                int height = ConfigUtil.getIntProperty("videoheight");
+                int width = 0;
+                int height = 0;
+                String pixType = ConfigUtil.getProperty(
+        				com.lorent.lvmc.util.Constants.VideoParam.PixelType.toString(),
+        				StringUtil.getUIString("video.pixel.standardquality"));
+//				if (pixType.equals(StringUtil
+//						.getUIString("video.pixel.highquality"))) {
+//					width = ConfigUtil.getIntProperty("videowidth", 640);
+//					height = ConfigUtil.getIntProperty("videoheight", 360);
+//				} else {
+//					width = ConfigUtil.getIntProperty("svideowidth", 352);
+//					height = ConfigUtil.getIntProperty("svideoheight", 288);
+//				}
+				VideoAudioSetupUtil.GetVideoPixConfigAction action = (VideoAudioSetupUtil.GetVideoPixConfigAction)VideoAudioSetupUtil.getAction(pixType, VideoAudioSetupUtil.GetVideoPixConfigAction.class.getName());
+				int[] pix = action.execute();
+				width = pix[0];
+				height = pix[1];
                 LCCUtil.getInstance().doSetVideoSize(width, height);
                 LCCUtil.getInstance().doSetVideoBitrate(ConfigUtil.getIntProperty("VideoBitrate"));
                 LCCUtil.getInstance().doSetLccType(LCCUtil.LCC_TYPE_MUX);

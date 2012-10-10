@@ -55,12 +55,13 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 				this.narratorComboBox.setSelectedItem(narrator);
 			}
 		}
-		int micVolume = ConfigUtil.getIntProperty(
-				Constants.AudioParam.MicVolume.toString(), 50);
+//		int micVolume = ConfigUtil.getIntProperty(
+//				Constants.AudioParam.MicVolume.toString(), 50);
+		int micVolume = LCCUtil.getInstance().getMicVolume();
 		this.micSlider.setValue(micVolume);
-		int narratorVolume = ConfigUtil.getIntProperty(
-				Constants.AudioParam.NarratorVolume.toString(), 50);
-		this.narratorSlider.setValue(narratorVolume);
+//		int narratorVolume = ConfigUtil.getIntProperty(
+//				Constants.AudioParam.NarratorVolume.toString(), 50);
+//		this.narratorSlider.setValue(narratorVolume);
 	}
 
 	/** This method is called from within the constructor to
@@ -275,6 +276,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jLabel12.setText("\u5c0f");
 		jPanel40.add(jLabel12);
 
+		narratorSlider.setValue(100);
 		narratorSlider
 				.addChangeListener(new javax.swing.event.ChangeListener() {
 					public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -415,7 +417,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel2.add(jPanel24, gridBagConstraints);
 
-		jTabbedPane1.addTab(StringUtil.getUIString("Convention.txt"), jPanel2);
+		jTabbedPane1.addTab("<User Code>", jPanel2);
 
 		jPanel28.setBorder(javax.swing.BorderFactory
 				.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -487,7 +489,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel28.add(jPanel31, gridBagConstraints);
 
-		jTabbedPane1.addTab(StringUtil.getUIString("advanced.txt"), jPanel28);
+		jTabbedPane1.addTab("<User Code>", jPanel28);
 
 		getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 		jTabbedPane1.getAccessibleContext().setAccessibleName(

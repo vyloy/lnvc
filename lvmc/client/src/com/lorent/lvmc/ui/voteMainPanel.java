@@ -30,6 +30,7 @@ import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.controller.ViewManager;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.util.DataUtil;
+import com.lorent.lvmc.util.PermissionUtil;
 import com.lorent.lvmc.util.StringUtil;
 
 /**
@@ -45,6 +46,8 @@ public class voteMainPanel extends javax.swing.JPanel {
 		initComponents();
 		initPanel(false);
 		initVoteData();
+		boolean flag = PermissionUtil.hasPermission(PermissionUtil.VOTE_MANAGE);
+		this.setVoteManage(flag);
 	}
 
 	public void initPanel(boolean flag) {
