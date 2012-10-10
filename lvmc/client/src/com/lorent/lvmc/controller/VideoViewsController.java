@@ -746,7 +746,7 @@ public class VideoViewsController extends BaseController {
                     targetPanelItem.getButtonPanel().setVisible(false);
                 } else {
                     targetPanelItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/screen.png")));
-                    targetPanelItem.getVideoPanel().DrawImage();
+//                    targetPanelItem.getVideoPanel().DrawImage();
                     targetPanelItem.getButtonPanel().setVisible(true);
                 }
                 if (viewing1) {
@@ -764,7 +764,7 @@ public class VideoViewsController extends BaseController {
                     sourceItem.getButtonPanel().setVisible(false);
                 } else {
                     sourceItem.getVideoPanel().setImg(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/com/lorent/lvmc/resource/images/screen.png")));
-                    sourceItem.getVideoPanel().DrawImage();
+//                    sourceItem.getVideoPanel().DrawImage();
                     sourceItem.getButtonPanel().setVisible(true);
                 }
 

@@ -135,7 +135,8 @@ public class LoginService extends BaseService {
 //            if(DataUtil.getLccRegisterFlag()==null || DataUtil.getLccRegisterFlag().booleanValue() == false){
             if(!LCCUtil.isRegister()){
                 log.info("lvmc  LCCUtil  register=================================================");
-                instance.register("sip:" + username + "@" + mcuIP + ":" + mcuLocalPort, password, "sip:" + mcuIP + ":" + mcuLocalPort, 0);
+//                instance.register("sip:" + username + "@" + mcuIP + ":" + mcuLocalPort, password, "sip:" + mcuIP + ":" + mcuLocalPort, 0);
+                instance.register(username, mcuIP, mcuLocalPort, password, 0);
             }else{
             	MessageUtil.getInstance().sendMessage("lccRegisterCallBackOK", null);
             }
@@ -234,7 +235,8 @@ public class LoginService extends BaseService {
             instance.addEventListener(DataUtil.getLvmcJNIListener());
 //            if(DataUtil.getLccRegisterFlag()==null || DataUtil.getLccRegisterFlag().booleanValue() == false){
                 log.info("lvmc  LCCUtil  register=================================================");
-                instance.register("sip:" + username + "@" + mcuIP + ":" + mcuLocalPort, password, "sip:" + mcuIP + ":" + mcuLocalPort, 0);
+//                instance.register("sip:" + username + "@" + mcuIP + ":" + mcuLocalPort, password, "sip:" + mcuIP + ":" + mcuLocalPort, 0);
+                instance.register(username, mcuIP, mcuLocalPort, password, 0);
 //                DataUtil.setValue(Key.LccRegisterFlag, Boolean.TRUE);
 //            }
             

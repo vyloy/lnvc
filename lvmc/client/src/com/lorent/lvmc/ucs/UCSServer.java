@@ -95,7 +95,8 @@ public class UCSServer {
 		String serverIP = "sip:" + data.serverIP + ":" + data.serverPort;
 		String passwd = data.passwd;
 		log.info("register : username = " + username + " & passwd = " + passwd + " & serverIP = " +serverIP);
-		LCCUtil.getInstance().register(username, passwd, serverIP, 0);
+//		LCCUtil.getInstance().register(username, passwd, serverIP, 0);
+		LCCUtil.getInstance().register(data.username, data.serverIP, data.serverPort+"", data.passwd, 0);
 		return true;
 	}
 	

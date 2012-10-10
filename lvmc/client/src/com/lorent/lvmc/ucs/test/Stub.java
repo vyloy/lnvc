@@ -12,7 +12,7 @@ public class Stub {
 	private static final String username = "33013";
 	private static final String passwd = "123456";
 	private static final String callusername = "33039";
-	private static final String confno = "900003";
+	private static final String confno = "900006";
 	
 	
 	
@@ -79,6 +79,8 @@ public class Stub {
 				StubClient.answermeeting(confno);
 			}else if(sel == 99){
 				StubClient.init();
+				System.out.println("=============================================");
+				System.out.println("=============================================");
 				StubClient.setsipserver(serverIP, serverPort);
 				StubClient.setusername(username);
 				StubClient.setpassword(passwd);
