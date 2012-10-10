@@ -248,16 +248,23 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 	public boolean removeUser(List<UserBean> users) throws Exception {
 		//假删除
 		for(UserBean user : users){
-			SipConfBean sipConf = daoFacade.getSipConfDao().get(user.getSipId());
-			//TODO 暂时先删除sipConf
-			daoFacade.getSipConfDao().delete(sipConf);
+			Integer sipId = user.getSipId();
+			if(sipId!=null){
+				SipConfBean sipConf = daoFacade.getSipConfDao().get(sipId);
+				//TODO 暂时先删除sipConf
+				daoFacade.getSipConfDao().delete(sipConf);
+				user.setSipId(-1);
+			}
 			user.setStatus(Constant.RECORD_STATUS_DELETED);
-			user.setSipId(-1);
 			daoFacade.getUserDao().update(user);
-			OpenfireUtil.getInstance().removeGroupUser(PropertiesUtil.getConstant("openfire.systemGroup"), user.getLccAccount());
-			//notify client
-			OpenfireUtil.getInstance().sendGroupBroadcast(BroadcastEvent.DELETE_USER, parseMemberBean(user, null));
-			OpenfireUtil.getInstance().sendMsgToDeletedUser(BroadcastEvent.DELETE_USER, parseMemberBean(user, null));
+			try{
+				OpenfireUtil.getInstance().removeGroupUser(PropertiesUtil.getConstant("openfire.systemGroup"), user.getLccAccount());
+				//notify client
+				OpenfireUtil.getInstance().sendGroupBroadcast(BroadcastEvent.DELETE_USER, parseMemberBean(user, null));
+				OpenfireUtil.getInstance().sendMsgToDeletedUser(BroadcastEvent.DELETE_USER, parseMemberBean(user, null));
+			}catch(Exception e){
+				log.error(e);
+			}
 		}
 		return true;
 	}

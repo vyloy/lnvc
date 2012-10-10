@@ -1,6 +1,8 @@
 package com.lorent.ucs.sync;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,8 +11,6 @@ import qflag.ucstar.webservice.bean.UcstarDept;
 import qflag.ucstar.webservice.bean.UcstarUser;
 
 import com.lorent.exception.CustomSqlException;
-import com.lorent.model.DepartmentBean;
-import com.lorent.model.UserBean;
 import com.lorent.service.UserService;
 import com.lorent.service.impl.ServiceFacade;
 
@@ -25,9 +25,14 @@ public class AllSync extends DeleteSync {
 	public void run() {
 		try {
 			UserService userService = serviceFacade.getUserService();
-			UcstarDept[] dept = ucstarwebservice.getDeptList("0");
-			for(UcstarDept d:dept){
+			LinkedList<UcstarDept> depts=new LinkedList<UcstarDept>();
+			findSubDepts(depts, "0");
+			depts.add(ucstarwebservice.getDepartInfo("0"));
+			
+			for(UcstarDept d:depts){
 				UcstarUser[] userList = ucstarwebservice.getUserList(d.getDeptid());
+				if(userList==null||userList.length==0)
+					continue;
 				Object[] users=new Object[userList.length];
 				for (int i=0;i<userList.length;i++) {
 					UcstarUser u=userList[i];
@@ -48,5 +53,15 @@ public class AllSync extends DeleteSync {
 			logger.error("未知错误", e);
 		}
 
+	}
+	
+	private void findSubDepts(List<UcstarDept> result,String id) throws RemoteException{
+		UcstarDept[] deptList = ucstarwebservice.getDeptList(id);
+		if(deptList==null||deptList.length==0)
+			return;
+		result.addAll(Arrays.asList(deptList));
+		for(UcstarDept d:deptList){
+			findSubDepts(result, d.getDeptid());
+		}
 	}
 }
