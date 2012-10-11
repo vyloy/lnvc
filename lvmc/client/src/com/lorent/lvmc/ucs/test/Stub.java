@@ -2,6 +2,7 @@ package com.lorent.lvmc.ucs.test;
 
 import java.util.Scanner;
 
+import com.lorent.common.util.PlatformUtil;
 import com.lorent.lvmc.ucs.Start;
 
 public class Stub {
@@ -19,7 +20,12 @@ public class Stub {
 	public static void main(String[] args) throws Exception{
 		StubClient.init(Integer.parseInt(exePort));
 		StubServer.init(Integer.parseInt(dllPort));
-		new Start().execute(new String[]{dllPort, exePort});
+		if (PlatformUtil.getOSVersion() >= 6.0f && PlatformUtil.isUserAnAdmin()) {
+			new Start().execute(new String[]{dllPort, exePort,"SECURITY_MANDATORY_MEDIUM_RID"});
+		}
+		else{
+			new Start().execute(new String[]{dllPort, exePort});
+		}
 		
 		String info = 				
 			"1.初始化组件\n" +
