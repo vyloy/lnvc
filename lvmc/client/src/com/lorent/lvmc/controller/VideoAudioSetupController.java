@@ -98,11 +98,11 @@ public class VideoAudioSetupController extends BaseController {
 				}
 			}else if(key.equals(Constants.AudioParam.NarratorVolume.toString())){
 				int narratorVolume = Integer.parseInt(paras.get(key));
-				if(narratorVolume==0){
-					LCCUtil.getInstance().setMutePlayback(DataUtil.getLoginInfo().getConfno(), true);
-				}else{
+//				if(narratorVolume==0){
+//					LCCUtil.getInstance().setMutePlayback(DataUtil.getLoginInfo().getConfno(), true);
+//				}else{
 					LCCUtil.getInstance().setPlaybackVolume(DataUtil.getLoginInfo().getConfno(), narratorVolume);
-				}
+//				}
 			}
 		}
 	}
