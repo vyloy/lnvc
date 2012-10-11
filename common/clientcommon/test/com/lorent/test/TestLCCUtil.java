@@ -19,7 +19,8 @@ public class TestLCCUtil {
 	public void execute(){
 		
 		LCCUtil.getInstance().addEventListener(new MyListener());
-		LCCUtil.getInstance().register(username, passwd, serverIP, port);
+//		LCCUtil.getInstance().register(username, passwd, serverIP, port);
+		LCCUtil.getInstance().register(username, serverIP, port+"", passwd, 0);
 	}
 	
 	public class MyListener extends JNIEventAdapter{

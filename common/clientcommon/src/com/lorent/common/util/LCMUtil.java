@@ -127,8 +127,8 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.removeUCSConf", new Object[]{lccno, confno});
     }
     
-    public boolean inviteUserFromMcu(String confNo,String lccno) throws Exception{
-    	return (Boolean)client.execute("lcmConf.inviteUserFromMcu", new Object[]{confNo,lccno});
+    public boolean inviteUserFromMcu(String confNo,String siplccno) throws Exception{
+    	return (Boolean)client.execute("lcmConf.inviteUserFromMcu", new Object[]{confNo,siplccno});
     }
     
     public boolean removeUserFromMcu(String confNo,String lccno) throws Exception{

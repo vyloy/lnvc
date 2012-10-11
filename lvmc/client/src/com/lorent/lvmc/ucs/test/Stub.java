@@ -2,6 +2,7 @@ package com.lorent.lvmc.ucs.test;
 
 import java.util.Scanner;
 
+import com.lorent.common.util.PlatformUtil;
 import com.lorent.lvmc.ucs.Start;
 
 public class Stub {
@@ -12,14 +13,19 @@ public class Stub {
 	private static final String username = "33013";
 	private static final String passwd = "123456";
 	private static final String callusername = "33039";
-	private static final String confno = "900003";
+	private static final String confno = "900006";
 	
 	
 	
 	public static void main(String[] args) throws Exception{
 		StubClient.init(Integer.parseInt(exePort));
 		StubServer.init(Integer.parseInt(dllPort));
-		new Start().execute(new String[]{dllPort, exePort});
+		if (PlatformUtil.getOSVersion() >= 6.0f && PlatformUtil.isUserAnAdmin()) {
+			new Start().execute(new String[]{dllPort, exePort,"SECURITY_MANDATORY_MEDIUM_RID"});
+		}
+		else{
+			new Start().execute(new String[]{dllPort, exePort});
+		}
 		
 		String info = 				
 			"1.初始化组件\n" +
@@ -79,6 +85,8 @@ public class Stub {
 				StubClient.answermeeting(confno);
 			}else if(sel == 99){
 				StubClient.init();
+				System.out.println("=============================================");
+				System.out.println("=============================================");
 				StubClient.setsipserver(serverIP, serverPort);
 				StubClient.setusername(username);
 				StubClient.setpassword(passwd);

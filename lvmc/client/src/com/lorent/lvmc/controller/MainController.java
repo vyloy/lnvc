@@ -51,6 +51,7 @@ import com.lorent.lvmc.util.ProcessUtil;
 import com.lorent.lvmc.util.StringUtil;
 import com.lorent.lvmc.util.UserInfoUtil;
 import com.lorent.lvmc.util.DataUtil.Key;
+import com.lorent.util.LCCUtil;
 
 /**
  *
@@ -613,10 +614,12 @@ public class MainController extends BaseController{
     }
     
     public void inviteUser(String lccno) throws Exception{
+    	log.info("邀请用户："+lccno);
     	if (lccno != null && !lccno.equals("")) {
     		LoginInfo loginInfo = DataUtil.getLoginInfo();
         	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
-        	LCMUtil.newInstance(xmlrpcUrl).inviteUserFromMcu(loginInfo.getConfno(), lccno);
+        	String siplccno  = "sip:"+lccno+"@"+LCCUtil.getInstance().getRegServerIP()+":"+LCCUtil.getInstance().getRegServerPort();
+        	LCMUtil.newInstance(xmlrpcUrl).inviteUserFromMcu(loginInfo.getConfno(), siplccno);
 		}
     	else{
     		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("MainController.lccnoToShort"));
@@ -624,6 +627,7 @@ public class MainController extends BaseController{
     }
     
     public void removeUser(String lccno) throws Exception{
+    	log.info("踢出用户："+lccno);
     	if (lccno != null && !lccno.equals("")) {
     		LoginInfo loginInfo = DataUtil.getLoginInfo();
     		if(lccno.equals(loginInfo.getUsername())){

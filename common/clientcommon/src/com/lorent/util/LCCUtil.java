@@ -42,8 +42,28 @@ public class LCCUtil {
     public static int TIME_OUT = 60000;
     public static int OK = 0;
     public static int FAIL = 1;
+    private String regLccNo;
+    private String regServerIP;
+    private String regPassword;
+    private String regServerPort;
     
-    private LCCUtil() {
+    public String getRegLccNo() {
+		return regLccNo;
+	}
+
+	public String getRegServerIP() {
+		return regServerIP;
+	}
+
+	public String getRegPassword() {
+		return regPassword;
+	}
+
+	public String getRegServerPort() {
+		return regServerPort;
+	}
+
+	private LCCUtil() {
         new DispatchEventThread().start();
         log.info("lccinit");
         lccinit();
@@ -424,7 +444,8 @@ public class LCCUtil {
         System.loadLibrary("lcccore");
     }
 
-    public void register(String username, String password, String serverIP, int port) {
+    @Deprecated
+    private void register(String username, String password, String serverIP, int port) {
     	tempRegData = new RegisterData(username, password, serverIP, port);
         if (isRegister) {
         	log.info("unregister");            
@@ -437,6 +458,26 @@ public class LCCUtil {
             this.reg(username, password, serverIP);
         }
 
+    }
+    
+    public void register(String lccNO,String serverIP,String serverPort,String password,int localPort){
+    	this.regLccNo = lccNO;
+    	this.regServerIP = serverIP;
+    	this.regServerPort = serverPort;
+    	this.regPassword = password;
+    	String sip_username = "sip:" + lccNO + "@" + serverIP + ":" + serverPort;
+		String sip_serverIP = "sip:" + serverIP + ":" + serverPort;
+		tempRegData = new RegisterData(sip_username, password, sip_serverIP, localPort);
+        if (isRegister) {
+        	log.info("unregister");            
+        	reRegister = true;
+            this.unreg();
+        } else {
+        	log.info("setsipport:" + localPort);
+            this.setsipport(localPort);
+            log.info("reg sip_username:" + sip_username + " password:" + password + " sip_serverIP:" + sip_serverIP);
+            this.reg(sip_username, password, sip_serverIP);
+        }
     }
     
     public void reRegister(){
