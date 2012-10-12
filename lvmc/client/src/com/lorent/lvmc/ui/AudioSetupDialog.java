@@ -25,6 +25,8 @@ import com.lorent.util.LCCUtil.Device;
  */
 public class AudioSetupDialog extends javax.swing.JDialog {
 
+	private static boolean isShowedDialog = false;
+	
 	/** Creates new form AudioSetupDialog */
 	public AudioSetupDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -59,9 +61,13 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		//				Constants.AudioParam.MicVolume.toString(), 50);
 		int micVolume = LCCUtil.getInstance().getMicVolume();
 		this.micSlider.setValue(micVolume);
-		//		int narratorVolume = ConfigUtil.getIntProperty(
-		//				Constants.AudioParam.NarratorVolume.toString(), 50);
-		//		this.narratorSlider.setValue(narratorVolume);
+		if(isShowedDialog){
+			int narratorVolume = ConfigUtil.getIntProperty(
+					Constants.AudioParam.NarratorVolume.toString(), 50);
+			this.narratorSlider.setValue(narratorVolume);
+		}else{
+			isShowedDialog = true;
+		}	
 	}
 
 	/** This method is called from within the constructor to

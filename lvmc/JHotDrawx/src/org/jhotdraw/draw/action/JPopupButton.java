@@ -14,13 +14,22 @@
 
 package org.jhotdraw.draw.action;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.awt.event.*;
+import javax.swing.Action;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JToolBar;
+import javax.swing.MenuElement;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 /**
  * JPopupButton provides a popup menu.
  *
@@ -35,6 +44,7 @@ public class JPopupButton extends javax.swing.JButton {
     private Font itemFont;
     private StateUpdater stateUpdater;
     public final static Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
+    private static List<JPopupMenu> list=new LinkedList<JPopupMenu>();
     static{
     	JPopupMenu.setDefaultLightWeightPopupEnabled(false);
     }
@@ -142,11 +152,13 @@ public class JPopupButton extends javax.swing.JButton {
 				
 				@Override
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+					list.add(popupMenu);
 				}
 				
 				@Override
 				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 					JPopupButton.this.getModel().setPressed(false);
+					list.remove(popupMenu);
 				}
 				
 				@Override
@@ -249,6 +261,12 @@ public class JPopupButton extends javax.swing.JButton {
 		this.stateUpdater = stateUpdater;
 	}
     
+	public static void dispose(){
+		for (JPopupMenu p : list) {
+			p.setVisible(false);
+		}
+		list.clear();
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

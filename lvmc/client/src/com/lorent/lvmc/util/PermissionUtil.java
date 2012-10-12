@@ -16,6 +16,7 @@ import com.lorent.lvmc.event.KickFromConferenceAuthorityCheckListener;
 import com.lorent.lvmc.event.ScreenShareAuthorityCheckListener;
 import com.lorent.lvmc.event.ShareDocumentAuthorityCheckListener;
 import com.lorent.lvmc.event.VoteManageAuthorityCheckListener;
+import com.lorent.lvmc.event.WhiteboardAuthorityCheckListener;
 
 /**
  *
@@ -42,6 +43,7 @@ public class PermissionUtil {
     	addAuthorityListeners(INVITE_JOIN_CONFERENCE,new InviteJoinConferenceAuthorityCheckListener());
     	addAuthorityListeners(KICK_FROM_CONFERENCE,new KickFromConferenceAuthorityCheckListener());
     	addAuthorityListeners(VOTE_MANAGE, new VoteManageAuthorityCheckListener());
+    	addAuthorityListeners(WHITE_BOARD, new WhiteboardAuthorityCheckListener());
     }
     
     public static boolean hasPermission(String permission){

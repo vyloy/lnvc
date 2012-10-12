@@ -30,7 +30,7 @@ public class DeleteSync extends WebserviceManager implements Runnable{
 				String username = userBean.getUsername();
 				UcstarUser user = ucstarwebservice.getUser(username);
 				if(user==null){
-					userService.deleteUCSUser(userBean);
+					userService.removeUCSUser(userBean);
 				}
 			}
 			
