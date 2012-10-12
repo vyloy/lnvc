@@ -14,14 +14,17 @@ public class HighQualityVideoPixelButtonSetAction extends VideoPixelButtonSetAct
 		for (int i = 0; i < highQualityButtons.length; i++) {
 			pixelbuttonGroup.add(highQualityButtons[i]);
 			pixelButtonPanel.add(highQualityButtons[i]);
-			highQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JRadioButton btn = (JRadioButton)e.getSource();
-					btn.setSelected(true);
-					dialog.setVideoParas(false);
-				}
-			});
+			java.awt.event.ActionListener[] listeners = highQualityButtons[i].getActionListeners();
+			if(listeners==null || listeners.length<1){
+				highQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JRadioButton btn = (JRadioButton)e.getSource();
+						btn.setSelected(true);
+						dialog.setVideoParas(false);
+					}
+				});
+			}
 			if (pixelValue != null
 					&& pixelValue.equals(highQualityButtons[i]
 							.getText())) {

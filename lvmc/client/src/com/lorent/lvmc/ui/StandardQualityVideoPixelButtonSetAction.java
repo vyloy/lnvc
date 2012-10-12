@@ -13,15 +13,18 @@ public class StandardQualityVideoPixelButtonSetAction extends VideoPixelButtonSe
 		for (int i = 0; i < standardQualityButtons.length; i++) {
 			pixelbuttonGroup.add(standardQualityButtons[i]);
 			pixelButtonPanel.add(standardQualityButtons[i]);
-			standardQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JRadioButton btn = (JRadioButton)e.getSource();
-					btn.setSelected(true);
-					dialog.setVideoParas(false);
-				}
-				
-			});
+			java.awt.event.ActionListener[] listeners = standardQualityButtons[i].getActionListeners();
+			if(listeners==null || listeners.length<1){
+				standardQualityButtons[i].addActionListener(new java.awt.event.ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JRadioButton btn = (JRadioButton)e.getSource();
+						btn.setSelected(true);
+						dialog.setVideoParas(false);
+					}
+					
+				});
+			}
 			if (spixelValue != null
 					&& spixelValue.equals(standardQualityButtons[i]
 							.getText())) {
