@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.svg;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +46,7 @@ import org.jhotdraw.draw.DefaultDrawingView;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.action.JPopupButton;
 import org.jhotdraw.draw.action.ToolBarButtonFactory;
 import org.jhotdraw.samples.svg.figures.SVGEllipse;
 import org.jhotdraw.samples.svg.figures.SVGLine;
@@ -147,7 +149,24 @@ public class SVGPanel extends JPanel implements ViewPanel {
         
     }
     
+    public void initToolbar(){
+    	ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+    	initToolbar(labels);
+    	if(view.isDoc()){
+        	createPageButton(labels);
+        }
+    }
+    
+    public void removeToolbar(){
+    	editor.remove(view);
+    	view.setCursor(Cursor.getDefaultCursor());
+    	JPopupButton.dispose();
+    	remove(jPanel1);
+    	removeComponentListener(l);
+    }
+    
     private void initToolbar(ResourceBundleUtil labels){
+    	editor.add(view);
     	jPanel1 = new javax.swing.JPanel();
         creationToolbar = new javax.swing.JToolBar();
         creationToolbar.addMouseListener(new MouseAdapter() {
@@ -192,14 +211,15 @@ public class SVGPanel extends JPanel implements ViewPanel {
 			}
 		});
         creationToolbar.add(saveButton);
-        addComponentListener(new ComponentAdapter() {
-    		@Override
-    		public void componentShown(ComponentEvent e) {
-    			ViewParam.setView(view);
-    		}
-    	});
+		addComponentListener(l);
     }
     
+    ComponentAdapter l = new ComponentAdapter() {
+    	@Override
+    	public void componentShown(ComponentEvent e) {
+    		ViewParam.setView(view);
+    	}
+    };
     private void createPageButton(ResourceBundleUtil labels){
     	creationToolbar.addSeparator();
         JButton pre = new JButton();
@@ -337,7 +357,6 @@ public class SVGPanel extends JPanel implements ViewPanel {
     private void initComponents() {
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
-        editor.add(view);
         
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
@@ -350,6 +369,12 @@ public class SVGPanel extends JPanel implements ViewPanel {
 			public void mouseEntered(MouseEvent e) {
 				ViewParam.setView(view);
 			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				view.setCursor(Cursor.getDefaultCursor());
+			}
+			
 		});
         setLayout(new java.awt.BorderLayout());
 

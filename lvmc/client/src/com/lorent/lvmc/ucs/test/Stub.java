@@ -2,30 +2,24 @@ package com.lorent.lvmc.ucs.test;
 
 import java.util.Scanner;
 
-import com.lorent.common.util.PlatformUtil;
 import com.lorent.lvmc.ucs.Start;
 
 public class Stub {
-	private static final String dllPort = "20001";
-	private static final String exePort = "20002";
+	private static final String dllPort = "20005";
+	private static final String exePort = "20006";
 	private static final String serverIP = "10.168.250.12";
 	private static final int serverPort = 5060;
-	private static final String username = "33013";
+	private static final String username = "33014";
 	private static final String passwd = "123456";
-	private static final String callusername = "33039";
-	private static final String confno = "900006";
+	private static final String callusername = "33030";
+	private static final String confno = "900007";
 	
 	
 	
 	public static void main(String[] args) throws Exception{
 		StubClient.init(Integer.parseInt(exePort));
 		StubServer.init(Integer.parseInt(dllPort));
-		if (PlatformUtil.getOSVersion() >= 6.0f && PlatformUtil.isUserAnAdmin()) {
-			new Start().execute(new String[]{dllPort, exePort,"SECURITY_MANDATORY_MEDIUM_RID"});
-		}
-		else{
-			new Start().execute(new String[]{dllPort, exePort});
-		}
+		new Start().execute(new String[]{dllPort, exePort});
 		
 		String info = 				
 			"1.初始化组件\n" +
@@ -43,13 +37,11 @@ public class Stub {
 			"13.删除会议\n" +
 			"14.进入会议\n" +
 			"15.获取设备列表\n" +
-			"16.应答会议\n" +
 			"99.1-5\n" +
 			"";
 		System.out.println(info);
 		Scanner sc = new Scanner(System.in);
-//		int sel = sc.nextInt();
-		int sel = 99;
+		int sel = sc.nextInt();
 		while(sel != 0){
 			if(sel == 1){
 				StubClient.init();
@@ -81,22 +73,18 @@ public class Stub {
 				StubClient.callmeeting(confno);
 			}else if(sel == 15){
 				StubClient.getDevList();
-			}else if(sel == 16){
-				StubClient.answermeeting(confno);
 			}else if(sel == 99){
 				StubClient.init();
-				System.out.println("=============================================");
-				System.out.println("=============================================");
 				StubClient.setsipserver(serverIP, serverPort);
 				StubClient.setusername(username);
 				StubClient.setpassword(passwd);
 				StubClient.register();
-				StubClient.setconfserverip(serverIP);
 				StubClient.callmeeting(confno);
+				break;
 			}
 			System.out.println(info);
 			sel = sc.nextInt();
 		}
-		System.exit(0);
+		//System.exit(0);
 	}
 }
