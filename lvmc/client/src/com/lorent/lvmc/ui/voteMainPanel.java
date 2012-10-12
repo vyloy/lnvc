@@ -149,6 +149,8 @@ public class voteMainPanel extends javax.swing.JPanel {
 			((VoteTabItemPane) this.getjTabbedPane1().getSelectedComponent())
 					.setSelectOptionEdit(false);
 		}
+		boolean f = PermissionUtil.hasPermission(PermissionUtil.VOTE_MANAGE);
+		setVoteManage(f);
 	}
 
 	public void addTheme(VoteDataDto dataDto) {
@@ -714,7 +716,7 @@ public class voteMainPanel extends javax.swing.JPanel {
 	public void setVoteManage(boolean f){
 		ViewManager.setComponentByAuthority(this.addthemeBtn, f);
 		ViewManager.setComponentByAuthority(this.updateThemeBtn, f);
-		ViewManager.setComponentByAuthority(this.startVoteBtn, f);
+//		ViewManager.setComponentByAuthority(this.startVoteBtn, f);
 		ViewManager.setComponentByAuthority(this.voteFinishBtn, f);
 	}
 
