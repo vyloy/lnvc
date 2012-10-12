@@ -105,53 +105,59 @@ public class SVGPanels implements CommandsManager{
 	}
 	
 	public SVGPanel createPanel(){
-		SVGPanel svgPanel = new SVGPanel(writable);
-		SVGPanel repeat;
-		do{
-			String vid = String.valueOf(viewId.incrementAndGet());
-			svgPanel.getView().setId(vid);
-			repeat = panels.putIfAbsent(vid,svgPanel);
-		}while(repeat!=null);
-		addToParent(svgPanel);
-		return svgPanel;
+		synchronized(panels){
+			SVGPanel svgPanel = new SVGPanel(writable);
+			SVGPanel repeat;
+			do{
+				String vid = String.valueOf(viewId.incrementAndGet());
+				svgPanel.getView().setId(vid);
+				repeat = panels.putIfAbsent(vid,svgPanel);
+			}while(repeat!=null);
+			addToParent(svgPanel);
+			return svgPanel;
+		}
 	}
 	
 	public SVGPanel createPanel(String vid){
-		if (vid == null)
-			throw new IllegalArgumentException("vid == null!");
-		SVGPanel svgPanel;
-		if(vid.indexOf('.')!=-1){
-			svgPanel = new SVGPanel(true,writable);
-		}else{
-			svgPanel = new SVGPanel(writable);
+		synchronized(panels){
+			if (vid == null)
+				throw new IllegalArgumentException("vid == null!");
+			SVGPanel svgPanel;
+			if(vid.indexOf('.')!=-1){
+				svgPanel = new SVGPanel(true,writable);
+			}else{
+				svgPanel = new SVGPanel(writable);
+			}
+			svgPanel.getView().setId(vid);
+			SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
+			if(repeat!=null){
+				return repeat;
+			}
+			addToParent(svgPanel);
+			return svgPanel;
 		}
-		svgPanel.getView().setId(vid);
-		SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
-		if(repeat!=null){
-			return repeat;
-		}
-		addToParent(svgPanel);
-		return svgPanel;
 	}
 	
 	public SVGPanel createPanel(String vid,long commandId){
-		if (vid == null)
-			throw new IllegalArgumentException("vid == null!");
-		SVGPanel svgPanel;
-		if(vid.indexOf('.')!=-1){
-			svgPanel = new SVGPanel(true,writable);
-		}else{
-			svgPanel = new SVGPanel(writable);
+		synchronized(panels){
+			if (vid == null)
+				throw new IllegalArgumentException("vid == null!");
+			SVGPanel svgPanel;
+			if(vid.indexOf('.')!=-1){
+				svgPanel = new SVGPanel(true,writable);
+			}else{
+				svgPanel = new SVGPanel(writable);
+			}
+			DefaultDrawingView view = svgPanel.getView();
+			view.setId(vid);
+			view.setCommandId(commandId);
+			SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
+			if(repeat!=null){
+				return repeat;
+			}
+			addToParent(svgPanel);
+			return svgPanel;
 		}
-		DefaultDrawingView view = svgPanel.getView();
-		view.setId(vid);
-		view.setCommandId(commandId);
-		SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
-		if(repeat!=null){
-			return repeat;
-		}
-		addToParent(svgPanel);
-		return svgPanel;
 	}
 	
 	private void addToParent(final SVGPanel panel){
@@ -409,34 +415,38 @@ public class SVGPanels implements CommandsManager{
 	
 	@Override
 	public void remove(final String vid){
-		final SVGPanel svgPanel = panels.remove(vid);
-		if(svgPanel==null)
-			return;
-		svgPanel.getView().dispose();
-		logger.debug("removing whiteboard {}",vid);
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				parent.remove(svgPanel);
-				logger.debug("removed whiteboard {}",vid);
-			}
-		});
+		synchronized(panels){
+			final SVGPanel svgPanel = panels.remove(vid);
+			if(svgPanel==null)
+				return;
+			svgPanel.getView().dispose();
+			logger.debug("removing whiteboard {}",vid);
+			SwingUtilities.invokeLater(new Runnable(){
+				@Override
+				public void run() {
+					parent.remove(svgPanel);
+					logger.debug("removed whiteboard {}",vid);
+				}
+			});
+		}
 	}
 	
 	@Override
 	public void removeAll(){
-		for(SVGPanel panel:panels.values()){
-			panel.getView().dispose();
-		}
-		panels.clear();
-		logger.debug("removing all whiteboards");
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				parent.removeAll();
-				logger.debug("removed all whiteboards");
+		synchronized(panels){
+			for(SVGPanel panel:panels.values()){
+				panel.getView().dispose();
 			}
-		});
+			panels.clear();
+			logger.debug("removing all whiteboards");
+			SwingUtilities.invokeLater(new Runnable(){
+				@Override
+				public void run() {
+					parent.removeAll();
+					logger.debug("removed all whiteboards");
+				}
+			});
+		}
 	}
 	
 	public boolean isEmpty(){
@@ -470,6 +480,26 @@ public class SVGPanels implements CommandsManager{
 	@Override
 	public Object removeAttribute(Object key) {
 		return attributes.remove(key);
+	}
+	
+
+	public void setWritable(boolean writable) {
+		synchronized(panels){
+			this.writable = writable;
+			if(writable){
+				for (SVGPanel p : panels.values()) {
+					p.initToolbar();
+					int i = parent.indexOfComponent(p);
+					new CloseTabButton(parent, i);
+				}
+			}else{
+				for (SVGPanel p : panels.values()) {
+					p.removeToolbar();
+					int i = parent.indexOfComponent(p);
+					parent.setTabComponentAt(i, null);
+				}
+			}
+		}
 	}
 
 	class CloseTabButton extends JPanel implements ActionListener {

@@ -212,10 +212,14 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             if (tabScroller == null) {
                 tabScroller = new ScrollableTabSupport(tabPane.getTabPlacement());
                 tabPane.add(tabScroller.viewport);
+                button = new CreateTabButton();
+                tabPane.add(button);
+                WhiteboardPermission.setAddButton(button);
 				if (tabPane instanceof CreatableTabPanel
 						&& WhiteboardPermission.isEnable()) {
-					button = new CreateTabButton();
-					tabPane.add(button);
+					button.setVisible(true);
+				}else{
+					button.setVisible(false);
 				}
                 tabPane.add(tabScroller.scrollForwardButton);
                 tabPane.add(tabScroller.scrollBackwardButton);

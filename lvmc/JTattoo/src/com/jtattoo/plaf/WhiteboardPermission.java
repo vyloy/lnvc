@@ -3,7 +3,11 @@ package com.jtattoo.plaf;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import javax.swing.JButton;
+
 public class WhiteboardPermission {
+	
+	public static volatile JButton addButton;
 	
 	public static boolean isEnable(){
 		boolean result=false;
@@ -16,4 +20,13 @@ public class WhiteboardPermission {
 		}
 		return result;
 	}
+
+	public static JButton getAddButton() {
+		return addButton;
+	}
+
+	public static void setAddButton(JButton b) {
+		addButton = b;
+	}
+	
 }

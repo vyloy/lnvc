@@ -815,8 +815,14 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 	}
 	
 	@Override
-	public void deleteUCSUser(UserBean user)throws Exception{
+	public void removeUCSUser(UserBean user)throws Exception{
 		user.setStatus(Constant.RECORD_STATUS_DELETED);
+		Integer sipId = user.getSipId();
+		if(sipId!=null&&sipId!=-1){
+			SipConfBean sipConf = daoFacade.getSipConfDao().get(sipId);
+			daoFacade.getSipConfDao().delete(sipConf);
+			user.setSipId(-1);
+		}
 		daoFacade.getUserDao().update(user);
 	}
 	
