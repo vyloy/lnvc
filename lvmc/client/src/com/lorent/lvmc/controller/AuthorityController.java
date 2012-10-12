@@ -116,6 +116,9 @@ public class AuthorityController extends BaseController {
 //				break;
 //			}
 //		}
+		if(memberDto == null){
+			return;
+		}
 		if(!memberDto.getRole().getNames().contains(roleName)){
 			memberDto.getRole().getNames().add(roleName);
 		}
