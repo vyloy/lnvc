@@ -104,61 +104,12 @@ public class Launcher {
     public static void reloadfile()throws Exception{
         log.info("reloadfile");
         String userhome = System.getProperty("user.home");
-        String lvmchome = userhome + "/lvmc/";
         String javahome = System.getProperty("java.home");
         log.info("userhome:" + userhome);
-        log.info("lvmchome:" + lvmchome);
         log.info("javahome:" + javahome);
-        
-        File maindir = new File(lvmchome);
-        if(!maindir.exists()){
-            maindir.mkdirs();
-        }
-        //copy dll
-//        FileUtil.extraJarFile("/com/lorent/lvmc/extra/dll.jar", javahome + "/bin/");
-        //copy vnc
-        File vncdir = new File("vnc");
-        if(!vncdir.exists()){
-            vncdir.mkdirs();
-        }
-        FileUtil.extraJarFile("/com/lorent/lvmc/extra/vnc.jar", "vnc/");
-        
-        //copy java.policy
-        log.info("copy java.policy");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/java.policy"), javahome + "/lib/security/java.policy");
-        //copy lnt.avi
-        log.info("copy lnt.avi");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/lnt.avi"), "lnt.avi");
-        //copy layout
-        File layoutdir = new File("layouts");
-        if(!layoutdir.exists()){
-            layoutdir.mkdirs();
-        }
-        log.info("copy layout default.obj");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/default.obj"), "layouts/default.obj");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/1xN.obj"), "layouts/1xN.obj");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/Not1xN.obj"), "layouts/Not1xN.obj");
-        //copy config file
-        log.info("copy lvmc.conf");
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/lvmc.conf"), "lvmc.conf");
-        
-        File skinDir = new File("skin");
-        if(!skinDir.exists()){
-        	skinDir.mkdirs();
-        }
-        FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/defualt_skin.conf"), "skin/defualt_skin.conf");
-        
-        File logoFile = new File("logo.png");
-        if(!logoFile.exists()){
-        	FileUtil.fileCopy(Launcher.class.getResourceAsStream("/com/lorent/lvmc/config/logo.png"), "logo.png");
-        }
         
         //set reload flag
         ConfigUtil.setProperty("reloadfile", "false");
-//        JOptionPane.showMessageDialog(null, StringUtil.getUIString("needrestart"));
-        //String path = System.getProperty("user.dir");
-        //Runtime.getRuntime().exec("cmd /c \"" + path + "/start.bat\"");
-//        System.exit(0);
     }
     
     public static ClassLoader findParentClassLoader() {
