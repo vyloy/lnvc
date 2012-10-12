@@ -475,13 +475,13 @@ ConferenceNewService{
 						"where cua.id in (select ua.id from ConfUserAuthorityBean ua,ConferenceUserBean cu," +
 						"ConferenceNewBean c,ConfRoleAuthorityBean ra " +
 						"where c.id=cu.conferenceId and ra.roleId=? and c.id=? " +
-						"and cu.id=ua.conferenceUserId and ra.authorityId=ua.authorityId)" , paras);
+						"and cu.id=ua.conferenceUserId and ra.authorityId=ua.authorityId and c.del=1)" , paras);
 				List paras1 = new ArrayList();
 				paras1.add(roles.get(0).getId());
 				paras1.add(conferences.get(0).getId());
 				paras1.add(roles.get(0).getId());
 				daoFacade.getConfUserRoleDao().executeUpdate("delete from ConfUserRoleBean cur " +
-						"where cur.conferenceUserId=(select cu.id from ConferenceUserBean cu,ConfUserRoleBean ur,ConferenceNewBean c where cu.id=ur.conferenceUserId and c.id=cu.conferenceId and ur.roleId=? and c.id=?)" +
+						"where cur.conferenceUserId=(select cu.id from ConferenceUserBean cu,ConfUserRoleBean ur,ConferenceNewBean c where cu.id=ur.conferenceUserId and c.id=cu.conferenceId and ur.roleId=? and c.id=? and c.del=1)" +
 						" and cur.roleId=?", paras1);
 				
 			}
@@ -521,7 +521,7 @@ ConferenceNewService{
 		List params = new ArrayList();
 		if(roles!=null && roles.size()==1){
 			
-			List list = daoFacade.getConferenceUserDao().queryByHql("select cu.id,cu.conferenceId,cu.userId from ConferenceUserBean cu where cu.conferenceId=(select c.id from ConferenceNewBean c where c.confNo='"+confNo+"') and cu.userId=(select u.id from UserBean u where u.lccAccount='"+lccno+"')");
+			List list = daoFacade.getConferenceUserDao().queryByHql("select cu.id,cu.conferenceId,cu.userId from ConferenceUserBean cu where cu.conferenceId=(select c.id from ConferenceNewBean c where c.confNo='"+confNo+"' and c.del=1) and cu.userId=(select u.id from UserBean u where u.lccAccount='"+lccno+"' and u.status=1)");
 			if(list!=null && list.size()==1){
 				ConfRoleAuthorityBean raBean = new ConfRoleAuthorityBean();
 				raBean.setRoleId(roles.get(0).getId());
