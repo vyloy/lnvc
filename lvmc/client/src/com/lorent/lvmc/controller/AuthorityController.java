@@ -52,7 +52,10 @@ public class AuthorityController extends BaseController {
 //				break;
 //			}
 //		}
-		if(memberDto.getRole().getNames().contains(roleName)){
+		if(memberDto == null){
+			return;
+		}
+		if(memberDto.getRole().getNames()!=null && memberDto.getRole().getNames().contains(roleName)){
 			memberDto.getRole().getNames().remove(roleName);
 		}
 		MemberListItem memberListItem = panel.getMemberListItemByName(lccno);
