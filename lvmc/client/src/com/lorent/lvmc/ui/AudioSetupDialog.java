@@ -25,7 +25,7 @@ import com.lorent.util.LCCUtil.Device;
  */
 public class AudioSetupDialog extends javax.swing.JDialog {
 
-	private static boolean isShowedDialog = false;
+	private static Map<String,String> parasCache = new HashMap<String,String>();;
 	
 	/** Creates new form AudioSetupDialog */
 	public AudioSetupDialog(java.awt.Frame parent, boolean modal) {
@@ -61,12 +61,12 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		//				Constants.AudioParam.MicVolume.toString(), 50);
 		int micVolume = LCCUtil.getInstance().getMicVolume();
 		this.micSlider.setValue(micVolume);
-		if(isShowedDialog){
-			int narratorVolume = ConfigUtil.getIntProperty(
-					Constants.AudioParam.NarratorVolume.toString(), 50);
+		int narratorVolume = 100;
+		if(parasCache.get(Constants.AudioParam.NarratorVolume.toString())!=null && !"".equals(parasCache.get(Constants.AudioParam.NarratorVolume.toString()))){
+			narratorVolume = Integer.parseInt(parasCache.get(Constants.AudioParam.NarratorVolume.toString()));
 			this.narratorSlider.setValue(narratorVolume);
 		}else{
-			isShowedDialog = true;
+			this.narratorSlider.setValue(narratorVolume);
 		}	
 	}
 
@@ -532,6 +532,8 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		if (!source.getValueIsAdjusting()) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put(Constants.AudioParam.NarratorVolume.toString(), String
+					.valueOf(source.getValue()));
+			parasCache.put(Constants.AudioParam.NarratorVolume.toString(), String
 					.valueOf(source.getValue()));
 			ControllerFacade.execute("videoAudioSetupController",
 					"setAudioParas", map);
