@@ -77,6 +77,10 @@ public class ShareFileListController extends BaseController {
     
     
     public void uploadShareFileOnDrop(List<File> files) throws Exception{
+    	if(!PermissionUtil.hasPermission(PermissionUtil.FILE_UPLOAD)){
+    		this.showErrorDialog(null, StringUtil.getErrorString("no.permission.upload.file"));
+			return;
+		}
     	//检查是否拖的是文件夹
     	ShareFileListPanel panel = ViewManager.getComponent(ShareFileListPanel.class);
     	DefaultListModel model = (DefaultListModel) panel.getFileList().getModel();
