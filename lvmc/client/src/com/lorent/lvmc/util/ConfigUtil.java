@@ -4,18 +4,16 @@
  */
 package com.lorent.lvmc.util;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -38,24 +36,27 @@ public class ConfigUtil {
             String filepath = com.lorent.lvmc.util.Constants.UserPath + "/lorent/lvmc/" + fileName;
             File file = new File(filepath);
             if (!file.exists()) {
+            	log.info("create " + fileName);
             	File path = new File(com.lorent.lvmc.util.Constants.UserPath + "/lorent/lvmc/");
             	path.mkdirs();
             	FileUtil.fileCopy("/com/lorent/lvmc/config/"+fileName, filepath);
-            	/*
-                if (!file.createNewFile()) {
-                    try {
-                        throw new Exception("创建文件: "+filepath+"  失败!");
-                    } catch (Exception ex) {
-                        log.error("init" ,ex);
-                    }
-                }
-                */
-                properties.load(ConfigUtil.class.getResourceAsStream("/com/lorent/lvmc/config/lvmc.conf"));
-                properties.store(new FileOutputStream(file), "");
             }else{
-                inputStreamReader = new InputStreamReader(new FileInputStream(filepath), "UTF-8");
-                properties.load(inputStreamReader);
+            	Properties newProp = new Properties();
+            	newProp.load(FileUtil.class.getResourceAsStream("/com/lorent/lvmc/config/" + fileName));
+            	String newVersion = newProp.getProperty("confversion");
+            	inputStreamReader = new InputStreamReader(new FileInputStream(filepath), "UTF-8");
+            	properties.load(inputStreamReader);
+            	inputStreamReader.close();
+            	String curVersion = properties.getProperty("confversion");
+            	if(curVersion == null || Integer.parseInt(newVersion) > Integer.parseInt(curVersion)){//重新加载
+            		log.info("reload " + fileName);
+            		FileUtil.fileCopy("/com/lorent/lvmc/config/"+fileName, filepath);
+            	}
+            	properties.clear();
             }
+            inputStreamReader = new InputStreamReader(new FileInputStream(filepath), "UTF-8");
+            properties.load(inputStreamReader);
+            inputStreamReader.close();
         }catch (Exception ex) {
             log.error("init", ex);
         }

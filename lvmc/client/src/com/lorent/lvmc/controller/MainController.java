@@ -419,7 +419,9 @@ public class MainController extends BaseController{
 			        }else if(status.equals(Constants.MEMBER_STATUS_LEAVE)){
 			        	
 			            log.info("remove lccno:" + member + " from memberlistpanel " + isOpenfireUser);
-			            panel.removeOneMember(member);
+			            if(!isOpenfireUser){
+			            	panel.removeOneMember(member);
+			            }
 			            //与会者退出时重新设置与会者comboBox
 			            if(!isOpenfireUser || loginInfo==null || member.equals(loginInfo.getUsername())){
 			            	return;
