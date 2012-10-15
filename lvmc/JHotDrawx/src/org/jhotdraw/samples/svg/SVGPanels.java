@@ -454,7 +454,9 @@ public class SVGPanels implements CommandsManager{
 	}
 	
 	public boolean isWritable() {
-		return writable;
+		synchronized(panels){
+			return writable;
+		}
 	}
 
 	@Override

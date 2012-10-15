@@ -14,6 +14,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import org.jhotdraw.samples.svg.SVGPanels;
 import org.jhotdraw.samples.svg.figures.SVGImage;
 
 import com.lorent.whiteboard.client.Client;
@@ -23,6 +24,10 @@ public class DefaultDrawingViewDropTargetListener implements DropTargetListener 
 	private static final String[] supports={".jpg", ".bmp", ".jpeg", ".png"};
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
+		if(!SVGPanels.getInstance().isWritable()){
+			dtde.rejectDrag();
+			return;
+		}
 		boolean r = dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
 		if(!r){
 			dtde.rejectDrag();
@@ -61,6 +66,10 @@ public class DefaultDrawingViewDropTargetListener implements DropTargetListener 
 
 	@Override
 	public void drop(DropTargetDropEvent dtde) {
+		if(!SVGPanels.getInstance().isWritable()){
+			dtde.dropComplete(false);
+			return;
+		}
 		boolean r = dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
 		if(!r)
 			return;
