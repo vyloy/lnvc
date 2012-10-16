@@ -9,6 +9,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.util.StringUtils;
+
 /**
  *
  * @author jack
@@ -40,5 +42,9 @@ public class StringUtil {
     
     public static String convertFilePath2DOSCommandStr(String filePath){
     	return "\"" + filePath + "\"";
+    }
+    
+    public static String arrayToDelimitedString(Object[] paras, String delim){
+    	return StringUtils.arrayToDelimitedString(paras, delim);
     }
 }

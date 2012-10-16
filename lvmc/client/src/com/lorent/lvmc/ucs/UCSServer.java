@@ -58,6 +58,7 @@ public class UCSServer {
 		LCCUtil.getInstance().addEventListener(new MyJNIListener());
 		LCCUtil.getInstance().setVideo(true, null);
 		LCCUtil.getInstance().setOneCall(false);
+		LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), ConfigUtil.getIntProperty("csPort"));
 		return true;
 	}
 	

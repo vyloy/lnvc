@@ -106,4 +106,10 @@ public class VideoAudioSetupController extends BaseController {
 			}
 		}
 	}
+	
+	public void setAudioCodes(String codes){
+		LCCUtil.getInstance().setAudioCodes(new String[]{codes});
+		LCCUtil.getInstance().callReInvite(DataUtil.getLoginInfo().getConfno());
+		DataUtil.setValue(DataUtil.Key.SelectAudioCodes, codes);
+	}
 }

@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSlider;
 
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
+import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.StringUtil;
 import com.lorent.util.LCCUtil;
 import com.lorent.util.LCCUtil.Device;
@@ -25,7 +27,8 @@ import com.lorent.util.LCCUtil.Device;
  */
 public class AudioSetupDialog extends javax.swing.JDialog {
 
-	private static Map<String,String> parasCache = new HashMap<String,String>();;
+	private static Map<String, String> parasCache = new HashMap<String, String>();;
+
 	
 	/** Creates new form AudioSetupDialog */
 	public AudioSetupDialog(java.awt.Frame parent, boolean modal) {
@@ -35,6 +38,11 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		this.jPanel28.setVisible(false);
 		initData();
 		this.jPanel6.setVisible(false);
+		this.codesCB.setModel(new DefaultComboBoxModel(Constants.AUDIO_CODES));
+		String codes = DataUtil.getValue(DataUtil.Key.SelectAudioCodes);
+		if(codes != null){
+			this.codesCB.setSelectedItem(codes);			
+		}
 	}
 
 	public void initData() {
@@ -62,12 +70,15 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		int micVolume = LCCUtil.getInstance().getMicVolume();
 		this.micSlider.setValue(micVolume);
 		int narratorVolume = 100;
-		if(parasCache.get(Constants.AudioParam.NarratorVolume.toString())!=null && !"".equals(parasCache.get(Constants.AudioParam.NarratorVolume.toString()))){
-			narratorVolume = Integer.parseInt(parasCache.get(Constants.AudioParam.NarratorVolume.toString()));
+		if (parasCache.get(Constants.AudioParam.NarratorVolume.toString()) != null
+				&& !"".equals(parasCache
+						.get(Constants.AudioParam.NarratorVolume.toString()))) {
+			narratorVolume = Integer.parseInt(parasCache
+					.get(Constants.AudioParam.NarratorVolume.toString()));
 			this.narratorSlider.setValue(narratorVolume);
-		}else{
+		} else {
 			this.narratorSlider.setValue(narratorVolume);
-		}	
+		}
 	}
 
 	/** This method is called from within the constructor to
@@ -119,7 +130,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jLabel7 = new javax.swing.JLabel();
 		jPanel17 = new javax.swing.JPanel();
 		jLabel8 = new javax.swing.JLabel();
-		jComboBox3 = new javax.swing.JComboBox();
+		codesCB = new javax.swing.JComboBox();
 		jPanel27 = new javax.swing.JPanel();
 		jPanel6 = new javax.swing.JPanel();
 		jPanel18 = new javax.swing.JPanel();
@@ -333,9 +344,14 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jLabel8.setText("\u8bf7\u9009\u62e9\u7f16\u7801\u7c7b\u578b\uff1a");
 		jPanel17.add(jLabel8);
 
-		jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
+		codesCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 				"Item 1", "Item 2", "Item 3", "Item 4" }));
-		jPanel17.add(jComboBox3);
+		codesCB.addItemListener(new java.awt.event.ItemListener() {
+			public void itemStateChanged(java.awt.event.ItemEvent evt) {
+				codesCBItemStateChanged(evt);
+			}
+		});
+		jPanel17.add(codesCB);
 
 		jPanel15.add(jPanel17);
 
@@ -423,7 +439,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel2.add(jPanel24, gridBagConstraints);
 
-		jTabbedPane1.addTab(StringUtil.getUIString("Convention.txt"), jPanel2);
+		jTabbedPane1.addTab("<User Code>", jPanel2);
 
 		jPanel28.setBorder(javax.swing.BorderFactory
 				.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -527,14 +543,18 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void codesCBItemStateChanged(java.awt.event.ItemEvent evt) {
+		ControllerFacade.execute("videoAudioSetupController", "setAudioCodes", codesCB.getSelectedItem());
+	}
+
 	private void narratorSliderStateChanged(javax.swing.event.ChangeEvent evt) {
 		JSlider source = (JSlider) evt.getSource();
 		if (!source.getValueIsAdjusting()) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put(Constants.AudioParam.NarratorVolume.toString(), String
 					.valueOf(source.getValue()));
-			parasCache.put(Constants.AudioParam.NarratorVolume.toString(), String
-					.valueOf(source.getValue()));
+			parasCache.put(Constants.AudioParam.NarratorVolume.toString(),
+					String.valueOf(source.getValue()));
 			ControllerFacade.execute("videoAudioSetupController",
 					"setAudioParas", map);
 		}
@@ -558,8 +578,10 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		Device narrator = (Device) this.narratorComboBox.getSelectedItem();
 		int micVolume = this.micSlider.getValue();
 		int narratorVolume = this.narratorSlider.getValue();
-		map.put(Constants.AudioParam.MicEquipment.toString(), String
-				.valueOf(mic.getIndex()));
+		if(mic != null){//win7 如果没有插入麦克风则为空
+			map.put(Constants.AudioParam.MicEquipment.toString(), String
+					.valueOf(mic.getIndex()));
+		}
 		map.put(Constants.AudioParam.NarratorEquipment.toString(), String
 				.valueOf(narrator.getIndex()));
 		map.put(Constants.AudioParam.MicVolume.toString(), String
@@ -595,9 +617,9 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton cancelButton;
+	private javax.swing.JComboBox codesCB;
 	private javax.swing.JCheckBox jCheckBox1;
 	private javax.swing.JCheckBox jCheckBox2;
-	private javax.swing.JComboBox jComboBox3;
 	private javax.swing.JComboBox jComboBox4;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel10;
