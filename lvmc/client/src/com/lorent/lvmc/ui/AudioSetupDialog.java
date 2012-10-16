@@ -6,6 +6,7 @@
 
 package com.lorent.lvmc.ui;
 
+import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -544,7 +545,9 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	//GEN-END:initComponents
 
 	private void codesCBItemStateChanged(java.awt.event.ItemEvent evt) {
-		ControllerFacade.execute("videoAudioSetupController", "setAudioCodes", codesCB.getSelectedItem());
+		if(evt.getStateChange() == ItemEvent.SELECTED){
+			ControllerFacade.execute("videoAudioSetupController", "setAudioCodes", codesCB.getSelectedItem());
+		}
 	}
 
 	private void narratorSliderStateChanged(javax.swing.event.ChangeEvent evt) {

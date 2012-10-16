@@ -84,4 +84,9 @@ public class StubServer {
 		return true;
 	}
 	
+	public boolean callerror(String username){
+		log.info("callerror username = " + username);
+		return true;
+	}
+	
 }
