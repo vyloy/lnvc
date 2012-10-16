@@ -37,10 +37,12 @@ public class AllSync extends DeleteSync {
 				for (int i=0;i<userList.length;i++) {
 					UcstarUser u=userList[i];
 					String[] info=new String[4];
+					u = ucstarwebservice.getUser(u.getUsername());
 					info[0]=u.getUsername();
 					info[1]=u.getName();
 					info[2]=u.getVoipphone();
-					info[3]=u.getVoipphonePass();
+					info[3]=u.getVoipphone();
+					//info[3]=u.getVoipphonePass();
 					users[i]=info;
 				}
 				userService.createOrUpdateUCSUser(users);

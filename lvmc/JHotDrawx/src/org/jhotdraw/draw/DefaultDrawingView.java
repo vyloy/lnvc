@@ -138,7 +138,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 			}
 		});
 		setDoubleBuffered(true);
-		new DropTarget(this, new DefaultDrawingViewDropTargetListener());
+		new DropTarget(this, new DefaultDrawingViewDropTargetListener(this));
 	}
 
 	/**
@@ -1341,5 +1341,17 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 
 	public void setCommandId(long commandId) {
 		this.commandIdGenerator.set(commandId);
+	}
+	
+	public boolean hasSVGImage(){
+		try{
+			for(Figure f:getDrawing().getFigures()){
+				if(f instanceof SVGImage)
+					return true;
+			}
+			return false;
+		}catch(Exception e){
+			return hasSVGImage();
+		}
 	}
 }
