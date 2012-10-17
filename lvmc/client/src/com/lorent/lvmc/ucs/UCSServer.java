@@ -137,6 +137,7 @@ public class UCSServer {
 	public boolean setconfserverip(String ip){
 		try {
 			ConfigUtil.setProperty("serverIP", ip);
+			LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), ConfigUtil.getIntProperty("csPort"));
 		} catch (Exception e) {
 			log.error("setconfserverip", e);
 		}
