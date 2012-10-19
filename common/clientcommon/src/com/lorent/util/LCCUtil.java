@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import com.lorent.common.event.JNIEvent;
 import com.lorent.common.event.JNIEventListener;
+import com.lorent.common.util.StringUtil;
 import com.sun.jna.Native;
 /**
  *
@@ -265,7 +266,8 @@ public class LCCUtil {
         sendJNIMessage(event);
     }
     
-    //MCU用户挂断或打入会议，会收到MCU服务端发送回来的所有人员信息，
+    //MCU用户挂断或打入会议，会收到MCU服务端发送回来的所有人员信息
+    //eg: str[0]=33012,str[1]="<sip:33012@10.168.250.12:5060>",str[2]=position,str[3]=status,str[4]=ssrc(视频信息),str[5]=lcc_type(1为转发型,-1,0为非转发型)
     protected void recieveMemberInfos(Object[] memberInfos) {
         log.info("recieveMemberInfos");
         JNIEvent event = new JNIEvent(getInstance(),JNIEvent.MEMBERINFO_CB,new Object[]{memberInfos});
@@ -437,6 +439,16 @@ public class LCCUtil {
     private native int setcaptruremute(int enable);
     
     private native int setvideoproperty(int fps, int bitrate, int width, int height);
+    
+    //为配合PBX不能转发SIP MESSAGE的关系，目前由lcccore直接把sipmessage发到mcu的sip proxy上，所以需要让lcccore知道mcu的代理ip以及端口
+    private native int ucssetmcuproxy(String mcuip, int mcuport);
+    
+    //设置音频编码器，codecs为jstring数组，表示lcccore支持的音频编码器用于SIP的协商，越靠前的优先级越高，数组里面可以为PCMU, G792, G711, SILK
+    private native int setaudiocodes(Object[] codecs);
+    
+    //由于修改音频编码器后不会马上生效，一般做法是使用sip协议的reinvite功能来重新协商编码器，下面结果是调用reinvite
+    private native int callreinvite(int call_index);
+    
     //===========================================================================
     
     static {
@@ -886,6 +898,25 @@ public class LCCUtil {
     	return this.setvideoproperty(fps, bitrate, width, height);
     }
     
+    //对应mcu.conf的ip和port
+    public int setMcuProxy(String ip, int port){
+    	log.info("setMcuProxy ip = " + ip + " & port = " + port);
+    	return this.ucssetmcuproxy(ip, port);
+    }
+    
+    public int setAudioCodes(Object[] codes){
+    	log.info("setAudioCodes codes = " + StringUtil.arrayToDelimitedString(codes, ";"));
+    	return this.setaudiocodes(codes);
+    }
+    
+    public int callReInvite(String username){
+    	int callindex = getCallIndex(username);
+    	log.info("callReInvite username = " + username + " & callindex = " + callindex);
+    	if(callindex != -1){
+    		return this.callreinvite(callindex);
+    	}
+    	return FAIL;
+    }
     
     //===========================================================================
 

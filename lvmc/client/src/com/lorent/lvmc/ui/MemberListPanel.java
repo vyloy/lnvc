@@ -339,6 +339,11 @@ public class MemberListPanel extends javax.swing.JPanel {
 				MemberDto myInfo = this.getMemberByName(info.getUsername());
 				if (myInfo.getRole().getPermissions().containsKey(
 						PermissionUtil.AUTHORITY_OPERATE)) {
+					String[] memberinfo = (String[])ControllerFacade.execute("phoneController", "getMemberInfoByUserName", item.getData().getName());
+					if(memberinfo == null || ! memberinfo[5].equals("1")){//不是我们的客户端不能更改权限
+						log.info("not lvmc client");
+						return;
+					}
 					if (item.getData().getRole().getNames().contains(
 							Constants.NARRATOR_STR)) {
 						this.grantNarratorMenuItem.setEnabled(false);
