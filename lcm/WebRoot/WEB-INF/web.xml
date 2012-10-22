@@ -28,7 +28,8 @@
   			lcmConf-com.lorent.web.xmlrpc.handler.ConferenecHandler,
   			lcmUser-com.lorent.web.xmlrpc.handler.UserHandler,
   			lcmPerm-com.lorent.web.xmlrpc.handler.PermissionHandler,
-  			lcmOrgan-com.lorent.web.xmlrpc.handler.OrganHandler
+  			lcmOrgan-com.lorent.web.xmlrpc.handler.OrganHandler,
+  			lcmVideo-com.lorent.web.xmlrpc.handler.VideoCommunityHandler
   		</param-value>
   	</init-param>
   </servlet>

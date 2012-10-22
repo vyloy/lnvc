@@ -122,4 +122,6 @@ public class Constants {
     public static final String PARTICIPANT_STR = "普通会议者";
     public static final int GRANT_AUTHORITY = 1;
     public static final int REVOKE_AUTHORITY = -1;
+    
+    public static final Object[] AUDIO_CODES = {"PCMU", "G729", "G711", "SILK"};
 }

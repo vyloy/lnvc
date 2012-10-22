@@ -48,6 +48,14 @@ public class ShareFileController extends BaseController {
 //	private String ftpGroupChatPath = "GroupChatFilePath";
 //	private String ftpCommomFilePath = "CommonFilePath";
 	
+	public String getFtpAddr() {
+		return ftpAddr;
+	}
+
+	public int getFtpPort() {
+		return ftpPort;
+	}
+
 	public void setFtpConfig(String ftpUser,String ftpPsw,String ftpAddr,int ftpPort) throws Exception{
 		this.ftpUser = ftpUser;
 		this.ftpPsw = ftpPsw;
@@ -542,6 +550,19 @@ public class ShareFileController extends BaseController {
 	public void cancelTransferData(ShareFileListItem item) throws Exception{
 		FTPClient ftpClient = getFtpClient(item.getSessionID());
 		ftpClient.abortCurrentDataTransfer(true);
+	}
+	
+	public void upLoadFileToFtpServer(File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
+		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		if (!ftpClient.isConnected()) {
+			ftpClient.connect(ftpAddr, ftpPort);
+			ftpClient.login(ftpUser, ftpPsw);
+		}
+		ftpClient.changeDirectory(targetDirectory);
+		ftpClient.upload(file,listener);
+		if (newFileName != null && !newFileName.equals("")) {
+			ftpClient.rename(file.getName(), newFileName);
+		}
 	}
 	
 	public void upLoadFile(ShareFileListPanel panel) throws Exception{

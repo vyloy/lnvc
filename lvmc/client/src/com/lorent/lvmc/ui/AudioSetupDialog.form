@@ -429,7 +429,7 @@
                                 <Property name="text" type="java.lang.String" value="&#x8bf7;&#x9009;&#x62e9;&#x7f16;&#x7801;&#x7c7b;&#x578b;&#xff1a;"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="jComboBox3">
+                            <Component class="javax.swing.JComboBox" name="codesCB">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="4">
@@ -440,6 +440,9 @@
                                   </StringArray>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="codesCBItemStateChanged"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>

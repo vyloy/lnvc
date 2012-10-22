@@ -11,4 +11,5 @@ classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
     <bean id="organController" class="com.lorent.vovo.controller.OrganController" parent="baseController" scope="singleton"/>
     <bean id="phoneController" class="com.lorent.vovo.controller.PhoneController" parent="baseController" scope="singleton"/>
     <bean id="screenShotController" class="com.lorent.vovo.controller.ScreenShotController" parent="baseController" scope="singleton"/>
+    <bean id="videoclipController" class="com.lorent.vovo.controller.VideoClipController" parent="baseController" scope="singleton"/>
 </beans>

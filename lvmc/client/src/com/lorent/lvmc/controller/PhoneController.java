@@ -50,6 +50,10 @@ public class PhoneController extends BaseController {
     public Map<String, String[]> getMemberinfomap(){
     	return memberinfomap;
     }
+    
+    public String[] getMemberInfoByUserName(String username){
+    	return memberinfomap.get(username);
+    }
 
 	private int LccRegisterState = PhoneEvent.PHONE_STATE_REGISTER_FAIL;
     
@@ -222,12 +226,12 @@ public class PhoneController extends BaseController {
     		ControllerFacade.execute("videoViewsController", "reconnectVideos", (Object)members);
     		for(Object memberInfo : memberInfos){
                 String[] temp = (String[])memberInfo;   
-                log.info("memberinfoCallBack:" + "member_id=" + temp[0] + "&sip=" + temp[1] + "&pos=" + temp[2] + "&state=" + temp[3] + "&ssrc=" + temp[4]);
+                log.info("memberinfoCallBack:" + "username=" + temp[0] + "&sip=" + temp[1] + "&pos=" + temp[2] + "&state=" + temp[3] + "&ssrc=" + temp[4] + "&lcctype=" + temp[5]);
                 if(!memberinfomap.containsKey(temp[0])){
                 	ParaUtil paras = ParaUtil.newInstance().setString("member", temp[0]).setInt("status", Constants.MEMBER_STATUS_JOIN).setBoolean("isOpenfireUser", false);
                     MessageUtil.getInstance().sendMessage("roomMemberChange", new Object[]{paras});
-                    memberinfomap.put(temp[0], temp);
                 }
+                memberinfomap.put(temp[0], temp);
             }
     		//查找退出MCU的成员                 开始
     		Set<String> keys = memberinfomap.keySet();

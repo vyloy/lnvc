@@ -53,7 +53,8 @@ public class DataUtil {
         ScreenShareProcess,
         AppName,
         AleardyHangup,
-        IsAnswer
+        IsAnswer,
+        SelectAudioCodes
     }
     
     public static <T> T getValue(Key key) {
