@@ -18,7 +18,7 @@ public class VideoCommunityHandler extends BaseHandler {
 	//上传视频信息
 	public boolean uploadVideoClipInfo(String videoClipName,String thumbnailFtpUrl,String title,String description,String ftpSrvIp) throws Exception{
 		//VideoCommunity
-		String videoClipUrl = "rtsp://"+InetAddress.getLocalHost().getHostAddress()+":554/"+videoClipName;
+		String videoClipUrl = "rtsp://"+ftpSrvIp+":554/"+videoClipName;
 		VideoClipBean bean = new VideoClipBean();
 		bean.setVideoClipUrl(videoClipUrl);
 		bean.setThumbnailUrl(thumbnailFtpUrl);

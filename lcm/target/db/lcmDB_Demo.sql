@@ -2451,6 +2451,25 @@ CREATE OR REPLACE VIEW subscriber AS
  SELECT sip_conf.id, sip_conf.name AS username, sip_conf.secret AS password, '' AS domain, '' AS email_address, '' AS hal, '' AS halb, '' AS rpid
    FROM sip_conf;
 
+----------视频社区-------------------
+CREATE SEQUENCE videoclip_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE videoclip_id_seq OWNER TO lcmadmin;
+
+CREATE TABLE videoclip
+(
+  id bigint NOT NULL DEFAULT nextval('videoclip_id_seq'::regclass),
+  videoclipurl character varying(2048),
+  thumbnailurl character varying(2048),
+  title character varying(100),
+  description character varying(255),
+  category character varying(50),
+  CONSTRAINT pk_videoclip_id PRIMARY KEY (id)
+);
 
 ------------========================================================end---------
 
