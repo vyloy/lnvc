@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">lorentvideo</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">络威视频</string>
+    <string name="title_activity_showvideo">观看视频</string>
+	<string name="button">点击观看视频</string>
+	<string name="previouspage">上一页</string>
+	<string name="nextpage">下一页</string>
+</resources>
