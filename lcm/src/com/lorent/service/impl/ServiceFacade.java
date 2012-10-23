@@ -26,6 +26,7 @@ import com.lorent.service.RoleService;
 import com.lorent.service.SipConfService;
 import com.lorent.service.SysServerConfigService;
 import com.lorent.service.UserService;
+import com.lorent.service.VideoClipService;
 
 public class ServiceFacade implements Serializable {
 	/**
@@ -61,9 +62,15 @@ public class ServiceFacade implements Serializable {
 
 	private SysServerConfigService sysServerConfigService;
 	
+	private VideoClipService videoClipService;
 	
 	
-	
+	public VideoClipService getVideoClipService() {
+		return videoClipService;
+	}
+	public void setVideoClipService(VideoClipService videoClipService) {
+		this.videoClipService = videoClipService;
+	}
 	public SysServerConfigService getSysServerConfigService() {
 		return sysServerConfigService;
 	}

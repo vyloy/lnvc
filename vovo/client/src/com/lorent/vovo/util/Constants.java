@@ -114,7 +114,8 @@ public interface Constants {
     	GroupSearchDialog,
     	TestMainFrame,
     	GroupChatSetFrame,
-    	PhoneFrame
+    	PhoneFrame,
+    	UPLOADVIDEOCLIPDIALOG
     }
     
     public enum ConfigKey{
@@ -178,4 +179,6 @@ public interface Constants {
     
     //传输文件超过指定时间就取消传输
     int SEND_FILE_TIMEOUT = 10 * (60 * 1000);
+    
+    final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
 }

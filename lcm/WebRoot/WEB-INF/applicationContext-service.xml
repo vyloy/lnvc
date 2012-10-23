@@ -213,6 +213,13 @@
 		    </bean>
 	   	</property>
    	</bean>	
+   	<bean id="videoClipService" parent="parentService">
+	     <property name="target">
+		    <bean  class="com.lorent.service.impl.VideoClipServiceImpl" parent="genericService">
+		    	<property name="dao" ref="videoClipDao" />
+		    </bean>
+	   	</property>
+   	</bean>
     <!-- service facade -->
     <bean id="serviceFacade" class="com.lorent.service.impl.ServiceFacade">
     	<property name="roleService" ref="roleService" />
@@ -242,6 +249,7 @@
     	<property name="confUserAuthorityService" ref="confUserAuthorityService" />
     	
     	<property name="sysServerConfigService" ref="sysServerConfigService" />
+    	<property name="videoClipService" ref="videoClipService" />
     </bean>
     
     <!-- acl service -->

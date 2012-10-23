@@ -63,6 +63,7 @@
 				<value>com/lorent/model/mapping/ConfUserAuthorityBean.hbm.xml</value>
 				<value>com/lorent/model/mapping/SystemParamBean.hbm.xml</value>
 				<value>com/lorent/model/mapping/SysServerconfigBean.hbm.xml</value>
+				<value>com/lorent/model/mapping/VideoClipBean.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -130,7 +131,7 @@
 	<bean id="confUserAuthorityDao" class="com.lorent.dao.impl.ConfUserAuthorityDaoImpl" parent="genericDao" />
 	
 	<bean id="sysServerConfigDao" class="com.lorent.dao.impl.SysServerConfigDaoImpl" parent="genericDao" />
-	
+	<bean id="videoClipDao" class="com.lorent.dao.impl.VideoClipDaoImpl" parent="genericDao" />
 	<!-- daofacade -->
 	<bean id="daoFacade" class="com.lorent.dao.impl.DaoFacade">
 		<property name="roleDao" ref="roleDao" />
@@ -161,6 +162,7 @@
 		<property name="conferenceUserDao" ref="conferenceUserDao" />
 		<property name="confUserRoleDao" ref="confUserRoleDao" />
 		<property name="confUserAuthorityDao" ref="confUserAuthorityDao" />
+		<property name="videoClipDao" ref="videoClipDao" />
 		<property name="sysServerConfigDao" ref="sysServerConfigDao" />
 	</bean> 
 </beans>

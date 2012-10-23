@@ -29,6 +29,7 @@ import com.lorent.dao.RoleDao;
 import com.lorent.dao.SipConfDao;
 import com.lorent.dao.SysServerConfigDao;
 import com.lorent.dao.UserDao;
+import com.lorent.dao.VideoClipDao;
 
 public class DaoFacade implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -64,7 +65,13 @@ public class DaoFacade implements Serializable{
 	private ConfUserAuthorityDao confUserAuthorityDao;
 	
 	private SysServerConfigDao sysServerConfigDao;
-	
+	private VideoClipDao videoClipDao;
+	public VideoClipDao getVideoClipDao() {
+		return videoClipDao;
+	}
+	public void setVideoClipDao(VideoClipDao videoClipDao) {
+		this.videoClipDao = videoClipDao;
+	}
 	public SysServerConfigDao getSysServerConfigDao() {
 		return sysServerConfigDao;
 	}

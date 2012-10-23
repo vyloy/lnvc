@@ -5,8 +5,8 @@
 package com.lorent.common.util;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +19,7 @@ import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMConferenceRoleBean;
 import com.lorent.common.dto.LCMConferenceTypeBean;
 import com.lorent.common.dto.LCMRoleDto;
+import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.common.dto.VovoMyInfo;
 import com.lorent.common.tree.DepartmentBean;
 import com.lorent.common.tree.MemberBean;
@@ -148,6 +149,33 @@ public class LCMUtil {
     	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
     }
     
+    public boolean uploadVideoClipInfo(String videoClipName,String thumbnailFtpUrl,String title,String description,String ftpSrvIp) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipName,thumbnailFtpUrl,title,description,ftpSrvIp});
+    }
+    
+    public int getVideoListLength() throws Exception{
+    	return (Integer)client.execute("lcmVideo.getVideoListLength",new Object[]{});
+    }
+    
+    public boolean deleteVideoClip(int videoClipId) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.deleteVideoClip",new Object[]{videoClipId});
+    }
+    
+    //index由0开始
+    public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
+    	Object obj = (Object)client.execute("lcmVideo.getVideoClipList",new Object[]{pageIndex,pageSize});
+    	if (obj != null) {
+			Object[] lcmVideoClipbjects = (Object[]) obj;
+			LCMVideoClip[] lcmVideoClips = new LCMVideoClip[lcmVideoClipbjects.length];
+    		for (int i = 0; i < lcmVideoClipbjects.length; i++) {
+    			lcmVideoClips[i] = (LCMVideoClip) lcmVideoClipbjects[i];
+			}
+    		return lcmVideoClips;
+		}
+    	else{
+    		return null;
+    	}
+    }
 	/**
 	 * 
 	 * @param users 每一个Object是String[],其中Str[0]=username,Str[1]=realname,Str[2]=lccno,Str[3]=passwd
@@ -158,15 +186,16 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
+        String xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
-        String[] str = new String[4];
-        str[0] = "testUser";
-        str[1] = "testR";
-        str[2] = "102";
-        str[3] = "1234";
-        lcm.addOrUpdateUCSUser(new Object[]{str});
-        
+        int x = 0;
+        int y = 3;
+        LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
+        for (LCMVideoClip lcmVideoClip : videoClipList) {
+			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getVideoClipUrl()+","+lcmVideoClip.getThumbnailUrl());
+		}
+        System.out.println("length: "+lcm.getVideoListLength());
+        lcm.deleteVideoClip(3);
 	}
     
     public static void main2(String[] args)throws Exception {
