@@ -52,7 +52,7 @@ public class LoginService extends BaseService {
         Boolean isHanguped = DataUtil.getValue(DataUtil.Key.AleardyHangup);
         if(isHanguped ==null || !isHanguped){
             LCCUtil.getInstance().doHangup(DataUtil.getLoginInfo().getConfno());
-            ControllerFacade.execute("phoneController", "lccHandupCallBack");
+            ControllerFacade.execute("phoneController", "lccHandupCallBack", DataUtil.getLoginInfo().getConfno());
         }
         DataUtil.setValue(DataUtil.Key.AleardyHangup, null);
         LCCUtil.getInstance().doSetLccType(LCCUtil.LCC_TYPE_MIX);

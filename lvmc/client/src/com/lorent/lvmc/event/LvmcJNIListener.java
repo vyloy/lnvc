@@ -54,6 +54,7 @@ public class LvmcJNIListener extends JNIEventAdapter{
         log.debug("hangupCallBack");
         MyEvent myEvent = new MyEvent();
         myEvent.setId("lccHandupCallBack");
+        myEvent.setParas(new Object[]{event.getParas()[0]});
         MessageUtil.getInstance().sendMessage(myEvent);
     }
 

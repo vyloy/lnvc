@@ -157,7 +157,10 @@ public class PhoneController extends BaseController {
 		}
     }
     
-    public void lccHandupCallBack() throws Exception{
+    public void lccHandupCallBack(String lccno) throws Exception{
+    	if(!DataUtil.getLoginInfo().getConfno().equals(lccno)){//不是挂断会议
+    		return;
+    	}
     	synchronized (LccState) {
     		log.info("LCC 电话被挂起");
             if (isExitApplication == false) {
