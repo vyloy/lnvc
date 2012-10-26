@@ -120,6 +120,7 @@ public class UCSServer {
 	public boolean call(String username){
 		log.info("call : username = " + username);
 		Start.calling = username;
+		LCCUtil.getInstance().doSetLccType(LCCUtil.LCC_TYPE_MIX);
 		LCCUtil.getInstance().doCall(username);
 		return true;
 	}
@@ -131,6 +132,7 @@ public class UCSServer {
 	
 	public int answercall(String username){
 		log.info("answercall : username = " + username);
+		LCCUtil.getInstance().doSetLccType(LCCUtil.LCC_TYPE_MIX);
 		return LCCUtil.getInstance().doAnswer(username);
 	}
 	

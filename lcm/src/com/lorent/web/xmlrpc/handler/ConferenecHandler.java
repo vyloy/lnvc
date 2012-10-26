@@ -806,7 +806,7 @@ public class ConferenecHandler extends BaseHandler {
 		ConferenceNewBean bean = new ConferenceNewBean();
 		bean.setDel(1);
 		List<ConferenceNewBean> confs = serviceFacade.getConferenceNewService().getByExample(bean);
-		if(confs.size() == 0){
+		if(confs == null || confs.size() == 0){
 			return null;
 		}
 		Object[] objs = new Object[confs.size()];
