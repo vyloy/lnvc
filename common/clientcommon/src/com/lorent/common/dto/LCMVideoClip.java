@@ -4,30 +4,37 @@ import java.io.Serializable;
 
 public class LCMVideoClip implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String videoClipUrl;//视频存放url地址
+	private String videoClipUrlHigh;//高清视频存放url地址
+	private String videoClipUrlStandard;//标清视频存放url地址
 	private String thumbnailUrl;//视频缩略图url地址
 	private String title;//标题
 	private String description;//描述
 	private String category;//类别
-	protected Integer id;
-	protected Integer status;
-	public Integer getId() {
-		return id;
+	private String createrName;
+	public String getCreaterName() {
+		return createrName;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCreaterName(String createrName) {
+		this.createrName = createrName;
 	}
-	public Integer getStatus() {
-		return status;
+	public String getCreaterNo() {
+		return createrNo;
 	}
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setCreaterNo(String createrNo) {
+		this.createrNo = createrNo;
 	}
-	public String getVideoClipUrl() {
-		return videoClipUrl;
+	private String createrNo;
+	public String getVideoClipUrlHigh() {
+		return videoClipUrlHigh;
 	}
-	public void setVideoClipUrl(String videoClipUrl) {
-		this.videoClipUrl = videoClipUrl;
+	public void setVideoClipUrlHigh(String videoClipUrlHigh) {
+		this.videoClipUrlHigh = videoClipUrlHigh;
+	}
+	public String getVideoClipUrlStandard() {
+		return videoClipUrlStandard;
+	}
+	public void setVideoClipUrlStandard(String videoClipUrlStandard) {
+		this.videoClipUrlStandard = videoClipUrlStandard;
 	}
 	public String getThumbnailUrl() {
 		return thumbnailUrl;
@@ -52,5 +59,20 @@ public class LCMVideoClip implements Serializable {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	protected Integer id;
+	protected Integer status;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

@@ -552,6 +552,18 @@ public class ShareFileController extends BaseController {
 		ftpClient.abortCurrentDataTransfer(true);
 	}
 	
+	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
+		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		if (!ftpClient.isConnected()) {
+			ftpClient.connect(ftpAddr, ftpPort);
+			ftpClient.login(ftpUser, ftpPsw);
+		}
+		ftpClient.changeDirectory(targetDirectory);
+		if (fileName != null && !fileName.equals("")) {
+			ftpClient.deleteFile(fileName);
+		}
+	}
+	
 	public void upLoadFileToFtpServer(File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {

@@ -81,6 +81,7 @@ public interface Constants {
     	GROUPCHAT_NOTIFY_TYPE_CHANGE_TOPIC_DESC,
     	GroupChatSetFrame,
     	WHITE_IMAGE,
+    	WHITE_IMAGE_X,
     	BACKGROUND_WHITE_IMAGE,
     	SYSTEM_EMOTION,
     	FRIEND_CHAT,
@@ -115,7 +116,8 @@ public interface Constants {
     	TestMainFrame,
     	GroupChatSetFrame,
     	PhoneFrame,
-    	UPLOADVIDEOCLIPDIALOG
+    	UPLOADVIDEOCLIPDIALOG,
+    	VIDEOCLIPPANEL
     }
     
     public enum ConfigKey{
@@ -130,6 +132,11 @@ public interface Constants {
     	ModifyGroupChatMemberAuthority
     }
 
+    public enum VideoDefinition{
+    	High,
+    	Standard
+    }
+    
     public final String SUPPER_USER = "admin";
     
     String SYSTEM_HEAD_IMAGE_PATH = "/com/lorent/vovo/resource/images/systemheads/";
