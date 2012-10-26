@@ -6,10 +6,13 @@
 			<column name="id" />
 			<generator class="identity" />
 		</id>
-		<property name="videoClipUrl" column="videoclipurl" />
+		<property name="videoClipUrlHigh" column="videoclipurlhigh" />
+		<property name="videoClipUrlStandard" column="videoclipurlstandard" />
 		<property name="thumbnailUrl" column="thumbnailurl" />
 		<property name="title" column="title" />
 		<property name="description" column="description" />
 		<property name="category" column="category" />
+		<property name="createrName" column="creatername" />
+		<property name="createrNo" column="createrno" />
 	</class>
 </hibernate-mapping>
