@@ -57,7 +57,7 @@ public class VideoClipItem extends javax.swing.JPanel {
 		descriptionLabel = new javax.swing.JLabel();
 		jPanel3 = new javax.swing.JPanel();
 		detailButton = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
+		playButton = new javax.swing.JButton();
 		deleteButton = new javax.swing.JButton();
 
 		setMaximumSize(new java.awt.Dimension(2147483647, 100));
@@ -149,8 +149,13 @@ public class VideoClipItem extends javax.swing.JPanel {
 		});
 		jPanel3.add(detailButton);
 
-		jButton2.setText("\u64ad\u653e");
-		jPanel3.add(jButton2);
+		playButton.setText("\u64ad\u653e");
+		playButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				playButtonActionPerformed(evt);
+			}
+		});
+		jPanel3.add(playButton);
 
 		deleteButton.setText("\u5220\u9664");
 		deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +170,10 @@ public class VideoClipItem extends javax.swing.JPanel {
 		add(backgroundXPanel, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		Vovo.exeC("videoclip", "playVideoClip",lcmVideoClip.getVideoClipUrlHigh());
+	}
 
 	private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "deleteVideoClip", this);
@@ -195,13 +204,13 @@ public class VideoClipItem extends javax.swing.JPanel {
 	private javax.swing.JButton deleteButton;
 	private javax.swing.JLabel descriptionLabel;
 	private javax.swing.JButton detailButton;
-	private javax.swing.JButton jButton2;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
 	private org.jdesktop.swingx.JXPanel pictureXPanel;
+	private javax.swing.JButton playButton;
 	private javax.swing.JLabel titleLabel;
 
 	// End of variables declaration//GEN-END:variables

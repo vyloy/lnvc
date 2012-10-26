@@ -326,4 +326,24 @@ public class VideoClipController extends BaseController {
 		videoClipInfoDialog.setVisible(true);
 	}
 	
+	public void playVideoClip(String url) throws Exception{
+		String vlc = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\vlc\\vlc.exe");
+		String newUrl = StringUtil.convertFilePath2DOSCommandStr(url);
+		final String cmdStr =  "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(vlc+" --one-instance "+newUrl);
+		new Thread(){
+
+			@Override
+			public void run() {
+				try {
+					log.info(cmdStr);
+					Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
+//					startProcess.waitFor();
+					log.info("play video end");
+				} catch (Exception e) {
+					log.error("playVideoClip", e);
+				}
+			}
+		}.start();
+		
+	}
 }
