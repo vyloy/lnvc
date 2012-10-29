@@ -13,6 +13,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.lorent.vovo.Vovo;
+import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.VovoStringUtil;
 
 /**
@@ -22,7 +23,8 @@ import com.lorent.vovo.util.VovoStringUtil;
 public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	private String thumbnailImageFilePath;
-	private String selectedVideoFilePath;
+	private String selectedHighVideoFilePath;
+	private String selectedStandardVideoFilePath;
 	private String currentTime;
 
 	public String getVideoDescrption() {
@@ -43,12 +45,21 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		this.currentTime = currentTime;
 	}
 
-	public String getSelectedVideoFilePath() {
-		return selectedVideoFilePath;
+	public String getSelectedStandardVideoFilePath() {
+		return selectedStandardVideoFilePath;
 	}
 
-	public void setSelectedVideoFilePath(String selectedVideoFilePath) {
-		this.selectedVideoFilePath = selectedVideoFilePath;
+	public void setSelectedStandardVideoFilePath(
+			String selectedStandardVideoFilePath) {
+		this.selectedStandardVideoFilePath = selectedStandardVideoFilePath;
+	}
+
+	public String getSelectedHighVideoFilePath() {
+		return selectedHighVideoFilePath;
+	}
+
+	public void setSelectedHighVideoFilePath(String selectedHighVideoFilePath) {
+		this.selectedHighVideoFilePath = selectedHighVideoFilePath;
 	}
 
 	public String getThumbnailImageFilePath() {
@@ -75,36 +86,46 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	private void initComponents() {
 
 		jPanel1 = new javax.swing.JPanel();
-		selectFileButton = new javax.swing.JButton();
+		resultProgressBar = new javax.swing.JProgressBar();
+		jPanel4 = new javax.swing.JPanel();
+		selectFileHighButton = new javax.swing.JButton();
 		jLabel1 = new javax.swing.JLabel();
-		filePathTextField = new javax.swing.JTextField();
+		hightFilePathTextField = new javax.swing.JTextField();
 		jLabel2 = new javax.swing.JLabel();
 		titleTextField = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		descriptionTextArea = new javax.swing.JTextArea();
-		resultProgressBar = new javax.swing.JProgressBar();
+		jLabel4 = new javax.swing.JLabel();
+		StandardFilePathTextField = new javax.swing.JTextField();
+		selectFileStandardButton = new javax.swing.JButton();
+		jPanel3 = new javax.swing.JPanel();
 		thumbnailXPanel1 = new org.jdesktop.swingx.JXPanel();
 		jPanel2 = new javax.swing.JPanel();
 		uploadButton = new javax.swing.JButton();
 		cancelButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setAlwaysOnTop(true);
 		setResizable(false);
 
-		selectFileButton.setText(VovoStringUtil
+		jPanel1.setLayout(new java.awt.BorderLayout());
+
+		resultProgressBar.setStringPainted(true);
+		jPanel1.add(resultProgressBar, java.awt.BorderLayout.SOUTH);
+
+		selectFileHighButton.setText(VovoStringUtil
 				.getUIString("UploadVideoClipDialog.browserfile"));
-		selectFileButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				selectFileButtonActionPerformed(evt);
-			}
-		});
+		selectFileHighButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						selectFileHighButtonActionPerformed(evt);
+					}
+				});
 
 		jLabel1.setText(VovoStringUtil
-				.getUIString("UploadVideoClipDialog.uploadfile"));
+				.getUIString("UploadVideoClipDialog.uploadfilehigh"));
 
-		filePathTextField.setEnabled(false);
+		hightFilePathTextField.setEnabled(false);
 
 		jLabel2.setText(VovoStringUtil
 				.getUIString("UploadVideoClipDialog.title"));
@@ -116,7 +137,203 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		descriptionTextArea.setRows(5);
 		jScrollPane1.setViewportView(descriptionTextArea);
 
-		resultProgressBar.setStringPainted(true);
+		jLabel4.setText(VovoStringUtil
+				.getUIString("UploadVideoClipDialog.uploadfilestandard"));
+
+		StandardFilePathTextField.setEnabled(false);
+
+		selectFileStandardButton.setText(VovoStringUtil
+				.getUIString("UploadVideoClipDialog.browserfile"));
+		selectFileStandardButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						selectFileStandardButtonActionPerformed(evt);
+					}
+				});
+
+		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(
+				jPanel4);
+		jPanel4.setLayout(jPanel4Layout);
+		jPanel4Layout
+				.setHorizontalGroup(jPanel4Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel4Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING)
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jLabel1)
+																		.addGap(
+																				12,
+																				12,
+																				12)
+																		.addComponent(
+																				hightFilePathTextField,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				281,
+																				Short.MAX_VALUE)
+																		.addGap(
+																				7,
+																				7,
+																				7)
+																		.addComponent(
+																				selectFileHighButton))
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jLabel4)
+																		.addGap(
+																				12,
+																				12,
+																				12)
+																		.addComponent(
+																				StandardFilePathTextField,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				281,
+																				Short.MAX_VALUE)
+																		.addGap(
+																				7,
+																				7,
+																				7)
+																		.addComponent(
+																				selectFileStandardButton))
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jLabel2)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				titleTextField,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				401,
+																				Short.MAX_VALUE)))
+										.addContainerGap())
+						.addGroup(
+								jPanel4Layout
+										.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+										.addGroup(
+												jPanel4Layout
+														.createSequentialGroup()
+														.addContainerGap()
+														.addComponent(jLabel3)
+														.addPreferredGap(
+																javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+																14,
+																Short.MAX_VALUE)
+														.addComponent(
+																jScrollPane1,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																399,
+																javax.swing.GroupLayout.PREFERRED_SIZE)
+														.addContainerGap())));
+		jPanel4Layout
+				.setVerticalGroup(jPanel4Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel4Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING,
+																false)
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addGap(
+																				2,
+																				2,
+																				2)
+																		.addComponent(
+																				hightFilePathTextField,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																jPanel4Layout
+																		.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																		.addComponent(
+																				jLabel1)
+																		.addComponent(
+																				selectFileHighButton)))
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING,
+																false)
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addGap(
+																				2,
+																				2,
+																				2)
+																		.addComponent(
+																				StandardFilePathTextField,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																jPanel4Layout
+																		.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.BASELINE)
+																		.addComponent(
+																				jLabel4)
+																		.addComponent(
+																				selectFileStandardButton)))
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(jLabel2)
+														.addComponent(
+																titleTextField,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap(206, Short.MAX_VALUE))
+						.addGroup(
+								jPanel4Layout
+										.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+										.addGroup(
+												jPanel4Layout
+														.createSequentialGroup()
+														.addGap(126, 126, 126)
+														.addGroup(
+																jPanel4Layout
+																		.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																		.addComponent(
+																				jScrollPane1,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				127,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addComponent(
+																				jLabel3))
+														.addContainerGap(62,
+																Short.MAX_VALUE))));
+
+		jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
 		thumbnailXPanel1.setBackground(new java.awt.Color(204, 204, 204));
 		thumbnailXPanel1.setBorder(new javax.swing.border.LineBorder(
@@ -127,149 +344,31 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		thumbnailXPanel1.setLayout(thumbnailXPanel1Layout);
 		thumbnailXPanel1Layout.setHorizontalGroup(thumbnailXPanel1Layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 227, Short.MAX_VALUE));
+				.addGap(0, 139, Short.MAX_VALUE));
 		thumbnailXPanel1Layout.setVerticalGroup(thumbnailXPanel1Layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 186, Short.MAX_VALUE));
+				.addGap(0, 127, Short.MAX_VALUE));
 
-		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(
-												thumbnailXPanel1,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.TRAILING)
-														.addComponent(jLabel1)
-														.addComponent(jLabel2)
-														.addComponent(jLabel3))
-										.addGap(12, 12, 12)
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(
-																jScrollPane1,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																309,
-																Short.MAX_VALUE)
-														.addComponent(
-																titleTextField,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																309,
-																Short.MAX_VALUE)
-														.addGroup(
-																jPanel1Layout
-																		.createSequentialGroup()
-																		.addComponent(
-																				filePathTextField,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				189,
-																				Short.MAX_VALUE)
-																		.addGap(
-																				7,
-																				7,
-																				7)
-																		.addComponent(
-																				selectFileButton)))
-										.addGap(35, 35, 35)).addComponent(
-								resultProgressBar,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 682,
-								Short.MAX_VALUE));
-		jPanel1Layout
-				.setVerticalGroup(jPanel1Layout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																jPanel1Layout
-																		.createSequentialGroup()
-																		.addGroup(
-																				jPanel1Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING,
-																								false)
-																						.addGroup(
-																								jPanel1Layout
-																										.createSequentialGroup()
-																										.addGap(
-																												2,
-																												2,
-																												2)
-																										.addComponent(
-																												filePathTextField,
-																												javax.swing.GroupLayout.PREFERRED_SIZE,
-																												javax.swing.GroupLayout.DEFAULT_SIZE,
-																												javax.swing.GroupLayout.PREFERRED_SIZE))
-																						.addGroup(
-																								jPanel1Layout
-																										.createParallelGroup(
-																												javax.swing.GroupLayout.Alignment.BASELINE)
-																										.addComponent(
-																												jLabel1)
-																										.addComponent(
-																												selectFileButton)))
-																		.addGap(
-																				18,
-																				18,
-																				18)
-																		.addGroup(
-																				jPanel1Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.BASELINE)
-																						.addComponent(
-																								jLabel2)
-																						.addComponent(
-																								titleTextField,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								javax.swing.GroupLayout.DEFAULT_SIZE,
-																								javax.swing.GroupLayout.PREFERRED_SIZE))
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-																		.addGroup(
-																				jPanel1Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addComponent(
-																								jLabel3)
-																						.addComponent(
-																								jScrollPane1,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								127,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)))
-														.addComponent(
-																thumbnailXPanel1,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(
-												resultProgressBar,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												22,
-												javax.swing.GroupLayout.PREFERRED_SIZE)));
+		javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(
+				jPanel3);
+		jPanel3.setLayout(jPanel3Layout);
+		jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+				jPanel3Layout.createSequentialGroup().addContainerGap()
+						.addComponent(thumbnailXPanel1,
+								javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addContainerGap()));
+		jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+				jPanel3Layout.createSequentialGroup().addContainerGap()
+						.addComponent(thumbnailXPanel1,
+								javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(172, Short.MAX_VALUE)));
+
+		jPanel1.add(jPanel3, java.awt.BorderLayout.WEST);
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -287,6 +386,16 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 		cancelButton.setText(VovoStringUtil
 				.getUIString("UploadVideoClipDialog.cancel"));
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActionPerformed(evt);
+			}
+		});
+		cancelButton.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				cancelButtonFocusLost(evt);
+			}
+		});
 		jPanel2.add(cancelButton);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
@@ -295,14 +404,30 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void selectFileStandardButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		Vovo.exeC("videoclip", "selectedVideoClipFile", this,
+				Constants.VideoDefinition.Standard);
+	}
+
+	private void selectFileHighButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		Vovo.exeC("videoclip", "selectedVideoClipFile", this,
+				Constants.VideoDefinition.High);
+	}
+
+	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		this.dispose();
+	}
+
+	private void cancelButtonFocusLost(java.awt.event.FocusEvent evt) {
+		this.dispose();
+	}
+
 	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "uploadVideoClip", this);
 	}
-
-	private void selectFileButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "selectedVideoClipFile", this);
-	}
-
+	
 	/**
 	 * @param args the command line arguments
 	 */
@@ -323,28 +448,38 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JTextField StandardFilePathTextField;
 	private javax.swing.JButton cancelButton;
 	private javax.swing.JTextArea descriptionTextArea;
-	private javax.swing.JTextField filePathTextField;
+	private javax.swing.JTextField hightFilePathTextField;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel3;
+	private javax.swing.JPanel jPanel4;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JProgressBar resultProgressBar;
-	private javax.swing.JButton selectFileButton;
+	private javax.swing.JButton selectFileHighButton;
+	private javax.swing.JButton selectFileStandardButton;
 	private org.jdesktop.swingx.JXPanel thumbnailXPanel1;
 	private javax.swing.JTextField titleTextField;
 	private javax.swing.JButton uploadButton;
 
 	// End of variables declaration//GEN-END:variables
-	public javax.swing.JTextField getFilePathTextField() {
-		return filePathTextField;
-	}
 
 	public org.jdesktop.swingx.JXPanel getThumbnailXPanel1() {
 		return thumbnailXPanel1;
+	}
+
+	public javax.swing.JTextField getStandardFilePathTextField() {
+		return StandardFilePathTextField;
+	}
+
+	public javax.swing.JTextField getHightFilePathTextField() {
+		return hightFilePathTextField;
 	}
 
 	public javax.swing.JProgressBar getResultProgressBar() {
@@ -357,6 +492,18 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	public javax.swing.JTextField getTitleTextField() {
 		return titleTextField;
+	}
+
+	public javax.swing.JButton getSelectFileHighButton() {
+		return selectFileHighButton;
+	}
+
+	public javax.swing.JButton getSelectFileStandardButton() {
+		return selectFileStandardButton;
+	}
+
+	public javax.swing.JButton getUploadButton() {
+		return uploadButton;
 	}
 
 }

@@ -31,6 +31,7 @@ import com.lorent.vovo.ui.OrganListPanel;
 import com.lorent.vovo.ui.PhoneFrame;
 import com.lorent.vovo.ui.ShareFileListPanel;
 import com.lorent.vovo.ui.UserSettingDialog;
+import com.lorent.vovo.ui.VideoClipPanel;
 import com.lorent.vovo.util.CallHistory;
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
@@ -119,6 +120,8 @@ public class MainController extends BaseController {
 		shareFileListPanel.setSessionID("Files");
 		shareFileListPanel.setParentFtpPath("CommonFilePath");
 		mainframe.getMainTab().add(getUIString("mainTab.shareFileList"), shareFileListPanel);
+		VideoClipPanel videoClipPanel = Vovo.getMyContext().getViewManager().createView(VideoClipPanel.class, Constants.ViewKey.VIDEOCLIPPANEL.toString());
+		mainframe.getMainTab().add(getUIString("mainTab.videoclippanel"), videoClipPanel);
 		//set my info
 		VovoMyInfo info = Vovo.getLcmUtil().getVovoMyInfo(lccno);
 		mainframe.setMyInfo(info);

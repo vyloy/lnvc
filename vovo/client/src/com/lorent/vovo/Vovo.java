@@ -54,13 +54,15 @@ public class Vovo extends BaseApplication{
 	protected void beforeStart()throws Exception{
         String javahome = System.getProperty("java.home");
         log.info("javahome:" + javahome);
-		BufferedImage bufimg = ImageIO.read(MessageTabPanel.class.getResource("/com/lorent/vovo/resource/images/c_1440_900_3356.jpg"));
+		BufferedImage bufimg = ImageIO.read(MessageTabPanel.class.getResource("/com/lorent/vovo/resource/images/lvd1600_sip_back.png"));
 		setValue(Constants.DataKey.BACKGROUND_IMAGE.toString(), bufimg);
 		GaussianFilter gaussianFilter = new GaussianFilter(8.5f);
 		BufferedImage resultImage = gaussianFilter.filter(bufimg, bufimg);
 		setValue(Constants.DataKey.BACKGROUND_GAUSSIAN_IMAGE.toString(), resultImage);
 		BufferedImage whiteimg = ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/whitealpha.png"));
 		setValue(Constants.DataKey.WHITE_IMAGE.toString(), whiteimg);
+		BufferedImage whiteimgx = ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/whitealphax.png"));
+		setValue(Constants.DataKey.WHITE_IMAGE_X.toString(), whiteimgx);
 		//load system emotion
 		loadSystemEmotion();
 		//init data

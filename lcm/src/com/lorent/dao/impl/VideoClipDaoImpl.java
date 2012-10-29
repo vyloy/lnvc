@@ -40,7 +40,7 @@ public class VideoClipDaoImpl extends GenericDaoImpl<VideoClipBean,Integer> impl
 		List<VideoClipBean> all = getAll();
 		int begin =  index * size;
 		for (int i = 0; i < all.size(); i++) {
-			if (i >= begin && i<= begin+size) {
+			if (i >= begin && i< begin+size) {
 				list.add(all.get(i));
 			}
 		}

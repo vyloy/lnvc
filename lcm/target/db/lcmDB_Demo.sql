@@ -2463,11 +2463,14 @@ ALTER TABLE videoclip_id_seq OWNER TO lcmadmin;
 CREATE TABLE videoclip
 (
   id bigint NOT NULL DEFAULT nextval('videoclip_id_seq'::regclass),
-  videoclipurl character varying(2048),
+  videoclipurlhigh character varying(2048),
   thumbnailurl character varying(2048),
   title character varying(100),
   description character varying(255),
   category character varying(50),
+  videoclipurlstandard character varying(2048),
+  creatername character varying(256),
+  createrno character varying(256),
   CONSTRAINT pk_videoclip_id PRIMARY KEY (id)
 );
 

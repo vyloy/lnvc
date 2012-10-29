@@ -170,13 +170,36 @@ public class FileUtil {
     	return resultList;
     }
     
+    public static String getFileNameFromFilePath(String filepath) throws Exception{
+    	if (filepath == null || filepath.equals("")) {
+			return null;
+		}
+    	int lastIndexOf = filepath.lastIndexOf("\\");
+    	return filepath.substring(lastIndexOf+1);
+    }
+    
+    public static String getFileNameFromURL(String url) throws Exception{
+    	if (url == null || url.equals("")) {
+			return null;
+		}
+    	int lastIndexOf = url.lastIndexOf("/");
+    	return url.substring(lastIndexOf+1);
+    }
+    
     /**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		List<File> allFiles = FileUtil.getAllFiles(new File("D:\\Users\\panda\\Desktop\\V Vo"));
-		for (File file : allFiles) {
-			System.out.println(file);
+//		List<File> allFiles = FileUtil.getAllFiles(new File("D:\\Users\\panda\\Desktop\\V Vo\\xxx.jpg"));
+//		for (File file : allFiles) {
+//			System.out.println(file);
+//		}
+		try {
+			String fileNameFromStr = getFileNameFromFilePath("D:\\Users\\panda\\Desktop\\V Vo\\xxx.jpg");
+			System.out.println(fileNameFromStr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

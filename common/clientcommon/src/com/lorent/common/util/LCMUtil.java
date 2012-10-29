@@ -149,8 +149,8 @@ public class LCMUtil {
     	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
     }
     
-    public boolean uploadVideoClipInfo(String videoClipName,String thumbnailFtpUrl,String title,String description,String ftpSrvIp) throws Exception{
-    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipName,thumbnailFtpUrl,title,description,ftpSrvIp});
+    public boolean uploadVideoClipInfo(String videoClipNameHigh,String videoClipNameStandard,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipNameHigh,videoClipNameStandard,thumbnailFtpUrl,title,description,ftpSrvIp,createrName,createrNo});
     }
     
     public int getVideoListLength() throws Exception{
@@ -196,16 +196,27 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
+        String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
         int x = 0;
         int y = 3;
         LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
         for (LCMVideoClip lcmVideoClip : videoClipList) {
-			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getVideoClipUrl()+","+lcmVideoClip.getThumbnailUrl());
+			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getVideoClipUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
 		}
         System.out.println("length: "+lcm.getVideoListLength());
-        lcm.deleteVideoClip(3);
+        int videoListLength = lcm.getVideoListLength();
+        int index = 0;
+        int size = 3;
+        int begin =  index * size;
+		for (int i = 0; i < videoListLength; i++) {
+			if (i >= begin && i< begin+size) {
+//				list.add(all.get(i));
+				System.out.println(i);
+			}
+		}
+        
+//        lcm.deleteVideoClip(3);
 	}
     
     public static void main2(String[] args)throws Exception {
