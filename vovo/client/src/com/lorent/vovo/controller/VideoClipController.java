@@ -65,6 +65,7 @@ public class VideoClipController extends BaseController {
 			File thefile = jFileChooser.getSelectedFile();
 			if (definitaion.equals(Constants.VideoDefinition.High)) {
 				dialog.setSelectedHighVideoFilePath(thefile.getAbsolutePath());
+				//ffmpeg
 				String ffmpeg = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\ffmpeg\\ffmpeg.exe");
 				//ffmpeg -i "flvplayer.flv" -y -f image2 -t 0.001 -s 352x240 %home%\lorent\vovo\videoclip\test.jpg
 				String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
@@ -77,7 +78,7 @@ public class VideoClipController extends BaseController {
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
 				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 352x240 -f image2 "+targetPath);
-				System.out.println(cmdStr);
+				log.info(cmdStr);
 				Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
 				byte b[] = new byte[1024];
 	            int r = 0;
@@ -85,6 +86,8 @@ public class VideoClipController extends BaseController {
 	                log.info(new String(b, 0, r));
 	            }
 				startProcess.waitFor();
+				
+				mp4box(selectedFile);
 				
 				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 				File cacheimagefile = new File(cacheFileName);
@@ -98,12 +101,26 @@ public class VideoClipController extends BaseController {
 				}
 			}
 			else if(definitaion.equals(Constants.VideoDefinition.Standard)){
+				mp4box(thefile.getAbsolutePath());
 				dialog.setSelectedStandardVideoFilePath(thefile.getAbsolutePath());
 				dialog.getStandardFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			}
-			
-
 		}
+	}
+	
+	private void mp4box(String targetFilePath) throws Exception{
+		//mp4box
+		byte b[] = new byte[1024];
+        int r = 0;
+		String mp4box = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\GPAC\\mp4box.exe");
+		String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -hint "+targetFilePath);
+		System.out.println(cmdStr);
+		log.info(cmdStr);
+		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
+		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
+            log.info(new String(b, 0, r));
+        }
+		startProcess1.waitFor();
 	}
 	
 	class FTPDataTransferAdater implements FTPDataTransferListener{
