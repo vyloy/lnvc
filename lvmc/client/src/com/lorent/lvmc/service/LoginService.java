@@ -72,8 +72,9 @@ public class LoginService extends BaseService {
     }
     
     public boolean doLoginFromOutSide(
-    		String username,String password,String confno,String serverIP,Integer serverPort) throws Exception{
-        LoginInfo info = new LoginInfo(username,password, confno, serverIP, String.valueOf(serverPort));
+    		String username,String password,String confno,String serverIP) throws Exception{
+    	Integer serverPort = ConfigUtil.getIntProperty("serverPort");
+        LoginInfo info = new LoginInfo(username, password, confno, serverIP, String.valueOf(serverPort));
         DataUtil.setValue(Key.LoginInfo, info);
         DataUtil.setValue(DataUtil.Key.RepeaterHost, serverIP);
         LCMRoleDto roleDto = null;

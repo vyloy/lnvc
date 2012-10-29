@@ -73,7 +73,7 @@ public class AuthorityController extends BaseController {
 				memberDto.getRole().getPermissions().remove(key);
 			}
 		}
-		memberListItem.setData(memberDto, false);
+		memberListItem.setData(memberDto, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 		panel.revalidate();
 		panel.repaint();
 	}
@@ -105,7 +105,7 @@ public class AuthorityController extends BaseController {
 					}
 				}
 				dto.getRole().getNames().remove(roleName);
-				item.setData(dto, false);
+				item.setData(dto, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 			}
 		}
 		MemberDto memberDto = panel.getMemberByName(lccno);

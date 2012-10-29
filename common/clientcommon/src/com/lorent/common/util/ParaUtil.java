@@ -31,6 +31,10 @@ public class ParaUtil {
     	map.put(name, value);
     	return this;
     }
+    public ParaUtil setObject(String name, Object value){
+    	map.put(name, value);
+    	return this;
+    }
     
     public Map<String, Object> getMap(){
         return map;

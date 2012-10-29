@@ -176,6 +176,7 @@ public class PhoneController extends BaseController {
             else{
                 isExitApplication = false;
             }
+			memberinfomap.clear();
     		if(LvmcUtil.isUCSAPP() && Launcher.isStartedFromOutSide){
     			DataUtil.setValue(DataUtil.Key.AleardyHangup, true);
     			Launcher.stopLvmcFromOutSide();
@@ -202,7 +203,6 @@ public class PhoneController extends BaseController {
     }
     
     private ArrayList<String> getStateChageMember(Object[] memberInfos) throws Exception{
-    	
     	ArrayList<String> ressult = new ArrayList<String>();
     	for(Object memberInfo : memberInfos){
             String[] temp = (String[])memberInfo;   
@@ -218,24 +218,28 @@ public class PhoneController extends BaseController {
     public void memberinfoCallBack(Object[] memberInfos) throws Exception{
     	log.info("mcu会议人员变动callback");
     	if (memberInfos != null) {
-    		//判断mcu人员是否有变动
+    		//视频数据变动
     		ArrayList<String> stateChageMember = getStateChageMember(memberInfos);
     		Object[] array = stateChageMember.toArray();
     		String[] members = new String[array.length];
     		for (int i = 0; i < array.length; i++) {
 				members[i] = (String) array[i];
 			}
-
     		ControllerFacade.execute("videoViewsController", "reconnectVideos", (Object)members);
+    		//判断是否加入
     		for(Object memberInfo : memberInfos){
                 String[] temp = (String[])memberInfo;   
-                log.info("memberinfoCallBack:" + "username=" + temp[0] + "&sip=" + temp[1] + "&pos=" + temp[2] + "&state=" + temp[3] + "&ssrc=" + temp[4] + "&lcctype=" + temp[5]);
+                log.info("memberinfoCallBack:" + "username=" + temp[0] + "&sip=" + temp[1] + "&pos=" + temp[2] + "&state=" + temp[3] + "&ssrc=" + temp[4] + "&lcctype=" + temp[5] + "&video=" + temp[6] + "&audio=" + temp[6]);
                 if(!memberinfomap.containsKey(temp[0])){
-                	ParaUtil paras = ParaUtil.newInstance().setString("member", temp[0]).setInt("status", Constants.MEMBER_STATUS_JOIN).setBoolean("isOpenfireUser", false);
+                	ParaUtil paras = ParaUtil.newInstance().setString("member", temp[0]).setInt("status", Constants.MEMBER_STATUS_JOIN).setBoolean("isOpenfireUser", false).setObject("values", temp);;
+                    MessageUtil.getInstance().sendMessage("roomMemberChange", new Object[]{paras});
+                }else{//用户数据更新
+                	ParaUtil paras = ParaUtil.newInstance().setString("member", temp[0]).setInt("status", Constants.MEMBER_STATUS_UPDATE).setBoolean("isOpenfireUser", false).setObject("values", temp);
                     MessageUtil.getInstance().sendMessage("roomMemberChange", new Object[]{paras});
                 }
                 memberinfomap.put(temp[0], temp);
             }
+    		//判断是否有人退出
     		//查找退出MCU的成员                 开始
     		Set<String> keys = memberinfomap.keySet();
     		ArrayList<String> leaveMembers = new ArrayList<String>();
@@ -456,6 +460,7 @@ public class PhoneController extends BaseController {
 //        }
         if(phoneCallNumber != null){
             LCCUtil.getInstance().doHangup(phoneCallNumber);
+            memberinfomap.clear();
             
         }
     }

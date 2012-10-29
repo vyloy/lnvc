@@ -161,6 +161,16 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmVideo.deleteVideoClip",new Object[]{videoClipId});
     }
     
+    public boolean enableConfUserVideo(String confno, String lccno, boolean enable)throws Exception{
+    	return (Boolean)client.execute("lcmConf.enableConfUserVideo",new Object[]{confno, lccno, enable});
+    }
+    
+    public boolean enableConfUserAudio(String confno, String lccno, boolean enable)throws Exception{
+    	return (Boolean)client.execute("lcmConf.enableConfUserAudio",new Object[]{confno, lccno, enable});
+    }
+    
+    
+    
     //index由0开始
     public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
     	Object obj = (Object)client.execute("lcmVideo.getVideoClipList",new Object[]{pageIndex,pageSize});

@@ -11,6 +11,7 @@
 package com.lorent.lvmc.ui;
 
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
@@ -155,7 +156,7 @@ public class MemberListPanel extends javax.swing.JPanel {
 			model.removeAllElements();
 			for (MemberDto member : members) {
 				MemberListItem memberListItem = new MemberListItem();
-				memberListItem.setData(member, showPermission);
+				memberListItem.setData(member, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 				model.addElement(memberListItem);
 			}
 			this.revalidate();
@@ -179,9 +180,17 @@ public class MemberListPanel extends javax.swing.JPanel {
 		} else {
 			log.info("已有" + member.getName() + "号码，不需要加入");
 		}
-		memberListItem.setData(member, showPermission);
+		memberListItem.setData(member, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 	}
 
+	public void updateOneMember(MemberDto member) {
+		MemberListItem memberListItem = getMemberListItemByName(member.getName());
+		//暂时只更新音视频状态
+		memberListItem.updateVideoSoundStatus(memberListItem.getData());
+		this.revalidate();
+		this.repaint();
+	}
+	
 	public void removeOneMember(String member) {
 		DefaultListModel model = (DefaultListModel) memberList.getModel();
 		MemberDto temp = getMemberByName(member);
@@ -329,7 +338,15 @@ public class MemberListPanel extends javax.swing.JPanel {
 			MemberListItem item = (MemberListItem) selectedValue;
 			ControllerFacade.execute("videoViewsController", "showMemberVideo",
 					item);
-		} else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+		}else if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1
+				&& evt.getClickCount() == 1){
+			int locationToIndex = memberList.locationToIndex(evt.getPoint());
+			memberList.setSelectedIndex(locationToIndex);
+			Object selectedValue = memberList.getSelectedValue();
+			MemberListItem item = (MemberListItem) selectedValue;
+			Rectangle cellBounds = memberList.getCellBounds(locationToIndex, locationToIndex);
+			item.handleClick(evt.getPoint(), cellBounds);
+		}else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
 			int locationToIndex = memberList.locationToIndex(evt.getPoint());
 			memberList.setSelectedIndex(locationToIndex);
 			MemberListItem item = (MemberListItem) memberList

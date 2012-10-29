@@ -826,6 +826,19 @@ public class ConferenecHandler extends BaseHandler {
 		return serviceFacade.getConferenceNewService().revokeAuthority(confNo,lccno,roleName);
 	}
 	
+	public boolean enableConfUserVideo(String confno, String lccno, boolean enable)throws Exception{
+		log.info("enableConfUserVideo: confno = " + confno + " & lccno = " + lccno + "& enable = " + enable);
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+		return McuXmlrpc.setConfUserVideo(xmlrpcUrl, confno, lccno, enable);
+	}
+	
+	public boolean enableConfUserAudio(String confno, String lccno, boolean enable)throws Exception{
+		log.info("enableConfUserAudio: confno = " + confno + " & lccno = " + lccno + "& enable = " + enable);
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+		return McuXmlrpc.setConfUserAudio(xmlrpcUrl, confno, lccno, enable);
+	}
 	//--------------------------------------供 VOVO 调用(不带业务逻辑)end ----------------------------------
 	/**
 	 * @param args

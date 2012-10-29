@@ -10,6 +10,10 @@ import com.lorent.common.dto.LCMRoleDto;
  *
  * @author jack
  */
+/**
+ * @author Jack
+ *
+ */
 public class MemberDto {
     //成员名字
     private String name;
@@ -19,6 +23,10 @@ public class MemberDto {
     private boolean online;
     //别名
     private String nickname;
+    //开启音频
+    private boolean enableAudio;
+    //开启视频    
+    private boolean enableVideo;
 
     public String getName() {
         return name;
@@ -51,4 +59,22 @@ public class MemberDto {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+	public boolean isEnableAudio() {
+		return enableAudio;
+	}
+
+	public void setEnableAudio(boolean enableAudio) {
+		this.enableAudio = enableAudio;
+	}
+
+	public boolean isEnableVideo() {
+		return enableVideo;
+	}
+
+	public void setEnableVideo(boolean enableVideo) {
+		this.enableVideo = enableVideo;
+	}
+    
+    
 }

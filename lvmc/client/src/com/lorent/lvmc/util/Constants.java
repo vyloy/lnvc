@@ -43,6 +43,7 @@ public class Constants {
     
     public static final int MEMBER_STATUS_JOIN = 1;
     public static final int MEMBER_STATUS_LEAVE = 2;
+    public static final int MEMBER_STATUS_UPDATE = 3;
     
     public static final int MEMBER_STATUS_SHAREDESKTOP_FREE = 0;
     public static final int MEMBER_STATUS_SHAREDESKTOP_VIEW = 1;

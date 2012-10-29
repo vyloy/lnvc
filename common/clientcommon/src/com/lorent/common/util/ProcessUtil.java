@@ -50,7 +50,7 @@ public class ProcessUtil {
     }
     
     public boolean  processExists(String processName) throws Exception{
-        ArrayList<String> namesList = new ArrayList<String>();
+//        ArrayList<String> namesList = new ArrayList<String>();
         Process process = Runtime.getRuntime().exec("cmd /c tasklist ");
         
         InputStreamReader ipsr = new InputStreamReader(process.getInputStream());//把得到的输入流转换为字节流
@@ -62,6 +62,7 @@ public class ProcessUtil {
             if (indexOf != -1) {
 //                return true;
             	bFlag = true;
+            	break;
             }
         }
         process.waitFor();

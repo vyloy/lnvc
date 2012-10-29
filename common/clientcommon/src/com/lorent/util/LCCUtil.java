@@ -200,13 +200,19 @@ public class LCCUtil {
         	log.info("is calling, auto hangup the call");
         	this.hangup(callIndex);
         }else{
-	        isCalling = true;
-	        StoreData data = new StoreData();
-	        data.callIndex = callIndex;
-	        data.type = type;
-	        calls.put(lccno, data);
-	        JNIEvent event = new JNIEvent(getInstance(),JNIEvent.INCOMING_CB,new Object[]{lccno, type});
-	        sendJNIMessage(event);
+        	StoreData temp = calls.get(lccno);
+        	if(temp==null){
+		        isCalling = true;
+		        StoreData data = new StoreData();
+		        data.callIndex = callIndex;
+		        data.type = type;
+		        calls.put(lccno, data);
+		        JNIEvent event = new JNIEvent(getInstance(),JNIEvent.INCOMING_CB,new Object[]{lccno, type});
+		        sendJNIMessage(event);
+        	}else{//正在通话，自动挂断
+            	log.info("is calling, auto hangup the call");
+            	this.hangup(callIndex);
+        	}
         }
     }
 
@@ -267,7 +273,8 @@ public class LCCUtil {
     }
     
     //MCU用户挂断或打入会议，会收到MCU服务端发送回来的所有人员信息
-    //eg: str[0]=33012,str[1]="<sip:33012@10.168.250.12:5060>",str[2]=position,str[3]=status,str[4]=ssrc(视频信息),str[5]=lcc_type(1为转发型,-1,0为非转发型)
+    //eg: str[0]=33012,str[1]="<sip:33012@10.168.250.12:5060>",str[2]=position,str[3]=status,str[4]=ssrc(视频信息)
+    //str[5]=lcc_type(1为转发型,-1,0为非转发型),str[6]=video(1-开启0-关闭),str[7]=audio(1-开启0-关闭)
     protected void recieveMemberInfos(Object[] memberInfos) {
         log.info("recieveMemberInfos");
         JNIEvent event = new JNIEvent(getInstance(),JNIEvent.MEMBERINFO_CB,new Object[]{memberInfos});

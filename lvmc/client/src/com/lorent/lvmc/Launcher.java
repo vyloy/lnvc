@@ -13,6 +13,7 @@ import org.jivesoftware.smack.Connection;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.orm.jpa.vendor.Database;
 
+import com.lorent.common.util.LCMUtil;
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
@@ -20,6 +21,7 @@ import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.FileUtil;
 import com.lorent.lvmc.util.LvmcOpenfireUtil;
 import com.lorent.lvmc.util.DataUtil.Key;
+import com.lorent.util.LCCUtil;
 
 
 /**
@@ -43,17 +45,27 @@ public class Launcher {
     	}
     }
     
+    private static boolean isInit = false;
+    
+    //只执行一次的方法
+    private synchronized static void init(){
+    	if(!isInit){
+	    	String[] contextPaths = new String[]{"classpath:com/lorent/lvmc/config/applicationContext-*.xml"};
+	    	log.info("load context start");
+	        FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(contextPaths);
+	        log.info("load context end");
+	        DataUtil.setApplicationContext(context);
+	    	System.setProperty("java.awt.im.style","on-the-spot");
+	    	isInit = true;
+    	}
+    }
+    
     public static void startLvmcFromOutSide(Object[] args, Constants.AppName app, boolean isAnswer) throws Exception{
-    	String[] contextPaths = new String[]{"classpath:com/lorent/lvmc/config/applicationContext-*.xml"};
-        FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(contextPaths);
-        DataUtil.setApplicationContext(context);
-    	System.setProperty("java.awt.im.style","on-the-spot");
-//doLoginFromOutSide(String confName,String confNo,String username,String password,String serverip)
+    	init();
     	isStartedFromOutSide = true;
     	DataUtil.setAppName(app);
     	DataUtil.setValue(DataUtil.Key.IsAnswer, isAnswer);
     	ControllerFacade.execute("mainController", "doLoginFromOutSide",args[0],args[1],args[2],args[3],args[4]);
-    	
     }
     
     public static void stopLvmcFromOutSide() throws Exception{
@@ -128,5 +140,10 @@ public class Launcher {
 
 	public static void setEventListener(EventListener listener) {
 		Launcher.listener = listener;
+	}
+	
+	public static LCMUtil getLCMUtil()throws Exception{
+    	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
+    	return LCMUtil.newInstance(xmlrpcUrl);
 	}
 }

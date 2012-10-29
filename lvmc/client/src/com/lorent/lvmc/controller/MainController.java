@@ -80,32 +80,46 @@ public class MainController extends BaseController{
     }
     
     public void doLoginFromOutSide(String confName,String confNo,String username,String password,String serverip)throws Exception{
-    	Integer serverPort = ConfigUtil.getIntProperty("serverPort");
+
     	try {
-    		services.getLoginService().doLoginFromOutSide(username,password,confNo,serverip,serverPort);			
+    		services.getLoginService().doLoginFromOutSide(username,password,confNo,serverip);			
 		} catch (Exception e) {
 			Launcher.isStartedFromOutSide = false;
 			throw e;
 		}
-    	LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
+    	final LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
     	DataUtil.setValue(DataUtil.Key.showExitMenuItem, Boolean.FALSE);
-        MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+    	log.info("MainFrame create start");
+        final MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+        log.info("MainFrame create end");
         DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
         mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + confName + " " + StringUtil.getUIString("base.confno") + confNo + " " 
             + StringUtil.getUIString("base.username") + username);
         mainFrame.getTitleLabel().setText(mainFrame.getTitle());
-        
-        this.initMainWindow(mainFrame, loginInfo);
-        if (!PlatformUtil.isLocalSession()) {
-			mainFrame.getShareDesktopButton().setEnabled(false);
-			log.info("is not local windows session,can not use sharedesktop");
-		}
-        else{
-        	log.info("is local windows session");
-        }
-//        MyTrayIcon trayicon = ViewManager.getComponent(MyTrayIcon.class);
-//        trayicon.showMainMenu();
         mainFrame.setVisible(true);
+        log.info("================show mainframe=============");
+        SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+		        try {
+//		        	Thread.sleep(2000);
+		            log.info("initMainWindow start");
+					initMainWindow(mainFrame, loginInfo);
+			        log.info("initMainWindow end");
+			        if (!PlatformUtil.isLocalSession()) {
+						mainFrame.getShareDesktopButton().setEnabled(false);
+						log.info("is not local windows session,can not use sharedesktop");
+					}
+			        else{
+			        	log.info("is local windows session");
+			        }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
     }
     
     public void doLogin(ParaUtil paras)throws Exception{
@@ -118,14 +132,18 @@ public class MainController extends BaseController{
         	UserInfoUtil.setInfo(username, password, autoLogin, savePasswd);
             LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
             DataUtil.setValue(DataUtil.Key.showExitMenuItem, Boolean.TRUE);
+            log.info("MainFrame create start");
             MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+            log.info("MainFrame create end");
             DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
             mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
                 + StringUtil.getUIString("base.username") + paras.getValue("username"));
             mainFrame.getTitleLabel().setText(mainFrame.getTitle());
             
             ViewManager.disposeComponent(LoginFrame.class);
+            log.info("initMainWindow start");
             this.initMainWindow(mainFrame, loginInfo);
+            log.info("initMainWindow end");
             if (!PlatformUtil.isLocalSession()) {
 				mainFrame.getShareDesktopButton().setEnabled(false);
 				log.info("is not local windows session,can not use sharedesktop");
@@ -139,7 +157,7 @@ public class MainController extends BaseController{
 //            ViewManager.changeLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName"));
 //            ViewManager.changeTheme(ConfigUtil.getProperty("DefaultThemeClassName"));
 //            ViewManager.changeSkin(ConfigUtil.getProperty("SkinFileName"));
-            log.info("login end");
+            log.info("================login end=============");
             mainFrame.setVisible(true);
 //            ViewManager.changeLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName", "com.jtattoo.plaf.mcwin.McWinLookAndFeel"));
 //        }else{
@@ -402,12 +420,22 @@ public class MainController extends BaseController{
 			        log.info("status: " + status + ";lccno:" + member + " from memberlistpanel " + isOpenfireUser);
 			        if(status.equals(Constants.MEMBER_STATUS_JOIN)){
 			        	log.info("join lccno:" + member + " from memberlistpanel " + isOpenfireUser);
+
 			        	MemberDto temp = null;
 			        	if(!LvmcUtil.isUCSAPP()){
 			        		temp = services.getConfService().getMemberDtoByName(member);
 			        	}else{
 			        		FetchMemberInfoService fetchMemberInfoService = new FetchMemberInfoService();
 			        		temp = fetchMemberInfoService.getMemberDtoByName(member);
+			        	}
+			        	
+			        	String[] values = paras.getValue("values");
+			        	if(values!=null){
+				        	//str[6]=video(1-开启0-关闭),str[7]=audio(1-开启0-关闭)
+				        	boolean enableVideo = Integer.parseInt(values[6])==1?true:false;
+				        	boolean enableAudio = Integer.parseInt(values[7])==1?true:false;
+				        	temp.setEnableAudio(enableAudio);
+				        	temp.setEnableVideo(enableVideo);
 			        	}
 			        	if(LvmcUtil.isUCSAPP() && !isOpenfireUser){
 			        		panel.joinOneMember(temp);
@@ -441,6 +469,15 @@ public class MainController extends BaseController{
 			            }
 			            ViewManager.getComponent(ChatMainPanel.class).initcombox(listperson.toArray(new ChatComboxMemberModel[listperson.size()]));
 //			            log.info("remove " + member + " from chatmainpanel end");
+			        }else if(status.equals(Constants.MEMBER_STATUS_UPDATE)){
+			        	String[] values = paras.getValue("values");
+			        	//str[6]=video(1-开启0-关闭),str[7]=audio(1-开启0-关闭)
+			        	boolean enableVideo = Integer.parseInt(values[6])==1?true:false;
+			        	boolean enableAudio = Integer.parseInt(values[7])==1?true:false;
+			        	MemberDto memberDto = panel.getMemberByName(member);
+			        	memberDto.setEnableAudio(enableAudio);
+			        	memberDto.setEnableVideo(enableVideo);
+			        	panel.updateOneMember(memberDto);
 			        }
 			        panel.revalidate();
 			        panel.repaint();
@@ -616,12 +653,16 @@ public class MainController extends BaseController{
     }
     
     public void inviteUser(String lccno) throws Exception{
+    	lccno = lccno.trim();
     	log.info("邀请用户："+lccno);
     	if (lccno != null && !lccno.equals("")) {
     		LoginInfo loginInfo = DataUtil.getLoginInfo();
-        	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
+    		if(lccno.equals(loginInfo.getUsername())){
+    			this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("inviteUser.cannotInviteMe"));
+    			return;
+    		}
         	String siplccno  = "sip:"+lccno+"@"+LCCUtil.getInstance().getRegServerIP()+":"+LCCUtil.getInstance().getRegServerPort();
-        	LCMUtil.newInstance(xmlrpcUrl).inviteUserFromMcu(loginInfo.getConfno(), siplccno);
+        	Launcher.getLCMUtil().inviteUserFromMcu(loginInfo.getConfno(), siplccno);
 		}
     	else{
     		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("MainController.lccnoToShort"));
@@ -636,8 +677,32 @@ public class MainController extends BaseController{
     			this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("kick.oneself.error"));
     			return;
     		}
-        	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
-        	LCMUtil.newInstance(xmlrpcUrl).removeUserFromMcu(loginInfo.getConfno(), lccno);
+        	Launcher.getLCMUtil().removeUserFromMcu(loginInfo.getConfno(), lccno);
     	}
     }
+    
+    public void enableUserVideo(boolean enable, String user)throws Exception{
+    	if(PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE)){//判断有没有权限
+        	String confno = DataUtil.getLoginInfo().getConfno();
+        	log.info("enableUserVideo : confno = " + confno + " & user = " + user + " & enable = " + enable);
+        	Launcher.getLCMUtil().enableConfUserVideo(DataUtil.getLoginInfo().getConfno(), user, enable);
+    	}else{
+    		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("permission.onlyHostCanDo"));
+    		return;
+    	}
+
+    }
+    
+    public void enableUserAudio(boolean enable, String user)throws Exception{
+    	if(PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE)){//判断有没有权限
+	    	String confno = DataUtil.getLoginInfo().getConfno();
+	    	log.info("enableUserSound : confno = " + confno + " & user = " + user + " & enable = " + enable);
+	    	Launcher.getLCMUtil().enableConfUserAudio(DataUtil.getLoginInfo().getConfno(), user, enable);
+    	}else{
+    		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("permission.onlyHostCanDo"));
+    		return;
+    	}
+    }
+    
+    
 }

@@ -213,6 +213,22 @@ public class McuXmlrpc {
 		return flag;
 	}
 	
+	public static boolean setConfUserVideo(String xmlrpcUrl, String confno, String lccno, boolean enable)throws Exception{
+		int open = 0;
+		if(enable){
+			open = 1;
+		}
+		return setConfUserVideo(xmlrpcUrl, confno, lccno, open);
+	}
+	
+	public static boolean setConfUserAudio(String xmlrpcUrl, String confno, String lccno, boolean enable)throws Exception{
+		int open = 0;
+		if(enable){
+			open = 1;
+		}
+		return setConfUserAudio(xmlrpcUrl, confno, lccno, open);
+	}
+	
 	public static void main(String[] args)throws Exception{
 		String xmlrpcUrl = "http://10.168.250.12:6080/lcmRPC"; 
 //		McuXmlrpc.inviteConfUser(xmlrpcUrl, "326579", "33039");

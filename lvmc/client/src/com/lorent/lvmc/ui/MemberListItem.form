@@ -63,9 +63,6 @@
             </Property>
             <Property name="name" type="java.lang.String" value="enableVideo"/>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="enableVideoMouseClicked"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="enableSound">
           <Properties>

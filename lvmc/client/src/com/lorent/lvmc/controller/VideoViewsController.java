@@ -136,7 +136,7 @@ public class VideoViewsController extends BaseController {
         String member = paras.getValue("member");
         log.debug("member:"+member);
         Integer status = paras.getValue("status");
-        LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
+//        LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
 //        MemberListPanel panel = ViewManager.getComponent(MemberListPanel.class);
 //        ChatMainPanel chatMainPanel = ViewManager.getComponent(ChatMainPanel.class);
         VideoViewsPanel viewsPanel = ViewManager.getComponent(VideoViewsPanel.class);
