@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="800px"
     android:layout_height="480px"
-    android:background="@drawable/unnamed2"
+    android:background="@drawable/lvd1610_monitor_back"
     >
  <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">
  <TextView android:id="@+id/network_show"  android:layout_width="120dip" android:layout_height="wrap_content"/>
@@ -22,6 +22,12 @@
 <ImageButton android:id="@+id/phone" android:layout_width="50dip" android:layout_height="50dip"  android:layout_marginLeft="9dip" android:background="@drawable/phone_bg">
 </ImageButton>
 <ImageButton android:id="@+id/set" android:layout_width="50dip" android:layout_height="50dip"  android:layout_marginLeft="11dip" android:background="@drawable/android_bg">
+</ImageButton>
+
+
+<ImageButton android:id="@+id/systemset" android:layout_width="50dip" android:layout_height="50dip"  android:layout_marginLeft="11dip" android:background="@drawable/systemsetting">
+</ImageButton>
+<ImageButton android:id="@+id/videoclip" android:layout_width="50dip" android:layout_height="50dip"  android:layout_marginLeft="11dip" android:background="@drawable/videoclip">
 </ImageButton>
 <ImageButton android:id="@+id/convenience_services" android:nextFocusRight="@+id/music" android:layout_width="50dip" android:layout_height="50dip"  android:layout_marginLeft="14dip" android:background="@drawable/convenient_bg">
 </ImageButton>

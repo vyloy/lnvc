@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 public class HomePageActivity extends Activity {
 	
-	private ImageButton btn_music,btn_file,btn_game,btn_tv,btn_phone,btn_set,btn_service;
+	private ImageButton btn_music,btn_file,btn_game,btn_tv,btn_phone,btn_set,btn_service,btn_systemsetting,btn_videoclip;
 	private TextView register_show,network_show;
     
 	/** Called when the activity is first created. */
@@ -53,7 +53,7 @@ public class HomePageActivity extends Activity {
     }
     
     
-  //¹ã²¥½ÓÊÕÆ÷      
+  //å¹¿æ’­æ¥æ”¶å™¨
     private BroadcastReceiver lccMessage = new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
@@ -79,7 +79,7 @@ public class HomePageActivity extends Activity {
 		
 	private Handler handlerNetworkMsg  = new Handler(){
 		public void handleMessage(Message msg) {
-			//¼ì²éÍøÂçÁ¬½Ó
+			//æ£€æŸ¥ç½‘ç»œè¿æ¥
 			ConnectivityManager cm =
 				(ConnectivityManager)HomePageActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -102,19 +102,19 @@ public class HomePageActivity extends Activity {
 					{
 						System.out.println("unknow network");
 					}
-					network_show.setText("ÍøÂçÒÑÁ¬½Ó");
+					network_show.setText("ç½‘ç»œå·²è¿æ¥");
 					
 				}
 				else
 				{
-					network_show.setText("ÍøÂçÎ´Á¬½Ó");
+					network_show.setText("ç½‘ç»œæœªè¿æ¥");
 				}
 				}
 		};
 	};	
 	/**
 	 * 
-	 * ´¦Àíepg,Ô¤Ô¼ºÍÔ¤Â¼ĞÅÏ¢
+	 * å¤„ç†epg,é¢„çº¦å’Œé¢„å½•ä¿¡æ¯
 	 */
 	private Handler handlerLccMsg =new Handler(){
 		public void handleMessage(Message msg) {
@@ -134,7 +134,7 @@ public class HomePageActivity extends Activity {
 					}
 					else
 					{
-						register_show.setText("±¾»úÎ´×¢²á");
+						register_show.setText("æœ¬æœºæœªæ³¨å†Œ");
 					}
 				}
 				else{
@@ -163,14 +163,19 @@ public class HomePageActivity extends Activity {
     	btn_tv = (ImageButton)findViewById(R.id.tv);
     	btn_set = (ImageButton)findViewById(R.id.set);
     	btn_phone = (ImageButton)findViewById(R.id.phone);
+    	btn_systemsetting = (ImageButton)findViewById(R.id.systemset);
+    	btn_videoclip = (ImageButton)findViewById(R.id.videoclip);
     	
-    	btn_music.setOnClickListener(new ClickEvent());
-    	btn_file.setOnClickListener(new ClickEvent());
-    	btn_game.setOnClickListener(new ClickEvent());
-    	btn_service.setOnClickListener(new ClickEvent());
-    	btn_tv.setOnClickListener(new ClickEvent());
-    	btn_set.setOnClickListener(new ClickEvent());
-    	btn_phone.setOnClickListener(new ClickEvent());
+    	ClickEvent clickEvent = new ClickEvent();
+    	btn_music.setOnClickListener(clickEvent);
+    	btn_file.setOnClickListener(clickEvent);
+    	btn_game.setOnClickListener(clickEvent);
+    	btn_service.setOnClickListener(clickEvent);
+    	btn_tv.setOnClickListener(clickEvent);
+    	btn_set.setOnClickListener(clickEvent);
+    	btn_phone.setOnClickListener(clickEvent);
+    	btn_systemsetting.setOnClickListener(clickEvent);
+    	btn_videoclip.setOnClickListener(clickEvent);
     	
     }
     @Override
@@ -215,13 +220,13 @@ public class HomePageActivity extends Activity {
 				  }
 				  else 
 				  {
-					  Toast.makeText(HomePageActivity.this, "Ó¦ÓÃ³ÌĞòÎ´°²×°£¡", Toast.LENGTH_SHORT).show();
+					  Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 				  }
 				  
 			  }
 			  else
 			  {
-				  Toast.makeText(HomePageActivity.this, "sdcard ²»´æÔÚ", Toast.LENGTH_SHORT ).show();
+				  Toast.makeText(HomePageActivity.this, "sdcard ä¸å­˜åœ¨", Toast.LENGTH_SHORT ).show();
 			  }
 			}
 			else if(v == btn_file)
@@ -237,12 +242,12 @@ public class HomePageActivity extends Activity {
 					}
 					else 
 					{
-						Toast.makeText(HomePageActivity.this, "Ó¦ÓÃ³ÌĞòÎ´°²×°£¡", Toast.LENGTH_SHORT).show();
+						Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 					}
 				}
 				else
 				{
-					Toast.makeText(HomePageActivity.this, "sdcard ²»´æÔÚ", Toast.LENGTH_SHORT ).show();
+					Toast.makeText(HomePageActivity.this, "sdcard ä¸å­˜åœ¨", Toast.LENGTH_SHORT ).show();
 				}
 			}
 			else if(v == btn_game)
@@ -259,12 +264,12 @@ public class HomePageActivity extends Activity {
 					}
 					else 
 					{
-						Toast.makeText(HomePageActivity.this, "ÓÎÏ·Î´°²×°£¡", Toast.LENGTH_SHORT).show();
+						Toast.makeText(HomePageActivity.this, "æ¸¸æˆæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 					}
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "Ó¦ÓÃ³ÌĞòÎ´°²×°£¡", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_tv)
@@ -276,19 +281,19 @@ public class HomePageActivity extends Activity {
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "Ó¦ÓÃ³ÌĞòÎ´°²×°£¡", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_phone)
 			{
 				if(isPkgInstalled(HomePageActivity.this, "com.lorent"))
 				{
-				Intent mIntent=getPackageManager().getLaunchIntentForPackage("com.lorent");
-		        startActivity(mIntent);  
+					Intent mIntent=getPackageManager().getLaunchIntentForPackage("com.lorent");
+			        startActivity(mIntent);  
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "Ó¦ÓÃ³ÌĞòÎ´°²×°£¡", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_set)
@@ -300,9 +305,23 @@ public class HomePageActivity extends Activity {
 				startActivity(intent);   
 
 			}
-			else if(v == btn_service)
-			{
+			else if(v == btn_service){
 				
+			}
+			else if(v == btn_systemsetting){
+				Intent mIntent=getPackageManager().getLaunchIntentForPackage("com.android.settings");
+		        startActivity(mIntent);  
+			}
+			else if(v == btn_videoclip){
+				if(isPkgInstalled(HomePageActivity.this, "com.lorent.video")){
+					Intent intent =  new Intent();   
+					intent.setAction("Android.intent.action.MAIN");   
+					intent.setClassName("com.lorent.video", "com.lorent.video.MainActivity");   
+					startActivity(intent); 
+				}
+				else{
+					Toast.makeText(HomePageActivity.this, "åº”ç”¨ç¨‹åºæœªå®‰è£…ï¼", Toast.LENGTH_SHORT).show();
+				} 
 			}
 		}	
 	}    
