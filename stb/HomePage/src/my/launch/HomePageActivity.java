@@ -1,12 +1,10 @@
 package my.launch;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,19 +13,19 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
-import android.provider.Settings;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +42,7 @@ public class HomePageActivity extends Activity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initView();
+//        initGrid();
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         System.out.println("homepage oncreate()"+sDateFormat.format(new java.util.Date()));
         
@@ -102,12 +101,12 @@ public class HomePageActivity extends Activity {
 					{
 						System.out.println("unknow network");
 					}
-					network_show.setText("网络已连接");
+					network_show.setText(getString(R.string.netconnected));
 					
 				}
 				else
 				{
-					network_show.setText("网络未连接");
+					network_show.setText(getString(R.string.netnotconnect));
 				}
 				}
 		};
@@ -134,7 +133,7 @@ public class HomePageActivity extends Activity {
 					}
 					else
 					{
-						register_show.setText("本机未注册");
+						register_show.setText(getString(R.string.localnotregister));
 					}
 				}
 				else{
@@ -152,6 +151,72 @@ public class HomePageActivity extends Activity {
     	
     }
     
+    class MyAdapter extends BaseAdapter{
+    	private Context context;
+		
+    	MyAdapter(Context context){
+    		this.context = context;
+    	}
+    	
+		//图片
+		private Integer[] imgs = {
+				R.drawable.music,R.drawable.file
+		};
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			ImageView imageView = null;
+			if (convertView == null) {
+				imageView = new ImageView(context);
+				imageView.setLayoutParams(new GridView.LayoutParams(75, 75));
+				imageView.setAdjustViewBounds(false);//边界对齐
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				imageView.setPadding(8, 8, 8, 8);
+			}
+			else{
+				imageView = (ImageView)convertView;
+			}
+			
+			imageView.setImageResource(imgs[position]);
+			
+			return imageView;
+		}
+		
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public Object getItem(int position) {
+			return position;
+		}
+		
+		@Override
+		public int getCount() {
+			return imgs.length;
+		}
+    }
+    
+    
+    private void initGrid(){
+    	GridView gridView = (GridView)findViewById(R.id.gridview);
+    	gridView.setAdapter(new MyAdapter(this));
+    	gridView.setOnItemClickListener(new OnItemClickListener() {
+
+			/* (non-Javadoc)
+			 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+			 */
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+//				Toast.makeText(HomePageActivity.this, "position:"+position, Toast.LENGTH_SHORT).show();
+			}
+    		
+		});
+    }
+    
     private void initView(){
     	
     	network_show = (TextView)findViewById(R.id.network_show);
@@ -159,22 +224,22 @@ public class HomePageActivity extends Activity {
     	btn_music = (ImageButton)findViewById(R.id.music);
     	btn_file = (ImageButton)findViewById(R.id.file);
     	btn_game = (ImageButton)findViewById(R.id.game);
-    	btn_service = (ImageButton)findViewById(R.id.convenience_services);
+//    	btn_service = (ImageButton)findViewById(R.id.convenience_services);
     	btn_tv = (ImageButton)findViewById(R.id.tv);
-    	btn_set = (ImageButton)findViewById(R.id.set);
-    	btn_phone = (ImageButton)findViewById(R.id.phone);
-    	btn_systemsetting = (ImageButton)findViewById(R.id.systemset);
+//    	btn_set = (ImageButton)findViewById(R.id.set);
+//    	btn_phone = (ImageButton)findViewById(R.id.phone);
+//    	btn_systemsetting = (ImageButton)findViewById(R.id.systemset);
     	btn_videoclip = (ImageButton)findViewById(R.id.videoclip);
     	
     	ClickEvent clickEvent = new ClickEvent();
     	btn_music.setOnClickListener(clickEvent);
     	btn_file.setOnClickListener(clickEvent);
     	btn_game.setOnClickListener(clickEvent);
-    	btn_service.setOnClickListener(clickEvent);
+//    	btn_service.setOnClickListener(clickEvent);
     	btn_tv.setOnClickListener(clickEvent);
-    	btn_set.setOnClickListener(clickEvent);
-    	btn_phone.setOnClickListener(clickEvent);
-    	btn_systemsetting.setOnClickListener(clickEvent);
+//    	btn_set.setOnClickListener(clickEvent);
+//    	btn_phone.setOnClickListener(clickEvent);
+//    	btn_systemsetting.setOnClickListener(clickEvent);
     	btn_videoclip.setOnClickListener(clickEvent);
     	
     }
@@ -220,13 +285,13 @@ public class HomePageActivity extends Activity {
 				  }
 				  else 
 				  {
-					  Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+					  Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 				  }
 				  
 			  }
 			  else
 			  {
-				  Toast.makeText(HomePageActivity.this, "sdcard 不存在", Toast.LENGTH_SHORT ).show();
+				  Toast.makeText(HomePageActivity.this, getString(R.string.sdcardnotexist), Toast.LENGTH_SHORT ).show();
 			  }
 			}
 			else if(v == btn_file)
@@ -242,12 +307,12 @@ public class HomePageActivity extends Activity {
 					}
 					else 
 					{
-						Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+						Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 					}
 				}
 				else
 				{
-					Toast.makeText(HomePageActivity.this, "sdcard 不存在", Toast.LENGTH_SHORT ).show();
+					Toast.makeText(HomePageActivity.this, getString(R.string.sdcardnotexist), Toast.LENGTH_SHORT ).show();
 				}
 			}
 			else if(v == btn_game)
@@ -264,12 +329,12 @@ public class HomePageActivity extends Activity {
 					}
 					else 
 					{
-						Toast.makeText(HomePageActivity.this, "游戏未安装！", Toast.LENGTH_SHORT).show();
+						Toast.makeText(HomePageActivity.this, getString(R.string.gamenotinstall), Toast.LENGTH_SHORT).show();
 					}
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_tv)
@@ -281,7 +346,7 @@ public class HomePageActivity extends Activity {
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_phone)
@@ -293,7 +358,7 @@ public class HomePageActivity extends Activity {
 				}
 				else 
 				{
-					Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 				}
 			}
 			else if(v == btn_set)
@@ -320,7 +385,7 @@ public class HomePageActivity extends Activity {
 					startActivity(intent); 
 				}
 				else{
-					Toast.makeText(HomePageActivity.this, "应用程序未安装！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomePageActivity.this, getString(R.string.appnotinstall), Toast.LENGTH_SHORT).show();
 				} 
 			}
 		}	

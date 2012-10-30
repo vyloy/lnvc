@@ -2,4 +2,10 @@
 <resources>
     <string name="hello">Hello World, HomePageActivity!</string>
     <string name="app_name">HomePage</string>
+    <string name="appnotinstall">应用程序未安装！</string>
+    <string name="gamenotinstall">游戏未安装！</string>
+    <string name="sdcardnotexist">应用程序未安装！</string>
+    <string name="localnotregister">本机未注册</string>
+    <string name="netconnected">网络已连接</string>
+    <string name="netnotconnect">网络未连接</string>
 </resources>
