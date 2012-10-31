@@ -37,7 +37,8 @@ public class VideoClipDaoImpl extends GenericDaoImpl<VideoClipBean,Integer> impl
 	public List<VideoClipBean> getVideoClipList(int index, int size)
 			throws Exception {
 		List<VideoClipBean> list = new ArrayList<VideoClipBean>();
-		List<VideoClipBean> all = getAll();
+		String hql = "from VideoClipBean video where video.ismonitor = false order by video.id";
+		List<VideoClipBean> all = queryByHql(hql);
 		int begin =  index * size;
 		for (int i = 0; i < all.size(); i++) {
 			if (i >= begin && i< begin+size) {
@@ -46,4 +47,34 @@ public class VideoClipDaoImpl extends GenericDaoImpl<VideoClipBean,Integer> impl
 		}
 		return list;
 	}
+
+	@Override
+	public List<VideoClipBean> getMonitorList(int index, int size)
+			throws Exception {
+		List<VideoClipBean> list = new ArrayList<VideoClipBean>();
+		String hql = "from VideoClipBean video where video.ismonitor = true order by video.id";
+		List<VideoClipBean> all = queryByHql(hql);
+		int begin =  index * size;
+		for (int i = 0; i < all.size(); i++) {
+			if (i >= begin && i< begin+size) {
+				list.add(all.get(i));
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<VideoClipBean> getAllMonitor() throws Exception {
+		String hql = "from VideoClipBean video where video.ismonitor = true order by video.id";
+		List<VideoClipBean> list = queryByHql(hql);
+		return list;
+	}
+
+	@Override
+	public List<VideoClipBean> getAllVideoClip() throws Exception {
+		String hql = "from VideoClipBean video where video.ismonitor = false order by video.id";
+		List<VideoClipBean> list = queryByHql(hql);
+		return list;
+	}
+	
 }

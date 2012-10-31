@@ -391,11 +391,6 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 				cancelButtonActionPerformed(evt);
 			}
 		});
-		cancelButton.addFocusListener(new java.awt.event.FocusAdapter() {
-			public void focusLost(java.awt.event.FocusEvent evt) {
-				cancelButtonFocusLost(evt);
-			}
-		});
 		jPanel2.add(cancelButton);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
@@ -420,14 +415,10 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		this.dispose();
 	}
 
-	private void cancelButtonFocusLost(java.awt.event.FocusEvent evt) {
-		this.dispose();
-	}
-
 	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "uploadVideoClip", this);
 	}
-	
+
 	/**
 	 * @param args the command line arguments
 	 */

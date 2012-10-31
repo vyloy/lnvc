@@ -14,5 +14,6 @@
 		<property name="category" column="category" />
 		<property name="createrName" column="creatername" />
 		<property name="createrNo" column="createrno" />
+		<property name="ismonitor" column="ismonitor" />
 	</class>
 </hibernate-mapping>
