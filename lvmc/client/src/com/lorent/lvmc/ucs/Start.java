@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import com.lorent.common.util.PlatformUtil;
 import com.lorent.common.util.ProcessUtil;
 import com.lorent.common.util.StringUtil;
-import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.util.LCCUtil;
 
 public class Start {
@@ -25,9 +24,16 @@ public class Start {
 			slog = slog +"  "+string;
 		}
 		log.info("ucs phone module start "+slog);
-		
 		try{
-			clearScreenShare();
+			new Thread(){
+				public void run() {
+					try {
+						clearScreenShare();
+					} catch (Exception e) {
+						log.error("clearScreenShare", e);
+					}						
+				};
+			}.start();
 			int dllPort = Integer.parseInt(args[0]);
 			int myPort = Integer.parseInt(args[1]);
 			if (PlatformUtil.getOSVersion() >= 6.0f) {
@@ -56,6 +62,7 @@ public class Start {
 			}
 			System.exit(0);
 		}
+		log.info("start complete");
 	}
 	
 	private void clearScreenShare() throws Exception{
