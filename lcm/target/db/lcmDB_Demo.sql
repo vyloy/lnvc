@@ -2471,6 +2471,7 @@ CREATE TABLE videoclip
   videoclipurlstandard character varying(2048),
   creatername character varying(256),
   createrno character varying(256),
+  ismonitor boolean DEFAULT false,
   CONSTRAINT pk_videoclip_id PRIMARY KEY (id)
 );
 

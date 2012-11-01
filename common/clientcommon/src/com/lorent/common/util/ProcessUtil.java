@@ -112,6 +112,7 @@ public class ProcessUtil {
             ex.printStackTrace();
         }
         */
+    	/*
     	ProcessUtil processUtil = new ProcessUtil();
     	try {
 			boolean processExists = processUtil.processExists("winvnc.exe");
@@ -121,6 +122,25 @@ public class ProcessUtil {
 			System.out.println(taskListLine);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+    	try {
+    		String liveTv = StringUtil.convertFilePath2DOSCommandStr("D:\\MyEclipseWorkspaces\\git\\lnvc2\\vovo\\client\\livetv\\tv.jar");
+    		final String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr("java -jar "+liveTv);
+    		new Thread(){
+
+    			@Override
+    			public void run() {
+    				try {
+    					Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
+    					startProcess.waitFor();
+    				} catch (Exception e) {
+    				}
+    			}
+    		}.start();
+		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
     }

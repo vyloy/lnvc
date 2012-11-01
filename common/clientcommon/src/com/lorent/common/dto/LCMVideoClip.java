@@ -11,6 +11,13 @@ public class LCMVideoClip implements Serializable {
 	private String description;//描述
 	private String category;//类别
 	private String createrName;
+	private Boolean ismonitor;//是否监控
+	public Boolean getIsmonitor() {
+		return ismonitor;
+	}
+	public void setIsmonitor(Boolean ismonitor) {
+		this.ismonitor = ismonitor;
+	}
 	public String getCreaterName() {
 		return createrName;
 	}

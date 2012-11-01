@@ -64,19 +64,7 @@ public class MainFrame extends javax.swing.JFrame {
 		signlbl = new javax.swing.JLabel();
 		statusCombobox = new com.lorent.vovo.ui.StatusCombobox();
 		toolPanel = new javax.swing.JPanel();
-		phoneButton = new javax.swing.JButton();
-		phoneButton.setContentAreaFilled(false);
-		phoneButton.setBorderPainted(false);
-		phoneButton.setFocusable(false);
-		phoneButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PhoneFrame f = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.PhoneFrame.toString());
-				f.setVisible(true);
-			}
-		});
-		phoneButton.setPreferredSize(new Dimension(16, 16));
-		phoneButton.setMinimumSize(new Dimension(16, 16));
-		phoneButton.setMaximumSize(new Dimension(16, 16));
+		jLabel1 = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
 		mainTab = new javax.swing.JTabbedPane();
 
@@ -152,10 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
 		toolPanel.setOpaque(false);
 		toolPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT,
 				5, 1));
-
-		phoneButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/com/lorent/vovo/resource/images/phone.png"))); // NOI18N
-		toolPanel.add(phoneButton);
+		toolPanel.add(jLabel1);
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 1;
@@ -200,7 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
 		//		Vovo.exeC("main", "confirmExit");
-//		this.setVisible(false);
+		//		this.setVisible(false);
 	}
 
 	private void myHeadMouseClicked(java.awt.event.MouseEvent evt) {
@@ -240,7 +225,7 @@ public class MainFrame extends javax.swing.JFrame {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private org.jdesktop.swingx.JXPanel bgPanel;
-	private javax.swing.JButton phoneButton;
+	private javax.swing.JLabel jLabel1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JTabbedPane mainTab;
@@ -267,12 +252,14 @@ public class MainFrame extends javax.swing.JFrame {
 			this.signlbl.setText(info.getSign());
 		}
 
-		if(info.getDefaultImg()!=null){
-			try{
-//				this.myHead.setIcon(new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + info.getDefaultImg())));
-				ImageUtil.adjustLabelIcon(myHead, Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + info.getDefaultImg());
-			}catch(Exception ex){
-				
+		if (info.getDefaultImg() != null) {
+			try {
+				//				this.myHead.setIcon(new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + info.getDefaultImg())));
+				ImageUtil.adjustLabelIcon(myHead,
+						Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
+								+ info.getDefaultImg());
+			} catch (Exception ex) {
+
 			}
 		}
 	}

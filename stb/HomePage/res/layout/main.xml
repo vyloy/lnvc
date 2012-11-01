@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="800px"
+    android:layout_height="480px"
+    android:background="@drawable/lvd1610_monitor_back"
+    >
+ <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">
+ <TextView android:id="@+id/network_show"  android:layout_width="120dip" android:layout_height="wrap_content"/>
+ <TextView android:id="@+id/register_show" android:layout_width="120dip" android:layout_height="wrap_content"/>
+ </LinearLayout>   
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="80dip" android:layout_marginTop="80dip" android:gravity="center">
+
+	<ImageButton android:id="@+id/music" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/music_bg" android:nextFocusLeft="@+id/videoclip" >
+	</ImageButton>
+	<ImageButton android:id="@+id/file" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/file_bg">
+	</ImageButton>
+	<ImageButton android:id="@+id/game" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"   android:background="@drawable/game_bg">
+	</ImageButton>
+	<ImageButton android:id="@+id/tv" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"   android:background="@drawable/dtv_bg">
+	</ImageButton>>
+	<ImageButton android:id="@+id/phone" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/phone_bg">
+	</ImageButton>
+	<ImageButton android:id="@+id/videoclip" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/videoclip_bg" android:nextFocusRight="@+id/music">
+	</ImageButton>
+</LinearLayout>
+<!-- 
+
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="80dip" android:layout_marginTop="1dip" android:gravity="center">
+    <ImageButton android:id="@+id/systemset" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/systemsetting_bg" android:nextFocusLeft="@+id/set">
+	</ImageButton>
+	
+	
+	<ImageButton android:id="@+id/convenience_services" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip" android:background="@drawable/convenient_bg" android:nextFocusRight="@+id/music" >
+	</ImageButton>
+	<ImageButton android:id="@+id/set" android:layout_width="50dip" android:layout_height="50dip"  android:layout_margin="10dip"  android:background="@drawable/android_bg" android:nextFocusRight="@+id/systemset" >
+	</ImageButton>
+</LinearLayout>
+ -->
+
+
+</LinearLayout>

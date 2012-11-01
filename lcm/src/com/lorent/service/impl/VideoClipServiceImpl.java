@@ -17,7 +17,17 @@ public class VideoClipServiceImpl extends GenericServiceImpl<VideoClipDao, Video
 
 	@Override
 	public List<VideoClipBean> getAllVideoClip() throws Exception {
-		return daoFacade.getVideoClipDao().getAll();
+		return daoFacade.getVideoClipDao().getAllVideoClip();
+	}
+
+	@Override
+	public List<VideoClipBean> getAllMonitor() throws Exception {
+		return daoFacade.getVideoClipDao().getAllMonitor();
+	}
+
+	@Override
+	public List getMonitorList(int index, int size) throws Exception {
+		return daoFacade.getVideoClipDao().getMonitorList(index, size);
 	}
 
 	@Override
