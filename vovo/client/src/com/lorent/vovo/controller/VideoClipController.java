@@ -350,7 +350,7 @@ public class VideoClipController extends BaseController {
 //							URL url = new URL(lcmVideoClip.getThumbnailUrl());
 							imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
 						} catch (Exception e) {
-							imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.jpg")));
+							imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
 							log.error("reflashVideoClipPanel ",e );
 						}
 						imagePainter.setScaleToFit(true);
@@ -401,7 +401,7 @@ public class VideoClipController extends BaseController {
 //							URL url = new URL(lcmVideoClip.getThumbnailUrl());
 							imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
 						} catch (Exception e) {
-							imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.jpg")));
+							imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
 							log.error("reflashVideoClipPanel ",e );
 						}
 						imagePainter.setScaleToFit(true);
