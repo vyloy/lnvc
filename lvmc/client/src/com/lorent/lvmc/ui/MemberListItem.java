@@ -210,7 +210,7 @@ public class MemberListItem extends javax.swing.JPanel {
 		if (isClick(enableSound, p, cellBounds)) {
 			ControllerFacade.execute("mainController", "enableUserAudio", !data.isEnableAudio(), data.getName());
 		} else if (isClick(enableVideo, p, cellBounds)) {
-			ControllerFacade.execute("mainController", "enableUserSound", !data.isEnableVideo(), data.getName());
+			ControllerFacade.execute("mainController", "enableUserVideo", !data.isEnableVideo(), data.getName());
 		}
 	}
 
