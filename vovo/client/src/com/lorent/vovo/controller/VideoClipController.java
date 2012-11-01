@@ -86,6 +86,7 @@ public class VideoClipController extends BaseController {
 				ip.setScaleToFit(true);
 				ip.setScaleType(ScaleType.Distort);
 				dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
+				dialog.setCacheFileName(cacheimagefile.getName());
 			}
 		}
 	}
@@ -178,6 +179,36 @@ public class VideoClipController extends BaseController {
 	}
 	
 	public void uploadVideoClip(final UploadVideoClipDialog dialog) throws Exception{
+		//检测输入
+		String highFilePath = dialog.getHightFilePathTextField().getText();
+		if (highFilePath ==  null || highFilePath.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselectFileHigh"));
+			return;
+		}
+		String standardFilePath = dialog.getStandardFilePathTextField().getText();
+		if (standardFilePath == null || standardFilePath.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselectFileStandard"));
+			return;
+		}
+		String title = dialog.getTitleTextField().getText();
+		if (title == null || title.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needTitle"));
+			return;
+		}
+		else if (title.length() >= 100) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.titleTooLong"));
+			return;
+		}
+		String description = dialog.getDescriptionTextArea().getText();
+		if (description == null || description.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needDescription"));
+			return;
+		}
+		else if (description.length() >= 255) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.descriptionTooLong"));
+			return;
+		}
+		
 		dialog.getTitleTextField().setEnabled(false);
 		dialog.getDescriptionTextArea().setEnabled(false);
 		dialog.getSelectFileHighButton().setEnabled(false);
@@ -251,7 +282,7 @@ public class VideoClipController extends BaseController {
             	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileName,newFileName1, "ftp://"+ftpAddr+":"+ftpPort+"/VideoClips/"+thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername());
             	if (uploadVideoClipInfo) {
 //					System.out.println(uploadVideoClipInfo);
-					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"), VovoStringUtil.getUIString("VideoClipController.infoTip"), JOptionPane.YES_OPTION);
+					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
 					dialog.dispose();
 					reflashVideoClipPanel();
 				}
@@ -261,6 +292,39 @@ public class VideoClipController extends BaseController {
 	}
 	
 	public void uploadMonitor(final UploadMonitorDialog dialog) throws Exception{
+		//检查输入
+		String thumbnail = dialog.getThumbnailTextField().getText();
+		if (thumbnail == null || thumbnail.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselectThumbnail"));
+			return;
+		}
+		String title = dialog.getTitleTextField().getText();
+		if (title == null || title.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needTitle"));
+			return;
+		}
+		else if(title.length() >= 100){
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.titleTooLong"));
+			return;
+		}
+		String description = dialog.getDescriptionTextArea().getText();
+		if (description == null || description.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needDescription"));
+			return;
+		}
+		else if(description.length()>=255){
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.descriptionTooLong"));
+			return;
+		}
+		String liveUrl = dialog.getLiveStreamURLTextField().getText();
+		if (liveUrl == null || liveUrl.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needLiveStreamUrl"));
+			return;
+		}
+		else if(liveUrl.length() >=2048){
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.liveStreamUrlTooLong"));
+			return;
+		}
 		dialog.getLiveStreamURLTextField().setEnabled(false);
 		dialog.getTitleTextField().setEnabled(false);
 		dialog.getDescriptionTextArea().setEnabled(false);
@@ -268,7 +332,7 @@ public class VideoClipController extends BaseController {
 		//上传文件至ftp
 		
 		final File thumbailfile = new File(dialog.getThumbnailTextField().getText());
-		final String uiString = "步骤1: "+ thumbailfile.getName() + "  {0} %";
+		final String uiString = " "+ thumbailfile.getName() + "  {0} %";
 		final long thumbailfilesize = thumbailfile.length();
 		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
@@ -285,18 +349,18 @@ public class VideoClipController extends BaseController {
 		new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/Monitor",thumbailfile.getName());
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/Monitor",dialog.getCacheFileName());
             	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
             	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
             	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
             	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
             	String liveStreamUrl = dialog.getLiveStreamURLTextField().getText();
-            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/VideoClips/"+thumbailfile.getName();
+            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/Monitor/"+dialog.getCacheFileName();
             	String title = dialog.getTitleTextField().getText();
             	String description = dialog.getDescriptionTextArea().getText();
             	boolean uploadMonitorInfo = Vovo.getLcmUtil().uploadMonitorInfo(liveStreamUrl, thumbnailFtpUrl, title, description, ftpAddr, vovoinfo.getRealName(),vovoinfo.getUsername());
             	if (uploadMonitorInfo) {
-					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"), VovoStringUtil.getUIString("VideoClipController.infoTip"), JOptionPane.YES_OPTION);
+					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
 					dialog.dispose();
 					reflashMonitorPanel();
 				}
@@ -305,24 +369,35 @@ public class VideoClipController extends BaseController {
             }
         }.execute();
 	}
-	
+		
 	public void deleteVideoClip(VideoClipItem item) throws Exception{
 		int showConfirmDialog = JOptionPane.showConfirmDialog(null, VovoStringUtil.getUIString("VideoClipController.askConfirmDelete"), VovoStringUtil.getUIString("VideoClipController.infoTip"), JOptionPane.YES_NO_OPTION);
 		if (showConfirmDialog == JOptionPane.YES_OPTION) {
-			String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlHigh());
-			if (filenameHigh != null && !filenameHigh.equals("")) {
-				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+			
+			if (item.getLcmVideoClip().getIsmonitor()) {
+				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlHigh());
+				if (filenameHigh != null && !filenameHigh.equals("")) {
+					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/Monitor",filenameHigh);
+				}
+				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
+				reflashMonitorPanel();
 			}
-			String filenameStandard = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlStandard());
-			if (filenameStandard != null && !filenameStandard.equals("")) {
-				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
+			else{
+				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlHigh());
+				if (filenameHigh != null && !filenameHigh.equals("")) {
+					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+				}
+				String filenameStandard = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlStandard());
+				if (filenameStandard != null && !filenameStandard.equals("")) {
+					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
+				}
+				String filenameThumbnail = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getThumbnailUrl());
+				if (filenameThumbnail != null && !filenameThumbnail.equals("")) {
+					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
+				}
+				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
+				reflashVideoClipPanel();
 			}
-			String filenameThumbnail = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getThumbnailUrl());
-			if (filenameThumbnail != null && !filenameThumbnail.equals("")) {
-				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
-			}
-			Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
-			reflashVideoClipPanel();
 		}
 	}
 	
@@ -509,6 +584,15 @@ public class VideoClipController extends BaseController {
 		videoClipInfoDialog.getPictureXPanel().setBackgroundPainter(item.getPictureXPanel().getBackgroundPainter());
 		Vovo.getViewManager().setWindowCenterLocation(videoClipInfoDialog);
 		videoClipInfoDialog.setTitle("视频信息");
+		if (item.getLcmVideoClip().getIsmonitor()) {
+			videoClipInfoDialog.getLiveStreamUrlLabel().setVisible(true);
+			videoClipInfoDialog.getLiveStreamUrlTextField().setVisible(true);
+			videoClipInfoDialog.getLiveStreamUrlTextField().setText(item.getLcmVideoClip().getVideoClipUrlHigh());
+		}
+		else{
+			videoClipInfoDialog.getLiveStreamUrlLabel().setVisible(false);
+			videoClipInfoDialog.getLiveStreamUrlTextField().setVisible(false);
+		}
 		videoClipInfoDialog.setVisible(true);
 	}
 	
