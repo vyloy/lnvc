@@ -301,7 +301,7 @@ public class LvmcOpenfireUtil {
         return occupant.split("/")[1];
     }
    
-    public static void sendVoteData(String str){
+    public static void sendVoteData(String str)throws Exception{
         
         IQ iq = new VoteIQ(str);
         //iq.setTo("fqq@conference.localhost");

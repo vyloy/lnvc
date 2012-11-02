@@ -12,8 +12,19 @@ public class MyEvent {
     
     private String id;
     private Object[] paras;
+    private boolean runInEDT;
+    
+    
 
-    public String getId() {
+    public boolean isRunInEDT() {
+		return runInEDT;
+	}
+
+	public void setRunInEDT(boolean runInEDT) {
+		this.runInEDT = runInEDT;
+	}
+
+	public String getId() {
         return id;
     }
 
