@@ -62,7 +62,7 @@ public class ProcessUtil {
             if (indexOf != -1) {
 //                return true;
             	bFlag = true;
-            	break;
+//            	break;
             }
         }
         process.waitFor();
