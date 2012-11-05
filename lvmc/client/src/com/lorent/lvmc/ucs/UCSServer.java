@@ -159,7 +159,9 @@ public class UCSServer {
 			@Override
 			public void run() {
 				try{
-					UIManager.setLookAndFeel(new McWinLookAndFeel());
+//					UIManager.setLookAndFeel(new McWinLookAndFeel());
+					com.jtattoo.plaf.graphite.GraphiteLookAndFeel.setTheme("UCS");
+		            UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
 					Launcher.startLvmcFromOutSide(new String[]{confno, confno, data.username, data.passwd, ConfigUtil.getProperty("serverIP")}, Constants.AppName.UCS, isAnswer);
 				}catch(Exception e){
 					log.error("showConf", e);

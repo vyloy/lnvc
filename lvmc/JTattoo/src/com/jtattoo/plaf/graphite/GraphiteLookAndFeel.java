@@ -29,6 +29,7 @@ public class GraphiteLookAndFeel extends AbstractLookAndFeel {
     private static final Properties blueSmallFontProps = new Properties();
     private static final Properties blueMediumFontProps = new Properties();
     private static final Properties blueLargeFontProps = new Properties();
+    private static final Properties ucsProps = new Properties();
     
     static {
         smallFontProps.setProperty("controlTextFont", "Dialog 12");
@@ -117,6 +118,39 @@ public class GraphiteLookAndFeel extends AbstractLookAndFeel {
         blueProps.setProperty("toolbarBackgroundColor", "228 235 243");
         blueProps.setProperty("toolbarColorLight", "228 235 243");
         blueProps.setProperty("toolbarColorDark", "188 204 226");
+        
+        ucsProps.setProperty("windowTitleForegroundColor", "255 255 255");
+        ucsProps.setProperty("windowTitleBackgroundColor", "116 196 233");
+        ucsProps.setProperty("windowTitleColorLight", "116 196 233");
+        ucsProps.setProperty("windowTitleColorDark", "116 196 233");
+        ucsProps.setProperty("windowBorderColor", "116 196 233");
+        ucsProps.setProperty("windowInactiveTitleForegroundColor", "255 255 255");
+        ucsProps.setProperty("windowInactiveTitleBackgroundColor", "116 196 233");
+        ucsProps.setProperty("windowInactiveTitleColorLight", "116 196 233");
+        ucsProps.setProperty("windowInactiveTitleColorDark", "116 196 233");
+        ucsProps.setProperty("windowInactiveBorderColor", "116 196 233");
+        ucsProps.setProperty("backgroundColor", "228 235 243");
+        ucsProps.setProperty("backgroundColorLight", "255 255 255");
+        ucsProps.setProperty("backgroundColorDark", "188 204 226");
+        ucsProps.setProperty("alterBackgroundColor", "208 220 234");
+        ucsProps.setProperty("frameColor", "120 153 197");
+        ucsProps.setProperty("disabledForegroundColor", "96 96 96");
+        ucsProps.setProperty("disabledBackgroundColor", "225 232 240");
+        ucsProps.setProperty("selectionForegroundColor", "255 255 255");
+        ucsProps.setProperty("selectionBackgroundColor", "116 196 233");
+        ucsProps.setProperty("controlBackgroundColor", "228 235 243");
+        ucsProps.setProperty("controlColorLight", "116 196 233");
+        ucsProps.setProperty("controlColorDark", "116 196 233");
+        ucsProps.setProperty("controlDarkShadowColor", "64 100 149");
+        ucsProps.setProperty("buttonColorLight", "221 248 255");
+        ucsProps.setProperty("buttonColorDark", "128 200 228");
+        ucsProps.setProperty("menuBackgroundColor", "255 255 255");
+        ucsProps.setProperty("menuColorDark", "116 196 233");
+        ucsProps.setProperty("menuColorLight", "116 196 233");
+        ucsProps.setProperty("menuSelectionBackgroundColor", "116 196 233");
+        ucsProps.setProperty("toolbarBackgroundColor", "228 235 243");
+        ucsProps.setProperty("toolbarColorLight", "228 235 243");
+        ucsProps.setProperty("toolbarColorDark", "188 204 226");
 
         String key = null;
         String value = null;
@@ -191,6 +225,8 @@ public class GraphiteLookAndFeel extends AbstractLookAndFeel {
         themesMap.put("Blue-Small-Font", blueSmallFontProps);
         themesMap.put("Blue-Medium-Font", blueMediumFontProps);
         themesMap.put("Blue-Large-Font", blueLargeFontProps);
+        
+        themesMap.put("UCS", ucsProps);
     }
     
     public static java.util.List getThemes() { 
