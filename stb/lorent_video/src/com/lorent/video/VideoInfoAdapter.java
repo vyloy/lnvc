@@ -1,5 +1,8 @@
 package com.lorent.video;
 
+import com.lorent.common.dto.LCMVideoClip;
+import com.lorent.video.R;
+
 import java.util.List;
 
 import android.content.Context;
@@ -19,7 +22,7 @@ import com.lorent.video.util.AsyncImageLoader.ImageCallback;
 
 public class VideoInfoAdapter extends BaseAdapter {
 
-	private List<VideoInfo> datas;
+	private List<LCMVideoClip> datas;
 	private int resource;
 	private LayoutInflater inflater;
 	private Context context;
@@ -27,17 +30,17 @@ public class VideoInfoAdapter extends BaseAdapter {
 	private AsyncImageLoader asyncImageLoader;
 	private GridView gridView;
 	
-	public VideoInfoAdapter(Context context,List<VideoInfo> datas,int resource,GridView gridView){
+	public VideoInfoAdapter(Context context,List<LCMVideoClip> datas,int resource,GridView gridView){
 		this.datas = datas;
 		this.resource = resource;
 		this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		asyncImageLoader = new AsyncImageLoader();
+		asyncImageLoader = new AsyncImageLoader(context);
 		this.gridView = gridView;
 	}
 	
 	
-	public void setDatas(List<VideoInfo> datas){
+	public void setDatas(List<LCMVideoClip> datas){
 		this.datas = datas;
 	}
 	
@@ -55,6 +58,8 @@ public class VideoInfoAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return 0;
 	}
+	
+	
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -69,28 +74,38 @@ public class VideoInfoAdapter extends BaseAdapter {
 			convertView.setTag(cacheView);
 		}
 		cacheView = (CacheView)convertView.getTag();
+//		resetCacheView(cacheView);
 		imageView = cacheView.imageView;
 		textView = cacheView.textView;
-		VideoInfo info = datas.get(position);
-		imageView.setTag(info.getImageUrl());
-		Drawable cachedImage = asyncImageLoader.loadDrawable(info.getImageUrl(), new ImageCallback() {  
+		LCMVideoClip info = datas.get(position);
+		imageView.setTag(info.getThumbnailUrl());
+		final ImageView imageView1 = imageView;
+//		imageView.setImageResource(R.drawable.ic_launcher);
+		asyncImageLoader.loadDrawable(info.getThumbnailUrl(), new ImageCallback() {  
             public void imageLoaded(Drawable imageDrawable, String imageUrl) {  
-                ImageView imageViewByTag = (ImageView) gridView.findViewWithTag(imageUrl);  
-                if (imageViewByTag != null) {  
-//                    imageViewByTag.setImageDrawable(imageDrawable);  
-                }  
+//                ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);
+                if (imageView1 != null) {  
+//                    imageViewByTag.setImageDrawable(imageDrawable);
+                	if (imageDrawable != null) {
+                		Log.i("reflashimage", imageDrawable.toString());
+                		imageView1.setImageDrawable(imageDrawable);
+                    }else{
+                    	imageView1.setImageResource(R.drawable.video_no_pic);
+                    }
+                }
             }  
         });  
-        if (cachedImage == null) {  
-            imageView.setImageResource(R.drawable.ic_launcher);  
-        }else{  
-            imageView.setImageDrawable(cachedImage);  
-        }
 //		imageView.setImageResource(R.drawable.ic_launcher);
 		textView.setText(info.getTitle());
+//		textView.setText("的发的的发佛IAD风");
 		Log.i(TAG, position+"");
 		return convertView;
 	}
+	
+	private void resetCacheView(CacheView viewcache){
+		 viewcache.textView.setText(null);
+		 viewcache.imageView.setImageDrawable(null);
+		}
 	
 	class CacheView{
 		public ImageView imageView;

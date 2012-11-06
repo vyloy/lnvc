@@ -20,4 +20,6 @@
     <string name="mediacontroller_play_pause">Play/Pause</string>
     <string name="playvideofail">对不起，视频无法播放</string>
     <string name="pageSize">42</string>
+    <string name="connect_server_timeout">无法连接到服务器</string>
+    <string name="no_more_content">没有更多内容加载</string>
 </resources>

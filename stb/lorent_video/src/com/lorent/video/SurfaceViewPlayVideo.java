@@ -1,6 +1,7 @@
 package com.lorent.video;
 
 
+
 import io.vov.utils.StringUtils;
 import com.lorent.video.R;
 
@@ -448,8 +449,6 @@ public class SurfaceViewPlayVideo extends Activity implements
 		playBtn.setImageResource(R.drawable.mediacontroller_play_button);
 		currentP = 0;
 		this.controlLayout.setVisibility(View.VISIBLE);
-		releaseRes();
-		finish();
 	}
 
 	// Activty销毁释放资源
