@@ -130,8 +130,8 @@ public class GraphiteLookAndFeel extends AbstractLookAndFeel {
         ucsProps.setProperty("windowInactiveTitleColorDark", "116 196 233");
         ucsProps.setProperty("windowInactiveBorderColor", "116 196 233");
         ucsProps.setProperty("backgroundColor", "228 235 243");
-        ucsProps.setProperty("backgroundColorLight", "255 255 255");
-        ucsProps.setProperty("backgroundColorDark", "188 204 226");
+        ucsProps.setProperty("backgroundColorLight", "230 252 250");
+        ucsProps.setProperty("backgroundColorDark", "165 233 254");
         ucsProps.setProperty("alterBackgroundColor", "208 220 234");
         ucsProps.setProperty("frameColor", "120 153 197");
         ucsProps.setProperty("disabledForegroundColor", "96 96 96");
@@ -148,6 +148,8 @@ public class GraphiteLookAndFeel extends AbstractLookAndFeel {
         ucsProps.setProperty("menuColorDark", "116 196 233");
         ucsProps.setProperty("menuColorLight", "116 196 233");
         ucsProps.setProperty("menuSelectionBackgroundColor", "116 196 233");
+        ucsProps.setProperty("menuSelectionBackgroundColorLight", "116 196 233");
+        ucsProps.setProperty("menuSelectionBackgroundColorDark", "116 196 255");
         ucsProps.setProperty("toolbarBackgroundColor", "228 235 243");
         ucsProps.setProperty("toolbarColorLight", "228 235 243");
         ucsProps.setProperty("toolbarColorDark", "188 204 226");
