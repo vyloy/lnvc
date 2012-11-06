@@ -126,9 +126,8 @@ public class MainActivity extends Activity {
 	    			toast.setGravity(Gravity.CENTER,0,0);
 	    			toast.show();
 	    		}else{
-//	    			datas.clear(); 
-//	    			datas.addAll(result);
-	    			datas = result;
+	    			datas.clear(); 
+	    			datas.addAll(result);
 	    			if(adapter==null){
 		        		show();
 		        	}else{
@@ -192,17 +191,16 @@ public class MainActivity extends Activity {
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
 			
 			//手机播放
-			Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
+			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 			intent.putExtra("fileName", item.getTitle());
-//			intent.putExtra("videoUrl", item.getVideoClipUrlStandard());
-			intent.putExtra("videoUrl", item.getVideoClipUrlHigh());
-			startActivity(intent);
+			intent.putExtra("videoUrl", item.getVideoClipUrlStandard());
+			startActivity(intent);*/
 			
 			//机顶盒播放视频
-			/*Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
+			Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
 			intent.putExtra("videoUrl", item.getVideoClipUrlHigh());
 			intent.putExtra("fileName", item.getTitle());
-			startActivity(intent);*/
+			startActivity(intent);
 			
 		}
     	

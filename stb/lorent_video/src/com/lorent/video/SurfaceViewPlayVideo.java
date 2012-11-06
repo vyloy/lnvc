@@ -94,9 +94,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	private int videoTimeLen;
 	private boolean isDragSeekBar = false;
 	private AudioManager mAM;
-	private boolean mCanPause;
-    private boolean mCanSeekBack;
-    private boolean mCanSeekForward;
+	
     private String filePath;
     private ProgressDialog dialog;
     private boolean isExit = false;
@@ -449,6 +447,8 @@ public class SurfaceViewPlayVideo extends Activity implements
 		playBtn.setImageResource(R.drawable.mediacontroller_play_button);
 		currentP = 0;
 		this.controlLayout.setVisibility(View.VISIBLE);
+		releaseRes();
+		finish();
 	}
 
 	// Activty销毁释放资源
@@ -464,6 +464,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 			public void run(){
 				if(mPlayer!=null){
 					try{
+						mPlayer.reset();
 						if(mPlayer.isPlaying()){
 							mPlayer.stop();
 						}

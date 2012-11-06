@@ -39,6 +39,7 @@ public class VideoService {
     		Object[] lcmVideoClipbjects = (Object[]) result;
     		if(lcmVideoClipbjects.length>0){
     			for(int i=0;i<lcmVideoClipbjects.length;i++){
+    				Log.i("picture", ((LCMVideoClip)lcmVideoClipbjects[i]).getThumbnailUrl());
     				list.add((LCMVideoClip)lcmVideoClipbjects[i]);
     			}
     		}

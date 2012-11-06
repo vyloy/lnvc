@@ -8,7 +8,7 @@
 package io.vov.vitamio;
 
 public final class R {
-	public static final class attr {
+    public static final class attr {
     }
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
@@ -75,10 +75,12 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f050000;
         public static final int button=0x7f050004;
+        public static final int connect_server_timeout=0x7f050013;
         public static final int loadingvideo=0x7f050007;
         public static final int mediacontroller_play_pause=0x7f050010;
         public static final int menu_settings=0x7f050001;
         public static final int nextpage=0x7f050006;
+        public static final int no_more_content=0x7f050014;
         public static final int pageSize=0x7f050012;
         public static final int playvideofail=0x7f050011;
         public static final int pleasewait=0x7f050008;

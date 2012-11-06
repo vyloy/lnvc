@@ -74,13 +74,14 @@ public class VideoInfoAdapter extends BaseAdapter {
 			convertView.setTag(cacheView);
 		}
 		cacheView = (CacheView)convertView.getTag();
-//		resetCacheView(cacheView);
+		resetCacheView(cacheView);
 		imageView = cacheView.imageView;
 		textView = cacheView.textView;
 		LCMVideoClip info = datas.get(position);
 		imageView.setTag(info.getThumbnailUrl());
 		final ImageView imageView1 = imageView;
 //		imageView.setImageResource(R.drawable.ic_launcher);
+		Log.i("LCMVideoClip", info.getThumbnailUrl());
 		asyncImageLoader.loadDrawable(info.getThumbnailUrl(), new ImageCallback() {  
             public void imageLoaded(Drawable imageDrawable, String imageUrl) {  
 //                ImageView imageView = (ImageView) gridView.findViewWithTag(imageUrl);

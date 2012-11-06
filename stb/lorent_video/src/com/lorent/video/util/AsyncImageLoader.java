@@ -51,7 +51,7 @@ public class AsyncImageLoader {
   			Drawable drawable = softReference.get();
   			Handler handler = new ImageHandler(imageCallback);
   			if (drawable != null) {
-  				Log.i("imageCache", "get image from cache");
+  				Log.i("imageCache", "get image from cache:" + imageUrl);
   				
   				Message message = handler.obtainMessage(0, drawable);
   				handler.sendMessage(message);
