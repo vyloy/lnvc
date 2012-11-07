@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lorent="http://schemas.android.com/apk/res/lorent.intercom.indoor"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	android:id="@+id/main_layer"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.6"
+        android:gravity="center"
+        android:orientation="horizontal" 
+        >
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:orientation="vertical" 
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_monitor"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_monitor"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_monitor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:orientation="vertical" 
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_info"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_info"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_info" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:gravity="center"
+            android:orientation="vertical" 
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_vovo"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_vovo"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_vovo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:gravity="center"
+            android:orientation="vertical" 
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_scene"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_scene"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_scene" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:gravity="center"
+            android:orientation="vertical" 
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_andr"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_adv"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_adv" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:gravity="center"
+            android:orientation="vertical" 
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/lvd_1600_set"
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:background="@drawable/lvd_1600_set"
+                android:onClick="onClick" />
+
+            <TextView
+                style="@style/main_center_text_style"
+                android:text="@string/lvd_1600_set" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal" >
+
+        <LinearLayout
+            android:layout_width="600px"
+            android:layout_height="100px"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/tip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
+<!-- 
+                <TextView
+                    android:id="@+id/profiles_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/building_intercom_system"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+ -->
+                <TextView
+                    android:id="@+id/profiles_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="15dip"
+                    android:paddingLeft="30dip"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="15dip"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dip"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/regist_stat_icon"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dip"
+                        android:src="@drawable/tip2" 
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/regist_stat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="@string/unregistered" />
+                </LinearLayout> 
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dip"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/ip_stat_icon"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dip"
+                        android:src="@drawable/tip2" 
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/ip_stat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp" 
+                        android:text="@string/network_is_not_connected"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <lorent.tools.date.TimeView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="28sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <lorent.tools.date.DateView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dip"
+                        android:textColor="#FFFFFF" />
+
+                    <lorent.tools.date.WeekView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
+                   <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/notice_stat_icon"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dip"
+                        android:src="@drawable/tip2" 
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/notice_stat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="@string/unnotice_msg" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="15dip"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/lvd_1600_condition_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dip" 
+                        android:textSize="12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/lvd_1600_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white" 
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lvd_1600_condition"
+                    style="@style/weather_text_style"
+                    android:layout_marginLeft="3dip" 
+                    android:textSize="12sp"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

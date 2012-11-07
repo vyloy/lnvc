@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="200dip"
+  android:id="@+id/dialog_video"
+  >
+  <VideoView android:id="@+id/dialog_manager_videoView" android:layout_width="wrap_content" android:layout_height="200dip"/>
+  <ImageButton
+            android:id="@+id/dialog_video_play"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_menu_video_play"
+            android:textSize="20sp" />  
+</RelativeLayout>

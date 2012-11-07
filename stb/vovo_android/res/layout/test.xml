@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lvd1610_scence2_background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dip"
+            android:src="@drawable/lvd1610_scence2_title" />
+
+        <HorizontalScrollView
+            android:id="@+id/scenes_radio_scroll_view"
+            android:layout_width="600px"
+            android:layout_height="fill_parent"
+            android:scrollbars="none" >
+
+            <RadioGroup
+                android:id="@+id/scenes_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="20dip"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <lorent.tools.date.TimeView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:padding="5dip"
+            android:layout_marginLeft="15dip"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <lorent.intercom.indoor.ScrollLayout
+        android:id="@+id/scroll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dip" />
+
+</LinearLayout>

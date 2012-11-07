@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dip"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="4dip" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dip"
+        android:gravity="center"
+        android:text="从"
+        android:textColor="@android:color/white" />
+
+    <cly.widget.WorkTimeTextView
+        android:id="@+id/working_time_start"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dip"
+        android:gravity="center"
+        android:text="到"
+        android:textColor="@android:color/white" />
+
+    <cly.widget.WorkTimeTextView
+        android:id="@+id/working_time_end"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+</LinearLayout>

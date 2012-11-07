@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/device_icon"
+        android:layout_width="64px"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_name"
+        style="@style/profiles_device_text"
+        android:text="名称" />
+
+    <TextView
+        android:id="@+id/device_location"
+        style="@style/profiles_device_text"
+        android:text="位置" />
+
+    <TextView
+        android:id="@+id/device_channel"
+        android:layout_width="50dip"
+        android:layout_height="wrap_content"
+        android:text="通道"
+        android:textColor="@color/profiles_text_color" />
+
+    <LinearLayout
+        android:id="@+id/device_type1"
+        android:layout_width="fill_parent"
+        android:layout_height="65px"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/sensor_checked1"
+            style="@style/device_checkbox"
+            android:button="@drawable/profiles_checkbox_report" />
+
+        <CheckBox
+            android:id="@+id/sensor_checked2"
+            style="@style/device_checkbox"
+            android:button="@drawable/profiles_checkbox_msg" />
+
+        <CheckBox
+            android:id="@+id/sensor_checked3"
+            style="@style/device_checkbox"
+            android:button="@drawable/profiles_checkbox_music" />
+
+        <CheckBox
+            android:id="@+id/sensor_checked4"
+            style="@style/device_checkbox"
+            android:button="@drawable/profiles_checkbox_ring" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_type2"
+        android:layout_width="fill_parent"
+        android:layout_height="65px"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/device_value"
+            android:layout_width="25dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:textColor="@android:color/white" />
+
+        <SeekBar
+            android:id="@+id/device_seekbar"
+            android:layout_width="120dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:focusable="false" />
+
+        <CheckBox
+            android:id="@+id/sensor_checked5"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@android:drawable/list_selector_background"
+            android:button="@null"
+            android:focusable="false"
+            android:gravity="center"
+            android:text="开关"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>
