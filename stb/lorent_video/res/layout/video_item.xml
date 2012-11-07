@@ -1,19 +1,23 @@
-<RelativeLayout   
-    xmlns:android="http://schemas.android.com/apk/res/android"   
-    android:layout_height="wrap_content"   
-    android:paddingBottom="4dip" android:layout_width="fill_parent">  
-    <ImageView   
-          android:layout_height="wrap_content"   
-          android:id="@+id/ItemImage"   
-          android:layout_width="wrap_content"   
-          android:layout_centerHorizontal="true">   
-    </ImageView>  
-    <TextView   
-          android:layout_width="wrap_content"   
-          android:layout_below="@+id/ItemImage"   
-          android:layout_height="wrap_content"   
-          android:text="TextView01"   
-          android:layout_centerHorizontal="true"   
-          android:id="@+id/ItemText">  
-    </TextView>  
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/ItemImage"
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:background="@drawable/video_image_bg"
+        android:src="@drawable/video_no_pic" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/ItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="3"
+        android:gravity="center|top" />
+
+</LinearLayout>

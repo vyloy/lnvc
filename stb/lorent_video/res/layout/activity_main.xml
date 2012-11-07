@@ -3,46 +3,56 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-     >
+    android:background="@drawable/lvd1610_monitor_back"
+    android:gravity="center" >
 
     <GridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/toolbar"
-        android:columnWidth="90dp"
-        android:gravity="center"
         android:horizontalSpacing="10dp"
+        android:columnWidth="70dp"
         android:numColumns="auto_fit"
         android:scrollbarSize="30dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />
+        android:verticalSpacing="10dp" 
+        android:gravity="center"
+        />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom|center"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/previousbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previouspage" 
-            android:onClick="loadData"/>
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:onClick="loadData"
+            android:paddingBottom="5dip"
+            android:paddingTop="0dip"
+            android:text="@string/previouspage" />
 
         <Button
             android:id="@+id/nextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nextpage" 
-            android:onClick="loadData"/>
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center"
+            android:onClick="loadData"
+            android:paddingBottom="0dip"
+            android:paddingTop="0dip"
+            android:text="@string/nextpage" />
+
     </LinearLayout>
    
 </RelativeLayout>

@@ -36,6 +36,8 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 		jLabel3 = new javax.swing.JLabel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		descriptionTextArea = new javax.swing.JTextArea();
+		liveStreamUrlLabel = new javax.swing.JLabel();
+		liveStreamUrlTextField = new javax.swing.JTextField();
 		jPanel2 = new javax.swing.JPanel();
 		pictureXPanel = new org.jdesktop.swingx.JXPanel();
 
@@ -56,6 +58,10 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 		descriptionTextArea.setColumns(20);
 		descriptionTextArea.setRows(5);
 		jScrollPane1.setViewportView(descriptionTextArea);
+
+		liveStreamUrlLabel.setText("\u89c6\u9891\uff1a");
+
+		liveStreamUrlTextField.setText("jTextField1");
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -127,7 +133,25 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																				jLabel3)
 																		.addContainerGap(
 																				405,
-																				Short.MAX_VALUE)))));
+																				Short.MAX_VALUE))
+														.addGroup(
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				liveStreamUrlLabel)
+																		.addGap(
+																				38,
+																				38,
+																				38)
+																		.addComponent(
+																				liveStreamUrlTextField,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				335,
+																				Short.MAX_VALUE)
+																		.addGap(
+																				32,
+																				32,
+																				32)))));
 		jPanel1Layout
 				.setVerticalGroup(jPanel1Layout
 						.createParallelGroup(
@@ -169,7 +193,21 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																javax.swing.GroupLayout.PREFERRED_SIZE,
 																124,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(21, Short.MAX_VALUE)));
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+												11, Short.MAX_VALUE)
+										.addGroup(
+												jPanel1Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(
+																liveStreamUrlLabel)
+														.addComponent(
+																liveStreamUrlTextField,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap()));
 
 		jXPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -203,7 +241,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 								javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(48, Short.MAX_VALUE)));
+						.addContainerGap(75, Short.MAX_VALUE)));
 
 		jXPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
 
@@ -242,6 +280,8 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JScrollPane jScrollPane1;
 	private org.jdesktop.swingx.JXPanel jXPanel1;
+	private javax.swing.JLabel liveStreamUrlLabel;
+	private javax.swing.JTextField liveStreamUrlTextField;
 	private org.jdesktop.swingx.JXPanel pictureXPanel;
 	private javax.swing.JTextField titleTextField;
 
@@ -261,6 +301,14 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 
 	public javax.swing.JTextField getTitleTextField() {
 		return titleTextField;
+	}
+
+	public javax.swing.JLabel getLiveStreamUrlLabel() {
+		return liveStreamUrlLabel;
+	}
+
+	public javax.swing.JTextField getLiveStreamUrlTextField() {
+		return liveStreamUrlTextField;
 	}
 
 }

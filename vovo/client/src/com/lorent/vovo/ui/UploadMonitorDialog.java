@@ -15,6 +15,16 @@ import com.lorent.vovo.util.VovoStringUtil;
  */
 public class UploadMonitorDialog extends javax.swing.JDialog {
 
+	private String cacheFileName;
+	
+	public String getCacheFileName() {
+		return cacheFileName;
+	}
+
+	public void setCacheFileName(String cacheFileName) {
+		this.cacheFileName = cacheFileName;
+	}
+
 	/** Creates new form UploadMonitorDialog */
 	public UploadMonitorDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -51,6 +61,11 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 
 		uploadButton.setText(VovoStringUtil
 				.getUIString("UploadVideoClipDialog.upload"));
+		uploadButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				uploadButtonActionPerformed(evt);
+			}
+		});
 		jPanel2.add(uploadButton);
 
 		cancelButton.setText(VovoStringUtil
@@ -285,6 +300,10 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		Vovo.exeC("videoclip", "uploadMonitor", this);
+	}
+
 	private void selectFileHighButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "selectedMonitorPictureFile", this);
@@ -328,6 +347,7 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 	private org.jdesktop.swingx.JXPanel thumbnailXPanel1;
 	private javax.swing.JTextField titleTextField;
 	private javax.swing.JButton uploadButton;
+
 	// End of variables declaration//GEN-END:variables
 	public javax.swing.JTextArea getDescriptionTextArea() {
 		return descriptionTextArea;
