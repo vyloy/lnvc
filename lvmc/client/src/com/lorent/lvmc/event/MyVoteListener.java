@@ -10,6 +10,9 @@ import com.lorent.lvmc.util.MessageUtil;
 import com.lorent.lvmc.util.StringUtil;
 import com.lorent.lvmc.util.XmlUtilParse;
 import java.util.logging.Level;
+
+import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -50,58 +53,58 @@ public class MyVoteListener implements PacketListener{
                 //返回不成功的数据
                 if (!util.getResult()) {
                     ParaUtil paraUtil = ParaUtil.newInstance().setString("errorMsg", StringUtil.getErrorString("operateFail.msg")).setString("returnMsg",util.getFailMsg() );
-                    MessageUtil.getInstance().sendMessage("meetingVote", new Object[]{paraUtil});
+                    MessageUtil.getInstance().sendMessage("meetingVote", new Object[]{paraUtil}, true);
                     return;
                 }
                 //创建投票主题
                 if ("create_vote".equals(util.getNameValue())) {
-                    MessageUtil.getInstance().sendMessage("create_vote", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("create_vote", new Object[]{util}, true);
                     return;
                 }
                 //投票主题修改
                 if("update_vote".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("update_vote", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("update_vote", new Object[]{util}, true);
                     return;
                     
                 }
                 //增加投票表决项
                 if("insert_select".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("insert_select", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("insert_select", new Object[]{util}, true);
                     return;
                     
                 }
                 //修改表决项
                 if("update_select".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("update_select", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("update_select", new Object[]{util}, true);
                     return;
                     
                 }
                 //删除表决项
                 if("delete_select".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("delete_select", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("delete_select", new Object[]{util}, true);
                     return;
                     
                 }
                 //统计结果 
                 if("count".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("count", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("count", new Object[]{util}, true);
                     return;
                     
                 }
                 //提交投票
                 if("dovote".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("dovote", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("dovote", new Object[]{util}, true);
                     return;
                     
                 }
                 //加载投票信息
                 if("load_vote".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("load_vote", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("load_vote", new Object[]{util}, true);
                     return;
                 }
                 //加载用户已投票信息
                 if("search_vote_record".equals(util.getNameValue())){
-                    MessageUtil.getInstance().sendMessage("search_vote_record", new Object[]{util});
+                    MessageUtil.getInstance().sendMessage("search_vote_record", new Object[]{util}, true);
                     return;
                 }
             }

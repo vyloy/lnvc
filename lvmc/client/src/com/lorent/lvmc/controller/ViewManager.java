@@ -266,6 +266,7 @@ public class ViewManager {
     public static void changeLookAndFeel(String lf){
         try {
 //        	changeLookAndFeel(getLookAndFeel(lookAndFeel));
+        	log.info("changeLookAndFeel" + lf);
         	changeJTattooLookAndFeel(lf);
     		if(DataUtil.getTopWindow()!=null && DataUtil.getTopWindow() instanceof MainFrame){
     			MainFrame mainFrame = getComponent(MainFrame.class);

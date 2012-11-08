@@ -45,31 +45,31 @@ import org.jivesoftware.smack.Connection;
  */
 public class VoteController extends BaseController{
     private static Logger log = Logger.getLogger(VoteController.class);
-    public void addNewTheme(ParaUtil paras){
+    public void addNewTheme(ParaUtil paras)throws Exception{
         String xml=paras.getValue("addNewtheme");
         log.debug(xml);
         services.getVoteService().sendVoteData(xml);
     }
-    public void updateTheme(ParaUtil paras){
+    public void updateTheme(ParaUtil paras)throws Exception{
         String xml=paras.getValue("updatetheme");
         services.getVoteService().sendVoteData(xml);
     }
     public void deleteTheme(ParaUtil paras){
     
     }
-    public void comiteResult(ParaUtil paras){
+    public void comiteResult(ParaUtil paras)throws Exception{
         String xml=paras.getValue("comitevote");
         services.getVoteService().sendVoteData(xml);
     }
-    public void addNewVoteItem(ParaUtil paras){
+    public void addNewVoteItem(ParaUtil paras)throws Exception{
         String xml=paras.getValue("addNewItem");
         services.getVoteService().sendVoteData(xml);
     }
-    public void updateVoteItem(ParaUtil paras){
+    public void updateVoteItem(ParaUtil paras)throws Exception{
         String xml=paras.getValue("updateItem");
         services.getVoteService().sendVoteData(xml);
     }
-    public void deleteVoteItem(ParaUtil paras){
+    public void deleteVoteItem(ParaUtil paras)throws Exception{
         String xml=paras.getValue("deleteItem");
         services.getVoteService().sendVoteData(xml);
     
@@ -79,7 +79,7 @@ public class VoteController extends BaseController{
         services.getVoteService().sendVoteData(xml);
     }
     
-    public void getVoteResult(ParaUtil paras){
+    public void getVoteResult(ParaUtil paras)throws Exception{
         String xml=paras.getValue("voteresult");
         services.getVoteService().sendVoteData(xml);
       
@@ -116,8 +116,8 @@ public class VoteController extends BaseController{
     public void create_voteSuccess(XmlUtilParse util){
     	VoteTabItemPane voteTabItemPane=new VoteTabItemPane();
         try {
-            int count=mainPanel.getjTabbedPane1().getTabCount();
-//            int count2=ViewManager.getComponent(voteMainPanel.class).getjTabbedPane1().getTabCount();
+//            int count=mainPanel.getjTabbedPane1().getTabCount();
+            int count=getVoteMainPanel().getjTabbedPane1().getTabCount();
             mainPanel.getjTabbedPane1().addTab(util.getElementValue("title")!=null?util.getElementValue("title").toString():null, voteTabItemPane);
             mainPanel.getjTabbedPane1().setSelectedIndex(count);
             voteTabItemPane.setId(util.getElementValue("id")!=null?util.getElementValue("id").toString():null);
@@ -734,6 +734,7 @@ public class VoteController extends BaseController{
     private Map<String,VoteDataDto> voteMap=null;
     //加载投票信息
     public void load_voteSuccess(XmlUtilParse util) {
+    	mainPanel = null;
     	mainPanel=getVoteMainPanel();
         List<VoteDataDto> voteDataDtos = util.getVoteDataDtosList();
         if (null != voteMap) {

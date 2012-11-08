@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="50dip"
+    >
+    <ImageView android:layout_width="70dip" android:layout_height="wrap_content" android:src="@drawable/head2" android:layout_gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="110dip" android:layout_height="42dip" android:id="@+id/blackadress" android:gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="150dip" android:layout_height="42dip" android:id="@+id/blacklccno" android:gravity="center_vertical" android:paddingLeft="25dip"/>
+    <Button android:layout_width="90dip" android:background="@drawable/add_head1" android:layout_gravity="center_vertical" android:layout_height="42dip" android:id="@+id/blackadd"/>
+	<Button android:layout_width="90dip" android:background="@drawable/del"  android:layout_height="42dip" android:id="@+id/blackdel" android:layout_gravity="center_vertical"/>
+</LinearLayout>

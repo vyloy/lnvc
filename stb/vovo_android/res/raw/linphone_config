@@ -1,0 +1,24 @@
+# NOTE: please do not press [tab] keyboard, not use '\r' in text, we will remove it in program. 
+#       you can use white spaces instead of '\r'.
+# [#] is comment token. we will ignore the line text when it has [#], including [#] not in the line beginning.   
+ 
+[video]
+capture=0
+display=1
+show_local=0
+self_view=0
+#device=LorentUsbCamera: lorent_usbcamera
+#device=AndroidVideoCapture: Android video
+#device=HardwareCamera: hardware_camera
+#device=DefaultMovie: lnt movie
+
+[rtp]
+audio_rtp_port=7076
+video_rtp_port=9078
+multicast_addr=239.255.42.42
+nortp_timeout=5
+
+[sip]
+inc_timeout=20
+
+[audio]

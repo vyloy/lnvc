@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/lvitem"
+    >
+    <ImageView android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/friendicon" android:layout_weight="3" android:layout_gravity="center"  android:src="@drawable/friendicon"/>
+    <TextView  android:layout_width="fill_parent" 	android:layout_height="fill_parent" android:id="@+id/friendname" android:layout_weight="1" android:gravity="left|center_vertical" />
+	<TextView  android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/lccno" android:visibility="gone"/>
+	<TextView  android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/friendid" android:visibility="gone"/>
+</LinearLayout>
+<!-- <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+  <RadioButton android:id="@+id/addfriendRa"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/addfriend" />
+  <RadioButton android:id="@+id/editfriendRa"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/editfriend"/>
+  <RadioButton android:id="@+id/deletefriendRa"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/deletefriend"/>
+  <RadioButton android:id="@+id/retRa"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/ret"/>
+</RadioGroup>
+ -->

@@ -30,7 +30,6 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 
 	private static Map<String, String> parasCache = new HashMap<String, String>();;
 
-	
 	/** Creates new form AudioSetupDialog */
 	public AudioSetupDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -41,8 +40,8 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		this.jPanel6.setVisible(false);
 		this.codesCB.setModel(new DefaultComboBoxModel(Constants.AUDIO_CODES));
 		String codes = DataUtil.getValue(DataUtil.Key.SelectAudioCodes);
-		if(codes != null){
-			this.codesCB.setSelectedItem(codes);			
+		if (codes != null) {
+			this.codesCB.setSelectedItem(codes);
 		}
 	}
 
@@ -440,7 +439,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel2.add(jPanel24, gridBagConstraints);
 
-		jTabbedPane1.addTab("<User Code>", jPanel2);
+		jTabbedPane1.addTab("\u57fa\u672c\u8bbe\u7f6e", jPanel2);
 
 		jPanel28.setBorder(javax.swing.BorderFactory
 				.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -545,8 +544,9 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	//GEN-END:initComponents
 
 	private void codesCBItemStateChanged(java.awt.event.ItemEvent evt) {
-		if(evt.getStateChange() == ItemEvent.SELECTED){
-			ControllerFacade.execute("videoAudioSetupController", "setAudioCodes", codesCB.getSelectedItem());
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			ControllerFacade.execute("videoAudioSetupController",
+					"setAudioCodes", codesCB.getSelectedItem());
 		}
 	}
 
@@ -581,7 +581,7 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		Device narrator = (Device) this.narratorComboBox.getSelectedItem();
 		int micVolume = this.micSlider.getValue();
 		int narratorVolume = this.narratorSlider.getValue();
-		if(mic != null){//win7 如果没有插入麦克风则为空
+		if (mic != null) {//win7 如果没有插入麦克风则为空
 			map.put(Constants.AudioParam.MicEquipment.toString(), String
 					.valueOf(mic.getIndex()));
 		}

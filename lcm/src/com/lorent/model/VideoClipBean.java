@@ -6,13 +6,18 @@ public class VideoClipBean extends BaseModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String videoClipUrlHigh;//高清视频存放url地址
-	private String videoClipUrlStandard;//标清视频存放url地址
+//	private String videoClipUrlHigh;//高清视频存放url地址
+//	private String videoClipUrlStandard;//标清视频存放url地址
+	private String httpVideoUrlHigh;
+	private String httpVideoUrlStandard;
+	private String rtspVideoUrlHigh;
+	private String rtspVideoUrlStandard;
 	private String thumbnailUrl;//视频缩略图url地址
 	private String title;//标题
 	private String description;//描述
 	private String category;//类别
 	private String createrName;
+	private String createrNo;
 	private Boolean ismonitor;
 	public Boolean getIsmonitor() {
 		return ismonitor;
@@ -31,19 +36,6 @@ public class VideoClipBean extends BaseModel {
 	}
 	public void setCreaterNo(String createrNo) {
 		this.createrNo = createrNo;
-	}
-	private String createrNo;
-	public String getVideoClipUrlHigh() {
-		return videoClipUrlHigh;
-	}
-	public void setVideoClipUrlHigh(String videoClipUrlHigh) {
-		this.videoClipUrlHigh = videoClipUrlHigh;
-	}
-	public String getVideoClipUrlStandard() {
-		return videoClipUrlStandard;
-	}
-	public void setVideoClipUrlStandard(String videoClipUrlStandard) {
-		this.videoClipUrlStandard = videoClipUrlStandard;
 	}
 	public String getThumbnailUrl() {
 		return thumbnailUrl;
@@ -68,6 +60,30 @@ public class VideoClipBean extends BaseModel {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getHttpVideoUrlHigh() {
+		return httpVideoUrlHigh;
+	}
+	public void setHttpVideoUrlHigh(String httpVideoUrlHigh) {
+		this.httpVideoUrlHigh = httpVideoUrlHigh;
+	}
+	public String getHttpVideoUrlStandard() {
+		return httpVideoUrlStandard;
+	}
+	public void setHttpVideoUrlStandard(String httpVideoUrlStandard) {
+		this.httpVideoUrlStandard = httpVideoUrlStandard;
+	}
+	public String getRtspVideoUrlHigh() {
+		return rtspVideoUrlHigh;
+	}
+	public void setRtspVideoUrlHigh(String rtspVideoUrlHigh) {
+		this.rtspVideoUrlHigh = rtspVideoUrlHigh;
+	}
+	public String getRtspVideoUrlStandard() {
+		return rtspVideoUrlStandard;
+	}
+	public void setRtspVideoUrlStandard(String rtspVideoUrlStandard) {
+		this.rtspVideoUrlStandard = rtspVideoUrlStandard;
 	}
 	
 }
