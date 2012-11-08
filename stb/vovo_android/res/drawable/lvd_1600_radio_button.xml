@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- 选中状态 -->
-    <item android:drawable="@drawable/lcd1610_scene_menu" android:state_checked="true" android:state_enabled="true"/>
-    <!-- 未被选中状态 -->
-    <item android:drawable="@drawable/lcd1610_scene_menu2" android:state_checked="false" android:state_enabled="true"/>
-
-</selector>

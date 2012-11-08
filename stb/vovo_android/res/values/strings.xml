@@ -1,93 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">视频通话</string>
-    <string name="lvd_1600_help">蜗蜗助手</string>
-    <string name="lvd_1600_info">留影留言</string>
-    <string name="lvd_1600_monitor">实时监控</string>
-    <string name="lvd_1600_vovo">可视对讲</string>
-    <string name="lvd_1600_scene">家居安防</string>
-    <string name="lvd_1600_set">系统设置</string>
-    <string name="lvd_1600_andr">Android</string>
-    <string name="lvd_1600_adv">社区公告</string>
-    <string name="adv_content">社区关于领养宠物的最新管理规定</string>
-    <string name="unnotice_msg">无未接来电消息</string>
     
-    <string name="lvd_1600_date"><xliff:g id="year">%s</xliff:g>
-		年
-		<xliff:g id="mouth">%s</xliff:g>
-		月
-		<xliff:g id="day">%s</xliff:g>
-		日
-	</string>
-    <string name="twenty_four_hour_time_format">HH:mm</string>
-    <string name="twelve_hour_time_format">h:mm a</string>
-    <string name="info_classification">信息分类</string>
-    <string name="monitor_add_name">区域名称：</string>
-    <string name="monitor_add_ip">IP地址：</string>
-    <string name="monitor_add">添加监控</string>
-    <string name="monitoring">正在监控</string>
-    <string name="monitor_add_zone">添加监控区域</string>
-    <string name="profiles_add">添加模式</string>
-    <string name="profiles_set">模式设置</string>
-    <string name="profiles_sensor">感应器</string>
-    <string name="profiles_alarm">的报警方式</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <string name="delete">删除</string>
-    <string name="profiles_rename">重命名</string>
-    <string name="network_is_not_connected">网络未连接</string>
-    <string name="unregistered">本机未注册</string>
-    <string name="registered">本机已注册</string>
-    <string name="calling">正在和 <xliff:g id="year">%s</xliff:g> 通话中</string>
-    <string name="ringing">正在呼叫 </string>
-    <string name="building_intercom_system">当前模式</string>
-    <string name="city">深圳</string>
-    <string name="can_not_call_myself">不能呼叫本机号码</string>
-    <string name="password_is_incorrect">密码错误</string>
-    <string name="unable_to_connect">"无法连接"</string>
-    <string name="meteorological_server">"气象服务器"</string>
-    <string name="message_failure">"留言失败"</string>
-    <string name="message_success">"留言成功"</string>
-    <string name="invalid_card">无效卡</string>
-    <string name="upload_failed">上传失败</string>
-    <string name="upload_success">上传成功</string>
-    <string name="preferences">个性设置</string>
-    <string name="sound_settings">声音设置</string>
-    <string name="display_settings">显示设置</string>
-    <string name="network_settings">网络设置</string>
-    <string name="ethernet_settings">有线网设置</string>
-    <string name="indoor_settings">门口机设置</string>
-    <string name="server_settings">服务器设置</string>
-    <string name="management_machine_settings">管理机设置</string>
-    <string name="room_settings">房号设置</string>
-    <string name="location_settings">区位设置</string>
-    <string name="building_number_settings">栋数设置</string>
-    <string name="unit_settings">单元设置</string>
-    <string name="alias_settings">别名设置</string>
-    <string name="time_settings">时间设置</string>
-    <string name="software_upgrade">软件升级</string>
-    <string name="factory_settings">出厂设置</string>
-    <string name="vovo_settings">蜗蜗设置</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="serverip">服务器</string>
     <string name="port">端口</string>
-    <string name="videowidth">宽度</string>
-    <string name="videoheight">高度</string>
+    
+    
     <string name="bitrate">码流</string>
-    <string name="system_info">系统信息</string>
-    <string name="software_version">软件版本号</string>
-    <string name="hardware_version">硬件版本号</string>
-    <string name="hardware_batch">硬件批次</string>
-    <string name="vendor_ID">厂商ID</string>
-    <string name="product_serial_number">产品序列号</string>
-    <string name="loader_version">Loader版本号</string>
-    <string name="IP_address">本机IP地址</string>
-    <string name="MAC_address">MAC地址</string>
-    <string name="firmware_version">Android版本信息</string>
-    <string name="kernel_version">内核版本信息</string>
-	<string name="dialog_add_device_type">选择类型</string>
-	<string name="dialog_add_device_channel">选择通道</string>
-	<string name="door_is_opened">门已打开</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	
+	
+	
 	
 	
 	<!-- add lcc -->
@@ -97,8 +91,8 @@
 	
 	<!-- menu button -->
 	
-	<string name = "dev_had_register">设备已激活</string>
-	<string name = "dev_not_register">设备未激活</string>
+	
+	
 	<string name="lcc_dev_had_register">已激活</string>
 	<string name="lcc_dev_not_register">未激活</string>
 	
@@ -107,7 +101,7 @@
     <string name="lvd1610_friend">联系人</string>
     <string name="lvd1610_black">黑名单</string>
     <string name="lvd1610_sipset">注册</string>
-    <string name = "lvd1610_back_menu">返回</string>
+    <string name="lvd1610_back_menu">返回</string>
     <!-- 操作 -->
     <string name="addfriend">新建联系人</string>
     <string name="addfriend_from_record">添加联系人</string>
@@ -120,7 +114,7 @@
     <string name="delete_record">删除该条通话记录</string>
     <string name="delete_all_record">是否删除该联系人的所有通话记录</string>
     <string name="setup">设置</string>
-    <string name ="call_out">正在呼叫：</string>
+    <string name="call_out">正在呼叫：</string>
     <string name="call_center">呼叫管理中心</string>
     <!-- text -->
     <string name="name">名字</string>
@@ -134,7 +128,7 @@
     <string name="bitrate">码流</string>
     <string name="delete">删除</string>
  -->
-    <string name="videosize">分辨率</string>
+    
     <string name="width">宽度</string>
     <string name="height">高度</string>
     
@@ -157,13 +151,13 @@
     <string name="failed">操作失败</string>
     <string name="selectOperate">选择操作</string>
     <string name="ifornot">是否删除所有通话记录</string>
-    <string name="numisempty">号码不能为空</string>
+    
     <string name="localnum">不能拨打本机号码</string>
     <string name="callinprompt">来电提示</string>
     <string name="calloutprompt">去电提示</string>
     <string name="iscallin">正在呼入</string>
     <string name="iscallout">正在呼出</string>
-    <string name="oncall">正在通话中</string>
+    
     <string name="isnotregister">请先注册</string>
     <string name="exit">退出</string>
     <string name="isregister">本机未注册！</string>
@@ -171,30 +165,30 @@
     <string name="callstatusnotice">拨打电话提示</string>
     
    
-    <string name="ftp">ftp服务器</string>
-    <string name="ftp_port">ftp端口</string>
     
-    <string name="receive_phone">已接呼叫</string>
-    <string name="unreceive_phone">未接呼叫</string>
-    <string name="called_phone">已拨呼叫</string>
-    <string name="recorde">通讯录</string>
+    
+    
+    
+    
+    
+    
     <string name="black">黑名单</string>
-    <string name="dnd_start_time">开始时间</string>
-    <string name="dnd_end_time">结束时间</string>
-    <string name="dnd_set">免打扰设置</string>
+    
+    
+    
     
     
      <string name="state_page">
     页码：【<xliff:g id="current_page">%1$d</xliff:g>/
         <xliff:g id="count_page">%2$d</xliff:g>
     】</string>
-    <string name = "name_and_num">
+    <string name="name_and_num">
     <xliff:g id="name">%1$s</xliff:g>:
         <xliff:g id="num">%2$s</xliff:g>
     
     </string>
     
-    <string name="hello_world">Hello world!</string>
+    
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">LCCActivity</string>
+    
 </resources>
