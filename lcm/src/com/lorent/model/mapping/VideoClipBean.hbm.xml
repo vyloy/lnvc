@@ -6,8 +6,14 @@
 			<column name="id" />
 			<generator class="identity" />
 		</id>
+		<!--  
 		<property name="videoClipUrlHigh" column="videoclipurlhigh" />
 		<property name="videoClipUrlStandard" column="videoclipurlstandard" />
+		-->
+		<property name="httpVideoUrlHigh" column="httpvideourlhigh" />
+		<property name="httpVideoUrlStandard" column="httpvideourlstandard" />
+		<property name="rtspVideoUrlHigh" column="rtspvideourlhigh" />
+		<property name="rtspVideoUrlStandard" column="rtspvideourlstandard" />
 		<property name="thumbnailUrl" column="thumbnailurl" />
 		<property name="title" column="title" />
 		<property name="description" column="description" />

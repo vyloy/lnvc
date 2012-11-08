@@ -18,16 +18,21 @@ public class VideoCommunityHandler extends BaseHandler {
 	//上传视频信息
 	public boolean uploadVideoClipInfo(String videoClipNameHigh,String videoClipNameStandard,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
 		//VideoCommunity
-		String videoClipUrlHigh = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHigh;
-		String videoClipUrlStandard = "rtsp://"+ftpSrvIp+":554/"+videoClipNameStandard;
+		String rtspVideoClipUrlHigh = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHigh;
+		String rtspVideoClipUrlStandard = "rtsp://"+ftpSrvIp+":554/"+videoClipNameStandard;
+		String httpVideoClipUrlHigh = "http://"+ftpSrvIp+":8800/"+videoClipNameHigh;
+		String httpVideoClipUrlStandard = "http://"+ftpSrvIp+":8800/"+videoClipNameStandard;
 		VideoClipBean bean = new VideoClipBean();
-		bean.setVideoClipUrlHigh(videoClipUrlHigh);
-		bean.setVideoClipUrlStandard(videoClipUrlStandard);
+		bean.setRtspVideoUrlHigh(rtspVideoClipUrlHigh);
+		bean.setRtspVideoUrlStandard(rtspVideoClipUrlStandard);
+		bean.setHttpVideoUrlHigh(httpVideoClipUrlHigh);
+		bean.setHttpVideoUrlStandard(httpVideoClipUrlStandard);
 		bean.setThumbnailUrl(thumbnailFtpUrl);
 		bean.setTitle(title);
 		bean.setDescription(description);
 		bean.setCreaterName(createrName);
-		bean.setCreaterNo(createrName);
+		bean.setCreaterNo(createrNo);
+		bean.setIsmonitor(false);
 		serviceFacade.getVideoClipService().addVideoClip(bean);
 		return true;
 	}
@@ -35,13 +40,15 @@ public class VideoCommunityHandler extends BaseHandler {
 	//上传监控信息
 	public boolean uploadMonitorInfo(String liveStreamUrl,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo)throws Exception{
 		VideoClipBean bean = new VideoClipBean();
-		bean.setVideoClipUrlHigh(liveStreamUrl);
-		bean.setVideoClipUrlStandard(liveStreamUrl);
+		bean.setRtspVideoUrlHigh(liveStreamUrl);
+		bean.setRtspVideoUrlStandard(liveStreamUrl);
+		bean.setHttpVideoUrlHigh(liveStreamUrl);
+		bean.setHttpVideoUrlStandard(liveStreamUrl);
 		bean.setThumbnailUrl(thumbnailFtpUrl);
 		bean.setTitle(title);
 		bean.setDescription(description);
 		bean.setCreaterName(createrName);
-		bean.setCreaterNo(createrName);
+		bean.setCreaterNo(createrNo);
 		bean.setIsmonitor(true);
 		serviceFacade.getVideoClipService().addVideoClip(bean);
 		return true;
@@ -63,8 +70,10 @@ public class VideoCommunityHandler extends BaseHandler {
 			 LCMVideoClip lcmVideoClip = new LCMVideoClip();
 			 lcmVideoClip.setId(videoClipBean.getId());
 			 lcmVideoClip.setStatus(videoClipBean.getStatus());
-			 lcmVideoClip.setVideoClipUrlHigh(videoClipBean.getVideoClipUrlHigh());
-			 lcmVideoClip.setVideoClipUrlStandard(videoClipBean.getVideoClipUrlStandard());
+			 lcmVideoClip.setRtspVideoUrlHigh(videoClipBean.getRtspVideoUrlHigh());
+			 lcmVideoClip.setRtspVideoUrlStandard(videoClipBean.getRtspVideoUrlStandard());
+			 lcmVideoClip.setHttpVideoUrlHigh(videoClipBean.getHttpVideoUrlHigh());
+			 lcmVideoClip.setHttpVideoUrlStandard(videoClipBean.getHttpVideoUrlStandard());
 			 lcmVideoClip.setCreaterName(videoClipBean.getCreaterName());
 			 lcmVideoClip.setCreaterNo(videoClipBean.getCreaterNo());
 			 lcmVideoClip.setThumbnailUrl(videoClipBean.getThumbnailUrl());
@@ -88,8 +97,10 @@ public class VideoCommunityHandler extends BaseHandler {
 			 LCMVideoClip lcmVideoClip = new LCMVideoClip();
 			 lcmVideoClip.setId(videoClipBean.getId());
 			 lcmVideoClip.setStatus(videoClipBean.getStatus());
-			 lcmVideoClip.setVideoClipUrlHigh(videoClipBean.getVideoClipUrlHigh());
-			 lcmVideoClip.setVideoClipUrlStandard(videoClipBean.getVideoClipUrlStandard());
+			 lcmVideoClip.setRtspVideoUrlHigh(videoClipBean.getRtspVideoUrlHigh());
+			 lcmVideoClip.setRtspVideoUrlStandard(videoClipBean.getRtspVideoUrlStandard());
+			 lcmVideoClip.setHttpVideoUrlHigh(videoClipBean.getHttpVideoUrlHigh());
+			 lcmVideoClip.setHttpVideoUrlStandard(videoClipBean.getHttpVideoUrlStandard());
 			 lcmVideoClip.setCreaterName(videoClipBean.getCreaterName());
 			 lcmVideoClip.setCreaterNo(videoClipBean.getCreaterNo());
 			 lcmVideoClip.setThumbnailUrl(videoClipBean.getThumbnailUrl());

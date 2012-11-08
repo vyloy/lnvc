@@ -16,7 +16,7 @@ import com.lorent.vovo.util.VovoStringUtil;
 public class UploadMonitorDialog extends javax.swing.JDialog {
 
 	private String cacheFileName;
-	
+
 	public String getCacheFileName() {
 		return cacheFileName;
 	}
@@ -70,6 +70,11 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 
 		cancelButton.setText(VovoStringUtil
 				.getUIString("UploadVideoClipDialog.cancel"));
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActionPerformed(evt);
+			}
+		});
 		jPanel2.add(cancelButton);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
@@ -299,6 +304,10 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		this.dispose();
+	}
 
 	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "uploadMonitor", this);

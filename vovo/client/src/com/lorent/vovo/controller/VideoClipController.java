@@ -160,14 +160,15 @@ public class VideoClipController extends BaseController {
 		
 		//码流
 		String bitrate = videoPrifilesMap.get("Video_Bit rate");
-		int nbitrate = 0;
+		double nbitrate = 0;
 		if (bitrate != null) {
 			String trim = bitrate.substring(0, bitrate.indexOf("Kbps")-1).trim().replace(" ", "");
-			nbitrate = Integer.parseInt(trim);
+			nbitrate = Double.parseDouble(trim);
 		}
 		
-		if (nbitrate >= 1536) {
-			String format = String.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), 1536);
+		double BITTATE = 1600;
+		if (nbitrate > BITTATE) {
+			String format = String.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), BITTATE+"");
 			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), format);
 			return false;
 		}
@@ -180,8 +181,8 @@ public class VideoClipController extends BaseController {
 			}
 		}
 		else{
-			if (nwidth >= 1280 || nheight >= 720) {
-				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect720Plow"));
+			if (nwidth > 640 || nheight > 480) {
+				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect480Plow"));
 				return false;
 			}
 		}
@@ -484,7 +485,7 @@ public class VideoClipController extends BaseController {
 		if (showConfirmDialog == JOptionPane.YES_OPTION) {
 			
 			if (item.getLcmVideoClip().getIsmonitor()) {
-				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlHigh());
+				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHigh());
 				if (filenameHigh != null && !filenameHigh.equals("")) {
 					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/Monitor",filenameHigh);
 				}
@@ -492,11 +493,11 @@ public class VideoClipController extends BaseController {
 				reflashMonitorPanel();
 			}
 			else{
-				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlHigh());
+				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHigh());
 				if (filenameHigh != null && !filenameHigh.equals("")) {
 					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
 				}
-				String filenameStandard = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getVideoClipUrlStandard());
+				String filenameStandard = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlStandard());
 				if (filenameStandard != null && !filenameStandard.equals("")) {
 					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
 				}
@@ -518,55 +519,57 @@ public class VideoClipController extends BaseController {
 				try {
 					LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
 					LCMVideoClip[] monitorList = Vovo.getLcmUtil().getMonitorList(pageIndex, pageSize);
-					log.info("MonitorList size: "+monitorList.length);
-					VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
-					panel.getMonitorPanel().removeAll();
-					for (final LCMVideoClip lcmVideoClip : monitorList) {
-//						System.out.println(lcmVideoClip);
-						final VideoClipItem videoClipItem = new VideoClipItem();
-						videoClipItem.setLcmVideoClip(lcmVideoClip);
-//						videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
-						videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
-						videoClipItem.getDescriptionLabel().setText(lcmVideoClip.getDescription());
-						panel.getMonitorPanel().add(videoClipItem);
-						
-						new Thread(){
+					if (monitorList != null) {
+						log.info("MonitorList size: "+monitorList.length);
+						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+						panel.getMonitorPanel().removeAll();
+						for (final LCMVideoClip lcmVideoClip : monitorList) {
+//							System.out.println(lcmVideoClip);
+							final VideoClipItem videoClipItem = new VideoClipItem();
+							videoClipItem.setLcmVideoClip(lcmVideoClip);
+//							videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
+							videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
+							videoClipItem.getDescriptionLabel().setText(lcmVideoClip.getDescription());
+							panel.getMonitorPanel().add(videoClipItem);
+							
+							new Thread(){
 
-							@Override
-							public void run() {
-								
-								ImagePainter imagePainter = null;
-								try {
-									imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
-								} catch (Exception e) {
+								@Override
+								public void run() {
+									
+									ImagePainter imagePainter = null;
 									try {
-										imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
-									} catch (IOException e1) {
+										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
+									} catch (Exception e) {
+										try {
+											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
+										} catch (IOException e1) {
+											log.error("reflashVideoClipPanel ",e );
+											e1.printStackTrace();
+										}
 										log.error("reflashVideoClipPanel ",e );
-										e1.printStackTrace();
 									}
-									log.error("reflashVideoClipPanel ",e );
+									imagePainter.setScaleToFit(true);
+									imagePainter.setScaleType(ScaleType.Distort);
+									videoClipItem.getPictureXPanel().setBackgroundPainter(imagePainter);
 								}
-								imagePainter.setScaleToFit(true);
-								imagePainter.setScaleType(ScaleType.Distort);
-								videoClipItem.getPictureXPanel().setBackgroundPainter(imagePainter);
+								
+							}.start();
+							
+							if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
+								videoClipItem.getDeleteButton().setVisible(false);
+							}
+							else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
+								videoClipItem.getDeleteButton().setVisible(true);
+							}
+							else{
+								videoClipItem.getDeleteButton().setVisible(false);
 							}
 							
-						}.start();
-						
-						if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
-							videoClipItem.getDeleteButton().setVisible(false);
 						}
-						else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
-							videoClipItem.getDeleteButton().setVisible(true);
-						}
-						else{
-							videoClipItem.getDeleteButton().setVisible(false);
-						}
-						
+						panel.getMonitorPanel().repaint();
+						panel.getMonitorPanel().revalidate();
 					}
-					panel.getMonitorPanel().repaint();
-					panel.getMonitorPanel().revalidate();
 				} catch (Exception e) {
 					log.error("reflashMonitorPanel", e);
 				}
@@ -582,55 +585,63 @@ public class VideoClipController extends BaseController {
 				try {
 					LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
 					LCMVideoClip[] videoClipList = Vovo.getLcmUtil().getVideoClipList(pageIndex, pageSize);
-					log.info("videoClipList size: "+videoClipList.length);
-					VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
-					panel.getVideoClipPanel().removeAll();
-					for (final LCMVideoClip lcmVideoClip : videoClipList) {
-//						System.out.println(lcmVideoClip);
-						final VideoClipItem videoClipItem = new VideoClipItem();
-						videoClipItem.setLcmVideoClip(lcmVideoClip);
-//						videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
-						videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
-						videoClipItem.getDescriptionLabel().setText(lcmVideoClip.getDescription());
-						panel.getVideoClipPanel().add(videoClipItem);
+					if (videoClipList != null) {
+						log.info("videoClipList size: "+videoClipList.length);
+						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+						panel.getVideoClipPanel().removeAll();
 						
-						new Thread(){
+						for (final LCMVideoClip lcmVideoClip : videoClipList) {
+//							System.out.println(lcmVideoClip);
+							final VideoClipItem videoClipItem = new VideoClipItem();
+							videoClipItem.setLcmVideoClip(lcmVideoClip);
+//							videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
+							videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
+							videoClipItem.getDescriptionLabel().setText(lcmVideoClip.getDescription());
+							panel.getVideoClipPanel().add(videoClipItem);
+							
+							new Thread(){
 
-							@Override
-							public void run() {
-								
-								ImagePainter imagePainter = null;
-								try {
-									imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
-								} catch (Exception e) {
+								@Override
+								public void run() {
+									
+									ImagePainter imagePainter = null;
 									try {
-										imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
-									} catch (IOException e1) {
+										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
+									} catch (Exception e) {
+										try {
+											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
+										} catch (IOException e1) {
+											log.error("reflashVideoClipPanel ",e );
+											e1.printStackTrace();
+										}
 										log.error("reflashVideoClipPanel ",e );
-										e1.printStackTrace();
 									}
-									log.error("reflashVideoClipPanel ",e );
+									imagePainter.setScaleToFit(true);
+									imagePainter.setScaleType(ScaleType.Distort);
+									videoClipItem.getPictureXPanel().setBackgroundPainter(imagePainter);
 								}
-								imagePainter.setScaleToFit(true);
-								imagePainter.setScaleType(ScaleType.Distort);
-								videoClipItem.getPictureXPanel().setBackgroundPainter(imagePainter);
+								
+							}.start();
+							
+							if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
+								videoClipItem.getDeleteButton().setVisible(false);
+							}
+							else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
+								videoClipItem.getDeleteButton().setVisible(true);
+							}
+							else{
+								videoClipItem.getDeleteButton().setVisible(false);
 							}
 							
-						}.start();
-						
-						if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
-							videoClipItem.getDeleteButton().setVisible(false);
 						}
-						else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
-							videoClipItem.getDeleteButton().setVisible(true);
-						}
-						else{
-							videoClipItem.getDeleteButton().setVisible(false);
-						}
-						
+						panel.getVideoClipPanel().repaint();
+						panel.getVideoClipPanel().revalidate();
 					}
-					panel.getVideoClipPanel().repaint();
-					panel.getVideoClipPanel().revalidate();
+					else{
+						log.info("videoClipList size: "+videoClipList);
+					}
+					
+					
 				} catch (Exception e) {
 					log.error("reflashVideoClipPanel", e);
 				}
@@ -722,7 +733,7 @@ public class VideoClipController extends BaseController {
 		if (item.getLcmVideoClip().getIsmonitor()) {
 			videoClipInfoDialog.getLiveStreamUrlLabel().setVisible(true);
 			videoClipInfoDialog.getLiveStreamUrlTextField().setVisible(true);
-			videoClipInfoDialog.getLiveStreamUrlTextField().setText(item.getLcmVideoClip().getVideoClipUrlHigh());
+			videoClipInfoDialog.getLiveStreamUrlTextField().setText(item.getLcmVideoClip().getRtspVideoUrlHigh());
 		}
 		else{
 			videoClipInfoDialog.getLiveStreamUrlLabel().setVisible(false);

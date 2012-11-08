@@ -223,19 +223,19 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
+        String xmlurl = "http://192.168.75.132:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
         int x = 0;
         int y = 3;
         LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
         for (LCMVideoClip lcmVideoClip : videoClipList) {
-			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getVideoClipUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
 		}
         System.out.println("length: "+lcm.getVideoListLength());
        
         LCMVideoClip[] monitorList = lcm.getMonitorList(x, y);
         for (LCMVideoClip lcmVideoClip : monitorList) {
-			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getVideoClipUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
 		}
         System.out.println("length: "+lcm.getVideoListLength());
         
