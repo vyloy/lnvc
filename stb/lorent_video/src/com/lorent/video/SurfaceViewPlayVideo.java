@@ -12,6 +12,8 @@ import java.util.TimerTask;
 import com.lorent.video.util.DialogUtil;
 import com.lorent.video.util.TimeUtil;
 import com.lorent.video.util.VideoScaleUtil;
+import com.proxy.HttpGetProxy;
+import com.proxy.Utils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -36,7 +38,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-//ÓëSurfaceViewÏà¹ØµÄ°ü
+//ä¸SurfaceViewç›¸å…³çš„åŒ…
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -47,13 +49,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-//ÓëMediaPlayerÏà¹ØµÄ°ü
+//ä¸MediaPlayerç›¸å…³çš„åŒ…
 import android.media.MediaPlayer;
-//²¥·ÅÍê±Ï
+//æ’­æ”¾å®Œæ¯•
 import android.media.MediaPlayer.OnCompletionListener;
-//errorĞÅÏ¢
+//errorä¿¡æ¯
 import android.media.MediaPlayer.OnErrorListener;
-//infoĞÅÏ¢
+//infoä¿¡æ¯
 import android.media.AudioManager;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnInfoListener;
@@ -81,7 +83,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	private SeekBar seekBar;
 	private TextView fileNameTextView;
 	private TimerTask mTimerTask;
-	private boolean isChanging=false;//»¥³â±äÁ¿£¬·ÀÖ¹¶¨Ê±Æ÷ÓëSeekBarÍÏ¶¯Ê±½ø¶È³åÍ»
+	private boolean isChanging=false;//äº’æ–¥å˜é‡ï¼Œé˜²æ­¢å®šæ—¶å™¨ä¸SeekBaræ‹–åŠ¨æ—¶è¿›åº¦å†²çª
 	private Timer mTimer;
 	private FrameLayout frameLayout;
 	private RelativeLayout controlLayout;
@@ -89,6 +91,8 @@ public class SurfaceViewPlayVideo extends Activity implements
 	private static final int FADE_OUT = 1;
 	private static final int SHOW_PROGRESS = 2;
 	private static final int defaultTimeout = 3000;
+	private static final int SHOW_PLAY = 3;
+	private static final int SHOW_PAUSE = 4;
 	private PlayHandler playHandler = new PlayHandler();
 	private int currentP;
 	private int videoTimeLen;
@@ -97,7 +101,8 @@ public class SurfaceViewPlayVideo extends Activity implements
 	
     private String filePath;
     private ProgressDialog dialog;
-    private boolean isExit = false;
+    private volatile boolean keyDragSeekBar = false;
+    private boolean keyEnable = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +111,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.videosurfaceview);
 		frameLayout = (FrameLayout)findViewById(R.id.FrameLayout1);
-		// SurfaceViewÉèÖÃ
+		// SurfaceViewè®¾ç½®
 		surfaceView = (SurfaceView) findViewById(R.id.videoSurfaceView);
 		surfaceHoler = surfaceView.getHolder();
 		surfaceHoler.addCallback(this);
@@ -118,7 +123,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		
-		// MediaPlayerÉèÖÃ
+		// MediaPlayerè®¾ç½®
 		mPlayer = new MediaPlayer();
 		mPlayer.setOnCompletionListener(this);
 		mPlayer.setOnErrorListener(this);
@@ -126,7 +131,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		mPlayer.setOnPreparedListener(this);
 		mPlayer.setOnSeekCompleteListener(this);
 		mPlayer.setOnVideoSizeChangedListener(this);
-		// ²¥·Å¸èÇúÂ·¾¶
+		// æ’­æ”¾æ­Œæ›²è·¯å¾„
 		Intent intent = this.getIntent();
 		String videoUrl = intent.getExtras().getString("videoUrl");
 		String fileName = intent.getExtras().getString("fileName");
@@ -151,7 +156,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 			@Override
 			public void run() {
 				try{
-					if(mPlayer!=null && mPlayer.isPlaying()){
+					if(mPlayer!=null && mPlayer.isPlaying() && !keyDragSeekBar){
 						Message message = playHandler.obtainMessage(0, null);
 						playHandler.sendMessage(message);
 					}
@@ -162,7 +167,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		};
 		mTimer = new Timer();
 		mTimer.schedule(mTimerTask, 0, 1000);
-		controlLayout.setVisibility(View.INVISIBLE);
+		controlLayout.setVisibility(View.VISIBLE);
 //		controlLayout.setOnTouchListener(new ControlOnTouchListener());
 		seekBar.setOnSeekBarChangeListener(new PlayOnSeekBarChangeListener());
 		seekBar.setEnabled(true);
@@ -177,7 +182,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-//			Log.i(TAG, "ÍÏ¶¯½ø¶ÈÌõÖĞ");
+			Log.i("keyvalue", "æ‹–åŠ¨è¿›åº¦æ¡ä¸­"+progress);
 //			long newposition = (videoTimeLen * progress) / 1000;
 //			mPlayer.seekTo((int)newposition);
 //			currentTimeTextView.setText(TimeUtil.convertMillisecond((int)newposition));
@@ -185,7 +190,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 
 		@Override
 		public void onStartTrackingTouch(SeekBar seekBar) {
-			Log.i(TAG, "¿ªÊ¼ÍÏ¶¯½ø¶ÈÌõ");
+			Log.i(TAG, "å¼€å§‹æ‹–åŠ¨è¿›åº¦æ¡");
 			isDragSeekBar = true;
 			mPlayer.pause();
 			controlShow(60*60*1000);
@@ -194,9 +199,10 @@ public class SurfaceViewPlayVideo extends Activity implements
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
-//			Log.i(TAG, "½áÊøÍÏ¶¯½ø¶ÈÌõ:" + (videoTimeLen * seekBar.getProgress()) / 1000);
-			Log.i(TAG, "½áÊøÍÏ¶¯½ø¶ÈÌõ:" + seekBar.getProgress());
+//			Log.i(TAG, "ç»“æŸæ‹–åŠ¨è¿›åº¦æ¡:" + (videoTimeLen * seekBar.getProgress()) / 1000);
+			Log.i(TAG, "ç»“æŸæ‹–åŠ¨è¿›åº¦æ¡:" + seekBar.getProgress());
 //			play((videoTimeLen * seekBar.getProgress()) / 1000);
+			
 			play(seekBar.getProgress());
 			controlShow(defaultTimeout);
 //			mAM.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -208,9 +214,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 	public void playBtnProccess(View v){
 		if(mPlayer!=null){
 			if(mPlayer.isPlaying()){
-				mPlayer.pause();
-				currentP = mPlayer.getCurrentPosition();
+				
+				
 				playBtn.setImageResource(R.drawable.mediacontroller_play_button);
+				keyEventHandler.sendMessageDelayed(keyEventHandler.obtainMessage(SHOW_PAUSE,0),1000);
+//				mPlayer.pause();
 			}else{
 				
 				play(currentP);
@@ -230,7 +238,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 			mPlayer.setDataSource(filePath);
 			mPlayer.setDisplay(surfaceHoler);
 			mPlayer.prepareAsync();
-//			dialog = ProgressDialog.show(this, "ÊÓÆµ¼ÓÔØÖĞ...", "ÇëÄúÉÔºò");
+//			dialog = ProgressDialog.show(this, "è§†é¢‘åŠ è½½ä¸­...", "è¯·æ‚¨ç¨å€™");
 //			dialog.dismiss();
 			
 //			dialog.setOnCancelListener(new DialogOnCancelListener());
@@ -264,7 +272,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	}
 	
 	public void showControlView(View v){
-//		controlShow(defaultTimeout);
+		controlShow(defaultTimeout);
 	}
 	
 	
@@ -327,7 +335,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		
 	}
 
-	// create·½·¨½øĞĞ×¼±¸
+	// createæ–¹æ³•è¿›è¡Œå‡†å¤‡
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		Log.v(TAG, "surfaceCreated method is called!!");
@@ -340,6 +348,43 @@ public class SurfaceViewPlayVideo extends Activity implements
 		mPlayer.setDisplay(surfaceHoler);
 		mPlayer.prepareAsync();
 	}
+	
+//	@Override
+//	public void surfaceCreated(SurfaceHolder holder) {
+//		Log.v(TAG, "surfaceCreated method is called!!");
+//		//åˆå§‹åŒ–ä»£ç†æœåŠ¡å™¨
+//		HttpGetProxy proxy = new HttpGetProxy(9110);
+//		proxy.asynStartProxy();
+//		String[] urls = proxy.getLocalURL(filePath);
+//		String mp4Url=urls[0];
+//		String videoUrl=urls[1];
+//		
+//		try {
+//			String prebufferFilePath = proxy.prebuffer(mp4Url,
+//					HttpGetProxy.SIZE);
+//			
+//			Log.e(TAG, "é¢„åŠ è½½æ–‡ä»¶ï¼š" + prebufferFilePath);
+//		} catch (Exception ex) {
+//			Log.e(TAG, ex.toString());
+//			Log.e(TAG, Utils.getExceptionMessage(ex));
+//		}
+//		delayToStartPlay.sendMessageDelayed(delayToStartPlay.obtainMessage(0, videoUrl), 3000);//;.sendEmptyMessageDelayed(0,3000);
+//		
+//	}
+//	
+//	private Handler delayToStartPlay = new Handler() {
+//		public void handleMessage(Message msg) {
+//			String videoUrl = (String)msg.obj;
+//			mPlayer.reset();
+//			try {
+//				mPlayer.setDataSource(filePath);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			mPlayer.setDisplay(surfaceHoler);
+//			mPlayer.prepareAsync();
+//		}
+//	};
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
@@ -354,7 +399,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	public void onSeekComplete(MediaPlayer mp) {
 	}
 
-	// ²¥·Å´¦Àí
+	// æ’­æ”¾å¤„ç†
 	@Override
 	public void onPrepared(MediaPlayer mp) {
 		
@@ -375,19 +420,19 @@ public class SurfaceViewPlayVideo extends Activity implements
 		DialogUtil.dismissDialog(dialog);
 		
 		seekBar.setMax(videoTimeLen);
-		// È«ÆÁ²¥·Å
+		// å…¨å±æ’­æ”¾
 		 int mvideoHeight = currentDisplay.getHeight();
 		 int mvideoWidth = currentDisplay.getWidth();
-		// °´ÊÓÆµ±¾Éí´óĞ¡²¥·Å
+		// æŒ‰è§†é¢‘æœ¬èº«å¤§å°æ’­æ”¾
 		videoWidth = mPlayer.getVideoWidth();//mvideoWidth;//mPlayer.getVideoWidth();
 		videoHeight = mPlayer.getVideoHeight();//mvideoHeight;//mPlayer.getVideoHeight();
 		int result[] = VideoScaleUtil.computeScale(mvideoWidth, mvideoHeight, videoWidth, videoHeight);
 		videoWidth = result[0];
 		videoHeight = result[1];
-		// ÔÚ´Ë¿ÉÒÔ¸ù¾İÇé¿ö½øĞĞËõ·Å²¥·ÅÉèÖÃ
+		// åœ¨æ­¤å¯ä»¥æ ¹æ®æƒ…å†µè¿›è¡Œç¼©æ”¾æ’­æ”¾è®¾ç½®
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				videoWidth, videoHeight);
-		// ¾ÓÖĞ
+		// å±…ä¸­
 		lp.gravity = Gravity.CENTER_HORIZONTAL;
 		surfaceView.setLayoutParams(lp);
 //		SurfaceHolder mHold = surfaceView.getHolder();
@@ -398,14 +443,15 @@ public class SurfaceViewPlayVideo extends Activity implements
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 //        mPlayer.setDisplay(mHold);
-		mPlayer.start();
-		mPlayer.seekTo(currentP);
-		isDragSeekBar = false;
 		
+		mPlayer.seekTo(currentP);
+		mPlayer.start();
+		isDragSeekBar = false;
+		keyDragSeekBar = false;
 		totalTimeTextView.setText(TimeUtil.convertMillisecond(videoTimeLen));
 	}
 
-	// Info ĞÅÏ¢´¦Àí
+	// Info ä¿¡æ¯å¤„ç†
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
 		Log.v(TAG, "onInfo method is called!!");
@@ -423,7 +469,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		return false;
 	}
 
-	// ErrorĞÅÏ¢´¦Àí
+	// Errorä¿¡æ¯å¤„ç†
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
 		Log.v(TAG, "onError method is called!!");
@@ -440,7 +486,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		return false;
 	}
 
-	// ²¥·ÅÍê±Ïºó,finish
+	// æ’­æ”¾å®Œæ¯•å,finish
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		Log.v(TAG, "onCompletion method is called!!");
@@ -451,7 +497,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		finish();
 	}
 
-	// ActivtyÏú»ÙÊÍ·Å×ÊÔ´
+	// Activtyé”€æ¯é‡Šæ”¾èµ„æº
 	@Override
 	protected void onDestroy() {
 		releaseRes();
@@ -490,4 +536,73 @@ public class SurfaceViewPlayVideo extends Activity implements
 	public void onBufferingUpdate(MediaPlayer arg0, int percent) {
         Log.i(TAG, "onBufferingUpdate percent:" + percent);
     }
+	
+	private int forwardTime = 5000;
+	
+	private Handler keyEventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+        	int c = (Integer)msg.obj;
+        	switch (msg.what){
+        	case SHOW_PROGRESS:
+        		seekBar.setProgress(c);
+        		break;
+        	case SHOW_PLAY:
+//        		keyEnable = false;
+        		play(c);
+        		break;
+        	case SHOW_PAUSE:
+        		currentP = mPlayer.getCurrentPosition();
+        		mPlayer.pause();
+        		break;
+        	}
+            
+            
+        }
+    };
+	
+    @Override
+	    public boolean dispatchKeyEvent(KeyEvent event) {
+	    	
+	    	if(event.getAction()==KeyEvent.ACTION_DOWN && (event.getKeyCode()==KeyEvent.KEYCODE_DPAD_LEFT||event.getKeyCode()==KeyEvent.KEYCODE_DPAD_RIGHT)){
+//	    		if(!keyEnable){
+//	    			return super.dispatchKeyEvent(event);
+//	    		}
+	    		controlShow(defaultTimeout);
+	    		Log.i("keyvalue", event.getKeyCode()+"");
+	    		int c = 0;
+	    		keyDragSeekBar = true;
+	    		
+	    		if(mPlayer!=null && mPlayer.isPlaying() && !isDragSeekBar){
+	    			this.currentP = mPlayer.getCurrentPosition();
+	    			c = currentP;
+//	    			mPlayer.pause();
+	    		}else{
+	    			c = seekBar.getProgress();
+	    		}
+	    		isDragSeekBar = true;
+	    		if(event.getKeyCode()==KeyEvent.KEYCODE_DPAD_LEFT){//å‘å·¦é”®ï¼›å¿«é€€
+	    			if(c-forwardTime<0){
+    					c = 0;
+    				}else{
+    					c = c - forwardTime;
+    				}
+	    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_DPAD_RIGHT){//å‘å³é”®ï¼šå¿«è¿›
+	    			if(c + forwardTime > videoTimeLen){
+    					c = videoTimeLen;
+    				}else{
+    					c = c + forwardTime;
+    				}
+	    		}
+	    		currentP = c;
+	    		Log.i("keyvalue", currentP + "");
+//	    		keyEventHandler.sendMessage(keyEventHandler.obtainMessage(SHOW_PLAY, c));
+	    		keyEventHandler.sendMessage(keyEventHandler.obtainMessage(SHOW_PROGRESS, c));
+//	    		seekBar.setProgress(c);
+	    		keyEventHandler.removeMessages(SHOW_PLAY);
+				keyEventHandler.sendMessageDelayed(keyEventHandler.obtainMessage(SHOW_PLAY, c),1000);
+				
+	    	}
+	    	return super.dispatchKeyEvent(event);
+	    }
 }

@@ -4,13 +4,20 @@ import java.io.Serializable;
 
 public class LCMVideoClip implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String videoClipUrlHigh;//高清视频存放url地址
-	private String videoClipUrlStandard;//标清视频存放url地址
-	private String thumbnailUrl;//视频缩略图url地址
-	private String title;//标题
-	private String description;//描述
-	private String category;//类别
+	private String videoClipUrlHigh;//楂樻竻瑙嗛瀛樻斁url鍦板潃
+	private String videoClipUrlStandard;//鏍囨竻瑙嗛瀛樻斁url鍦板潃
+	private String thumbnailUrl;//瑙嗛缂╃暐鍥緐rl鍦板潃
+	private String title;//鏍囬
+	private String description;//鎻忚堪
+	private String category;//绫诲埆
 	private String createrName;
+	private Boolean ismonitor;//鏄惁鐩戞帶
+	public Boolean getIsmonitor() {
+		return ismonitor;
+	}
+	public void setIsmonitor(Boolean ismonitor) {
+		this.ismonitor = ismonitor;
+	}
 	public String getCreaterName() {
 		return createrName;
 	}

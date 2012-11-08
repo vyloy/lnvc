@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.video.bean.VideoInfo;
 import com.lorent.video.service.VideoService;
+import com.lorent.video.util.AsyncImageLoader;
 import com.lorent.video.util.ShareAppUtil;
 
 public class MainActivity extends Activity {
@@ -60,7 +61,7 @@ public class MainActivity extends Activity {
         	gridView = (GridView)this.findViewById(R.id.gridview);
         }
         mProgressDialog = new ProgressDialog(MainActivity.this);  
-        mProgressDialog.setMessage("ÕıÔÚ»ñÈ¡Êı¾İ");  
+        mProgressDialog.setMessage("æ­£åœ¨è·å–æ•°æ®");  
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
         datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
@@ -79,7 +80,7 @@ public class MainActivity extends Activity {
     private class LoadInfoThread extends Thread{
     	
     	public LoadInfoThread(){
-//    		showDialog(DIALOG_PROGRESS);//´ò¿ªµÈ´ı¶Ô»°¿ò  
+//    		showDialog(DIALOG_PROGRESS);//æ‰“å¼€ç­‰å¾…å¯¹è¯æ¡†  
     		mProgressDialog.show();
     	}
     	
@@ -98,7 +99,7 @@ public class MainActivity extends Activity {
     
     protected void onStart () {  
         super.onStart();
-//        new GetGridDataTask().execute();//Ö´ĞĞ»ñÈ¡Êı¾İµÄÈÎÎñ  
+//        new GetGridDataTask().execute();//æ‰§è¡Œè·å–æ•°æ®çš„ä»»åŠ¡  
 //        new LoadInfoThread().start();
     }
     
@@ -126,12 +127,14 @@ public class MainActivity extends Activity {
 	    			toast.setGravity(Gravity.CENTER,0,0);
 	    			toast.show();
 	    		}else{
+	    			AsyncImageLoader.clearCache();
+	    			VideoInfoAdapter.clearCacheView();
 	    			datas.clear(); 
 	    			datas.addAll(result);
 	    			if(adapter==null){
 		        		show();
 		        	}else{
-		        		adapter.notifyDataSetChanged();//Í¨Öªui½çÃæ¸üĞÂ  
+		        		adapter.notifyDataSetChanged();//é€šçŸ¥uiç•Œé¢æ›´æ–°  
 		        	}
 	    		}
 	        	loadDataFinish = true;
@@ -161,7 +164,7 @@ public class MainActivity extends Activity {
 		
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);  
-        builder.setTitle("Ñ¡Ôñ²¥·ÅÆ÷").setItems(items,new DialogInterface.OnClickListener(){  
+        builder.setTitle("é€‰æ‹©æ’­æ”¾å™¨").setItems(items,new DialogInterface.OnClickListener(){  
             public void onClick(DialogInterface dialog, int which) {  
             	Log.i("player_which", which + "");
             	ResolveInfo info = videoPlayerList.get(which);
@@ -190,15 +193,16 @@ public class MainActivity extends Activity {
 			
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
 			
-			//ÊÖ»ú²¥·Å
+			//æ‰‹æœºæ’­æ”¾
 			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 			intent.putExtra("fileName", item.getTitle());
 			intent.putExtra("videoUrl", item.getVideoClipUrlStandard());
 			startActivity(intent);*/
 			
-			//»ú¶¥ºĞ²¥·ÅÊÓÆµ
+			//æœºé¡¶ç›’æ’­æ”¾è§†é¢‘
 			Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
 			intent.putExtra("videoUrl", item.getVideoClipUrlHigh());
+//			intent.putExtra("videoUrl", "http://10.168.100.73:6090/myvideo/1080P_h264~1.mp4");
 			intent.putExtra("fileName", item.getTitle());
 			startActivity(intent);
 			
@@ -228,22 +232,23 @@ public class MainActivity extends Activity {
     		currentPage++;
     	}
     	new LoadInfoThread().start();
-//    	new GetGridDataTask().execute();//Ö´ĞĞ»ñÈ¡Êı¾İµÄÈÎÎñ  
+//    	new GetGridDataTask().execute();//æ‰§è¡Œè·å–æ•°æ®çš„ä»»åŠ¡  
     	
     }
     
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+    	Log.i("keyvalue", event.getKeyCode()+"");
     	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==KeyEvent.KEYCODE_D||event.getKeyCode()==KeyEvent.KEYCODE_C)){
     		if(!loadDataFinish){
     			return super.dispatchKeyEvent(event);
     		}else{
     			loadDataFinish = false;
     		}
-    		if(event.getKeyCode()==KeyEvent.KEYCODE_D){//ÏÂÒ»Ò³;ÆµµÀ^
+    		if(event.getKeyCode()==KeyEvent.KEYCODE_D){//ä¸‹ä¸€é¡µ;é¢‘é“^
     			currentPage--;
-    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_C){//ÉÏÒ»Ò³;ÆµµÀv
+    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_C){//ä¸Šä¸€é¡µ;é¢‘é“v
     			currentPage++;
     		}
     		new LoadInfoThread().start();
