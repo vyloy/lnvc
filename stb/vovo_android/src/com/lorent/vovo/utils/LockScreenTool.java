@@ -8,7 +8,7 @@ public class LockScreenTool {
 	
 	
 	private static WakeLock mWakeLock;
-	/** ÆÁÄ»¼ÓËø*/
+	/** å±å¹•åŠ é”*/
 	public static void  lockScreen(Context context){
 		if (mWakeLock == null) {
 			PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
@@ -19,7 +19,7 @@ public class LockScreenTool {
 		}
 	}
 	
-	/**ÆÁÄ»½âËø*/
+	/**å±å¹•è§£é”*/
 	public static void cancelLock(){
 		if (mWakeLock != null) {
 			mWakeLock.release();

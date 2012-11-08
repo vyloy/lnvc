@@ -15,7 +15,7 @@ import android.net.Uri;
  * @author jimmy
  * 
  */
-public class PlayAudio_ {
+public class PlayAudio {
 	/*
 	 * private static MediaPlayer mMediaPlay = null;
 	 * 

@@ -35,7 +35,7 @@ public class ContactsActivity extends Activity {
 	private MyAdapter adapter;
 	private EditText edit_num;
 
-	private int selectedPos = 0;// ±êÊ¾Ñ¡ÖĞµÄÏî
+	private int selectedPos = 0;// æ ‡ç¤ºé€‰ä¸­çš„é¡¹
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class ContactsActivity extends Activity {
 			System.out.println("num ---------------------:" + num);
 			searchByNum(num);
 		} catch (Exception e) {
-			Toast.makeText(ContactsActivity.this, "ÇëÊäÈëÁªÏµÈËºÅÂë£¡",
+			Toast.makeText(ContactsActivity.this, "è¯·è¾“å…¥è”ç³»äººå·ç ï¼",
 					Toast.LENGTH_SHORT).show();
 		}
 	}

@@ -24,20 +24,20 @@ import android.widget.Button;
 
 import com.lorent.LCCUtil;
 import com.lorent.vovo.utils.DBProvider;
-import com.lorent.vovo.utils.PlayAudio_;
+import com.lorent.vovo.utils.PlayAudio;
 
 public class VideoScreen extends Activity{
 	
-	private int counttime = 0; //记录通话时间
+	private int counttime = 0; //璁板綍閫氳瘽鏃堕棿
 	public static final Uri HISTORY_TB_URI = Uri
 	.parse("content://com.lorent.lcc/history_tb");
 	public static final Uri FRIEND_TB_URI = Uri
 	.parse("content://com.lorent.lcc/friend_tb");
 	private String callin = "";
-	private boolean isRefuse = false; //是否拒接
-	private static final int UNRECIEVE = 0;//未接
-	private static final int RECIEVE = 1;  //已接
-	private static final int REFUSE = 3;   //拒接
+	private boolean isRefuse = false; //鏄惁鎷掓帴
+	private static final int UNRECIEVE = 0;//鏈帴
+	private static final int RECIEVE = 1;  //宸叉帴
+	private static final int REFUSE = 3;   //鎷掓帴
 	private Button open_lock;
 	private SurfaceView mSurfaceView;
 	private Button recieve_time;
@@ -73,7 +73,7 @@ public class VideoScreen extends Activity{
 				// TODO Auto-generated method stub
 				isRefuse = false;
 				insertHistory(DBProvider.CALL_IN, callin, UNRECIEVE);
-				PlayAudio_.play(VideoScreen.this);
+				PlayAudio.play(VideoScreen.this);
 			}}).start();
 		
 	}
@@ -97,7 +97,7 @@ public class VideoScreen extends Activity{
 				// TODO Auto-generated method stub
 				LCCUtil.hangup();
 				isCall = false;
-				PlayAudio_.stop();
+				PlayAudio.stop();
 				
 			}}).start();
 	}
@@ -105,7 +105,7 @@ public class VideoScreen extends Activity{
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		PlayAudio_.stop();
+		PlayAudio.stop();
 		unregisterReceiver(video_msg);
 	}
 	private void init(){
@@ -191,7 +191,7 @@ public class VideoScreen extends Activity{
 			LCCUtil.hangup();
 	}
 	
-	// 通话计时
+	// 閫氳瘽璁℃椂
 	private void set_timer() {
 
 		new Thread(new Runnable() {
@@ -434,13 +434,13 @@ public class VideoScreen extends Activity{
 			if(action.equals("lorent.lccUtil.hangup"))
 			{
 				System.out.println("videoscreen: hangup");
-				PlayAudio_.stop();
+				PlayAudio.stop();
 				isCall = false;
 				countCallTime();
-				//判断是否拒接
+				//鍒ゆ柇鏄惁鎷掓帴
 				if(queryHistoryState()){
 					if(isRefuse){
-						//更新状态为拒接
+						//鏇存柊鐘舵�佷负鎷掓帴
 						updateHistoryState(REFUSE);
 					}
 				}
@@ -453,7 +453,7 @@ public class VideoScreen extends Activity{
 			    
 				new Thread(){
 					public void run() {
-						PlayAudio_.stop();
+						PlayAudio.stop();
 						updateHistoryState(RECIEVE);
 						
 					};}.start();

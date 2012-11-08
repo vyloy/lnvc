@@ -1,18 +1,18 @@
 package com.lorent.vovo.bean;
 /**
- * ÁôÓ°ÁôÑÔ
+ * ç•™å½±ç•™è¨€
  * @author Administrator
  *
  */
 public class MsgBean {
 	
-	private int s32Id;             //ÏûÏ¢id
-    private String as8MsgTitle;    //ÏûÏ¢±êÌâ
-    private int s32ADType;         //ÏûÏ¢ÀàĞÍ
-    private String as8FullName;    //ÎÄ¼şÃû
-    private int s32FileType;       //ÎÄ¼şÀàĞÍ
-    private String as8RecvTime;    //½ÓÊÕÊ±¼ä
-    private int s32NewFlag;        //ÊÇ·ñÒÑ¶Á
+	private int s32Id;             //æ¶ˆæ¯id
+    private String as8MsgTitle;    //æ¶ˆæ¯æ ‡é¢˜
+    private int s32ADType;         //æ¶ˆæ¯ç±»å‹
+    private String as8FullName;    //æ–‡ä»¶å
+    private int s32FileType;       //æ–‡ä»¶ç±»å‹
+    private String as8RecvTime;    //æ¥æ”¶æ—¶é—´
+    private int s32NewFlag;        //æ˜¯å¦å·²è¯»
 	public int getS32Id() {
 		return s32Id;
 	}

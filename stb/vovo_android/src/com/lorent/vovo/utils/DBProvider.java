@@ -104,7 +104,7 @@ public class DBProvider extends ContentProvider{
 				"calltime VARCHAR(20), " +
 	            "lccno VARCHAR(20)," +
 	            "name VARCHAR(50)," +
-	            "state INTEGER," +                   //  1 已接       0 未接     2 拨出    3拒接
+	            "state INTEGER," +                   //  1 宸叉帴       0 鏈帴     2 鎷ㄥ嚭    3鎷掓帴
 	            "counttime VARCHAR(20)"+
 	            ");";
 			Log.i("create history ", createSql);

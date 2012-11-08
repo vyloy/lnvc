@@ -14,17 +14,17 @@ public class DataProvider extends ContentProvider {
 
 	public static final String DATABASE_NAME = "info.db";
 	public static final String AUTHORITY = "lorent.settings";
-	/** Çé¾°Ä£Ê½ÁĞ±í */
+	/** æƒ…æ™¯æ¨¡å¼åˆ—è¡¨ */
 	public static final String TABLE_SCENE = "scene";
-	/** Éè±¸ÁĞ±í */
+	/** è®¾å¤‡åˆ—è¡¨ */
 	public static final String TABLE_DEVICE = "device";
-	/** ±¨¾¯·½Ê½ÁĞ±í */
+	/** æŠ¥è­¦æ–¹å¼åˆ—è¡¨ */
 	public static final String TABLE_ALARM = "alarm";
-	/** ³¡¾°-Éè±¸×´Ì¬¹ØÁª±í */
+	/** åœºæ™¯-è®¾å¤‡çŠ¶æ€å…³è”è¡¨ */
 	public static final String TABLE_SCENE_DEVICE = "scene_device";
-	/** ¼à¿ØÆ÷ÁĞ±í */
+	/** ç›‘æ§å™¨åˆ—è¡¨ */
 	public static final String TABLE_MONITOR = "monitor";
-	/** Ä£Ê½ÇĞ»» */
+	/** æ¨¡å¼åˆ‡æ¢ */
 	public static final String TABLE_SCENE_SWITCH = "scene_switch";
 	public static final int DATABASE_VERSION = 1;
 
@@ -35,19 +35,19 @@ public class DataProvider extends ContentProvider {
 	private static final int TABLE_CODE_SCENE_SWITCH = 5;
 	private DatabaseHelper mOpenHelper;
 	private static final String CREATE_TABLE_SCENE = "create table "
-			+ TABLE_SCENE + " (_id INTEGER PRIMARY KEY, name TEXT)";// ´´½¨Çé¾°Ä£Ê½±í
+			+ TABLE_SCENE + " (_id INTEGER PRIMARY KEY, name TEXT)";// åˆ›å»ºæƒ…æ™¯æ¨¡å¼è¡¨
 	private static final String CREATE_TABLE_DEVICE = "create table "
 			+ TABLE_DEVICE
-			+ " (_id INTEGER PRIMARY KEY, name TEXT, channel INTEGER, type INTEGER, location TEXT)";// ´´½¨Éè±¸ÁĞ±í
+			+ " (_id INTEGER PRIMARY KEY, name TEXT, channel INTEGER, type INTEGER, location TEXT)";// åˆ›å»ºè®¾å¤‡åˆ—è¡¨
 	private static final String CREATE_TABLE_SCENE_DEVICE = "create table "
 			+ TABLE_SCENE_DEVICE
-			+ " (scene_id INTEGER, device_id INTEGER, state INTEGER )";// ³¡¾°-Éè±¸¹ØÁª±í¡£
+			+ " (scene_id INTEGER, device_id INTEGER, state INTEGER )";// åœºæ™¯-è®¾å¤‡å…³è”è¡¨ã€‚
 
 	private static final String CREATE_TABLE_MONITOR = "create table "
-			+ TABLE_MONITOR + " (_id INTEGER PRIMARY KEY, name TEXT,ip TEXT)";// ´´½¨¼à¿ØÆ÷ÁĞ±í
+			+ TABLE_MONITOR + " (_id INTEGER PRIMARY KEY, name TEXT,ip TEXT)";// åˆ›å»ºç›‘æ§å™¨åˆ—è¡¨
 	private static final String CREATE_TABLE_SCENE_SWITCH = "create table "
 			+ TABLE_SCENE_SWITCH
-			+ " (_id INTEGER PRIMARY KEY, start INTEGER ,end INTEGER,scene_id INTEGER)";// ´´½¨Ä£Ê½ÇĞ»»ÁĞ±í
+			+ " (_id INTEGER PRIMARY KEY, start INTEGER ,end INTEGER,scene_id INTEGER)";// åˆ›å»ºæ¨¡å¼åˆ‡æ¢åˆ—è¡¨
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	static {
@@ -73,11 +73,11 @@ public class DataProvider extends ContentProvider {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(CREATE_TABLE_SCENE); // ´´½¨Çé¾°Ä£Ê½±í
-			db.execSQL(CREATE_TABLE_DEVICE); // ´´½¨¸ĞÓ¦Æ÷±í
-			db.execSQL(CREATE_TABLE_SCENE_DEVICE); // ´´½¨·ÀÇø±í
-			db.execSQL(CREATE_TABLE_MONITOR); // ´´½¨¼à¿ØÁĞ±í
-			db.execSQL(CREATE_TABLE_SCENE_SWITCH); // ´´½¨Ä£Ê½ÇĞ»»ÁĞ±í
+			db.execSQL(CREATE_TABLE_SCENE); // åˆ›å»ºæƒ…æ™¯æ¨¡å¼è¡¨
+			db.execSQL(CREATE_TABLE_DEVICE); // åˆ›å»ºæ„Ÿåº”å™¨è¡¨
+			db.execSQL(CREATE_TABLE_SCENE_DEVICE); // åˆ›å»ºé˜²åŒºè¡¨
+			db.execSQL(CREATE_TABLE_MONITOR); // åˆ›å»ºç›‘æ§åˆ—è¡¨
+			db.execSQL(CREATE_TABLE_SCENE_SWITCH); // åˆ›å»ºæ¨¡å¼åˆ‡æ¢åˆ—è¡¨
 		}
 
 		@Override

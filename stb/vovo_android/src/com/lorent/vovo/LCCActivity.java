@@ -62,15 +62,15 @@ import com.lorent.LCCUtil;
 import com.lorent.vovo.bean.FriendBean;
 import com.lorent.vovo.bean.RecordBean;
 import com.lorent.vovo.utils.DBProvider;
-import com.lorent.vovo.utils.PlayAudio_;
+import com.lorent.vovo.utils.PlayAudio;
 
 public class LCCActivity extends Activity {
 
 	Dialog dialog = null;
-	private int isRecordOrFriend = 0;// ±êÊ¾´ÓÁªÏµÈË»¹ÊÇ´ÓÍ¨»°¼ÇÂ¼´ò¿ªÀúÊ·¼ÇÂ¼
+	private int isRecordOrFriend = 0;// æ ‡ç¤ºä»è”ç³»äººè¿˜æ˜¯ä»é€šè¯è®°å½•æ‰“å¼€å†å²è®°å½•
     
 	/**
-	 * pageSize Ã¿Ò³ÏÔÊ¾ÁªÏµÈË¼ÇÂ¼Êı¾İÊıÄ¿ pageCount ×ÜÒ³Êı nowPage µ±Ç°Ò³Êı count ×ÜÊı¾İÊıÄ¿
+	 * pageSize æ¯é¡µæ˜¾ç¤ºè”ç³»äººè®°å½•æ•°æ®æ•°ç›® pageCount æ€»é¡µæ•° nowPage å½“å‰é¡µæ•° count æ€»æ•°æ®æ•°ç›®
 	 * 
 	 **/
 	private int count = 0;
@@ -79,8 +79,8 @@ public class LCCActivity extends Activity {
 	private int nowPage = 1;
 
 	/**
-	 * pageSize_black Ã¿Ò³ÏÔÊ¾ºÚÃûµ¥¼ÇÂ¼Êı¾İÊıÄ¿ pageCount_black ×ÜÒ³Êı nowPage_black µ±Ç°Ò³Êı
-	 * count_black ×ÜÊı¾İÊıÄ¿
+	 * pageSize_black æ¯é¡µæ˜¾ç¤ºé»‘åå•è®°å½•æ•°æ®æ•°ç›® pageCount_black æ€»é¡µæ•° nowPage_black å½“å‰é¡µæ•°
+	 * count_black æ€»æ•°æ®æ•°ç›®
 	 * 
 	 **/
 	private int count_black = 0;
@@ -88,8 +88,8 @@ public class LCCActivity extends Activity {
 	private int pageCount_black = 0;
 	private int nowPage_black = 1;
 	/**
-	 * pageSize_record Ã¿Ò³ÏÔÊ¾Í¨»°¼ÇÂ¼Êı¾İÊıÄ¿ pageCount_record ×ÜÒ³Êı nowPage_record µ±Ç°Ò³Êı
-	 * count_record ×ÜÊı¾İÊıÄ¿
+	 * pageSize_record æ¯é¡µæ˜¾ç¤ºé€šè¯è®°å½•æ•°æ®æ•°ç›® pageCount_record æ€»é¡µæ•° nowPage_record å½“å‰é¡µæ•°
+	 * count_record æ€»æ•°æ®æ•°ç›®
 	 * 
 	 **/
 	private int count_record = 0;
@@ -106,8 +106,8 @@ public class LCCActivity extends Activity {
 	private boolean isFriendPrv = false;    
     private boolean isFriendNext = false;
     
-	// private String name = "",num = ""; //Ìí¼ÓºÚÃûµ¥Ê±´ÓÁªÏµÈËÖĞÑ¡ÖĞµÄ¸öÈËĞÅÏ¢
-	private boolean isRefresh = false; // ´ÓÁªÏµÈËÖĞÑ¡È¡¸öÈËĞÅÏ¢±êÖ¾
+	// private String name = "",num = ""; //æ·»åŠ é»‘åå•æ—¶ä»è”ç³»äººä¸­é€‰ä¸­çš„ä¸ªäººä¿¡æ¯
+	private boolean isRefresh = false; // ä»è”ç³»äººä¸­é€‰å–ä¸ªäººä¿¡æ¯æ ‡å¿—
 	private TextView state_page, state_page_black, state_page_record;
 	private TextView name_and_num;
 	private EditText name_or_num, name_or_num_black;
@@ -116,7 +116,7 @@ public class LCCActivity extends Activity {
 	 * private Camera mCamera; private SurfaceView mpreview; private
 	 * SurfaceHolder mSurfaceHolder;
 	 */
-	private int counttime = 0; // Í¨»°Ê±³¤
+	private int counttime = 0; // é€šè¯æ—¶é•¿
 	private EditText username;
 	private EditText serverip;
 	private EditText password;
@@ -125,7 +125,7 @@ public class LCCActivity extends Activity {
 	private EditText videowidth;
 	private EditText videoheight;
 	private EditText bitrate;
-	private boolean isCallOut = false; // ÕıÔÚºô½Ğ£¨ºô³ö£©
+	private boolean isCallOut = false; // æ­£åœ¨å‘¼å«ï¼ˆå‘¼å‡ºï¼‰
 
 	private TextView menu_dail_txt, menu_hostory_txt, menu_friend_txt,
 			menu_black_txt, menu_sipset_txt;
@@ -136,7 +136,7 @@ public class LCCActivity extends Activity {
 	private int mDelayTime = 0;
 	private HashMap<String, Integer> times = new HashMap<String, Integer>();
 	private static final int TIME_PICKER_ID = 14;
-	boolean isTure = true; // é•¿æŒ‰åˆ é™¤
+	boolean isTure = true; // é—€æŒå¯œé’çŠ»æ«
 	private boolean isDelClick = true;
 	private boolean isDelHistoryListClick = true;
 	private LinearLayout logo_layout;
@@ -144,10 +144,10 @@ public class LCCActivity extends Activity {
 			back_btn;
 	private TextView set_title;
 	private int index = 0;
-	private TextView txt_register; // æ³¨å†Œé€šçŸ¥
+	private TextView txt_register; // å¨‰ã„¥å”½é–«æ°±ç…¡
 	private ImageView imageView_ring;
 	private AnimationDrawable animaition;
-	private boolean isBlacklist = false; // æœ‰æ²¡æœ‰åŠ å…¥é»‘åå•
+	private boolean isBlacklist = false; // éˆå¤‹ç—…éˆå¤Šå§éãƒ©ç²¦éšå¶…å´Ÿ
 	private TextView out_connetion;
 
 	private final String noticeClassName = "com.lorent.NoticeServer";
@@ -355,7 +355,7 @@ public class LCCActivity extends Activity {
 
 	}
 
-	// ºÚÃûµ¥Ìõ¼ş²éÑ¯
+	// é»‘åå•æ¡ä»¶æŸ¥è¯¢
 	public void searchBlackClick(View v) {
 
 		try {
@@ -421,7 +421,7 @@ public class LCCActivity extends Activity {
 		this.showDialog(ADD_FRIEND_DIALOG);
 	}
 
-	// ÁªÏµÈËÌõ¼ş²éÑ¯
+	// è”ç³»äººæ¡ä»¶æŸ¥è¯¢
 	public void searchClick(View v) {
 
 		try {
@@ -621,12 +621,12 @@ public class LCCActivity extends Activity {
 
 	/**
 	 * 
-	 * Í¨»°¼ÇÂ¼Êı¾İ·ÖÒ³¼ÓÔØ
+	 * é€šè¯è®°å½•æ•°æ®åˆ†é¡µåŠ è½½
 	 * 
 	 * @param pageStart
-	 *            ÆğÊ¼Êı
+	 *            èµ·å§‹æ•°
 	 * @param pageEnd
-	 *            ½áÊøÊı
+	 *            ç»“æŸæ•°
 	 * 
 	 **/
 	public void initValueRecord(int pageStart, int pageEnd) {
@@ -657,12 +657,12 @@ public class LCCActivity extends Activity {
 
 	/**
 	 * 
-	 * ÁªÏµÈËÊı¾İ·ÖÒ³¼ÓÔØ
+	 * è”ç³»äººæ•°æ®åˆ†é¡µåŠ è½½
 	 * 
 	 * @param pageStart
-	 *            ÆğÊ¼Êı
+	 *            èµ·å§‹æ•°
 	 * @param pageEnd
-	 *            ½áÊøÊı
+	 *            ç»“æŸæ•°
 	 * 
 	 **/
 	public void initValue(int pageStart, int pageEnd) {
@@ -692,12 +692,12 @@ public class LCCActivity extends Activity {
 
 	/**
 	 * 
-	 * ºÚÃûµ¥Êı¾İ·ÖÒ³¼ÓÔØ
+	 * é»‘åå•æ•°æ®åˆ†é¡µåŠ è½½
 	 * 
 	 * @param pageStart
-	 *            ÆğÊ¼Êı
+	 *            èµ·å§‹æ•°
 	 * @param pageEnd
-	 *            ½áÊøÊı
+	 *            ç»“æŸæ•°
 	 * 
 	 **/
 	public void initValueBlack(int pageStart, int pageEnd) {
@@ -815,19 +815,19 @@ public class LCCActivity extends Activity {
 			fb.setCalltime(calltime);
 			Bitmap type = null;
 			if (state == 1) {
-				// ÒÑ½Ó
+				// å·²æ¥
 				type = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_call_in);
 			} else if (state == 0) {
-				// Î´½Ó
+				// æœªæ¥
 				type = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_unrecieve);
 			} else if (state == 2) {
-				// ²¦³ö
+				// æ‹¨å‡º
 				type = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_call_out);
 			} else if (state == 3) {
-				// ¾Ü½Ó
+				// æ‹’æ¥
 				type = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_refuse);
 			}
@@ -932,7 +932,7 @@ public class LCCActivity extends Activity {
 
 	}
 
-	/** Çå³ıËùÓĞÍ¨»°¼ÇÂ¼ */
+	/** æ¸…é™¤æ‰€æœ‰é€šè¯è®°å½• */
 	public void clearRecordClick(View v) {
 		
 		showDialog(DELETE_ALL_RECORD);
@@ -940,7 +940,7 @@ public class LCCActivity extends Activity {
 	}
 
 	/**
-	 * ¼ÓÔØÍ¨»°¼ÇÂ¼
+	 * åŠ è½½é€šè¯è®°å½•
 	 * 
 	 * @return
 	 */
@@ -973,7 +973,7 @@ public class LCCActivity extends Activity {
 		cursor.close();
 	}
 
-	// ¹Ò¶Ï
+	// æŒ‚æ–­
 	public void hangupClick(View v) {
 
 		hangup();
@@ -1074,7 +1074,7 @@ public class LCCActivity extends Activity {
 	}
 
 	/**
-	 * ºô½Ğ
+	 * å‘¼å«
 	 * 
 	 * @param callnum
 	 */
@@ -1088,7 +1088,7 @@ public class LCCActivity extends Activity {
 //							.GetCfgInfo(ManageCenter.SYS_PARA_CENTERHOUSENO);
 				} catch (Exception e) {
 
-					Toast.makeText(this, "¹ÜÀíÖĞĞÄºÅÂëÃ»ÓĞÉèÖÃ£¡", Toast.LENGTH_SHORT)
+					Toast.makeText(this, "ç®¡ç†ä¸­å¿ƒå·ç æ²¡æœ‰è®¾ç½®ï¼", Toast.LENGTH_SHORT)
 							.show();
 					return;
 				}
@@ -1140,7 +1140,7 @@ public class LCCActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				/** ¼àÌıÏµÍ³ÓĞÃ»ÓĞĞİÃß */
+				/** ç›‘å¬ç³»ç»Ÿæœ‰æ²¡æœ‰ä¼‘çœ  */
 
 			}
 		}).start();
@@ -1205,7 +1205,7 @@ public class LCCActivity extends Activity {
 	}
 
 	private void startRingAnim() {
-		// æ˜¯å¦ä»…ä»…å¯åŠ¨ä¸?¬¡ï¼?
+		// é„îˆšæƒæµ å‘¬ç²éšîˆšå§©æ¶“?î‚¼é”›?
 		animaition.setOneShot(false);
 		if (animaition.isRunning()) {
 			animaition.stop();
@@ -1575,10 +1575,10 @@ public class LCCActivity extends Activity {
 		
 
 		/*
-		 * // è®¾ç½®åŠ¨ç”» imageView_ring = (ImageView)
-		 * findViewById(R.id.recieve_floater); // è®¾ç½®åŠ¨ç”»èƒŒæ™¯
+		 * // ç’å‰§ç–†é”ã„§æ•¾ imageView_ring = (ImageView)
+		 * findViewById(R.id.recieve_floater); // ç’å‰§ç–†é”ã„§æ•¾é‘³å±¾æ«™
 		 * imageView_ring.setBackgroundResource(R.anim.animation_list); //
-		 * è·å¾—åŠ¨ç”»å¯¹è±¡ animaition = (AnimationDrawable)
+		 * é‘¾å³°ç·±é”ã„§æ•¾ç€µç¡…è–„ animaition = (AnimationDrawable)
 		 * imageView_ring.getBackground();
 		 * imageView_ring.setVisibility(View.INVISIBLE);
 		 */
@@ -1614,7 +1614,7 @@ public class LCCActivity extends Activity {
 	@Override
 	protected void onPause() {
 //		handler_msg.removeMessages(timeout_msg);
-//		isLive = true; // å…³é—­è§¦æ‘¸å±æ•ï¿?
+//		isLive = true; // éæŠ½æ£´ç‘™ï¸½æ‡œçå¿”å´Ÿé”Ÿ?
 		Log.d(TAG, "onPause");
 		// wakeUnLock();
 		super.onPause();
@@ -1663,14 +1663,14 @@ public class LCCActivity extends Activity {
 			
 			findViewById(R.id.register_img).setBackgroundResource(
 					R.drawable.lvd1600_sip_key_);
-//			account_state.setText("ÒÑ×¢²á");
+//			account_state.setText("å·²æ³¨å†Œ");
 			
 		} else {
 
 			txt_register.setVisibility(View.GONE);
 			findViewById(R.id.register_img).setBackgroundResource(
 					R.drawable.lvd1600_sip_key);
-//			account_state.setText("Î´×¢²á");
+//			account_state.setText("æœªæ³¨å†Œ");
 		}
 	}
 
@@ -1679,7 +1679,7 @@ public class LCCActivity extends Activity {
 
 		super.onResume();
 		System.out.println(TAG + " onresume()");
-		// ËøÆÁ
+		// é”å±
 		// LockScreenTool.lockScreen(this);
 		new Thread(new Runnable() {
 
@@ -1705,7 +1705,7 @@ public class LCCActivity extends Activity {
 		if (LCCUtil.lccUtil == null)
 			return;
 		updateRegister();
-		// °²·À±¨¾¯ ºô½Ğ¹ÜÀíÖĞĞÄ
+		// å®‰é˜²æŠ¥è­¦ å‘¼å«ç®¡ç†ä¸­å¿ƒ
 		if (LCCUtil.lccUtil.call_state == 1) {
 
 			LCCUtil.lccUtil.call_state = 0;
@@ -1723,7 +1723,7 @@ public class LCCActivity extends Activity {
 				System.out.println("call_num = null");
 			}
 		}
-		// ÓĞÎ´½ÓÀ´µçÏÔÊ¾¸ÃºÅÂëµÄÀúÊ·¼ÇÂ¼
+		// æœ‰æœªæ¥æ¥ç”µæ˜¾ç¤ºè¯¥å·ç çš„å†å²è®°å½•
 	/*	if (NoticeServer.haveUnreciever) {
 			menu_dail_txt.setTextColor(Color.WHITE);
 			menu_hostory_txt.setTextColor(Color.YELLOW);
@@ -1810,10 +1810,10 @@ public class LCCActivity extends Activity {
 				break;
 			case 1:
 				imageView_ring.setVisibility(View.VISIBLE);
-				startRingAnim();// å¯åŠ¨åŠ¨ç”»
+				startRingAnim();// éšîˆšå§©é”ã„§æ•¾
 				break;
 			case 2:
-				// å…³é—­åŠ¨ç”»
+				// éæŠ½æ£´é”ã„§æ•¾
 				if (animaition.isRunning()) {
 					animaition.stop();
 				}
@@ -1843,10 +1843,10 @@ public class LCCActivity extends Activity {
 			String[] args = b.getStringArray(type);
 			if (LCCUtil.REGISTEROKCB.equals(type)) {
 				if ("ok".equals(args[0])) {
-					Log.d(TAG, "handler ×¢²á³É¹¦");
+					Log.d(TAG, "handler æ³¨å†ŒæˆåŠŸ");
 					isRegister = true;
 				} else if ("fail".equals(args[0])) {
-					Log.d(TAG, "handler ×¢²áÊ§°Ü");
+					Log.d(TAG, "handler æ³¨å†Œå¤±è´¥");
 					isRegister = false;
 				} else if ("unok".equals(args[0])) {
 					isRegister = false;
@@ -1865,13 +1865,13 @@ public class LCCActivity extends Activity {
 
 					handler_msg.removeMessages(timeout_msg);
 					isCall = true;
-					Log.d(TAG, "Á¬½Ó³É¹¦");
+					Log.d(TAG, "è¿æ¥æˆåŠŸ");
 					findViewById(R.id.mainlayout_right)
 							.setVisibility(View.GONE);
 
 					out_callLayout.setVisibility(View.GONE);
 					noticeCallout.setVisibility(View.VISIBLE);
-					System.out.println("call out   Á¬½Ó³É¹¦");
+					System.out.println("call out   è¿æ¥æˆåŠŸ");
 					set_timer();
 				}
 
@@ -1881,7 +1881,7 @@ public class LCCActivity extends Activity {
 					isCallOut = false;
 					isCall = false;
 					isLimit = false;
-					Log.d(TAG, "handler ¹Ò¶Ï");
+					Log.d(TAG, "handler æŒ‚æ–­");
 					countCallTime();
 					counttime = 0;
 					timeoutSet();
@@ -1901,7 +1901,7 @@ public class LCCActivity extends Activity {
 
 				}
 			} else if (LCCUtil.SERVICE_START.equals(type)) {
-				Log.d(TAG, "handler ·şÎñÆô¶¯Íê³É");
+				Log.d(TAG, "handler æœåŠ¡å¯åŠ¨å®Œæˆ");
 				lccUtil = LCCUtil.lccUtil;
 				System.out.println("lccUtil:" + lccUtil);
 
@@ -1979,7 +1979,7 @@ public class LCCActivity extends Activity {
 	public void clearClick(View v) {
 		
 		if(historyList.size()==0){
-		  Toast.makeText(LCCActivity.this, "ÎŞ¼ÇÂ¼¿ÉÉ¾³ı£¡",Toast.LENGTH_LONG).show();	
+		  Toast.makeText(LCCActivity.this, "æ— è®°å½•å¯åˆ é™¤ï¼",Toast.LENGTH_LONG).show();	
 		}else{
 		  showDialog(DELETE_ALL_HISTORY_RECORD);
 		}
@@ -1998,7 +1998,7 @@ public class LCCActivity extends Activity {
 		}
 	}
 
-	/** æ£?Ÿ¥æ˜¯å¦ä¸ºæœªæ¥å¬ */
+	/** å¦«?ç…¡é„îˆšæƒæ¶“çƒ˜æ¹­éºãƒ¥æƒ‰ */
 	private boolean checkState(String num) {
 
 		Cursor c = getContentResolver().query(HISTORY_TB_URI, null,
@@ -2018,7 +2018,7 @@ public class LCCActivity extends Activity {
 		}
 	}
 
-	// Í¨»°¼ÆÊ±
+	// é€šè¯è®¡æ—¶
 	private void set_timer() {
 
 		new Thread(new Runnable() {
@@ -2752,7 +2752,7 @@ public class LCCActivity extends Activity {
 	}
 
 	private void doExit() {
-		PlayAudio_.stop();
+		PlayAudio.stop();
 		if (!isInClick)
 			isInClick = true;
 		recieve_time.setBackgroundResource(R.drawable.lvd1600_sip_ring);
@@ -2799,7 +2799,7 @@ public class LCCActivity extends Activity {
 		}
 	}
 
-	// ÁªÏµÈË·­Ò³
+	// è”ç³»äººç¿»é¡µ
 	public void backwardClick(View v) {
 
 		backPage();
@@ -2811,7 +2811,7 @@ public class LCCActivity extends Activity {
 		nextPage();
 	}
 
-	// ºÚÃûµ¥·­Ò³
+	// é»‘åå•ç¿»é¡µ
 	public void black_backwardClick(View v) {
 		black_backPage();
 	}
@@ -2820,7 +2820,7 @@ public class LCCActivity extends Activity {
 		black_nextPage();
 	}
 
-	// Í¨»°¼ÇÂ¼·­Ò³
+	// é€šè¯è®°å½•ç¿»é¡µ
 	public void record_backwardClick(View v) {
 		record_backPage();
 	}
@@ -2842,7 +2842,7 @@ public class LCCActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// dateè½¬æˆæ¯«ç§’
+		// dateæî„åšå§£î‚¤î‘
 		long beginTime = date.getTime();
 
 		return beginTime;
@@ -2852,7 +2852,7 @@ public class LCCActivity extends Activity {
 	private AlarmManager am;
 	private PendingIntent pendingIntent;
 
-	// å…æ‰“æ‰°è®¾ç½?
+	// éå¶†å¢¦éµæ‹Œî†•ç¼ƒ?
 	public void setDndClick(View v) {
 
 		if (start_time.getText().toString().length() > 0
@@ -2872,7 +2872,7 @@ public class LCCActivity extends Activity {
 
 					beginTime = start_time_long + 24 * 60 * 60 * 1000;
 //					System.out
-//							.println("onstart : è¿›å…¥å…æ‰“æ‰°æ¨¡å¼?    setDoNotDisturb(1)");
+//							.println("onstart : æ©æ¶˜å†éå¶†å¢¦éµç‰ˆÄå¯®?    setDoNotDisturb(1)");
 //					lccUtil.setDoNotDisturb(1);
 					long duration = end_time_long - now_time_long;
 					lccUtil.handler_dnd.sendMessageDelayed(lccUtil.handler_dnd
@@ -2887,10 +2887,10 @@ public class LCCActivity extends Activity {
 
 				// am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				// pendingIntent);
-				// è®¾ç½®å‘¨æœŸï¼ï¼
+				// ç’å‰§ç–†é›ã„¦æ¹¡é”›ä¾Šç´’
 				am.setRepeating(AlarmManager.RTC_WAKEUP, beginTime,
 						(24 * 60 * 60 * 1000), pendingIntent);
-				System.out.println("lccActivity :  å…æ‰“æ‰°è®¾ç½®æˆåŠŸduration = "
+				System.out.println("lccActivity :  éå¶†å¢¦éµæ‹Œî†•ç¼ƒî†½åšé”ç„uration = "
 						+ duration);
 
 				saveDnd();
@@ -2903,12 +2903,12 @@ public class LCCActivity extends Activity {
 				System.out.println("error:   start_time >= end_time");
 			}
 		} else {
-			Toast.makeText(this, "è¾“å…¥ä¸å®Œæ•´ï¼", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "æˆæ’³å†æ¶“å¶…ç•¬éè¾¾ç´’", Toast.LENGTH_SHORT).show();
 		}
 
 	}
 
-	// ä¿å­˜è®¾ç½®çš„å…æ‰“æ‰°æ—¶é—´
+	// æ·‡æ¿†ç“¨ç’å‰§ç–†é¨å‹«å¤éµæ’´å£ˆéƒå •æ£¿
 	private void saveDnd() {
 
 		String begin = start_time.getText().toString();
@@ -2948,7 +2948,7 @@ public class LCCActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// dateè½¬æˆæ¯«ç§’
+		// dateæî„åšå§£î‚¤î‘
 		long beginTime = date.getTime();
 		try {
 			date = sDate.parse(end);
@@ -2971,7 +2971,7 @@ public class LCCActivity extends Activity {
 		lccUtil.handler_dnd.removeMessages(lccUtil.dnd_msg);
 //		lccUtil.setDoNotDisturb(0);
 		getContentResolver().delete(DBProvider.DND_TB_URI, null, null);
-		System.out.println("å…æ‰“æ‰°å·²å–æ¶ˆ");
+		System.out.println("éå¶†å¢¦éµæ¿å‡¡é™æ ¨ç§·");
 
 		registerLayout.setVisibility(View.GONE);
 		logo_layout.setVisibility(View.VISIBLE);
@@ -3057,7 +3057,7 @@ public class LCCActivity extends Activity {
 		// if (username.length() == 0 || serverIp.length() == 0
 		// || videoWidth.length() == 0 || videoHeight.length() == 0
 		// || bitrate.length() == 0 || port.length() == 0) {
-		// Toast.makeText(LCCActivity.this, "ÊäÈë²»ÄÜÎª¿Õ£¡", Toast.LENGTH_SHORT)
+		// Toast.makeText(LCCActivity.this, "è¾“å…¥ä¸èƒ½ä¸ºç©ºï¼", Toast.LENGTH_SHORT)
 		// .show();
 		//
 		// } else {
@@ -3131,7 +3131,7 @@ public class LCCActivity extends Activity {
 				values.put("lccno", num);
 				getContentResolver().insert(FRIEND_TB_URI, values);
 
-				updateHistoryList(num, name);// ¸üĞÂÍ¨»°¼ÇÂ¼Àï´ËºÅÂë¶ÔÓ¦µÄÁªÏµÈËĞÕÃû
+				updateHistoryList(num, name);// æ›´æ–°é€šè¯è®°å½•é‡Œæ­¤å·ç å¯¹åº”çš„è”ç³»äººå§“å
 
 				Toast toast = Toast.makeText(LCCActivity.this,
 						R.string.success, Toast.LENGTH_SHORT);
@@ -3436,7 +3436,7 @@ public class LCCActivity extends Activity {
 			isCall = false;
 		}
 		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// ×¢Òâ
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// æ³¨æ„
 		// intent.addCategory(Intent.CATEGORY_HOME);
 		intent.addCategory("android.intent.category.HOME");
 		this.startActivity(intent);
@@ -3490,7 +3490,7 @@ public class LCCActivity extends Activity {
 						txt_register.setText(num);
 						findViewById(R.id.register_img).setBackgroundResource(
 								R.drawable.lvd1600_sip_key_);
-//						account_state.setText("ÒÑ×¢²á");
+//						account_state.setText("å·²æ³¨å†Œ");
 
 					} else {
 
@@ -3498,7 +3498,7 @@ public class LCCActivity extends Activity {
 						findViewById(R.id.register_img).setBackgroundResource(
 								R.drawable.lvd1600_sip_key);
 
-//						account_state.setText("Î´×¢²á");
+//						account_state.setText("æœªæ³¨å†Œ");
 					}
 				} else {
 
@@ -3535,19 +3535,19 @@ public class LCCActivity extends Activity {
 			map.put("historylist_lccno", lccno);
 			Bitmap b = null;
 			if (state == 1) {
-				// ÒÑ½Ó
+				// å·²æ¥
 				b = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_call_in);
 			} else if (state == 0) {
-				// Î´½Ó
+				// æœªæ¥
 				b = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_unrecieve);
 			} else if (state == 2) {
-				// ²¦³ö
+				// æ‹¨å‡º
 				b = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_call_out);
 			} else if (state == 3) {
-				// ¾Ü½Ó
+				// æ‹’æ¥
 				b = BitmapFactory.decodeResource(getResources(),
 						R.drawable.lvd1610_refuse);
 			}

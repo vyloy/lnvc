@@ -60,7 +60,7 @@ public class LCCUtil extends Service {
 	public static final int dnd_msg = 1;
 	private LntVideoWindow window = new LntVideoWindow();
 	
-	// é»˜è®¤æ³¨å†Œä¿¡æ¯
+	// æ¦›æ¨¿î…»å¨‰ã„¥å”½æ·‡â„ƒä¼…
 	public String userName = "110";
 	public String password  ="110";
 	public String sipip = "192.168.0.1";
@@ -69,9 +69,9 @@ public class LCCUtil extends Service {
 	public int height = 480;
 	public int bitrate = 256;
 	
-	public int call_state = 0;  // °²·Àºô½Ğ   1 £¬ Ã»ÓĞ 0
-	public static String callin_no = ""; //À´µçºÅÂë
-	public String calltype = ""; //ºô½ø ºÍºô³ö  in ºÍ out 
+	public int call_state = 0;  // å®‰é˜²å‘¼å«   1 ï¼Œ æ²¡æœ‰ 0
+	public static String callin_no = ""; //æ¥ç”µå·ç 
+	public String calltype = ""; //å‘¼è¿› å’Œå‘¼å‡º  in å’Œ out 
 	private BroadcastReceiver unregister_Rec = new BroadcastReceiver(){
 
 		@Override
@@ -103,9 +103,9 @@ public class LCCUtil extends Service {
 			boolean isBreak = arg1.getBooleanExtra(
 					ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 			if (isBreak) {
-				// ç½‘ç»œæ–­å¼€
+				// ç¼ƒæˆ ç²¶é‚î…ç´‘
 				// setsipport(5090);
-				// reg(userName, userPwd, sipip); // é»˜è®¤æ³¨å†Œå?
+				// reg(userName, userPwd, sipip); // æ¦›æ¨¿î…»å¨‰ã„¥å”½é™?
 			}
 		}
 
@@ -186,16 +186,16 @@ public class LCCUtil extends Service {
 	public Handler handler_dnd = new Handler() {
 		public void handleMessage(Message msg) {
 //			setDoNotDisturb(0);
-			System.out.println("È¡ÏûÃâ´òÈÅ  £º setDoNotDisturb(0)");
+			System.out.println("å–æ¶ˆå…æ‰“æ‰°  ï¼š setDoNotDisturb(0)");
 		};
 	};
-	// ÉèÖÃÃâ´òÈÅ
+	// è®¾ç½®å…æ‰“æ‰°
 	public BroadcastReceiver MsgSet = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			// TODO Auto-generated method stub
 			 
-			System.out.println(" msgset: ÉèÖÃÃâ´òÈÅ    setDoNotDisturb(1)");
+			System.out.println(" msgset: è®¾ç½®å…æ‰“æ‰°    setDoNotDisturb(1)");
 //			setDoNotDisturb(1);
 			long duration_delay = arg1.getLongExtra("duration",0);
 			handler_dnd.sendMessageDelayed(handler_dnd.obtainMessage(dnd_msg),
@@ -310,7 +310,7 @@ public class LCCUtil extends Service {
 		}).start();
 		sendMessage(SERVICE_START, null);
 
-		// è®¾ç½®å…æ‰“æ‰?
+		// ç’å‰§ç–†éå¶†å¢¦éµ?
 		setDnd();
 
 		return super.onStartCommand(intent, flags, startId);
@@ -348,7 +348,7 @@ public class LCCUtil extends Service {
 			{
 				delayTime = startTime_begin+24*60*60*1000;
 				
-				System.out.println("onstart : è¿›å…¥å…æ‰“æ‰°æ¨¡å¼?    setDoNotDisturb(1)");
+				System.out.println("onstart : æ©æ¶˜å†éå¶†å¢¦éµç‰ˆÄå¯®?    setDoNotDisturb(1)");
 //				setDoNotDisturb(1);
 				long duration = endTime_end-nowTime;
 				handler_dnd.sendMessageDelayed(handler_dnd.obtainMessage(dnd_msg),duration);
@@ -364,15 +364,15 @@ public class LCCUtil extends Service {
 			AlarmManager am = null;
 			am = (AlarmManager) getSystemService(ALARM_SERVICE);
 			
-			// è®¾ç½®å‘¨æœŸï¼ï¼
+			// ç’å‰§ç–†é›ã„¦æ¹¡é”›ä¾Šç´’
 			am.setRepeating(AlarmManager.RTC_WAKEUP, 
 					delayTime, (24 * 60 * 60 * 1000), pendingIntent);
-			System.out.println("lccUtil:  Ãâ´òÈÅÉèÖÃÍê³É ");
+			System.out.println("lccUtil:  å…æ‰“æ‰°è®¾ç½®å®Œæˆ ");
 			
 			
 
 		} else {
-			System.out.println("lccUtil:  Ã»ÓĞÃâ´òÈÅÉèÖÃ");
+			System.out.println("lccUtil:  æ²¡æœ‰å…æ‰“æ‰°è®¾ç½®");
 		}
 	}
 	
@@ -390,7 +390,7 @@ public class LCCUtil extends Service {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//dateè½¬æˆæ¯«ç§’
+		//dateæî„åšå§£î‚¤î‘
 		long beginTime = date.getTime();
 		
 		return beginTime; 
@@ -406,7 +406,7 @@ public class LCCUtil extends Service {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//dateè½¬æˆæ¯«ç§’
+    	//dateæî„åšå§£î‚¤î‘
     	long beginTime = date.getTime();
     	try {
 			date = sDate.parse(endtime);
@@ -443,7 +443,7 @@ public class LCCUtil extends Service {
 		String basepath = getFilesDir().getAbsolutePath();
 		String configFile = basepath + "/linphone_config";
 		try {
-			/* ä¸‹é¢æ‹·è´packageä¸­çš„linphone_configåˆ?data/data/com.lorent/files/ */
+			/* æ¶“å¬®æ½°é·ç–¯ç¤‰packageæ¶“î… æ®‘linphone_configé’?data/data/com.lorent/files/ */
 			copyIfNotExist(R.raw.linphone_config, configFile);
 
 			// File file = new File(configFile);
@@ -462,8 +462,8 @@ public class LCCUtil extends Service {
 	}
 
 	public void setPreview(int oper) {
-		Log.d(TAG, "Ô¤ÀÀ§ˆ");
-		System.out.println(TAG + " ÉèÖÃÔ¤ÀÀ§ˆ");
+		Log.d(TAG, "é¢„è§ˆî‡");
+		System.out.println(TAG + " è®¾ç½®é¢„è§ˆî‡");
 		enablevideopreview(oper);
 	}
 
@@ -516,14 +516,14 @@ public class LCCUtil extends Service {
 //	}
 
 	public static void hangup() {
-		Log.d(TAG, "¹Ò¶Ï");
-		System.out.println(TAG + " ¹Ò¶Ï");
+		Log.d(TAG, "æŒ‚æ–­");
+		System.out.println(TAG + " æŒ‚æ–­");
 		hangup(call_index2);
 	}
 
 	public static void answer() {
-		Log.d(TAG, "½ÓÌı");
-		System.out.println(TAG + " ½ÓÌı");
+		Log.d(TAG, "æ¥å¬");
+		System.out.println(TAG + " æ¥å¬");
 		answer(call_index2);
 	}
 
@@ -571,9 +571,9 @@ public class LCCUtil extends Service {
 		
 		Log.i(TAG, "javaincomingcb  " + nMsg);
         
-		//ÆÁÄ»¼ÓËø
+		//å±å¹•åŠ é”
 		LockScreenTool.lockScreen(this);
-		// ºÚÃûµ¥¹ıÂË
+		// é»‘åå•è¿‡æ»¤
 		Cursor c = this.getContentResolver().query(DBProvider.BLACKLIST_TB_URI,
 				new String[] { "lccno" }, "lccno = ?", new String[] { nMsg },
 				null);
@@ -585,7 +585,7 @@ public class LCCUtil extends Service {
 			call_index2 = getanswercallindex();
 //			String[] args = new String[] { nMsg };
             callin_no = nMsg;
-            calltype = "in"; //ºô½ø
+            calltype = "in"; //å‘¼è¿›
 			Intent intent = new Intent(this, VideoScreen.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
@@ -710,7 +710,7 @@ public class LCCUtil extends Service {
 
 		}*/
 
-		/** ºô³ö×´Ì¬£º      µÄ²Ù×÷*/
+		/** å‘¼å‡ºçŠ¶æ€ï¼š      çš„æ“ä½œ*/
 		 Intent intent = new Intent(); 
 		 Bundle b = new Bundle();
 		 b.putStringArray(type, args);
@@ -823,7 +823,7 @@ public class LCCUtil extends Service {
 
 //	private static native void setVideoWindowId(Object hwnd);
 
-//	/*ÉèÖÃÃâ´òÈÅ   1 Ãâ´òÈÅ    0 È¡Ïû  */
+//	/*è®¾ç½®å…æ‰“æ‰°   1 å…æ‰“æ‰°    0 å–æ¶ˆ  */
 //	private native void setDoNotDisturb(int isYes);
 
 	static {
