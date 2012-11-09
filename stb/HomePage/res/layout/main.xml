@@ -23,6 +23,8 @@
 	</ImageButton>
 	<ImageButton android:id="@+id/videoclip" android:layout_width="50dip" android:layout_height="50dip" android:layout_margin="10dip"  android:background="@drawable/videoclip_bg" android:nextFocusRight="@+id/music">
 	</ImageButton>
+	<ImageButton android:id="@+id/set" android:layout_width="50dip" android:layout_height="50dip"  android:layout_margin="10dip"  android:background="@drawable/android_bg" android:nextFocusRight="@+id/systemset" >
+	</ImageButton>
 </LinearLayout>
 <!-- 
 

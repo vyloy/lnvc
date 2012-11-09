@@ -103,6 +103,8 @@ public class SurfaceViewPlayVideo extends Activity implements
     private ProgressDialog dialog;
     private volatile boolean keyDragSeekBar = false;
     private boolean keyEnable = true;
+    private int windowH;
+    private int windowW;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +142,8 @@ public class SurfaceViewPlayVideo extends Activity implements
 		
 		
 		currentDisplay = getWindowManager().getDefaultDisplay();
-		
+		windowH = currentDisplay.getHeight();
+		windowW = currentDisplay.getWidth();
 //		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //		mediacontrollerView = inflater.inflate(R.layout.stbvideoview, null);
 //		setContentView(R.layout.videosurfaceview);
@@ -203,7 +206,9 @@ public class SurfaceViewPlayVideo extends Activity implements
 			Log.i(TAG, "结束拖动进度条:" + seekBar.getProgress());
 //			play((videoTimeLen * seekBar.getProgress()) / 1000);
 			
-			play(seekBar.getProgress());
+//			play(seekBar.getProgress());
+			mPlayer.seekTo(seekBar.getProgress());
+			mPlayer.start();
 			controlShow(defaultTimeout);
 //			mAM.setStreamMute(AudioManager.STREAM_MUSIC, false);
 			
@@ -212,21 +217,22 @@ public class SurfaceViewPlayVideo extends Activity implements
 	}
 	
 	public void playBtnProccess(View v){
+		keyPlayProcess();
+	}
+	
+	public void keyPlayProcess(){
 		if(mPlayer!=null){
 			if(mPlayer.isPlaying()){
-				
-				
 				playBtn.setImageResource(R.drawable.mediacontroller_play_button);
-				keyEventHandler.sendMessageDelayed(keyEventHandler.obtainMessage(SHOW_PAUSE,0),1000);
-//				mPlayer.pause();
+				controlLayout.setVisibility(View.VISIBLE);
+				keyEventHandler.sendMessageDelayed(keyEventHandler.obtainMessage(SHOW_PAUSE,0),500);
 			}else{
-				
-				play(currentP);
+//				play(currentP);
+				mPlayer.start();
 				playBtn.setImageResource(R.drawable.mediacontroller_pause_button);
-				
+				controlLayout.setVisibility(View.INVISIBLE);
 			}
 		}
-		controlShow(defaultTimeout);
 	}
 	
 	public void play(int po){
@@ -420,13 +426,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 		DialogUtil.dismissDialog(dialog);
 		
 		seekBar.setMax(videoTimeLen);
-		// 全屏播放
-		 int mvideoHeight = currentDisplay.getHeight();
-		 int mvideoWidth = currentDisplay.getWidth();
+		
 		// 按视频本身大小播放
 		videoWidth = mPlayer.getVideoWidth();//mvideoWidth;//mPlayer.getVideoWidth();
 		videoHeight = mPlayer.getVideoHeight();//mvideoHeight;//mPlayer.getVideoHeight();
-		int result[] = VideoScaleUtil.computeScale(mvideoWidth, mvideoHeight, videoWidth, videoHeight);
+		int result[] = VideoScaleUtil.computeScale(windowW, windowH, videoWidth, videoHeight);
 		videoWidth = result[0];
 		videoHeight = result[1];
 		// 在此可以根据情况进行缩放播放设置
@@ -549,7 +553,9 @@ public class SurfaceViewPlayVideo extends Activity implements
         		break;
         	case SHOW_PLAY:
 //        		keyEnable = false;
-        		play(c);
+        		mPlayer.seekTo(c);
+        		mPlayer.start();
+//        		play(c);
         		break;
         	case SHOW_PAUSE:
         		currentP = mPlayer.getCurrentPosition();
@@ -563,8 +569,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 	
     @Override
 	    public boolean dispatchKeyEvent(KeyEvent event) {
-	    	
-	    	if(event.getAction()==KeyEvent.ACTION_DOWN && (event.getKeyCode()==KeyEvent.KEYCODE_DPAD_LEFT||event.getKeyCode()==KeyEvent.KEYCODE_DPAD_RIGHT)){
+    		Log.i("keyvalue", event.getKeyCode()+"");
+    		int forwardKey = Integer.parseInt(this.getResources().getString(R.string.PLAY_FORWARD_KEY));
+        	int backKey = Integer.parseInt(this.getResources().getString(R.string.PLAY_BACK_KEY));
+        	int playPauseKey = Integer.parseInt(this.getResources().getString(R.string.PLAY_PAUSE_KEY));
+	    	if(event.getAction()==KeyEvent.ACTION_DOWN && (event.getKeyCode()==forwardKey||event.getKeyCode()==backKey)){
 //	    		if(!keyEnable){
 //	    			return super.dispatchKeyEvent(event);
 //	    		}
@@ -572,7 +581,6 @@ public class SurfaceViewPlayVideo extends Activity implements
 	    		Log.i("keyvalue", event.getKeyCode()+"");
 	    		int c = 0;
 	    		keyDragSeekBar = true;
-	    		
 	    		if(mPlayer!=null && mPlayer.isPlaying() && !isDragSeekBar){
 	    			this.currentP = mPlayer.getCurrentPosition();
 	    			c = currentP;
@@ -581,13 +589,13 @@ public class SurfaceViewPlayVideo extends Activity implements
 	    			c = seekBar.getProgress();
 	    		}
 	    		isDragSeekBar = true;
-	    		if(event.getKeyCode()==KeyEvent.KEYCODE_DPAD_LEFT){//向左键；快退
+	    		if(event.getKeyCode()==backKey){//向左键；快退
 	    			if(c-forwardTime<0){
     					c = 0;
     				}else{
     					c = c - forwardTime;
     				}
-	    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_DPAD_RIGHT){//向右键：快进
+	    		}else if(event.getKeyCode()==forwardKey){//向右键：快进
 	    			if(c + forwardTime > videoTimeLen){
     					c = videoTimeLen;
     				}else{
@@ -602,6 +610,8 @@ public class SurfaceViewPlayVideo extends Activity implements
 	    		keyEventHandler.removeMessages(SHOW_PLAY);
 				keyEventHandler.sendMessageDelayed(keyEventHandler.obtainMessage(SHOW_PLAY, c),1000);
 				
+	    	}else if(event.getAction()==KeyEvent.ACTION_UP && event.getKeyCode()==playPauseKey){
+	    		keyPlayProcess();
 	    	}
 	    	return super.dispatchKeyEvent(event);
 	    }

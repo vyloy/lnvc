@@ -12,6 +12,8 @@ public class WebViewUtil {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setPluginsEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
 //        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 //        webView.getSettings().setAllowFileAccess(true);
 //        webView.setInitialScale(60);

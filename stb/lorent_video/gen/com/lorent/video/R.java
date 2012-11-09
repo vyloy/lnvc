@@ -30,41 +30,41 @@ public final class R {
         public static final int vovo=0x7f020010;
     }
     public static final class id {
-        public static final int FrameLayout1=0x7f080014;
-        public static final int ItemImage=0x7f080012;
-        public static final int ItemText=0x7f080013;
-        public static final int LinearLayout1=0x7f080010;
+        public static final int FrameLayout1=0x7f080013;
+        public static final int ItemImage=0x7f080011;
+        public static final int ItemText=0x7f080012;
+        public static final int LinearLayout1=0x7f08000f;
         public static final int content=0x7f080000;
-        public static final int controlLayout=0x7f080016;
+        public static final int controlLayout=0x7f080015;
         public static final int gridview=0x7f080001;
-        public static final int mediacontroller_file_name=0x7f08000a;
-        public static final int mediacontroller_play_pause=0x7f080006;
-        public static final int mediacontroller_seekbar=0x7f080009;
-        public static final int mediacontroller_time_current=0x7f080007;
-        public static final int mediacontroller_time_total=0x7f080008;
+        public static final int mediacontroller_file_name=0x7f080009;
+        public static final int mediacontroller_play_pause=0x7f080005;
+        public static final int mediacontroller_seekbar=0x7f080008;
+        public static final int mediacontroller_time_current=0x7f080006;
+        public static final int mediacontroller_time_total=0x7f080007;
         public static final int menu_settings=0x7f080018;
         public static final int nextbutton=0x7f080004;
         public static final int previousbutton=0x7f080003;
-        public static final int stb_file_name=0x7f08000f;
-        public static final int stb_play_pause=0x7f08000b;
-        public static final int stb_seekbar=0x7f08000e;
-        public static final int stb_time_current=0x7f08000c;
-        public static final int stb_time_total=0x7f08000d;
-        public static final int stbvideoview=0x7f080011;
-        public static final int surface_view=0x7f080017;
+        public static final int stb_file_name=0x7f08000e;
+        public static final int stb_play_pause=0x7f08000a;
+        public static final int stb_seekbar=0x7f08000d;
+        public static final int stb_time_current=0x7f08000b;
+        public static final int stb_time_total=0x7f08000c;
+        public static final int stbvideoview=0x7f080010;
+        public static final int surface_view=0x7f080016;
         public static final int toolbar=0x7f080002;
-        public static final int videoSurfaceView=0x7f080015;
-        public static final int webview=0x7f080005;
+        public static final int videoSurfaceView=0x7f080014;
+        public static final int webView=0x7f080017;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int activity_showvideo=0x7f030001;
-        public static final int mediacontroller=0x7f030002;
-        public static final int stbmediacontroller=0x7f030003;
-        public static final int stbvideoview=0x7f030004;
-        public static final int video_item=0x7f030005;
-        public static final int videosurfaceview=0x7f030006;
-        public static final int videoview=0x7f030007;
+        public static final int mediacontroller=0x7f030001;
+        public static final int stbmediacontroller=0x7f030002;
+        public static final int stbvideoview=0x7f030003;
+        public static final int video_item=0x7f030004;
+        public static final int videosurfaceview=0x7f030005;
+        public static final int videoview=0x7f030006;
+        public static final int web_video=0x7f030007;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -73,6 +73,11 @@ public final class R {
         public static final int libarm=0x7f040000;
     }
     public static final class string {
+        public static final int NEXT_PAGE_KEY=0x7f050015;
+        public static final int PLAY_BACK_KEY=0x7f050018;
+        public static final int PLAY_FORWARD_KEY=0x7f050017;
+        public static final int PLAY_PAUSE_KEY=0x7f050019;
+        public static final int PREVIOUS_PAGE_KEY=0x7f050016;
         public static final int app_name=0x7f050000;
         public static final int button=0x7f050004;
         public static final int connect_server_timeout=0x7f050013;

@@ -196,16 +196,22 @@ public class MainActivity extends Activity {
 			//手机播放
 			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 			intent.putExtra("fileName", item.getTitle());
-			intent.putExtra("videoUrl", item.getVideoClipUrlStandard());
+			intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
 			startActivity(intent);*/
 			
 			//机顶盒播放视频
-			Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
-			intent.putExtra("videoUrl", item.getVideoClipUrlHigh());
-//			intent.putExtra("videoUrl", "http://10.168.100.73:6090/myvideo/1080P_h264~1.mp4");
+			/*Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
+			intent.putExtra("fileName", item.getTitle());
+			startActivity(intent);*/
+			
+			//云电视
+			Intent intent = new Intent(MainActivity.this,WebVideoActivity.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
 			intent.putExtra("fileName", item.getTitle());
 			startActivity(intent);
-			
 		}
     	
     }
@@ -213,7 +219,7 @@ public class MainActivity extends Activity {
     
 
     public void showVideo(View v){
-    	Intent intent = new Intent(this,ShowVideoActivity.class);
+    	Intent intent = new Intent(this,WebVideoActivity.class);
     	intent.putExtra("videoName", "flvplayer.flv");
     	this.startActivity(intent);
     }
@@ -240,15 +246,17 @@ public class MainActivity extends Activity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
     	Log.i("keyvalue", event.getKeyCode()+"");
-    	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==KeyEvent.KEYCODE_D||event.getKeyCode()==KeyEvent.KEYCODE_C)){
+    	int nextPageKey = Integer.parseInt(this.getResources().getString(R.string.NEXT_PAGE_KEY));
+    	int prePageKey = Integer.parseInt(this.getResources().getString(R.string.PREVIOUS_PAGE_KEY));
+    	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==nextPageKey||event.getKeyCode()==prePageKey)){
     		if(!loadDataFinish){
     			return super.dispatchKeyEvent(event);
     		}else{
     			loadDataFinish = false;
     		}
-    		if(event.getKeyCode()==KeyEvent.KEYCODE_D){//下一页;频道^
+    		if(event.getKeyCode()==nextPageKey){//下一页;频道^
     			currentPage--;
-    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_C){//上一页;频道v
+    		}else if(event.getKeyCode()==prePageKey){//上一页;频道v
     			currentPage++;
     		}
     		new LoadInfoThread().start();
