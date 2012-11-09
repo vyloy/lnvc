@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -27,10 +26,8 @@ import com.lorent.common.controller.BaseController;
 import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.common.dto.VovoMyInfo;
 import com.lorent.common.util.FileUtil;
-import com.lorent.common.util.LCMUtil;
 import com.lorent.common.util.ProcessUtil;
 import com.lorent.common.util.StringUtil;
-import com.lorent.lvmc.util.DataUtil;
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.MainFrame;
@@ -166,9 +163,9 @@ public class VideoClipController extends BaseController {
 			nbitrate = Double.parseDouble(trim);
 		}
 		
-		double BITTATE = 1600;
+		double BITTATE = Constants.MAXBITTATE;
 		if (nbitrate > BITTATE) {
-			String format = String.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), BITTATE+"");
+			String format = MessageFormat.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), BITTATE+"");
 			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), format);
 			return false;
 		}
@@ -260,10 +257,17 @@ public class VideoClipController extends BaseController {
 		byte b[] = new byte[1024];
         int r = 0;
 		String mp4box = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\GPAC\\mp4box.exe");
+		String cmdStr0 = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -unhint "+targetFilePath);
 		String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -hint "+targetFilePath);
 		System.out.println(cmdStr);
 		log.info(cmdStr);
-		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
+		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr0);
+		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
+            log.info(new String(b, 0, r));
+        }
+		startProcess1.waitFor();
+		
+		startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
 		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
             log.info(new String(b, 0, r));
         }

@@ -188,4 +188,6 @@ public interface Constants {
     int SEND_FILE_TIMEOUT = 10 * (60 * 1000);
     
     final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
+    
+    final static double MAXBITTATE = 1600;//Kbps
 }
