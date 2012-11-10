@@ -328,6 +328,8 @@ public class VideoClipController extends BaseController {
 		dialog.getSelectFileHighButton().setEnabled(false);
 		dialog.getSelectFileStandardButton().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
+		//检测ftp上是否已存在文件名
+		
 		//上传文件至ftp
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
 		final long thumbailfilesize = thumbailfile.length();
@@ -443,6 +445,8 @@ public class VideoClipController extends BaseController {
 		dialog.getTitleTextField().setEnabled(false);
 		dialog.getDescriptionTextArea().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
+		//检测ftp上是否已存在文件名
+		
 		//上传文件至ftp
 		
 		final File thumbailfile = new File(dialog.getThumbnailTextField().getText());

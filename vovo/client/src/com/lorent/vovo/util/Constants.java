@@ -189,5 +189,5 @@ public interface Constants {
     
     final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
     
-    final static double MAXBITTATE = 1600;//Kbps
+    final static double MAXBITTATE = 2000;//Kbps
 }
