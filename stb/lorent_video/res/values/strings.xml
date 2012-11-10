@@ -22,4 +22,9 @@
     <string name="pageSize">42</string>
     <string name="connect_server_timeout">无法连接到服务器</string>
     <string name="no_more_content">没有更多内容加载</string>
+    <string name="NEXT_PAGE_KEY">32</string>
+    <string name="PREVIOUS_PAGE_KEY">31</string>
+    <string name="PLAY_FORWARD_KEY">22</string>
+    <string name="PLAY_BACK_KEY">21</string>
+    <string name="PLAY_PAUSE_KEY">66</string>
 </resources>
