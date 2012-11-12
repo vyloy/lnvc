@@ -28,19 +28,19 @@ public class StbShowVideoActivity extends Activity {
 		mediaController = new MediaController(this,false); 
 //		
 //        videoView.setVideoPath("rtsp://10.168.250.12:554/jack.mp4");
-//        // ÉèÖÃVideViewÓëMediaController½¨Á¢¹ØÁª  
+//        // è®¾ç½®VideViewä¸MediaControllerå»ºç«‹å…³è”  
 //        videoView.setMediaController(mediaController);  
-//        // ÉèÖÃMediaControllerÓëVideView½¨Á¢¹ØÁª  
+//        // è®¾ç½®MediaControllerä¸VideViewå»ºç«‹å…³è”  
 //        mediaController.setMediaPlayer(videoView);  
-//        // ¿ªÊ¼²¥·Å  
+//        // å¼€å§‹æ’­æ”¾  
 //        videoView.start();
-//     // ÈÃVideoView»ñÈ¡½¹µã  
+//     // è®©VideoViewè·å–ç„¦ç‚¹  
 //        videoView.requestFocus();
         
 //      VideoView w = (VideoView)findViewById(R.id.videoView1);
-		dialog = ProgressDialog.show(this, "ÊÓÆµ¼ÓÔØÖĞ...", "ÇëÄúÉÔºò");
+		dialog = ProgressDialog.show(this, "è§†é¢‘åŠ è½½ä¸­...", "è¯·æ‚¨ç¨å€™");
         videoView.setVideoPath("rtsp://10.168.250.12:554/jack.mp4");
-        //ÉèÖÃÃ½Ìå¿ØÖÆÌõ
+        //è®¾ç½®åª’ä½“æ§åˆ¶æ¡
         videoView.setMediaController(mediaController);
         mediaController.setMediaPlayer(videoView);
 //        videoView.start();

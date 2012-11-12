@@ -4,13 +4,25 @@ import java.io.Serializable;
 
 public class LCMVideoClip implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String videoClipUrlHigh;//高清视频存放url地址
-	private String videoClipUrlStandard;//标清视频存放url地址
-	private String thumbnailUrl;//视频缩略图url地址
-	private String title;//标题
-	private String description;//描述
-	private String category;//类别
+	private String httpVideoUrlHigh;
+	private String httpVideoUrlStandard;
+	private String rtspVideoUrlHigh;
+	private String rtspVideoUrlStandard;
+	private String thumbnailUrl;//瑙嗛缂╃暐鍥緐rl鍦板潃
+	private String title;//鏍囬
+	private String description;//鎻忚堪
+	private String category;//绫诲埆
 	private String createrName;
+	private String createrNo;
+	private Boolean ismonitor;//鏄惁鐩戞帶
+	protected Integer id;
+	protected Integer status;
+	public Boolean getIsmonitor() {
+		return ismonitor;
+	}
+	public void setIsmonitor(Boolean ismonitor) {
+		this.ismonitor = ismonitor;
+	}
 	public String getCreaterName() {
 		return createrName;
 	}
@@ -22,19 +34,6 @@ public class LCMVideoClip implements Serializable {
 	}
 	public void setCreaterNo(String createrNo) {
 		this.createrNo = createrNo;
-	}
-	private String createrNo;
-	public String getVideoClipUrlHigh() {
-		return videoClipUrlHigh;
-	}
-	public void setVideoClipUrlHigh(String videoClipUrlHigh) {
-		this.videoClipUrlHigh = videoClipUrlHigh;
-	}
-	public String getVideoClipUrlStandard() {
-		return videoClipUrlStandard;
-	}
-	public void setVideoClipUrlStandard(String videoClipUrlStandard) {
-		this.videoClipUrlStandard = videoClipUrlStandard;
 	}
 	public String getThumbnailUrl() {
 		return thumbnailUrl;
@@ -60,9 +59,6 @@ public class LCMVideoClip implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	protected Integer id;
-	protected Integer status;
-	
 	public Integer getId() {
 		return id;
 	}
@@ -75,4 +71,29 @@ public class LCMVideoClip implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public String getHttpVideoUrlHigh() {
+		return httpVideoUrlHigh;
+	}
+	public void setHttpVideoUrlHigh(String httpVideoUrlHigh) {
+		this.httpVideoUrlHigh = httpVideoUrlHigh;
+	}
+	public String getHttpVideoUrlStandard() {
+		return httpVideoUrlStandard;
+	}
+	public void setHttpVideoUrlStandard(String httpVideoUrlStandard) {
+		this.httpVideoUrlStandard = httpVideoUrlStandard;
+	}
+	public String getRtspVideoUrlHigh() {
+		return rtspVideoUrlHigh;
+	}
+	public void setRtspVideoUrlHigh(String rtspVideoUrlHigh) {
+		this.rtspVideoUrlHigh = rtspVideoUrlHigh;
+	}
+	public String getRtspVideoUrlStandard() {
+		return rtspVideoUrlStandard;
+	}
+	public void setRtspVideoUrlStandard(String rtspVideoUrlStandard) {
+		this.rtspVideoUrlStandard = rtspVideoUrlStandard;
+	}
 }
+

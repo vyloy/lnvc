@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.video.bean.VideoInfo;
 import com.lorent.video.service.VideoService;
+import com.lorent.video.util.AsyncImageLoader;
 import com.lorent.video.util.ShareAppUtil;
 
 public class MainActivity extends Activity {
@@ -60,7 +61,7 @@ public class MainActivity extends Activity {
         	gridView = (GridView)this.findViewById(R.id.gridview);
         }
         mProgressDialog = new ProgressDialog(MainActivity.this);  
-        mProgressDialog.setMessage("ÕıÔÚ»ñÈ¡Êı¾İ");  
+        mProgressDialog.setMessage("æ­£åœ¨è·å–æ•°æ®");  
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
         datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
@@ -79,7 +80,7 @@ public class MainActivity extends Activity {
     private class LoadInfoThread extends Thread{
     	
     	public LoadInfoThread(){
-//    		showDialog(DIALOG_PROGRESS);//´ò¿ªµÈ´ı¶Ô»°¿ò  
+//    		showDialog(DIALOG_PROGRESS);//æ‰“å¼€ç­‰å¾…å¯¹è¯æ¡†  
     		mProgressDialog.show();
     	}
     	
@@ -98,7 +99,7 @@ public class MainActivity extends Activity {
     
     protected void onStart () {  
         super.onStart();
-//        new GetGridDataTask().execute();//Ö´ĞĞ»ñÈ¡Êı¾İµÄÈÎÎñ  
+//        new GetGridDataTask().execute();//æ‰§è¡Œè·å–æ•°æ®çš„ä»»åŠ¡  
 //        new LoadInfoThread().start();
     }
     
@@ -126,12 +127,14 @@ public class MainActivity extends Activity {
 	    			toast.setGravity(Gravity.CENTER,0,0);
 	    			toast.show();
 	    		}else{
+	    			AsyncImageLoader.clearCache();
+	    			VideoInfoAdapter.clearCacheView();
 	    			datas.clear(); 
 	    			datas.addAll(result);
 	    			if(adapter==null){
 		        		show();
 		        	}else{
-		        		adapter.notifyDataSetChanged();//Í¨Öªui½çÃæ¸üĞÂ  
+		        		adapter.notifyDataSetChanged();//é€šçŸ¥uiç•Œé¢æ›´æ–°  
 		        	}
 	    		}
 	        	loadDataFinish = true;
@@ -161,7 +164,7 @@ public class MainActivity extends Activity {
 		
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);  
-        builder.setTitle("Ñ¡Ôñ²¥·ÅÆ÷").setItems(items,new DialogInterface.OnClickListener(){  
+        builder.setTitle("é€‰æ‹©æ’­æ”¾å™¨").setItems(items,new DialogInterface.OnClickListener(){  
             public void onClick(DialogInterface dialog, int which) {  
             	Log.i("player_which", which + "");
             	ResolveInfo info = videoPlayerList.get(which);
@@ -190,18 +193,25 @@ public class MainActivity extends Activity {
 			
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
 			
-			//ÊÖ»ú²¥·Å
+			//æ‰‹æœºæ’­æ”¾
 			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 			intent.putExtra("fileName", item.getTitle());
-			intent.putExtra("videoUrl", item.getVideoClipUrlStandard());
+			intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
 			startActivity(intent);*/
 			
-			//»ú¶¥ºĞ²¥·ÅÊÓÆµ
-			Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
-			intent.putExtra("videoUrl", item.getVideoClipUrlHigh());
+			//æœºé¡¶ç›’æ’­æ”¾è§†é¢‘
+			/*Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
+			intent.putExtra("fileName", item.getTitle());
+			startActivity(intent);*/
+			
+			//äº‘ç”µè§†
+			Intent intent = new Intent(MainActivity.this,WebVideoActivity.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
 			intent.putExtra("fileName", item.getTitle());
 			startActivity(intent);
-			
 		}
     	
     }
@@ -209,7 +219,7 @@ public class MainActivity extends Activity {
     
 
     public void showVideo(View v){
-    	Intent intent = new Intent(this,ShowVideoActivity.class);
+    	Intent intent = new Intent(this,WebVideoActivity.class);
     	intent.putExtra("videoName", "flvplayer.flv");
     	this.startActivity(intent);
     }
@@ -228,22 +238,25 @@ public class MainActivity extends Activity {
     		currentPage++;
     	}
     	new LoadInfoThread().start();
-//    	new GetGridDataTask().execute();//Ö´ĞĞ»ñÈ¡Êı¾İµÄÈÎÎñ  
+//    	new GetGridDataTask().execute();//æ‰§è¡Œè·å–æ•°æ®çš„ä»»åŠ¡  
     	
     }
     
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-    	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==KeyEvent.KEYCODE_D||event.getKeyCode()==KeyEvent.KEYCODE_C)){
+    	Log.i("keyvalue", event.getKeyCode()+"");
+    	int nextPageKey = Integer.parseInt(this.getResources().getString(R.string.NEXT_PAGE_KEY));
+    	int prePageKey = Integer.parseInt(this.getResources().getString(R.string.PREVIOUS_PAGE_KEY));
+    	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==nextPageKey||event.getKeyCode()==prePageKey)){
     		if(!loadDataFinish){
     			return super.dispatchKeyEvent(event);
     		}else{
     			loadDataFinish = false;
     		}
-    		if(event.getKeyCode()==KeyEvent.KEYCODE_D){//ÏÂÒ»Ò³;ÆµµÀ^
+    		if(event.getKeyCode()==nextPageKey){//ä¸‹ä¸€é¡µ;é¢‘é“^
     			currentPage--;
-    		}else if(event.getKeyCode()==KeyEvent.KEYCODE_C){//ÉÏÒ»Ò³;ÆµµÀv
+    		}else if(event.getKeyCode()==prePageKey){//ä¸Šä¸€é¡µ;é¢‘é“v
     			currentPage++;
     		}
     		new LoadInfoThread().start();
