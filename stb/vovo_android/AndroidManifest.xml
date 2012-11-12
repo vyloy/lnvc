@@ -76,6 +76,12 @@
         <!-- add lcc -->
        <service android:name="com.lorent.LCCUtil">
        </service>
+       
+		<receiver android:name=".BootReceiver" >
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
 
         <provider android:name="com.lorent.vovo.utils.DBProvider" android:authorities="com.lorent.lcc"/>
     </application>

@@ -61,6 +61,7 @@ import android.widget.Toast;
 import com.lorent.LCCUtil;
 import com.lorent.vovo.bean.FriendBean;
 import com.lorent.vovo.bean.RecordBean;
+import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.PlayAudio;
 
@@ -1667,7 +1668,7 @@ public class LCCActivity extends Activity {
 			
 			isRegister = true;
 			txt_register.setVisibility(View.VISIBLE);
-			String num = LCCUtil.lccUtil.userName.substring(LCCUtil.lccUtil.userName.length()-4);
+			String num = LCCUtil.lccUtil.userName;
 			txt_register.setText(num);
 			
 			findViewById(R.id.register_img).setBackgroundResource(
@@ -3036,14 +3037,14 @@ public class LCCActivity extends Activity {
 //			} else if (result == 1) {
 //				dev_state.setText(getString(R.string.lcc_dev_had_register));
 //			}
-
-			username.setText("33012");
-			password.setText("123456");
-			serverip.setText("10.168.250.12");
-			port.setText("5060");
-			videowidth.setText("640");
-			videoheight.setText("480");
-			bitrate.setText("256");
+			SetupBean bean = lccUtil.getRegisterInfo();
+			username.setText(bean.userName);
+			password.setText(bean.password);
+			serverip.setText(bean.sipip);
+			port.setText(bean.serverPort + "");
+			videowidth.setText(bean.width + "");
+			videoheight.setText(bean.height + "");
+			bitrate.setText(bean.bitrate + "");
 //
 //			System.out.println("username = " + username + ",serverip = "
 //					+ serverIp + ",port =" + serverPort + ",videowidth = "
@@ -3496,7 +3497,8 @@ public class LCCActivity extends Activity {
 						
 						isRegister = true;
 						txt_register.setVisibility(View.VISIBLE);
-						String num = args[1].substring(args[1].length()-4);
+//						String num = args[1].substring(args[1].length()-4);
+						String num = args[1];
 						txt_register.setText(num);
 						findViewById(R.id.register_img).setBackgroundResource(
 								R.drawable.lvd1600_sip_key_);

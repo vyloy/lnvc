@@ -12,6 +12,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -28,8 +29,8 @@ import android.view.SurfaceView;
 import com.lorent.video.LntVideoWindow;
 import com.lorent.vovo.LCCActivity;
 import com.lorent.vovo.VideoScreen;
+import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
-import com.lorent.vovo.utils.LockScreenTool;
 
 
 public class LCCUtil extends Service {
@@ -59,14 +60,14 @@ public class LCCUtil extends Service {
 	public static final int dnd_msg = 1;
 	private LntVideoWindow window = new LntVideoWindow();
 	
-	public String userName = "110";
-	public String password  ="110";
-	public String sipip = "192.168.0.1";
+	public String userName;
+	public String password;
+	public String sipip;
 	public int localPort = 5060;
-	public int width = 640;
-	public int height = 480;
-	public int bitrate = 256;
-	public int serverPort = 5060;
+	public int width;
+	public int height;
+	public int bitrate;
+	public int serverPort;
 	
 	public int call_state = 0;  // 安防呼叫   1 ， 没有 0
 	public static String callin_no = ""; //来电号码
@@ -257,6 +258,7 @@ public class LCCUtil extends Service {
 		registerReceiver(AlarmReceiver,new IntentFilter("com.lorent.msg.Alarm"));
 		registerReceiver(unregister_Rec, new IntentFilter("lorent.set.unregister"));
 //		registerReceiver(AutoBr, new IntentFilter("ManageCenter.ACTION_COMMAND_MANAGECENTER"));
+		
 	}
 
 	@Override
@@ -416,7 +418,11 @@ public class LCCUtil extends Service {
 		Log.i(TAG, "lccinit");
 		lccinit();
 		enableVideo(true);
-
+		SetupBean bean = getRegisterInfo();
+		register(bean.userName, bean.password, bean.sipip, bean.serverPort);
+		setVideoBitrate(bean.bitrate);
+		setVideoSize(bean.width, bean.height);
+		saveRegisterInfo();
 		isInit = true;
 	}
 
@@ -426,34 +432,59 @@ public class LCCUtil extends Service {
 	}
 
 	public void register(String username, String password, String serverIP, int serverPort) {
-		userName = username;
-		sipip = serverIP;
-//		saveRegisterInfo();
-		Log.d(TAG, "register username = " + username + " & password = " + password + " & serverIP = " + serverIP + " & serverPort = " + serverPort);
+		Log.i(TAG, "register username = " + username + " & password = " + password + " & serverIP = " + serverIP + " & serverPort = " + serverPort);
+		this.userName = username;
+		this.sipip = serverIP;
+		this.password = password;
+		this.serverPort = serverPort;
 		setLocalPort(localPort);
 		reg("sip:" + username + "@" + serverIP + ":" + serverPort, password, "sip:" + serverIP + ":" + serverPort);
+		this.saveRegisterInfo();
 	}
 
-	private void saveRegisterInfo() {
+	public void saveRegisterInfo() {
 //		m.SetCfgInfo(ManageCenter.SYS_PARA_LOCALHOUSENO, userName);
 //		m.SetCfgInfo(ManageCenter.SYS_PARA_GATEIP, sipip);
 		
 //		m.saveCfg();
-		/*ContentValues values = new ContentValues();
-		values.put("username", userName);
-		values.put("userpwd", userPwd);
-		values.put("serviceip", sipip);
+		ContentValues values = new ContentValues();
+		values.put("username", this.userName);
+		values.put("userpwd", this.password);
+		values.put("serverip", this.sipip);
+		values.put("serverport", this.serverPort + "");
+		values.put("videowidth", this.width + "");
+		values.put("videoheight", this.height + "");
+		values.put("videobitrate", this.bitrate + "");
 		
 		Cursor c = getContentResolver().query(DBProvider.SIP_ACCOUNT_TB_URI, null, null,
 				null, null);
 		if (c.getCount() > 0) {
-			getContentResolver().update(DBProvider.SIP_ACCOUNT_TB_URI, values, "id = ?",
-					new String[] { "1" });
 			c.close();
+			
+			getContentResolver().update(DBProvider.SIP_ACCOUNT_TB_URI, values, "id = 1", null);
+
 		} else {
-			getContentResolver().insert(DBProvider.SIP_ACCOUNT_TB_URI, values);
 			c.close();
-		}*/
+			getContentResolver().insert(DBProvider.SIP_ACCOUNT_TB_URI, values);
+		}
+	}
+	
+	public SetupBean getRegisterInfo(){
+		Cursor c = getContentResolver().query(DBProvider.SIP_ACCOUNT_TB_URI, null, null,
+				null, null);
+		SetupBean bean = new SetupBean();
+		if (c.getCount() > 0) {
+			c.moveToFirst();
+			bean.userName = c.getString(1);
+			bean.password = c.getString(2);
+			bean.sipip = c.getString(3);
+			bean.serverPort = Integer.parseInt(c.getString(4));
+			bean.width = Integer.parseInt(c.getString(5));
+			bean.height = Integer.parseInt(c.getString(6));
+			bean.bitrate = Integer.parseInt(c.getString(7));	
+		}
+		c.close();
+		return bean;
 	}
 
 	public void call2(String sipUrl) {
@@ -699,11 +730,16 @@ public class LCCUtil extends Service {
 	public void setVideoSize(int width, int height){
 		Log.i(TAG, "setVideoSize width = " + width + " & height = " + height);
 		this.setvideosize(width, height);
+		this.width = width;
+		this.height = height;
+		this.saveRegisterInfo();
 	}
 	
 	public void setVideoBitrate(int bitrate){
 		Log.i(TAG, "setVideoBitrate bitrate = " + bitrate);
 		this.setvideobitrate(bitrate);
+		this.bitrate = bitrate;
+		this.saveRegisterInfo();
 	}
 	
 	public void enableVideo(boolean enable){

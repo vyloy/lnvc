@@ -41,7 +41,7 @@ public class AllSync extends DeleteSync {
 					info[0]=u.getUsername();
 					info[1]=u.getName();
 					info[2]=u.getVoipphone();
-					info[3]=u.getVoipphone();
+					info[3]="123456";
 					//info[3]=u.getVoipphonePass();
 					users[i]=info;
 				}
