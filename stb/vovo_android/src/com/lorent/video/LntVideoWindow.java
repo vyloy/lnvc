@@ -11,8 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
-//import com.lorent.LCCActivity;
 import com.lorent.LCCUtil;
+import com.lorent.vovo.LCCActivity;
 
 
 public class LntVideoWindow  {
@@ -20,7 +20,7 @@ public class LntVideoWindow  {
 	private SurfaceView mView;
 	private Surface mSurface;
 	private VideoWindowListener mListener;
-	static private String TAG = "lcc"; 
+	static private String TAG = "LntVideoWindow"; 
 	public static final String SURFACECHANGED = "surfaceChanged";
 	public static final String SURFACE_CREATE = "surfaceCreate";
 	
@@ -30,6 +30,7 @@ public class LntVideoWindow  {
 	};
 	public LntVideoWindow(){
 //		setSurfaceView(view);
+		Log.i(TAG, "LntVideoWindow");
 	}
 	
 	public void setSurfaceView(SurfaceView view){
@@ -69,18 +70,12 @@ public class LntVideoWindow  {
 		});
 	}
    public synchronized void sendMessage(String type, String[] args){
-//	   boolean flag = true;
-//	   while(flag){
-//		   if(LCCActivity.thislcc != null){
-//			   flag = false;
-//		   }
-//	   }
-////	    Handler myHandler = LCCActivity.thislcc.getMyHandler();
-////        Message msg = myHandler.obtainMessage();
-////        Bundle b = new Bundle();
-////        b.putStringArray(type, args);
-////        msg.setData(b);
-////        myHandler.sendMessage(msg);
+//	    Handler myHandler = LCCActivity.thislcc.getMyHandler();
+//        Message msg = myHandler.obtainMessage();
+//        Bundle b = new Bundle();
+//        b.putStringArray(type, args);
+//        msg.setData(b);
+//        myHandler.sendMessage(msg);
 //	   Intent intent = new Intent(LCCUtil.LCC_BROADCAST);
 //	   intent.putExtra(LCCUtil.BROADCAST_TYPE, type);
 //	   intent.putExtra(type, args);

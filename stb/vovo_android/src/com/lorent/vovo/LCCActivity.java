@@ -983,7 +983,7 @@ public class LCCActivity extends Activity {
 		/*
 		 * if (lccUtil != null) lccUtil.hangup();
 		 */
-		LCCUtil.hangup();
+		lccUtil.hangup();
 	}
 
 	public void dialNumClick(View v) {
@@ -1082,23 +1082,23 @@ public class LCCActivity extends Activity {
 		if (LCCUtil.lccUtil.isRegister) {
 			if (callnum.length() == 0) {
 
-				String magCenter_houseno_tempt = null;
-				try {
-//					magCenter_houseno_tempt = mc
-//							.GetCfgInfo(ManageCenter.SYS_PARA_CENTERHOUSENO);
-				} catch (Exception e) {
-
-					Toast.makeText(this, "管理中心号码没有设置！", Toast.LENGTH_SHORT)
-							.show();
-					return;
-				}
-
-				map.put("calltype", "out");
-				map.put("outcallnum", magCenter_houseno_tempt);
-				insertHistory(DBProvider.CALL_OUT, magCenter_houseno_tempt, 2);
-				lccUtil.call2(magCenter_houseno_tempt);
-
-				callout(magCenter_houseno_tempt);
+//				String magCenter_houseno_tempt = null;
+//				try {
+////					magCenter_houseno_tempt = mc
+////							.GetCfgInfo(ManageCenter.SYS_PARA_CENTERHOUSENO);
+//				} catch (Exception e) {
+//
+//					Toast.makeText(this, "管理中心号码没有设置！", Toast.LENGTH_SHORT)
+//							.show();
+//					return;
+//				}
+//
+//				map.put("calltype", "out");
+//				map.put("outcallnum", magCenter_houseno_tempt);
+//				insertHistory(DBProvider.CALL_OUT, magCenter_houseno_tempt, 2);
+//				lccUtil.call2(magCenter_houseno_tempt);
+//
+//				callout(magCenter_houseno_tempt);
 
 				return;
 			} else if (callnum.equals(LCCUtil.lccUtil.userName)) {
@@ -1112,8 +1112,13 @@ public class LCCActivity extends Activity {
 				map.put("calltype", "out");
 				map.put("outcallnum", callnum);
 				insertHistory(DBProvider.CALL_OUT, callnum, 2);
-				lccUtil.call2(callnum);
 				callout(callnum);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				lccUtil.call2(callnum);
 			}
 
 			callEdit.setText("");
@@ -1127,23 +1132,27 @@ public class LCCActivity extends Activity {
 	private void callout(String callnum) {
 
 		isCallOut = true;
-		findViewById(R.id.mainlayout_right).setVisibility(View.GONE);
-		// myvideo.setVisibility(View.VISIBLE);
-		out_callLayout.setVisibility(View.VISIBLE);
-		// out_calling.setText(getString(R.string.call_out) + callnum);
-		out_calling.setText(callnum);
-		// noticeCallin.setVisibility(View.GONE);
-		noticeCallout.setVisibility(View.GONE);
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				/** 监听系统有没有休眠 */
-
-			}
-		}).start();
+//		findViewById(R.id.mainlayout_right).setVisibility(View.GONE);
+//		// myvideo.setVisibility(View.VISIBLE);
+//		out_callLayout.setVisibility(View.VISIBLE);
+//		// out_calling.setText(getString(R.string.call_out) + callnum);
+//		out_calling.setText(callnum);
+//		// noticeCallin.setVisibility(View.GONE);
+//		noticeCallout.setVisibility(View.GONE);
+//
+//		new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				/** 监听系统有没有休眠 */
+//
+//			}
+//		}).start();
+		Intent intent = new Intent(this, VideoScreen.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		
 	}
 
 	public void videoClick(View v) {
@@ -3032,7 +3041,7 @@ public class LCCActivity extends Activity {
 			password.setText("123456");
 			serverip.setText("10.168.250.12");
 			port.setText("5060");
-			videowidth.setText("680");
+			videowidth.setText("640");
 			videoheight.setText("480");
 			bitrate.setText("256");
 //
@@ -3041,6 +3050,7 @@ public class LCCActivity extends Activity {
 //					+ videoWidth + ",videoheight =" + videoHeight + ",bitrate="
 //					+ bitrate);
 		} catch (Exception e) {
+			
 			System.out.println("no register info!");
 		}
 	}
@@ -3459,7 +3469,7 @@ public class LCCActivity extends Activity {
 	private Handler handler_msg = new Handler() {
 		public void handleMessage(Message msg) {
 
-			LCCActivity.this.finish();
+//			LCCActivity.this.finish();
 		};
 	};
 
