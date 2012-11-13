@@ -15,6 +15,8 @@
 	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-generator-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/winpack-3.8.3.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing-SWT.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JTattoo"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/lvmc"/>
 	<classpathentry kind="output" path="bin"/>

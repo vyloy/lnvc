@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -47,10 +49,15 @@ public class MessageUtil {
     }
     
     public synchronized void sendMessage(String eventId, Object[] paras) {
-        MyEvent event = new MyEvent();
-        event.setId(eventId);
-        event.setParas(paras);
-        eventNewList.offer(event);
+    	sendMessage(eventId, paras, false);
+    }
+    
+    public synchronized void sendMessage(String eventId, Object[] paras, boolean runInEDT) {
+    	MyEvent event = new MyEvent();
+    	event.setId(eventId);
+    	event.setParas(paras);
+    	event.setRunInEDT(runInEDT);
+    	eventNewList.offer(event);
     }
 
     public void stop() {
@@ -78,14 +85,29 @@ public class MessageUtil {
         }
     }
 
-    public void doAction(MyEvent le) {
-        List<ListenerDto> list = XmlEventConfig.getListeners(le.getId());
+    public void doAction(final MyEvent le) {
+        final List<ListenerDto> list = XmlEventConfig.getListeners(le.getId());
         if (list != null) {
-            for (ListenerDto info : list) {
-                String className = info.getClassName();
-                String methodName = info.getMethodName();
-                ControllerFacade.execute(className, methodName, le.getParas());
-            }
+        	if(le.isRunInEDT()){
+        		SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+			            for (ListenerDto info : list) {
+			                String className = info.getClassName();
+			                String methodName = info.getMethodName();
+			                ControllerFacade.execute(className, methodName, le.getParas());
+			            }
+					}
+				});
+        	}else{
+	            for (ListenerDto info : list) {
+	                String className = info.getClassName();
+	                String methodName = info.getMethodName();
+	                ControllerFacade.execute(className, methodName, le.getParas());
+	            }
+        	}
+
         }
     }
 }

@@ -226,8 +226,8 @@ public class HomePageActivity extends Activity {
     	btn_game = (ImageButton)findViewById(R.id.game);
 //    	btn_service = (ImageButton)findViewById(R.id.convenience_services);
     	btn_tv = (ImageButton)findViewById(R.id.tv);
-//    	btn_set = (ImageButton)findViewById(R.id.set);
-//    	btn_phone = (ImageButton)findViewById(R.id.phone);
+    	btn_set = (ImageButton)findViewById(R.id.set);
+    	btn_phone = (ImageButton)findViewById(R.id.phone);
 //    	btn_systemsetting = (ImageButton)findViewById(R.id.systemset);
     	btn_videoclip = (ImageButton)findViewById(R.id.videoclip);
     	
@@ -237,8 +237,8 @@ public class HomePageActivity extends Activity {
     	btn_game.setOnClickListener(clickEvent);
 //    	btn_service.setOnClickListener(clickEvent);
     	btn_tv.setOnClickListener(clickEvent);
-//    	btn_set.setOnClickListener(clickEvent);
-//    	btn_phone.setOnClickListener(clickEvent);
+    	btn_set.setOnClickListener(clickEvent);
+    	btn_phone.setOnClickListener(clickEvent);
 //    	btn_systemsetting.setOnClickListener(clickEvent);
     	btn_videoclip.setOnClickListener(clickEvent);
     	
@@ -351,9 +351,9 @@ public class HomePageActivity extends Activity {
 			}
 			else if(v == btn_phone)
 			{
-				if(isPkgInstalled(HomePageActivity.this, "com.lorent"))
+				if(isPkgInstalled(HomePageActivity.this, "com.lorent.vovo"))
 				{
-					Intent mIntent=getPackageManager().getLaunchIntentForPackage("com.lorent");
+					Intent mIntent=getPackageManager().getLaunchIntentForPackage("com.lorent.vovo");
 			        startActivity(mIntent);  
 				}
 				else 

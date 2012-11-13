@@ -47,6 +47,9 @@
               <Connection code="VovoStringUtil.getUIString(&quot;UploadVideoClipDialog.cancel&quot;)" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

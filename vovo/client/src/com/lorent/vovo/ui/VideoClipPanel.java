@@ -62,7 +62,6 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		jToolBar1 = new javax.swing.JToolBar();
 		reflashButton = new javax.swing.JButton();
 		uploadVideoClipButton = new javax.swing.JButton();
-		liveTvButton = new javax.swing.JButton();
 		jXPanel1 = new org.jdesktop.swingx.JXPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		videoClipPanel = new javax.swing.JPanel();
@@ -73,6 +72,8 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		monitorToolBar = new javax.swing.JToolBar();
 		reflashMonitorButton = new javax.swing.JButton();
 		uploadMonitorButton1 = new javax.swing.JButton();
+		liveTvButton = new javax.swing.JButton();
+		liveMonitorButton = new javax.swing.JButton();
 		jPanel4 = new javax.swing.JPanel();
 		prePageMonitorButton = new javax.swing.JButton();
 		lastPageMonitorButton = new javax.swing.JButton();
@@ -132,24 +133,6 @@ public class VideoClipPanel extends javax.swing.JPanel {
 				});
 		jToolBar1.add(uploadVideoClipButton);
 
-		liveTvButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/com/lorent/vovo/resource/images/video-television.png"))); // NOI18N
-		liveTvButton.setText("\u89c6\u9891\u76f4\u64ad");
-		liveTvButton.setContentAreaFilled(false);
-		liveTvButton.setFocusable(false);
-		liveTvButton
-				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		liveTvButton.setMaximumSize(new java.awt.Dimension(60, 47));
-		liveTvButton.setMinimumSize(new java.awt.Dimension(60, 47));
-		liveTvButton.setPreferredSize(new java.awt.Dimension(60, 47));
-		liveTvButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		liveTvButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				liveTvButtonActionPerformed(evt);
-			}
-		});
-		jToolBar1.add(liveTvButton);
-
 		jPanel2.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
 		jXPanel1.setOpaque(false);
@@ -194,7 +177,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 		jPanel2.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-		jTabbedPane1.addTab("\u89c6\u9891\u76f4\u64ad", jPanel2);
+		jTabbedPane1.addTab("\u89c6\u9891\u70b9\u64ad", jPanel2);
 
 		jPanel3.setOpaque(false);
 		jPanel3.setLayout(new java.awt.BorderLayout());
@@ -225,7 +208,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		uploadMonitorButton1
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/vovo/resource/images/edit-add-2.png"))); // NOI18N
-		uploadMonitorButton1.setText("\u6dfb\u52a0\u76d1\u63a7");
+		uploadMonitorButton1.setText("\u6dfb\u52a0\u76f4\u64ad");
 		uploadMonitorButton1.setContentAreaFilled(false);
 		uploadMonitorButton1.setFocusable(false);
 		uploadMonitorButton1
@@ -242,6 +225,47 @@ public class VideoClipPanel extends javax.swing.JPanel {
 					}
 				});
 		monitorToolBar.add(uploadMonitorButton1);
+
+		liveTvButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/vovo/resource/images/video-television.png"))); // NOI18N
+		liveTvButton.setText("\u89c6\u9891\u76f4\u64ad");
+		liveTvButton.setContentAreaFilled(false);
+		liveTvButton.setFocusable(false);
+		liveTvButton
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		liveTvButton.setMaximumSize(new java.awt.Dimension(60, 47));
+		liveTvButton.setMinimumSize(new java.awt.Dimension(60, 47));
+		liveTvButton.setPreferredSize(new java.awt.Dimension(60, 47));
+		liveTvButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		liveTvButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				liveTvButtonActionPerformed(evt);
+			}
+		});
+		monitorToolBar.add(liveTvButton);
+
+		liveMonitorButton
+				.setIcon(new javax.swing.ImageIcon(
+						getClass()
+								.getResource(
+										"/com/lorent/vovo/resource/images/video-television.png"))); // NOI18N
+		liveMonitorButton.setText("\u89c6\u9891\u76d1\u63a7");
+		liveMonitorButton.setContentAreaFilled(false);
+		liveMonitorButton.setFocusable(false);
+		liveMonitorButton
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		liveMonitorButton.setMaximumSize(new java.awt.Dimension(60, 47));
+		liveMonitorButton.setMinimumSize(new java.awt.Dimension(60, 47));
+		liveMonitorButton.setPreferredSize(new java.awt.Dimension(60, 47));
+		liveMonitorButton
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		liveMonitorButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						liveMonitorButtonActionPerformed(evt);
+					}
+				});
+		monitorToolBar.add(liveMonitorButton);
 
 		jPanel3.add(monitorToolBar, java.awt.BorderLayout.PAGE_START);
 
@@ -290,11 +314,21 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 		jPanel3.add(jXPanel2, java.awt.BorderLayout.CENTER);
 
-		jTabbedPane1.addTab("\u89c6\u9891\u76d1\u63a7", jPanel3);
+		jTabbedPane1.addTab("\u89c6\u9891\u76f4\u64ad", jPanel3);
 
 		add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+		jTabbedPane1.getAccessibleContext().setAccessibleName(
+				"\u89c6\u9891\u70b9\u64ad");
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void liveMonitorButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		Vovo.exeC("videoclip", "startLiveMonitor");
+	}
+
+	private void liveTvButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}
 
 	private void lastPageMonitorButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
@@ -351,6 +385,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 	private org.jdesktop.swingx.JXPanel jXPanel2;
 	private javax.swing.JButton lastPageButton;
 	private javax.swing.JButton lastPageMonitorButton;
+	private javax.swing.JButton liveMonitorButton;
 	private javax.swing.JButton liveTvButton;
 	private javax.swing.JPanel monitorPanel;
 	private javax.swing.JToolBar monitorToolBar;

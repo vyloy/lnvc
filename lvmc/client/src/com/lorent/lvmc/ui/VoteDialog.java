@@ -34,6 +34,7 @@ public class VoteDialog extends javax.swing.JDialog {
 	public VoteDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+		this._voteitempanel.setVisible(false);
 	}
 
 	private Logger log = Logger.getLogger(VoteDialog.class);
@@ -47,6 +48,8 @@ public class VoteDialog extends javax.swing.JDialog {
 		this.votemMainPanel = (voteMainPanel) jPanel;
 		this.dataDto = new VoteDataDto();
 		this.dataDto.getList().clear();
+		this._voteitempanel.setVisible(false);
+		this.pack();
 	}
 
 	//GEN-BEGIN:initComponents
@@ -61,9 +64,6 @@ themeField = new javax.swing.JTextField();
 themedescript = new javax.swing.JLabel();
 jScrollPane9 = new javax.swing.JScrollPane();
 themedescField = new javax.swing.JTextArea();
-bottom = new javax.swing.JPanel();
-finish3 = new javax.swing.JButton();
-cancel3 = new javax.swing.JButton();
 _voteitempanel = new javax.swing.JPanel();
 jPanel8 = new javax.swing.JPanel();
 votetitle7 = new javax.swing.JLabel();
@@ -82,8 +82,14 @@ jScrollPane17 = new javax.swing.JScrollPane();
 voteItemListField7 = new javax.swing.JList(new DefaultListModel());
 addItem7 = new javax.swing.JButton();
 removeItem7 = new javax.swing.JButton();
+bottom = new javax.swing.JPanel();
+finish3 = new javax.swing.JButton();
+cancel3 = new javax.swing.JButton();
 
 setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+
+topPanel.setMaximumSize(new java.awt.Dimension(32767, 115));
 
 theme.setText("\u6295\u7968\u4e3b\u9898");
 
@@ -122,7 +128,7 @@ votejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 .addGroup(votejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 .addComponent(theme)
 .addComponent(themeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
 .addContainerGap())
 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, votejPanelLayout.createSequentialGroup()
@@ -136,52 +142,14 @@ topPanelLayout.setHorizontalGroup(
 topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 .addGroup(topPanelLayout.createSequentialGroup()
 .addComponent(votejPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+.addContainerGap(38, Short.MAX_VALUE))
 );
 topPanelLayout.setVerticalGroup(
 topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 .addComponent(votejPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 );
 
-finish3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/lorent/lvmc/resource/images/vote_icon/dialog-ok-3.png"))); // NOI18N
-finish3.setText("\u786e\u5b9a");
-finish3.setBorderPainted(false);
-finish3.setContentAreaFilled(false);
-finish3.addActionListener(new java.awt.event.ActionListener() {
-public void actionPerformed(java.awt.event.ActionEvent evt) {
-finish3ActionPerformed(evt);
-}
-});
-
-cancel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/lorent/lvmc/resource/images/vote_icon/dialog-cancel-3.png"))); // NOI18N
-cancel3.setText("\u53d6\u6d88");
-cancel3.setBorderPainted(false);
-cancel3.setContentAreaFilled(false);
-cancel3.addActionListener(new java.awt.event.ActionListener() {
-public void actionPerformed(java.awt.event.ActionEvent evt) {
-cancel3ActionPerformed(evt);
-}
-});
-
-javax.swing.GroupLayout bottomLayout = new javax.swing.GroupLayout(bottom);
-bottom.setLayout(bottomLayout);
-bottomLayout.setHorizontalGroup(
-bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addGroup(bottomLayout.createSequentialGroup()
-.addGap(177, 177, 177)
-.addComponent(finish3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-.addComponent(cancel3)
-.addContainerGap(140, Short.MAX_VALUE))
-);
-bottomLayout.setVerticalGroup(
-bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addGroup(bottomLayout.createSequentialGroup()
-.addGroup(bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-.addComponent(finish3)
-.addComponent(cancel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-);
+getContentPane().add(topPanel);
 
 votetitle7.setText("\u8868\u51b3\u9879\u540d\u79f0");
 
@@ -226,6 +194,7 @@ jScrollPane16.setViewportView(titledescriptField7);
 
 voteItemList7.setText("\u9009\u9879\u5217\u8868");
 
+voteItemListField7.setModel(new DefaultListModel());
 jScrollPane17.setViewportView(voteItemListField7);
 
 addItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/lorent/lvmc/resource/images/vote_icon/list-add-3.png"))); // NOI18N
@@ -264,8 +233,8 @@ jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 .addGroup(jPanel8Layout.createSequentialGroup()
 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addComponent(votetitleField7, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-.addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+.addComponent(votetitleField7, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+.addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE))
 .addGap(58, 58, 58))
 .addGroup(jPanel8Layout.createSequentialGroup()
 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,47 +296,79 @@ javax.swing.GroupLayout _voteitempanelLayout = new javax.swing.GroupLayout(_vote
 _voteitempanel.setLayout(_voteitempanelLayout);
 _voteitempanelLayout.setHorizontalGroup(
 _voteitempanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+.addGroup(_voteitempanelLayout.createSequentialGroup()
 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 );
 _voteitempanelLayout.setVerticalGroup(
 _voteitempanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+.addGroup(_voteitempanelLayout.createSequentialGroup()
+.addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 );
 
-javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-getContentPane().setLayout(layout);
-layout.setHorizontalGroup(
-layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addComponent(topPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
-.addComponent(_voteitempanel, 0, 524, Short.MAX_VALUE)
-.addComponent(bottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-);
-layout.setVerticalGroup(
-layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addGroup(layout.createSequentialGroup()
-.addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-.addComponent(_voteitempanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+getContentPane().add(_voteitempanel);
+
+bottom.setMaximumSize(new java.awt.Dimension(32767, 70));
+
+finish3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/lorent/lvmc/resource/images/vote_icon/dialog-ok-3.png"))); // NOI18N
+finish3.setText("\u786e\u5b9a");
+finish3.setBorderPainted(false);
+finish3.setContentAreaFilled(false);
+finish3.addActionListener(new java.awt.event.ActionListener() {
+public void actionPerformed(java.awt.event.ActionEvent evt) {
+finish3ActionPerformed(evt);
+}
+});
+
+cancel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/lorent/lvmc/resource/images/vote_icon/dialog-cancel-3.png"))); // NOI18N
+cancel3.setText("\u53d6\u6d88");
+cancel3.setBorderPainted(false);
+cancel3.setContentAreaFilled(false);
+cancel3.addActionListener(new java.awt.event.ActionListener() {
+public void actionPerformed(java.awt.event.ActionEvent evt) {
+cancel3ActionPerformed(evt);
+}
+});
+
+javax.swing.GroupLayout bottomLayout = new javax.swing.GroupLayout(bottom);
+bottom.setLayout(bottomLayout);
+bottomLayout.setHorizontalGroup(
+bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+.addGroup(bottomLayout.createSequentialGroup()
+.addGap(177, 177, 177)
+.addComponent(finish3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-.addComponent(bottom, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+.addComponent(cancel3)
+.addContainerGap(178, Short.MAX_VALUE))
 );
+bottomLayout.setVerticalGroup(
+bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+.addGroup(bottomLayout.createSequentialGroup()
+.addGroup(bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+.addComponent(finish3)
+.addComponent(cancel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+);
+
+getContentPane().add(bottom);
 
 pack();
 }// </editor-fold>
 
 	//GEN-END:initComponents
 	private void titledescriptField7KeyPressed(java.awt.event.KeyEvent evt) {
-		 if ( evt.getKeyCode() == KeyEvent.VK_TAB ) {   
-             evt.consume();   
-             singleSelect7.requestFocus();
-         }   
+		if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+			evt.consume();
+			singleSelect7.requestFocus();
+		}
 	}
 
 	private void themedescFieldKeyPressed(java.awt.event.KeyEvent evt) {
-		 if ( evt.getKeyCode() == KeyEvent.VK_TAB ) {   
-             evt.consume();   
-             votetitleField7.requestFocus();
-         }   
+		if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+			evt.consume();
+			votetitleField7.requestFocus();
+		}
 	}
 
 	private void removeItem4ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -448,10 +449,10 @@ pack();
 		}
 
 		if ("add".equals(this.votemMainPanel.getAdd_or_update_flag())) {
-			boolean result = checkVoteItem();
-			if (!result) {
-				return;
-			}
+			//			boolean result = checkVoteItem();
+			//			if (!result) {
+			//				return;
+			//			}
 			this.votemMainPanel.addTheme(dataDto);
 			try {
 				Thread.sleep(500);
@@ -459,7 +460,7 @@ pack();
 				e.printStackTrace();
 				log.error("finish3ActionPerformed", e);
 			}
-			doAddVoteItem();
+			//			doAddVoteItem();
 		}
 		if ("update".equals(this.votemMainPanel.getAdd_or_update_flag())) {
 			this.votemMainPanel.updateTheme(dataDto);

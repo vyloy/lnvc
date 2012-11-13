@@ -661,6 +661,12 @@ public class MainController extends BaseController{
     			this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("inviteUser.cannotInviteMe"));
     			return;
     		}
+    		MemberListPanel memberListPanel = ViewManager.getComponent(MemberListPanel.class);
+    		MemberDto member = memberListPanel.getMemberByName(lccno);
+    		if(member != null){//已存在会议中
+    			this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("inviteUser.cannotInviteUserInConf"));
+    			return;
+    		}
         	String siplccno  = "sip:"+lccno+"@"+LCCUtil.getInstance().getRegServerIP()+":"+LCCUtil.getInstance().getRegServerPort();
         	Launcher.getLCMUtil().inviteUserFromMcu(loginInfo.getConfno(), siplccno);
 		}

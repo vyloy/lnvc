@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="55dip"
+    >
+    <ImageView android:layout_width="50dip" android:layout_height="wrap_content" android:id="@+id/historylist_icon" android:layout_gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="220dip" android:layout_height="48dip" android:id="@+id/historylist_time" android:gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="170dip" android:paddingLeft="25dip" android:layout_height="48dip" android:id="@+id/historylist_lccno" android:gravity="center_vertical"/>
+	<TextView style="@style/menu_content" android:layout_width="110dip" android:paddingLeft="25dip" android:layout_height="48dip" android:id="@+id/historylist_calltime" android:gravity="center_vertical"/>
+	
+	<Button android:layout_width="110dip" android:background="@drawable/del" android:layout_gravity="center_vertical" android:layout_height="wrap_content" android:id="@+id/historylist_del"/>
+</LinearLayout>

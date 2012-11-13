@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+ <SurfaceView
+                    android:id="@+id/myVideo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:focusable="true" 
+                    android:visibility="visible"
+                    />
+  
+  <!-- call in -->
+  <LinearLayout android:id="@+id/notice_callin_linearLayout" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:visibility="visible">
+  <LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="67dip" android:layout_gravity="center_horizontal" android:layout_marginTop="330dip">
+  <Button android:id="@+id/open_lock" android:layout_width="133dip" android:layout_height="fill_parent" android:onClick="OpenLock" android:background="@drawable/lvd1600_sip_lock" /> 
+  <Button android:background="@drawable/lvd1600_sip_ring" android:textSize="18dip" android:textColor="#FFFFFF" android:id="@+id/notice_recieve" android:onClick="recieveClick" android:layout_width="133dip" android:layout_height="fill_parent"/>
+  <Button android:id="@+id/notice_handoff" android:background="@drawable/handoff_selector" android:onClick="hangupClick" android:layout_width="133dip" android:layout_height="fill_parent" />
+  </LinearLayout>
+  </LinearLayout>
+</merge>
+ 

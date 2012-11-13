@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="20dip"
+    >
+    <ImageView android:layout_width="80dip" android:layout_height="46dip" android:id="@+id/friendicon" android:background="@drawable/head1" android:layout_gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="100dip" android:layout_height="46dip" android:id="@+id/friendadress" android:gravity="center_vertical"/>
+    <TextView style="@style/menu_content" android:layout_width="110dip" android:layout_height="46dip" android:id="@+id/friendlccno" android:gravity="center_vertical"/>
+    <Button android:layout_width="90dip" android:background="@drawable/call"  android:layout_height="46dip" android:id="@+id/frienddocall" android:layout_gravity="center_vertical"/>
+    <Button android:layout_width="90dip" android:background="@drawable/edit" android:layout_height="46dip" android:id="@+id/friendedit" android:layout_gravity="center_vertical"/>
+    <Button android:layout_width="90dip" android:background="@drawable/add_head2" android:layout_height="46dip" android:id="@+id/friendblack" android:layout_gravity="center_vertical"/>
+	<Button android:layout_width="90dip" android:background="@drawable/del" android:layout_height="46dip" android:id="@+id/frienddel" android:layout_gravity="center_vertical" />
+</LinearLayout>

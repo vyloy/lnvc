@@ -272,7 +272,13 @@ public class PhoneController extends BaseController {
     private LoopThread loopThread = new LoopThread();
     class LoopThread extends Thread{
     	
-    	public LoopThread(){
+    	private boolean isStart;
+    	
+    	public boolean isStart() {
+			return isStart;
+		}
+
+		public LoopThread(){
     		this.setName("PhoneController.LoopThread");
     	}
     	
@@ -305,6 +311,7 @@ public class PhoneController extends BaseController {
 		
 		@Override
 		public void run() {
+			isStart = true;
 			try {
 				while (runFlag) {
 					synchronized (LccState) {
@@ -355,7 +362,7 @@ public class PhoneController extends BaseController {
      * isFirstTime:是否首次执行
      * */
     public void tryConnnectToCS(final boolean isFirstTime) throws Exception{
-    	if (!loopThread.isAlive()) {
+    	if (!loopThread.isStart()) {
     		loopThread.isFirstTime = isFirstTime;
         	log.info("tryConnnectToCS loopThread.start()");
     		reconnectCount = 1;

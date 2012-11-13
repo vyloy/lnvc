@@ -12,7 +12,7 @@ import com.lorent.lvmc.util.StringUtil;
  * @author test
  */
 public class VoteService extends BaseService{
-    public void sendVoteData(String theme){
+    public void sendVoteData(String theme)throws Exception{
         theme = StringUtil.convertSpecialCharString(theme);
 //        theme = theme.replaceAll("&", "&amp;");
         LvmcOpenfireUtil.sendVoteData(theme);

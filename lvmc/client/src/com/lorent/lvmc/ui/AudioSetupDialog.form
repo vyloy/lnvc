@@ -48,8 +48,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
-                <Property name="tabTitle" type="java.lang.String" value="&lt;User Code&gt;"/>
+              <JTabbedPaneConstraints tabName="&#x57fa;&#x672c;&#x8bbe;&#x7f6e;">
+                <Property name="tabTitle" type="java.lang.String" value="&#x57fa;&#x672c;&#x8bbe;&#x7f6e;"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

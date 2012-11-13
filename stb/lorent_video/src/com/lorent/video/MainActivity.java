@@ -2,180 +2,224 @@ package com.lorent.video;
 
 
 
+import io.vov.vitamio.activity.InitActivity;
+import io.vov.vitamio.demo.VideoViewDemo;
+
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.videolan.vlc.AudioService;
-//import org.videolan.vlc.AudioServiceController;
-//import org.videolan.vlc.MediaLibrary;
-//import org.videolan.vlc.VLCCallbackTask;
-//import org.videolan.vlc.widget.AudioMiniPlayer;
-
-
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.view.Menu;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.video.bean.VideoInfo;
+import com.lorent.video.service.VideoService;
+import com.lorent.video.util.AsyncImageLoader;
+import com.lorent.video.util.ShareAppUtil;
 
 public class MainActivity extends Activity {
 
 	private GridView gridView;
 	VideoInfoAdapter adapter;
 	private static final int DIALOG_PROGRESS = 0;
-	List<VideoInfo> datas;
+	List<LCMVideoClip> datas;
 	private ProgressDialog mProgressDialog;
 	private final static String TAG = "main";
 	private int currentPage = 1;
-//	private AudioMiniPlayer mAudioPlayer;
-//    private AudioServiceController mAudioController;
+//	private GetGridDataTask task = new GetGridDataTask();
+	private VideoService videoService ;
+	private boolean loadDataFinish = false;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG, this.findViewById(R.id.gridview).getClass().toString());
-        
+        Display display = getWindowManager().getDefaultDisplay();
+        Log.i("viewdisplay", "height:"+display.getHeight());
+        Log.i("viewdisplay","width:"+display.getWidth());
+        videoService = new VideoService(this);
         if(this.findViewById(R.id.gridview) instanceof GridView){
         	gridView = (GridView)this.findViewById(R.id.gridview);
         }
-        
-        datas = new ArrayList<VideoInfo>();
+        mProgressDialog = new ProgressDialog(MainActivity.this);  
+        mProgressDialog.setMessage("Ê≠£Âú®Ëé∑ÂèñÊï∞ÊçÆ");  
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
+        datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
-        show();
+        new LoadInfoThread().start();
+//        show();
         
-//        mAudioPlayer = new AudioMiniPlayer();
-//        mAudioController = AudioServiceController.getInstance();
-//        mAudioPlayer.setAudioPlayerControl(mAudioController);
-//        mAudioPlayer.update();
+    }
+    
+    private void show(){
+    	if(adapter==null){
+    		adapter = new VideoInfoAdapter(this,datas,R.layout.video_item,gridView);
+        	gridView.setAdapter(adapter);
+    	}
+    }
+    
+    private class LoadInfoThread extends Thread{
+    	
+    	public LoadInfoThread(){
+//    		showDialog(DIALOG_PROGRESS);//ÊâìÂºÄÁ≠âÂæÖÂØπËØùÊ°Ü  
+    		mProgressDialog.show();
+    	}
+    	
+    	public void run(){
+    		List<LCMVideoClip> result;
+			try {
+				result = videoService.getVideoInfo(currentPage);
+				mProgressDialog.dismiss();
+	    		datasHandler.sendMessage(datasHandler.obtainMessage(100, result));
+			} catch (Exception e) {
+				mProgressDialog.dismiss();
+	    		datasHandler.sendMessage(datasHandler.obtainMessage(0, null));
+			}
+    	}
     }
     
     protected void onStart () {  
-        super.onStart();  
-        new GetGridDataTask().execute();//÷¥––ªÒ»° ˝æ›µƒ»ŒŒÒ  
-    }  
-      
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        mAudioController.addAudioPlayer(mAudioPlayer);
-//        AudioServiceController.getInstance().bindAudioService(this);
-//
-//        /* FIXME: this is used to avoid having MainActivity twice in the backstack */
-//        if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
-//            getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
-//
-//    }  
-      
-      
-    @Override  
-    protected Dialog onCreateDialog(int id) {  
-        switch (id) {  
-        case DIALOG_PROGRESS:  
-            mProgressDialog = new ProgressDialog(MainActivity.this);  
-            mProgressDialog.setMessage("’˝‘⁄ªÒ»° ˝æ›");  
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  
-  
-            return mProgressDialog;  
-        }  
-        return null;  
+        super.onStart();
+//        new GetGridDataTask().execute();//ÊâßË°åËé∑ÂèñÊï∞ÊçÆÁöÑ‰ªªÂä°  
+//        new LoadInfoThread().start();
     }
     
-    class GetGridDataTask extends AsyncTask<Void, Void, Void> {  
-        
-        protected void onPreExecute () {  
-            datas.clear();  
-            adapter.notifyDataSetChanged();  
-              
-            showDialog(DIALOG_PROGRESS);//¥Úø™µ»¥˝∂‘ª∞øÚ  
+    
+    
+    private Handler datasHandler = new Handler() {  
+        public void handleMessage(Message message) {
+        	int code = message.what;
+        	switch (code){
+        	case 0:
+        		Toast errorToast = Toast.makeText(MainActivity.this, R.string.connect_server_timeout, 3000);
+        		errorToast.setGravity(Gravity.CENTER,0,0);
+        		errorToast.show();
+        		finish();
+        		break;
+        	case 100:
+	        	List<LCMVideoClip> result = (List<LCMVideoClip>)message.obj;
+	        	if(result==null || result.size()<1){
+	        		if(currentPage<=0){
+	        			currentPage = 1;
+	        		}else{
+	        			currentPage--;
+	        		}
+	    			Toast toast = Toast.makeText(MainActivity.this, R.string.no_more_content, 3000);
+	    			toast.setGravity(Gravity.CENTER,0,0);
+	    			toast.show();
+	    		}else{
+	    			AsyncImageLoader.clearCache();
+	    			VideoInfoAdapter.clearCacheView();
+	    			datas.clear(); 
+	    			datas.addAll(result);
+	    			if(adapter==null){
+		        		show();
+		        	}else{
+		        		adapter.notifyDataSetChanged();//ÈÄöÁü•uiÁïåÈù¢Êõ¥Êñ∞  
+		        	}
+	    		}
+	        	loadDataFinish = true;
+	        	break;
+        	}
+        	
         }  
-          
-        @Override  
-        protected Void doInBackground(Void... params) {  
-              
-            try {  
-                Thread.sleep(2000);//ƒ£ƒ‚∫ƒ ±µƒÕ¯¬Á≤Ÿ◊˜  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }
-            
-            datas = getVideoInfo(currentPage);
-            adapter.setDatas(datas);  
-            return null;  
-        }  
-          
-        protected void onPostExecute (Void result) {  
-        	adapter.notifyDataSetChanged();//Õ®÷™uiΩÁ√Ê∏¸–¬  
-            dismissDialog(DIALOG_PROGRESS);//πÿ±’µ»¥˝∂‘ª∞øÚ  
-        }  
-          
-    }  
+    };  
+      
+
+    private void selectPlayer(){
+    	final List<ResolveInfo> videoPlayerList = ShareAppUtil.getVideoShareApps(MainActivity.this);
+		List<String> appNames = new ArrayList<String>();
+		for(ResolveInfo info:videoPlayerList){
+			Log.i("videoPlayerList","==================================");
+			appNames.add(info.activityInfo.loadLabel(getPackageManager()).toString());
+			Log.i("videoPlayerList",info.activityInfo.loadLabel(getPackageManager()).toString());
+			Log.i("videoPlayerList",info.activityInfo.name);
+			Log.i("videoPlayerList",info.activityInfo.packageName);
+		}
+		
+		String temp[] = new String[appNames.size()];
+		for(int i=0;i<temp.length;i++){
+			temp[i] = appNames.get(i);
+		}
+		final String[] items = temp;
+		
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);  
+        builder.setTitle("ÈÄâÊã©Êí≠ÊîæÂô®").setItems(items,new DialogInterface.OnClickListener(){  
+            public void onClick(DialogInterface dialog, int which) {  
+            	Log.i("player_which", which + "");
+            	ResolveInfo info = videoPlayerList.get(which);
+                String className = info.activityInfo.name;
+                Log.i("player_classname", className);
+                Intent it = new Intent(className);  
+                it.setAction(Intent.ACTION_VIEW);
+                it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                String tmpPath ="rtsp://10.168.250.12:554/20121026090508_317_720P_h264_test.mp4";
+	            Uri uri = Uri.parse(tmpPath);  
+	            it.setType("video/*");
+	            it.setDataAndType(uri , "video/*");  
+	            startActivity(it);  
+            }  
+        });  
+        AlertDialog ad = builder.create();  
+        ad.show();  
+    }
+    
     
     private class GridViewClickListener implements OnItemClickListener{
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-//			VideoInfo item = (VideoInfo) arg0.getItemAtPosition(arg2);
-//			setTitle((String)item.getTitle());
-//			Intent intent = new Intent(MainActivity.this,ShowVideoActivity.class);
-//			intent.putExtra("videoName", "flvplayer.flv");
-//			startActivity(intent);
 			
-//			VLCCallbackTask task = new VLCCallbackTask(MainActivity.this)
-//            {
-//                @Override
-//                public void run() {
-//                  AudioServiceController c = AudioServiceController.getInstance();
-//                  String s = "rtsp://10.168.250.12:554/sample_100kbit.mp4";//input.getText().toString();
-//
-//                  /* Use the audio player by default. If a video track is
-//                   * detected, then it will automatically switch to the video
-//                   * player. This allows us to support more types of streams
-//                   * (for example, RTSP and TS streaming) where ES can be
-//                   * dynamically adapted rather than a simple scan.
-//                   */
-//                  ArrayList<String> media = new ArrayList<String>();
-//                  media.add(s);
-//                  c.append(media);
-//                }
-//            };
-//            task.execute();
+			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
+			
+			//ÊâãÊú∫Êí≠Êîæ
+			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
+			intent.putExtra("fileName", item.getTitle());
+			intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
+			startActivity(intent);*/
+			
+			//Êú∫È°∂ÁõíÊí≠ÊîæËßÜÈ¢ë
+			/*Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
+			intent.putExtra("fileName", item.getTitle());
+			startActivity(intent);*/
+			
+			//‰∫ëÁîµËßÜ
+			Intent intent = new Intent(MainActivity.this,WebVideoActivity.class);
+//			intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
+			intent.putExtra("fileName", item.getTitle());
+			startActivity(intent);
 		}
     	
     }
     
-    private void show(){
-//    	datas = getVideoInfo();
-    	adapter = new VideoInfoAdapter(this,datas,R.layout.video_item,gridView);
-    	gridView.setAdapter(adapter);
-    }
     
-    private List<VideoInfo> getVideoInfo(int currentPage){
-    	int startP = (currentPage-1) * 30;
-    	int endP = currentPage * 30;
-    	if(datas==null)datas = new ArrayList<VideoInfo>();
-    	for(int i=startP;i<endP;i++){
-    		VideoInfo info = new VideoInfo();
-    		info.setImageUrl(""+i);
-    		info.setTitle("title"+i);
-    		datas.add(info);
-    	}
-    	return datas;
-    }
 
     public void showVideo(View v){
-    	Intent intent = new Intent(this,ShowVideoActivity.class);
+    	Intent intent = new Intent(this,WebVideoActivity.class);
     	intent.putExtra("videoName", "flvplayer.flv");
     	this.startActivity(intent);
     }
@@ -183,11 +227,42 @@ public class MainActivity extends Activity {
     
     
     public void loadData(View v){
+    	if(!loadDataFinish){
+    		return;
+    	}else{
+    		loadDataFinish = false;
+    	}
     	if(v.getId()==R.id.previousbutton){
     		currentPage--;
     	}else{
     		currentPage++;
     	}
-    	new GetGridDataTask().execute();//÷¥––ªÒ»° ˝æ›µƒ»ŒŒÒ  
+    	new LoadInfoThread().start();
+//    	new GetGridDataTask().execute();//ÊâßË°åËé∑ÂèñÊï∞ÊçÆÁöÑ‰ªªÂä°  
+    	
     }
+    
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+    	Log.i("keyvalue", event.getKeyCode()+"");
+    	int nextPageKey = Integer.parseInt(this.getResources().getString(R.string.NEXT_PAGE_KEY));
+    	int prePageKey = Integer.parseInt(this.getResources().getString(R.string.PREVIOUS_PAGE_KEY));
+    	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==nextPageKey||event.getKeyCode()==prePageKey)){
+    		if(!loadDataFinish){
+    			return super.dispatchKeyEvent(event);
+    		}else{
+    			loadDataFinish = false;
+    		}
+    		if(event.getKeyCode()==nextPageKey){//‰∏ã‰∏ÄÈ°µ;È¢ëÈÅì^
+    			currentPage--;
+    		}else if(event.getKeyCode()==prePageKey){//‰∏ä‰∏ÄÈ°µ;È¢ëÈÅìv
+    			currentPage++;
+    		}
+    		new LoadInfoThread().start();
+    	}
+    	return super.dispatchKeyEvent(event);
+    }
+    
+    
 }
