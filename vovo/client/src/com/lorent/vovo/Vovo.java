@@ -15,6 +15,8 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smackx.filetransfer.FileTransfer;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+
 import com.jhlabs.image.GaussianFilter;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.lorent.common.app.BaseApplication;
@@ -121,6 +123,7 @@ public class Vovo extends BaseApplication{
 
 	@Override
 	protected void startApp() {
+		NativeInterface.open();
 		try {
 			 UIManager.setLookAndFeel(new McWinLookAndFeel());
 //			UIManager.setLookAndFeel(new AeroLookAndFeel());

@@ -2,6 +2,7 @@ package com.lorent.vovo.controller;
 
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
+import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -21,6 +23,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.painter.ImagePainter;
 import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
+
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import chrriis.dj.nativeswing.swtimpl.components.Credentials;
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import chrriis.dj.nativeswing.swtimpl.components.WebBrowserAuthenticationHandler;
 
 import com.lorent.common.controller.BaseController;
 import com.lorent.common.dto.LCMVideoClip;
@@ -31,6 +38,7 @@ import com.lorent.common.util.StringUtil;
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.MainFrame;
+import com.lorent.vovo.ui.PlayMonitorFrame;
 import com.lorent.vovo.ui.UploadMonitorDialog;
 import com.lorent.vovo.ui.UploadVideoClipDialog;
 import com.lorent.vovo.ui.VideoClipInfoDialog;
@@ -328,7 +336,6 @@ public class VideoClipController extends BaseController {
 		dialog.getSelectFileHighButton().setEnabled(false);
 		dialog.getSelectFileStandardButton().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
-		//检测ftp上是否已存在文件名
 		
 		//上传文件至ftp
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
@@ -384,6 +391,17 @@ public class VideoClipController extends BaseController {
 			}
 			
 		};
+		//检测ftp上是否已存在文件名
+		Boolean fileisexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", file.getName());
+		if (fileisexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+file.getName());
+			return;
+		}
+		Boolean file1isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", file1.getName());
+		if (file1isexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+file1.getName());
+			return;
+		}
 		
 		new SwingWorker<Object, Object>(){
             @Override
@@ -445,8 +463,6 @@ public class VideoClipController extends BaseController {
 		dialog.getTitleTextField().setEnabled(false);
 		dialog.getDescriptionTextArea().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
-		//检测ftp上是否已存在文件名
-		
 		//上传文件至ftp
 		
 		final File thumbailfile = new File(dialog.getThumbnailTextField().getText());
@@ -788,5 +804,49 @@ public class VideoClipController extends BaseController {
 				}
 			}
 		}.start();
+	}
+	
+	public void startLiveMonitor() throws Exception{
+		
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayMonitorFrame frame = Vovo.getViewManager().getView(Constants.ViewKey.PLAYMONITORFRAME.toString());
+				if (frame != null && frame.isVisible()) {
+					frame.toFront();
+				}
+				else{
+					try {
+						frame = Vovo.getViewManager().createView(PlayMonitorFrame.class, Constants.ViewKey.PLAYMONITORFRAME.toString());
+						frame.setSize(840, 600);
+						JWebBrowser jWebBrowser = new JWebBrowser();
+						jWebBrowser.setBarsVisible(false);
+						jWebBrowser.setMenuBarVisible(false);
+						jWebBrowser.setAuthenticationHandler(new WebBrowserAuthenticationHandler() {
+							@Override
+							public Credentials getCredentials(JWebBrowser arg0, String arg1) {
+								System.out.println("admin:admin");
+								return new Credentials("admin", "admin");
+							}
+						});
+						String url = Vovo.getConfigManager().getProperty("monitorurl", "http://10.168.130.221/cnDefault_Login.asp");
+						jWebBrowser.navigate(url);
+						frame.add(jWebBrowser);
+						frame.setVisible(true);
+					} catch (Exception e) {
+						log.error("startLiveMonitor",e);
+						e.printStackTrace();
+					}
+				}
+				
+				try {
+					Vovo.getViewManager().setWindowCenterLocation(frame);
+				} catch (Exception e) {
+					log.error("startLiveMonitor", e);
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

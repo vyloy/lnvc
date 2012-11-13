@@ -117,7 +117,8 @@ public interface Constants {
     	GroupChatSetFrame,
     	PhoneFrame,
     	UPLOADVIDEOCLIPDIALOG,
-    	VIDEOCLIPPANEL
+    	VIDEOCLIPPANEL,
+    	PLAYMONITORFRAME
     }
     
     public enum ConfigKey{
