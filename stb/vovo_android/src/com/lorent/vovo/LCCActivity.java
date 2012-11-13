@@ -61,6 +61,7 @@ import android.widget.Toast;
 import com.lorent.LCCUtil;
 import com.lorent.vovo.bean.FriendBean;
 import com.lorent.vovo.bean.RecordBean;
+import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.PlayAudio;
 
@@ -983,7 +984,7 @@ public class LCCActivity extends Activity {
 		/*
 		 * if (lccUtil != null) lccUtil.hangup();
 		 */
-		LCCUtil.hangup();
+		lccUtil.hangup();
 	}
 
 	public void dialNumClick(View v) {
@@ -1082,23 +1083,23 @@ public class LCCActivity extends Activity {
 		if (LCCUtil.lccUtil.isRegister) {
 			if (callnum.length() == 0) {
 
-				String magCenter_houseno_tempt = null;
-				try {
-//					magCenter_houseno_tempt = mc
-//							.GetCfgInfo(ManageCenter.SYS_PARA_CENTERHOUSENO);
-				} catch (Exception e) {
-
-					Toast.makeText(this, "管理中心号码没有设置！", Toast.LENGTH_SHORT)
-							.show();
-					return;
-				}
-
-				map.put("calltype", "out");
-				map.put("outcallnum", magCenter_houseno_tempt);
-				insertHistory(DBProvider.CALL_OUT, magCenter_houseno_tempt, 2);
-				lccUtil.call2(magCenter_houseno_tempt);
-
-				callout(magCenter_houseno_tempt);
+//				String magCenter_houseno_tempt = null;
+//				try {
+////					magCenter_houseno_tempt = mc
+////							.GetCfgInfo(ManageCenter.SYS_PARA_CENTERHOUSENO);
+//				} catch (Exception e) {
+//
+//					Toast.makeText(this, "管理中心号码没有设置！", Toast.LENGTH_SHORT)
+//							.show();
+//					return;
+//				}
+//
+//				map.put("calltype", "out");
+//				map.put("outcallnum", magCenter_houseno_tempt);
+//				insertHistory(DBProvider.CALL_OUT, magCenter_houseno_tempt, 2);
+//				lccUtil.call2(magCenter_houseno_tempt);
+//
+//				callout(magCenter_houseno_tempt);
 
 				return;
 			} else if (callnum.equals(LCCUtil.lccUtil.userName)) {
@@ -1112,8 +1113,13 @@ public class LCCActivity extends Activity {
 				map.put("calltype", "out");
 				map.put("outcallnum", callnum);
 				insertHistory(DBProvider.CALL_OUT, callnum, 2);
-				lccUtil.call2(callnum);
 				callout(callnum);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				lccUtil.call2(callnum);
 			}
 
 			callEdit.setText("");
@@ -1127,23 +1133,27 @@ public class LCCActivity extends Activity {
 	private void callout(String callnum) {
 
 		isCallOut = true;
-		findViewById(R.id.mainlayout_right).setVisibility(View.GONE);
-		// myvideo.setVisibility(View.VISIBLE);
-		out_callLayout.setVisibility(View.VISIBLE);
-		// out_calling.setText(getString(R.string.call_out) + callnum);
-		out_calling.setText(callnum);
-		// noticeCallin.setVisibility(View.GONE);
-		noticeCallout.setVisibility(View.GONE);
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				/** 监听系统有没有休眠 */
-
-			}
-		}).start();
+//		findViewById(R.id.mainlayout_right).setVisibility(View.GONE);
+//		// myvideo.setVisibility(View.VISIBLE);
+//		out_callLayout.setVisibility(View.VISIBLE);
+//		// out_calling.setText(getString(R.string.call_out) + callnum);
+//		out_calling.setText(callnum);
+//		// noticeCallin.setVisibility(View.GONE);
+//		noticeCallout.setVisibility(View.GONE);
+//
+//		new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				/** 监听系统有没有休眠 */
+//
+//			}
+//		}).start();
+		Intent intent = new Intent(this, VideoScreen.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		
 	}
 
 	public void videoClick(View v) {
@@ -1658,7 +1668,7 @@ public class LCCActivity extends Activity {
 			
 			isRegister = true;
 			txt_register.setVisibility(View.VISIBLE);
-			String num = LCCUtil.lccUtil.userName.substring(LCCUtil.lccUtil.userName.length()-4);
+			String num = LCCUtil.lccUtil.userName;
 			txt_register.setText(num);
 			
 			findViewById(R.id.register_img).setBackgroundResource(
@@ -3027,20 +3037,21 @@ public class LCCActivity extends Activity {
 //			} else if (result == 1) {
 //				dev_state.setText(getString(R.string.lcc_dev_had_register));
 //			}
-
-			username.setText("33012");
-			password.setText("123456");
-			serverip.setText("10.168.250.12");
-			port.setText("5060");
-			videowidth.setText("680");
-			videoheight.setText("480");
-			bitrate.setText("256");
+			SetupBean bean = lccUtil.getRegisterInfo();
+			username.setText(bean.userName);
+			password.setText(bean.password);
+			serverip.setText(bean.sipip);
+			port.setText(bean.serverPort + "");
+			videowidth.setText(bean.width + "");
+			videoheight.setText(bean.height + "");
+			bitrate.setText(bean.bitrate + "");
 //
 //			System.out.println("username = " + username + ",serverip = "
 //					+ serverIp + ",port =" + serverPort + ",videowidth = "
 //					+ videoWidth + ",videoheight =" + videoHeight + ",bitrate="
 //					+ bitrate);
 		} catch (Exception e) {
+			
 			System.out.println("no register info!");
 		}
 	}
@@ -3459,7 +3470,7 @@ public class LCCActivity extends Activity {
 	private Handler handler_msg = new Handler() {
 		public void handleMessage(Message msg) {
 
-			LCCActivity.this.finish();
+//			LCCActivity.this.finish();
 		};
 	};
 
@@ -3486,7 +3497,8 @@ public class LCCActivity extends Activity {
 						
 						isRegister = true;
 						txt_register.setVisibility(View.VISIBLE);
-						String num = args[1].substring(args[1].length()-4);
+//						String num = args[1].substring(args[1].length()-4);
+						String num = args[1];
 						txt_register.setText(num);
 						findViewById(R.id.register_img).setBackgroundResource(
 								R.drawable.lvd1600_sip_key_);

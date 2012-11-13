@@ -94,8 +94,7 @@ public class VideoScreen extends Activity{
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				LCCUtil.hangup();
+				LCCUtil.lccUtil.hangup();
 				isCall = false;
 				PlayAudio.stop();
 				
@@ -182,13 +181,13 @@ public class VideoScreen extends Activity{
 	}
 	public void recieveClick(View v) {
 		
-			if(!isCall) LCCUtil.answer(); 
+			if(!isCall) LCCUtil.lccUtil.answer(); 
 		
 	}
 	public void hangupClick(View v) {
 
 		    isRefuse = true;
-			LCCUtil.hangup();
+			LCCUtil.lccUtil.hangup();
 	}
 	
 	// 通话计时
@@ -380,7 +379,7 @@ public class VideoScreen extends Activity{
     	// TODO Auto-generated method stub
     	super.onBackPressed();
     	
-    	LCCUtil.hangup();
+    	LCCUtil.lccUtil.hangup();
     }
     
     private void countCallTime(){
