@@ -17,6 +17,7 @@
 package io.vov.vitamio.demo;
 
 import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.MediaPlayer.OnCompletionListener;
 import io.vov.vitamio.R;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
@@ -55,6 +56,13 @@ public class VideoViewDemo extends Activity {
 		mVideoView.setVideoPath(videoUrl);
 		mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
 		mVideoView.setMediaController(new MediaController(this));
+		mVideoView.setOnCompletionListener(new OnCompletionListener(){
+			@Override
+			public void onCompletion(MediaPlayer arg0) {
+				finish();
+			}
+			
+		});
 	}
 
 	@Override

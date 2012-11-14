@@ -25,7 +25,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
         android:gravity="bottom|center"
@@ -38,19 +38,26 @@
             android:layout_marginRight="20dp"
             android:gravity="center"
             android:onClick="loadData"
-            android:paddingBottom="5dip"
-            android:paddingTop="0dip"
             android:text="@string/previouspage" />
 
         <Button
             android:id="@+id/nextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:gravity="center"
             android:onClick="loadData"
-            android:paddingBottom="5dip"
+            android:text="@string/nextpage"
+             />
+        
+        <!-- <Button
+            android:id="@+id/setupbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingTop="0dip"
-            android:text="@string/nextpage" />
+            android:onClick="openSetupDialog"
+            android:background="@drawable/setup_button" /> -->
 
     </LinearLayout>
    

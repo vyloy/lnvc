@@ -463,8 +463,9 @@ public class MediaController extends FrameLayout {
 		}
 
 		public void onStopTrackingTouch(SeekBar bar) {
-			if (!mInstantSeeking)
+			if (!mInstantSeeking){
 				mPlayer.seekTo((mDuration * bar.getProgress()) / 1000);
+			}	
 			if (mInfoView != null) {
 				mInfoView.setText("");
 				mInfoView.setVisibility(View.GONE);

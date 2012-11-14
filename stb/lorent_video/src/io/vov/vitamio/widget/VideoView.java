@@ -221,10 +221,10 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 //		mVideoWidth = result[0];
 //		mVideoHeight = result[1];
 //		
-//		// 在此可以根据情况进行缩放播放设置
+//		// 鍦ㄦ鍙互鏍规嵁鎯呭喌杩涜缂╂斁鎾斁璁剧疆
 //		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 //				mVideoWidth, mVideoHeight);
-//		// 居中
+//		// 灞呬腑
 //		lp.gravity = Gravity.CENTER_HORIZONTAL;
 //		setLayoutParams(lp);
 //		getHolder().setFixedSize(mVideoWidth, mVideoHeight);

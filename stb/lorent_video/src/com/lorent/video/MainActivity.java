@@ -23,9 +23,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -47,15 +49,13 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	private DeviceType device = DeviceType.PHONE;
+	private DeviceType device = DeviceType.STB;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Display display = getWindowManager().getDefaultDisplay();
-        Log.i("viewdisplay", "height:"+display.getHeight());
-        Log.i("viewdisplay","width:"+display.getWidth());
         videoService = new VideoService(this);
         if(this.findViewById(R.id.gridview) instanceof GridView){
         	gridView = (GridView)this.findViewById(R.id.gridview);
@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 				//手机播放视频
 				Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 				intent.putExtra("fileName", item.getTitle());
-				intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
+				intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
 				startActivity(intent);
 			}else if(device==DeviceType.STB){
 				//机顶盒播放视频
@@ -221,7 +221,7 @@ public class MainActivity extends Activity {
 //				startActivity(it);
 				
 				Intent intent = new Intent(MainActivity.this,HTML5Activity.class);
-				intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+				intent.putExtra("videoUrl", item.getHttpVideoUrlHyper());
 				intent.putExtra("fileName", item.getTitle());
 				startActivity(intent);
 			}
@@ -281,5 +281,25 @@ public class MainActivity extends Activity {
     	PHONE,
     	STB,
     	CLOUDTV
-    } 
+    }
+    
+    AlertDialog.Builder builder;  
+    AlertDialog alertDialog; 
+    public void openSetupDialog(View v){
+    	LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);  
+        View layout = inflater.inflate(R.layout.setup_dialog,null);  
+        EditText ipComponent = (EditText)layout.findViewById(R.id.serverip);
+        EditText portComponent = (EditText)layout.findViewById(R.id.serverport);
+        String ip = ipComponent.getText().toString();
+        String portComponet = portComponent.getText().toString();
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置");
+        builder.setView(layout);  
+        alertDialog = builder.create();  
+        alertDialog.show();  
+    }
+    
+    public void saveServerInfo(View v){
+    	
+    }
 }
