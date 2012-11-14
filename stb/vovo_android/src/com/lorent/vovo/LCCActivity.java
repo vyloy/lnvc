@@ -561,14 +561,14 @@ public class LCCActivity extends Activity {
 					friend_prv_btn.setBackgroundResource(R.drawable.prv_invalid);
 				}else{
 					isFriendPrv = false;
-					friend_prv_btn.setBackgroundResource(R.drawable.prv);
+					friend_prv_btn.setBackgroundResource(R.drawable.pre_page_selector);
 				}
 				if(nowPage == pageCount || pageCount == 0){
 					isFriendNext  = true;
 					friend_next_btn.setBackgroundResource(R.drawable.next_invalid);
 				}else{
 					isFriendNext = false;
-					friend_next_btn.setBackgroundResource(R.drawable.next);
+					friend_next_btn.setBackgroundResource(R.drawable.next_page_selector);
 				} 
 				break;
 			case 2:
@@ -581,14 +581,14 @@ public class LCCActivity extends Activity {
 					black_prv_btn.setBackgroundResource(R.drawable.prv_invalid);
 				}else{
 					isFriendPrv = false;
-					black_prv_btn.setBackgroundResource(R.drawable.prv);
+					black_prv_btn.setBackgroundResource(R.drawable.pre_page_selector);
 				}
 				if(nowPage_black == pageCount_black || pageCount_black == 0){
 					isFriendNext  = true;
 					black_next_btn.setBackgroundResource(R.drawable.next_invalid);
 				}else{
 					isFriendNext = false;
-					black_next_btn.setBackgroundResource(R.drawable.next);
+					black_next_btn.setBackgroundResource(R.drawable.next_page_selector);
 				} 
 				
 				break;
@@ -1685,7 +1685,7 @@ public class LCCActivity extends Activity {
 				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
 				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
 				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
-			Log.i(TAG, "focus on " + this.getCurrentFocus().toString() + "(" + this.getCurrentFocus().getTag() + ")");
+			Log.i(TAG, "focus on " + this.getCurrentFocus().toString());
 		}
 
 		return super.onKeyDown(keyCode, event);
@@ -3862,7 +3862,6 @@ public class LCCActivity extends Activity {
 							}
 						}
 					});
-
 			return convertView;
 		}
 

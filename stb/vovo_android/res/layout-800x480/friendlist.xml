@@ -10,7 +10,8 @@
         android:layout_width="70dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/head1" />
+        android:focusable="true"
+        android:background="@drawable/show_history_selector" />
 
     <TextView
         android:id="@+id/friendadress"
@@ -31,21 +32,21 @@
         android:layout_width="60dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/call" />
+        android:background="@drawable/make_call_selector" />
 
     <Button
         android:id="@+id/friendedit"
         android:layout_width="60dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/edit" />
+        android:background="@drawable/edit_selector" />
 
     <Button
         android:id="@+id/friendblack"
         android:layout_width="60dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/add_head2" />
+        android:background="@drawable/add_blacklist_selector" />
 
     <Button
         android:id="@+id/frienddel"

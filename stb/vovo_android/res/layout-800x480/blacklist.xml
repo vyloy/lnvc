@@ -30,13 +30,13 @@
         android:layout_width="90dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/add_head1" />
+        android:background="@drawable/add_friend_selector" />
 
     <Button
         android:id="@+id/blackdel"
         android:layout_width="90dip"
         android:layout_height="42dip"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/del" />
+        android:background="@drawable/delete_selector" />
 
 </LinearLayout>
