@@ -2,101 +2,23 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">视频通话</string>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <string name="delete">删除</string>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="serverip">服务器</string>
     <string name="port">端口</string>
-    
-    
     <string name="bitrate">码流</string>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-	
-	
-	
-	
-	
-	<!-- add lcc -->
-	
-	<string name="dev_state">设备状态:</string>
-	<string name="account_state">账号状态:</string>
-	
-	<!-- menu button -->
-	
-	
-	
-	<string name="lcc_dev_had_register">已激活</string>
-	<string name="lcc_dev_not_register">未激活</string>
-	
-	<string name="lvd1610_dial">拨号</string>
+
+    <!-- add lcc -->
+
+    <string name="dev_state">设备状态:</string>
+    <string name="account_state">账号状态:</string>
+
+    <!-- menu button -->
+
+    <string name="lcc_dev_had_register">已激活</string>
+    <string name="lcc_dev_not_register">未激活</string>
+    <string name="lvd1610_dial">拨号</string>
     <string name="lvd1610_history">通话记录</string>
     <string name="lvd1610_friend">联系人</string>
     <string name="lvd1610_black">黑名单</string>
@@ -120,18 +42,18 @@
     <string name="name">名字</string>
     <string name="number">号码</string>
     <string name="add_friend_is_already">此联系人已经在联系人列表里</string>
- <!--    
+    <!--
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="serverip">服务器</string>
     <string name="port">端口</string>
     <string name="bitrate">码流</string>
     <string name="delete">删除</string>
- -->
-    
+    -->
+
     <string name="width">宽度</string>
     <string name="height">高度</string>
-    
+
     <!-- Button -->
     <string name="add_friend">添加到通讯录</string>
     <string name="add">添加</string>
@@ -145,50 +67,26 @@
     <string name="accept">接听</string>
     <string name="reject">拒绝</string>
     <string name="register">点击注册</string>
-    
+
     <!-- info -->
     <string name="success">操作成功</string>
     <string name="failed">操作失败</string>
     <string name="selectOperate">选择操作</string>
     <string name="ifornot">是否删除所有通话记录</string>
-    
     <string name="localnum">不能拨打本机号码</string>
     <string name="callinprompt">来电提示</string>
     <string name="calloutprompt">去电提示</string>
     <string name="iscallin">正在呼入</string>
     <string name="iscallout">正在呼出</string>
-    
     <string name="isnotregister">请先注册</string>
     <string name="exit">退出</string>
     <string name="isregister">本机未注册！</string>
     <!-- info -->
     <string name="callstatusnotice">拨打电话提示</string>
-    
-   
-    
-    
-    
-    
-    
-    
-    
     <string name="black">黑名单</string>
-    
-    
-    
-    
-    
-     <string name="state_page">
-    页码：【<xliff:g id="current_page">%1$d</xliff:g>/
-        <xliff:g id="count_page">%2$d</xliff:g>
-    】</string>
-    <string name="name_and_num">
-    <xliff:g id="name">%1$s</xliff:g>:
-        <xliff:g id="num">%2$s</xliff:g>
-    
-    </string>
-    
-    
+    <string name="state_page">    页码：【<xliff:g id="current_page">%1$d</xliff:g>/<xliff:g id="count_page">%2$d</xliff:g>    】</string>
+    <string name="name_and_num"><xliff:g id="name">%1$s</xliff:g>:<xliff:g id="num">%2$s</xliff:g></string>
     <string name="menu_settings">Settings</string>
-    
+    <string name="callerror">呼叫失败</string>
+
 </resources>

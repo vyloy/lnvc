@@ -681,7 +681,7 @@
             </LinearLayout>
 
             <!-- registerLayout -->
-
+
             <ScrollView
                 android:id="@+id/setupsv"
                 android:layout_width="fill_parent"
@@ -692,7 +692,7 @@
                 android:layout_marginTop="5dip"
                 android:fillViewport="true"
                 android:visibility="gone" >
-
+
                 <LinearLayout
                     android:id="@+id/registerLayout"
                     android:layout_width="fill_parent"
@@ -801,7 +801,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
                     </LinearLayout>
-
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -813,7 +813,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal" >
-
+
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -837,7 +837,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal" >
-
+
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -856,7 +856,7 @@
                                 android:textColor="#333093" />
                         </LinearLayout>
                     </LinearLayout>
-
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -869,7 +869,7 @@
                             android:layout_marginTop="5dip"
                             android:layout_weight="1"
                             android:orientation="horizontal" >
-
+
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -887,13 +887,13 @@
                                 android:inputType="number"
                                 android:textColor="#333093" />
                         </LinearLayout>
-
+
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal" >
-
+
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -928,7 +928,7 @@
         <LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content" android:layout_marginTop="80dip">
              <Button android:textColor="#333093" android:textSize="16dp" android:onClick="setClick" android:layout_width="fill_parent"  android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/register"/>
              <Button android:textColor="#333093" android:textSize="16dp" android:onClick="cancelClick" android:layout_width="fill_parent" android:layout_weight="1"  android:layout_height="wrap_content" android:text="@string/cancel"/>
-        </LinearLayout>
+        </LinearLayout>
                     -->
                 </LinearLayout>
             </ScrollView>

@@ -2,15 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:paddingRight="20px"
-    >
-    <LinearLayout android:layout_marginTop="20dip" android:layout_width="fill_parent" android:layout_height="40dip" android:orientation="horizontal" >
-    	<TextView style="@style/MyDialogContent" android:layout_height="fill_parent" android:layout_width="fill_parent" android:text="@string/name"  android:layout_weight="3" android:gravity="center"/>
-   	 	<EditText style="@style/MyDialogContent" android:layout_height="fill_parent" android:layout_width="fill_parent"  android:id="@+id/nameEdit_from_record" android:singleLine="true" android:layout_weight="1" />
+    android:orientation="vertical"
+    android:paddingRight="20px" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/name" />
+
+        <EditText
+            android:id="@+id/nameEdit_from_record"
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:singleLine="true" />
     </LinearLayout>
-	<LinearLayout android:layout_width="fill_parent" android:layout_height="40dip" android:orientation="horizontal">
-	    <TextView style="@style/MyDialogContent" android:layout_height="fill_parent" android:layout_width="fill_parent" android:text="@string/number"   android:layout_weight="3" android:gravity="center"/>
-	    <EditText style="@style/MyDialogContent" android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/numEdit_from_record" android:singleLine="true" android:maxLength="11"  android:layout_weight="1" android:inputType="phone" android:digits="0123456789"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/number" />
+
+        <EditText
+            android:id="@+id/numEdit_from_record"
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:digits="0123456789"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:singleLine="true" />
     </LinearLayout>
+
 </LinearLayout>

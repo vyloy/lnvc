@@ -71,7 +71,8 @@ public class LCCUtil extends Service {
 	
 	public int call_state = 0;  // 安防呼叫   1 ， 没有 0
 	public static String callin_no = ""; //来电号码
-	public String calltype = ""; //呼进 和呼出  in 和 out 
+	public static String callout_no = ""; //去电号码
+	public static String calltype = ""; //呼进 和呼出  in 和 out 
 	private BroadcastReceiver unregister_Rec = new BroadcastReceiver(){
 
 		@Override
@@ -248,7 +249,7 @@ public class LCCUtil extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "onCreate");
+		Log.i(TAG, "onCreate");
 		lccUtil = this;
 		init();
 //		registerReceiver(networkMsg, new IntentFilter(
@@ -263,7 +264,7 @@ public class LCCUtil extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand");
+		Log.i(TAG, "onStartCommand");
 		registerReceiver(MsgSet, new IntentFilter("android.alarm.demo.action"));																				
         
 		try{
@@ -399,7 +400,7 @@ public class LCCUtil extends Service {
 
 	@Override
 	public void onDestroy() {
-		Log.d(TAG, "onDestroy");
+		Log.i(TAG, "onDestroy");
 		unregisterReceiver(networkMsg);
 		unregisterReceiver(MsgSet);
 		unregisterReceiver(lvdsetMsg);
@@ -427,7 +428,7 @@ public class LCCUtil extends Service {
 	}
 
 	public void setPreview(int oper) {
-		Log.d(TAG, "setPreview");
+		Log.i(TAG, "setPreview");
 		enablevideopreview(oper);
 	}
 
@@ -490,11 +491,12 @@ public class LCCUtil extends Service {
 	public void call2(String sipUrl) {
 		Log.i(TAG, "call " + sipUrl);
 		calltype = "out";
+		callout_no = sipUrl;
 		call_index = call(sipUrl);
 	}
 
 	public void incometest() {
-		Log.d(TAG, "incometest");
+		Log.i(TAG, "incometest");
 		incomingtest();
 	}
 
@@ -504,17 +506,17 @@ public class LCCUtil extends Service {
 //	}
 
 	public void hangup() {
-		Log.d(TAG, "hangup");
+		Log.i(TAG, "hangup");
 		hangup(call_index);
 	}
 
 	public void answer() {
-		Log.d(TAG, "answer");
+		Log.i(TAG, "answer");
 		answer(call_index);
 	}
 
 	public void unregister() {
-		Log.d(TAG, "unregister");
+		Log.i(TAG, "unregister");
 		unreg();
 	}
 
@@ -549,7 +551,7 @@ public class LCCUtil extends Service {
 		String[] args = new String[] { nMsg };
 		sendMessage(REGISTEROKCB, args);
 
-		Log.d(TAG, "javaregisterokcb message:" + nMsg);
+		Log.i(TAG, "javaregisterokcb message:" + nMsg);
 	}
 
 	public void javaincomingcb(String nMsg) {
@@ -576,7 +578,7 @@ public class LCCUtil extends Service {
 			startActivity(intent);
 
 //			sendMessage(INCOMINGCB, args);
-			Log.d(TAG, "javaincomingcb message:" + nMsg);
+			Log.i(TAG, "javaincomingcb message:" + nMsg);
 		}
 		
 	}

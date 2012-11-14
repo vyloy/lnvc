@@ -33,16 +33,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -162,8 +160,9 @@ public class LCCActivity extends Activity {
 
 	public boolean IS_MOTO_DEVICE = false;
 	private View dialLayout;
-	private View friendLayout, historylistLayout;
+	private View friendLayout;
 	private View historyLayout;
+	private View historylistLayout;
 	private View blackLayout;
 	private View registerLayout;
 	private View // noticeCallin,
@@ -562,14 +561,14 @@ public class LCCActivity extends Activity {
 					friend_prv_btn.setBackgroundResource(R.drawable.prv_invalid);
 				}else{
 					isFriendPrv = false;
-					friend_prv_btn.setBackgroundResource(R.drawable.prv);
+					friend_prv_btn.setBackgroundResource(R.drawable.pre_page_selector);
 				}
 				if(nowPage == pageCount || pageCount == 0){
 					isFriendNext  = true;
 					friend_next_btn.setBackgroundResource(R.drawable.next_invalid);
 				}else{
 					isFriendNext = false;
-					friend_next_btn.setBackgroundResource(R.drawable.next);
+					friend_next_btn.setBackgroundResource(R.drawable.next_page_selector);
 				} 
 				break;
 			case 2:
@@ -582,14 +581,14 @@ public class LCCActivity extends Activity {
 					black_prv_btn.setBackgroundResource(R.drawable.prv_invalid);
 				}else{
 					isFriendPrv = false;
-					black_prv_btn.setBackgroundResource(R.drawable.prv);
+					black_prv_btn.setBackgroundResource(R.drawable.pre_page_selector);
 				}
 				if(nowPage_black == pageCount_black || pageCount_black == 0){
 					isFriendNext  = true;
 					black_next_btn.setBackgroundResource(R.drawable.next_invalid);
 				}else{
 					isFriendNext = false;
-					black_next_btn.setBackgroundResource(R.drawable.next);
+					black_next_btn.setBackgroundResource(R.drawable.next_page_selector);
 				} 
 				
 				break;
@@ -1122,7 +1121,7 @@ public class LCCActivity extends Activity {
 				lccUtil.call2(callnum);
 			}
 
-			callEdit.setText("");
+//			callEdit.setText("");
 
 		} else {
 			Toast.makeText(this, R.string.isregister, Toast.LENGTH_SHORT)
@@ -1353,117 +1352,80 @@ public class LCCActivity extends Activity {
 		black_btn = (Button) findViewById(R.id.blackList);
 		register_btn = (Button) findViewById(R.id.sipSet);
 		back_btn = (Button) findViewById(R.id.backBtn);
-		call_btn.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				if (action == MotionEvent.ACTION_DOWN) {
-					/*
-					 * call_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_02_);
-					 * record_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_03);
-					 * list_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_04);
-					 * black_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_05);
-					 * register_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
-					 * back_btn
-					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_07);
-					 */
+//		call_btn.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) {
+//				int action = event.getAction();
+//				if (action == MotionEvent.ACTION_DOWN) {
+//					/*
+//					 * call_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_02_);
+//					 * record_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_03);
+//					 * list_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_04);
+//					 * black_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_05);
+//					 * register_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
+//					 * back_btn
+//					 * .setBackgroundResource(R.drawable.lvd1600_sip_menu_07);
+//					 */
+//
+//					callBtnClick();
+//
+//				}
+//
+//				return false;
+//			}
+//		});
+//		record_btn.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) {
+//				int action = event.getAction();
+//				if (action == MotionEvent.ACTION_DOWN) {
+//					historyBtnClick();
+//				}
+//				return false;
+//			}
+//		});
+//		list_btn.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) {
+//				int action = event.getAction();
+//				if (action == MotionEvent.ACTION_DOWN) {
+//					friendBtnClick();
+//				}
+//				return false;
+//			}
+//		});
+//		black_btn.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) {
+//				int action = event.getAction();
+//				if (action == MotionEvent.ACTION_DOWN) {
+//					blacklistBtnClick();
+//				}
+//				return false;
+//			}
+//		});
 
-					menu_dail_txt.setTextColor(Color.YELLOW);
-					menu_hostory_txt.setTextColor(Color.WHITE);
-					menu_friend_txt.setTextColor(Color.WHITE);
-					menu_black_txt.setTextColor(Color.WHITE);
-					menu_sipset_txt.setTextColor(Color.WHITE);
+//		register_btn.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) {
+//				int action = event.getAction();
+//				if (action == MotionEvent.ACTION_DOWN) {
+//					setupClick();
+//					// setDnd();
+//				}
+//				return false;
+//			}
+//		});
+//		register_btn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				setupClick();
+//			}
+//		});
+		
 
-					dialLayout.setVisibility(View.VISIBLE);
-					logo_layout.setVisibility(View.GONE);
-					friendLayout.setVisibility(View.GONE);
-					historyLayout.setVisibility(View.GONE);
-					blackLayout.setVisibility(View.GONE);
-					registerLayout.setVisibility(View.GONE);
-					historylistLayout.setVisibility(View.GONE);
-
-				}
-
-				return false;
-			}
-		});
-		record_btn.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				if (action == MotionEvent.ACTION_DOWN) {
-					menu_dail_txt.setTextColor(Color.WHITE);
-					menu_hostory_txt.setTextColor(Color.YELLOW);
-					menu_friend_txt.setTextColor(Color.WHITE);
-					menu_black_txt.setTextColor(Color.WHITE);
-					menu_sipset_txt.setTextColor(Color.WHITE);
-
-					
-					historyBtnClick(null);
-				}
-				return false;
-			}
-		});
-		list_btn.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				if (action == MotionEvent.ACTION_DOWN) {
-					menu_dail_txt.setTextColor(Color.WHITE);
-					menu_hostory_txt.setTextColor(Color.WHITE);
-					menu_friend_txt.setTextColor(Color.YELLOW);
-					menu_black_txt.setTextColor(Color.WHITE);
-					menu_sipset_txt.setTextColor(Color.WHITE);
-					name_or_num.setText("");
-					
-					friendBtnClick(null);
-				}
-				return false;
-			}
-		});
-		black_btn.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				if (action == MotionEvent.ACTION_DOWN) {
-					menu_dail_txt.setTextColor(Color.WHITE);
-					menu_hostory_txt.setTextColor(Color.WHITE);
-					menu_friend_txt.setTextColor(Color.WHITE);
-					menu_black_txt.setTextColor(Color.YELLOW);
-					menu_sipset_txt.setTextColor(Color.WHITE);
-					name_or_num_black.setText("");
-					blackBtnClick();
-				}
-				return false;
-			}
-		});
-
-		register_btn.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-				if (action == MotionEvent.ACTION_DOWN) {
-					menu_dail_txt.setTextColor(Color.WHITE);
-					menu_hostory_txt.setTextColor(Color.WHITE);
-					menu_friend_txt.setTextColor(Color.WHITE);
-					menu_black_txt.setTextColor(Color.WHITE);
-					menu_sipset_txt.setTextColor(Color.YELLOW);
-
-					dialLayout.setVisibility(View.GONE);
-					logo_layout.setVisibility(View.GONE);
-					friendLayout.setVisibility(View.GONE);
-					historyLayout.setVisibility(View.GONE);
-					blackLayout.setVisibility(View.GONE);
-					registerLayout.setVisibility(View.VISIBLE);
-
-					historylistLayout.setVisibility(View.GONE);
-
-					setRegister();
-					// setDnd();
-				}
-				return false;
-			}
-		});
+		
 		/*
 		 * back_btn.setOnClickListener(new View.OnClickListener() {
 		 * 
@@ -1593,6 +1555,74 @@ public class LCCActivity extends Activity {
 		 * imageView_ring.setVisibility(View.INVISIBLE);
 		 */
 	}
+	
+	protected void blacklistBtnClick() {
+		menu_dail_txt.setTextColor(Color.WHITE);
+		menu_hostory_txt.setTextColor(Color.WHITE);
+		menu_friend_txt.setTextColor(Color.WHITE);
+		menu_black_txt.setTextColor(Color.YELLOW);
+		menu_sipset_txt.setTextColor(Color.WHITE);
+		name_or_num_black.setText("");
+		blackBtnClick();
+	}
+
+	protected void friendBtnClick() {
+		menu_dail_txt.setTextColor(Color.WHITE);
+		menu_hostory_txt.setTextColor(Color.WHITE);
+		menu_friend_txt.setTextColor(Color.YELLOW);
+		menu_black_txt.setTextColor(Color.WHITE);
+		menu_sipset_txt.setTextColor(Color.WHITE);
+		name_or_num.setText("");
+		
+		friendBtnClick(null);
+	}
+
+	protected void historyBtnClick() {
+		menu_dail_txt.setTextColor(Color.WHITE);
+		menu_hostory_txt.setTextColor(Color.YELLOW);
+		menu_friend_txt.setTextColor(Color.WHITE);
+		menu_black_txt.setTextColor(Color.WHITE);
+		menu_sipset_txt.setTextColor(Color.WHITE);
+
+		
+		historyBtnClick(null);
+	}
+
+	protected void dialBtnClick() {
+		menu_dail_txt.setTextColor(Color.YELLOW);
+		menu_hostory_txt.setTextColor(Color.WHITE);
+		menu_friend_txt.setTextColor(Color.WHITE);
+		menu_black_txt.setTextColor(Color.WHITE);
+		menu_sipset_txt.setTextColor(Color.WHITE);
+
+		dialLayout.setVisibility(View.VISIBLE);
+		logo_layout.setVisibility(View.GONE);
+		friendLayout.setVisibility(View.GONE);
+		historyLayout.setVisibility(View.GONE);
+		blackLayout.setVisibility(View.GONE);
+		registerLayout.setVisibility(View.GONE);
+		historylistLayout.setVisibility(View.GONE);
+	}
+
+	private void setupClick(){
+		Log.i(TAG, "setupClick");
+		menu_dail_txt.setTextColor(Color.WHITE);
+		menu_hostory_txt.setTextColor(Color.WHITE);
+		menu_friend_txt.setTextColor(Color.WHITE);
+		menu_black_txt.setTextColor(Color.WHITE);
+		menu_sipset_txt.setTextColor(Color.YELLOW);
+
+		dialLayout.setVisibility(View.GONE);
+		logo_layout.setVisibility(View.GONE);
+		friendLayout.setVisibility(View.GONE);
+		historyLayout.setVisibility(View.GONE);
+		blackLayout.setVisibility(View.GONE);
+		registerLayout.setVisibility(View.VISIBLE);
+
+		historylistLayout.setVisibility(View.GONE);
+
+		setRegister();
+	}
 
 	private Handler handler_del_num = new Handler() {
 
@@ -1651,6 +1681,11 @@ public class LCCActivity extends Activity {
 			if (isCallOut)
 				return true;
 
+		}else if(keyCode == KeyEvent.KEYCODE_DPAD_UP
+				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
+			Log.i(TAG, "focus on " + this.getCurrentFocus().toString());
 		}
 
 		return super.onKeyDown(keyCode, event);
@@ -1661,6 +1696,17 @@ public class LCCActivity extends Activity {
 	}
 
 	public void menuClick(View v) {
+		if(v.getId() == R.id.sipSet){
+			setupClick();
+		}else if(v.getId() == R.id.blackList){
+			blacklistBtnClick();
+		}else if(v.getId() == R.id.friendBtn){
+			friendBtnClick();
+		}else if(v.getId() == R.id.historyBtn){
+			historyBtnClick();
+		}else if(v.getId() == R.id.dialBtn){
+			dialBtnClick();
+		}
 	}
 
 	private void updateRegister() {
@@ -1923,7 +1969,8 @@ public class LCCActivity extends Activity {
 					isLimit = false;
 					timeoutSet();
 					Log.d(TAG, "handler call error");
-					String error_type = args[0];
+//					String error_type = args[0];
+					String error_type = getResources().getString(R.string.callerror);
 					Toast.makeText(this, error_type, Toast.LENGTH_SHORT).show();
 
 					myvideo.setVisibility(View.GONE);
@@ -2863,88 +2910,88 @@ public class LCCActivity extends Activity {
 	private PendingIntent pendingIntent;
 
 	// 鍏嶆墦鎵拌缃?
-	public void setDndClick(View v) {
-
-		if (start_time.getText().toString().length() > 0
-				&& end_time.getText().toString().length() > 0) {
-			long start_time_long = getLongTime(start_time.getText().toString());
-			long end_time_long = getLongTime(end_time.getText().toString());
-			long now_time_long = System.currentTimeMillis();
-			long beginTime = 0;
-			if (end_time_long > start_time_long) {
-
-				if (now_time_long < start_time_long) {
-					beginTime = start_time_long;
-				} else if (now_time_long > end_time_long) {
-					beginTime = start_time_long + 24 * 60 * 60 * 1000;
-				} else if (now_time_long >= start_time_long
-						&& now_time_long < end_time_long) {
-
-					beginTime = start_time_long + 24 * 60 * 60 * 1000;
-//					System.out
-//							.println("onstart : 杩涘叆鍏嶆墦鎵版ā寮?    setDoNotDisturb(1)");
-//					lccUtil.setDoNotDisturb(1);
-					long duration = end_time_long - now_time_long;
-					lccUtil.handler_dnd.sendMessageDelayed(lccUtil.handler_dnd
-							.obtainMessage(lccUtil.dnd_msg), duration);
-				}
-				Intent intent = new Intent();
-				intent.setAction("android.alarm.demo.action");
-				long duration = end_time_long - start_time_long;
-				intent.putExtra("duration", duration);
-				pendingIntent = PendingIntent.getBroadcast(LCCActivity.this, 0,
-						intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-				// am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-				// pendingIntent);
-				// 璁剧疆鍛ㄦ湡锛侊紒
-				am.setRepeating(AlarmManager.RTC_WAKEUP, beginTime,
-						(24 * 60 * 60 * 1000), pendingIntent);
-				System.out.println("lccActivity :  鍏嶆墦鎵拌缃垚鍔焏uration = "
-						+ duration);
-
-				saveDnd();
-
-				registerLayout.setVisibility(View.GONE);
-				logo_layout.setVisibility(View.VISIBLE);
-				register_btn
-						.setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
-			} else {
-				System.out.println("error:   start_time >= end_time");
-			}
-		} else {
-			Toast.makeText(this, "杈撳叆涓嶅畬鏁达紒", Toast.LENGTH_SHORT).show();
-		}
-
-	}
+//	public void setDndClick(View v) {
+//
+//		if (start_time.getText().toString().length() > 0
+//				&& end_time.getText().toString().length() > 0) {
+//			long start_time_long = getLongTime(start_time.getText().toString());
+//			long end_time_long = getLongTime(end_time.getText().toString());
+//			long now_time_long = System.currentTimeMillis();
+//			long beginTime = 0;
+//			if (end_time_long > start_time_long) {
+//
+//				if (now_time_long < start_time_long) {
+//					beginTime = start_time_long;
+//				} else if (now_time_long > end_time_long) {
+//					beginTime = start_time_long + 24 * 60 * 60 * 1000;
+//				} else if (now_time_long >= start_time_long
+//						&& now_time_long < end_time_long) {
+//
+//					beginTime = start_time_long + 24 * 60 * 60 * 1000;
+////					System.out
+////							.println("onstart : 杩涘叆鍏嶆墦鎵版ā寮?    setDoNotDisturb(1)");
+////					lccUtil.setDoNotDisturb(1);
+//					long duration = end_time_long - now_time_long;
+//					lccUtil.handler_dnd.sendMessageDelayed(lccUtil.handler_dnd
+//							.obtainMessage(lccUtil.dnd_msg), duration);
+//				}
+//				Intent intent = new Intent();
+//				intent.setAction("android.alarm.demo.action");
+//				long duration = end_time_long - start_time_long;
+//				intent.putExtra("duration", duration);
+//				pendingIntent = PendingIntent.getBroadcast(LCCActivity.this, 0,
+//						intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//				// am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//				// pendingIntent);
+//				// 璁剧疆鍛ㄦ湡锛侊紒
+//				am.setRepeating(AlarmManager.RTC_WAKEUP, beginTime,
+//						(24 * 60 * 60 * 1000), pendingIntent);
+//				System.out.println("lccActivity :  鍏嶆墦鎵拌缃垚鍔焏uration = "
+//						+ duration);
+//
+//				saveDnd();
+//
+//				registerLayout.setVisibility(View.GONE);
+//				logo_layout.setVisibility(View.VISIBLE);
+//				register_btn
+//						.setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
+//			} else {
+//				System.out.println("error:   start_time >= end_time");
+//			}
+//		} else {
+//			Toast.makeText(this, "杈撳叆涓嶅畬鏁达紒", Toast.LENGTH_SHORT).show();
+//		}
+//
+//	}
 
 	// 淇濆瓨璁剧疆鐨勫厤鎵撴壈鏃堕棿
-	private void saveDnd() {
-
-		String begin = start_time.getText().toString();
-		String end = end_time.getText().toString();
-
-		ContentValues values = new ContentValues();
-
-		Cursor c = getContentResolver().query(DBProvider.DND_TB_URI, null,
-				null, null, null);
-		if (c.getCount() > 0) {
-			values.put("begintime", begin);
-			values.put("endtime", end);
-			getContentResolver().update(DBProvider.DND_TB_URI, values,
-					"id = ?", new String[] { "1" });
-
-			c.close();
-		} else {
-			values.put("id", 1);
-			values.put("begintime", begin);
-			values.put("endtime", end);
-
-			getContentResolver().insert(DBProvider.DND_TB_URI, values);
-			c.close();
-		}
-
-	}
+//	private void saveDnd() {
+//
+//		String begin = start_time.getText().toString();
+//		String end = end_time.getText().toString();
+//
+//		ContentValues values = new ContentValues();
+//
+//		Cursor c = getContentResolver().query(DBProvider.DND_TB_URI, null,
+//				null, null, null);
+//		if (c.getCount() > 0) {
+//			values.put("begintime", begin);
+//			values.put("endtime", end);
+//			getContentResolver().update(DBProvider.DND_TB_URI, values,
+//					"id = ?", new String[] { "1" });
+//
+//			c.close();
+//		} else {
+//			values.put("id", 1);
+//			values.put("begintime", begin);
+//			values.put("endtime", end);
+//
+//			getContentResolver().insert(DBProvider.DND_TB_URI, values);
+//			c.close();
+//		}
+//
+//	}
 
 	private long getDuration() {
 
@@ -2971,22 +3018,22 @@ public class LCCActivity extends Activity {
 		return endTime - beginTime;
 	}
 
-	public void cancelDndClick(View v) {
-
-		am.cancel(pendingIntent);
-		if (start_time.getText().toString().length() > 0)
-			start_time.setText("");
-		if (end_time.getText().toString().length() > 0)
-			end_time.setText("");
-		lccUtil.handler_dnd.removeMessages(lccUtil.dnd_msg);
-//		lccUtil.setDoNotDisturb(0);
-		getContentResolver().delete(DBProvider.DND_TB_URI, null, null);
-		System.out.println("鍏嶆墦鎵板凡鍙栨秷");
-
-		registerLayout.setVisibility(View.GONE);
-		logo_layout.setVisibility(View.VISIBLE);
-		register_btn.setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
-	}
+//	public void cancelDndClick(View v) {
+//
+//		am.cancel(pendingIntent);
+//		if (start_time.getText().toString().length() > 0)
+//			start_time.setText("");
+//		if (end_time.getText().toString().length() > 0)
+//			end_time.setText("");
+//		lccUtil.handler_dnd.removeMessages(lccUtil.dnd_msg);
+////		lccUtil.setDoNotDisturb(0);
+//		getContentResolver().delete(DBProvider.DND_TB_URI, null, null);
+//		System.out.println("鍏嶆墦鎵板凡鍙栨秷");
+//
+//		registerLayout.setVisibility(View.GONE);
+//		logo_layout.setVisibility(View.VISIBLE);
+//		register_btn.setBackgroundResource(R.drawable.lvd1600_sip_menu_06);
+//	}
 
 	public void setClick(View v) {
 
@@ -3815,7 +3862,6 @@ public class LCCActivity extends Activity {
 							}
 						}
 					});
-
 			return convertView;
 		}
 

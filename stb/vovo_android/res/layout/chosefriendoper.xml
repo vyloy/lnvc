@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/lvitem"
-    >
-    <ImageView android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/friendicon" android:layout_weight="3" android:layout_gravity="center"  android:src="@drawable/friendicon"/>
-    <TextView  android:layout_width="fill_parent" 	android:layout_height="fill_parent" android:id="@+id/friendname" android:layout_weight="1" android:gravity="left|center_vertical" />
-	<TextView  android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/lccno" android:visibility="gone"/>
-	<TextView  android:layout_width="fill_parent"	android:layout_height="fill_parent" android:id="@+id/friendid" android:visibility="gone"/>
-</LinearLayout>
-<!-- <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/lvitem" >
+
+    <ImageView
+        android:id="@+id/friendicon"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:src="@drawable/friendicon" />
+
+    <TextView
+        android:id="@+id/friendname"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical" />
+
+    <TextView
+        android:id="@+id/lccno"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/friendid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+</LinearLayout><!--
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical">
@@ -28,4 +51,4 @@
       android:layout_height="wrap_content"
       android:text="@string/ret"/>
 </RadioGroup>
- -->
+-->
