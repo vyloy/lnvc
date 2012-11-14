@@ -149,8 +149,8 @@ public class LCMUtil {
     	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
     }
     
-    public boolean uploadVideoClipInfo(String videoClipNameHigh,String videoClipNameStandard,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
-    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipNameHigh,videoClipNameStandard,thumbnailFtpUrl,title,description,ftpSrvIp,createrName,createrNo});
+    public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipNameHyper,videoClipNameHigh,videoClipNameStandard,thumbnailName,title,description,ftpSrvIp,createrName,createrNo});
     }
     
     public boolean uploadMonitorInfo(String liveStreamUrl,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo)throws Exception{

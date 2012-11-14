@@ -171,7 +171,10 @@ public class VideoClipController extends BaseController {
 			nbitrate = Double.parseDouble(trim);
 		}
 		
-		double BITTATE = Constants.MAXBITTATE;
+		double BITTATE = Constants.MAXBITRATE_VIDEOHIGH;
+		if (definitaion.equals(Constants.VideoDefinition.Hyper)) {
+			BITTATE = Constants.MAXBITRATE_VIDEOHYPER;
+		}
 		if (nbitrate > BITTATE) {
 			String format = MessageFormat.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), BITTATE+"");
 			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), format);
@@ -185,13 +188,18 @@ public class VideoClipController extends BaseController {
 				return false; 
 			}
 		}
-		else{
+		else if(definitaion.equals(Constants.VideoDefinition.Standard)){
 			if (nwidth > 640 || nheight > 480) {
 				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect480Plow"));
 				return false;
 			}
 		}
-		
+		else if(definitaion.equals(Constants.VideoDefinition.Hyper)){
+			if (nwidth != 1920 && nheight != 1080) {
+				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect720P"));
+				return false; 
+			}
+		}
 		return true;
 	}
 	
@@ -211,8 +219,16 @@ public class VideoClipController extends BaseController {
 				return;
 			}
 			if (definitaion.equals(Constants.VideoDefinition.High)) {
+				mp4box(thefile.getAbsolutePath());
 				dialog.setSelectedHighVideoFilePath(thefile.getAbsolutePath());
-
+				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
+			}
+			else if(definitaion.equals(Constants.VideoDefinition.Standard)){
+				mp4box(thefile.getAbsolutePath());
+				dialog.setSelectedStandardVideoFilePath(thefile.getAbsolutePath());
+				dialog.getStandardFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
+			}
+			else if(definitaion.equals(Constants.VideoDefinition.Hyper)){
 				//ffmpeg
 				String ffmpeg = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\ffmpeg\\ffmpeg.exe");
 				//ffmpeg -i "flvplayer.flv" -y -f image2 -t 0.001 -s 352x240 %home%\lorent\vovo\videoclip\test.jpg
@@ -222,7 +238,7 @@ public class VideoClipController extends BaseController {
 					file.mkdirs();
 				}
 				String selectedFile = StringUtil.convertFilePath2DOSCommandStr(jFileChooser.getSelectedFile().getAbsolutePath());
-				String cacheFileName = target+currentTime+"_"+thefile.getName()+".jpg";
+				String cacheFileName = target+currentTime+"_"+thefile.getName().replaceAll(".", "_")+".jpg";
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
 				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 352x240 -f image2 "+targetPath);
@@ -235,13 +251,12 @@ public class VideoClipController extends BaseController {
 	                resultBuffer.append(new String(b, 0, r));
 	            }
 				startProcess.waitFor();
-				
 				String resultStr = resultBuffer.toString();
 				log.info(resultStr);
 				
-				mp4box(selectedFile);
+				mp4box(thefile.getAbsolutePath());
 				
-				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
+//				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 				File cacheimagefile = new File(cacheFileName);
 				if (cacheimagefile.exists()) {
 					BufferedImage bufferimage =ImageIO.read(cacheimagefile);
@@ -251,11 +266,7 @@ public class VideoClipController extends BaseController {
 					dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
 					dialog.setThumbnailImageFilePath(cacheFileName);
 				}
-			}
-			else if(definitaion.equals(Constants.VideoDefinition.Standard)){
-				mp4box(thefile.getAbsolutePath());
-				dialog.setSelectedStandardVideoFilePath(thefile.getAbsolutePath());
-				dialog.getStandardFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
+				dialog.getHyperFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			}
 		}
 	}
@@ -338,12 +349,10 @@ public class VideoClipController extends BaseController {
 		dialog.getUploadButton().setEnabled(false);
 		
 		//上传文件至ftp
+		//缩略图
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
 		final long thumbailfilesize = thumbailfile.length();
-		
 		final String uiString1 = "步骤2: "+ thumbailfile.getName() + "  {0} %";
-		final File file = new File(dialog.getSelectedHighVideoFilePath());
-		final String newFileName =dialog.getCurrentTime()+"_"+ file.getName();
 		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -357,9 +366,11 @@ public class VideoClipController extends BaseController {
 		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString1, n));
 			}
 		};
-		
-		final long filesize = file.length();
-		final String uiString2 = "步骤1: "+file.getName() +"  {0} %";
+		//高清文件
+		final File fileHigh = new File(dialog.getSelectedHighVideoFilePath());
+		final String newFileNameHigh =dialog.getCurrentTime()+"_"+ fileHigh.getName();
+		final long filesize = fileHigh.length();
+		final String uiString2 = "步骤1: "+fileHigh.getName() +"  {0} %";
 		final FTPDataTransferListener ftpDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -373,11 +384,11 @@ public class VideoClipController extends BaseController {
 			}
 			
 		};
-		
-		final File file1 = new File(dialog.getSelectedStandardVideoFilePath());
-		final String newFileName1 =dialog.getCurrentTime()+"_"+ file1.getName();
-		final long filesize1 = file1.length();
-		final String uiString3 = "步骤3: "+file1.getName() +"  {0} %";
+		//标清文件
+		final File fileStandard = new File(dialog.getSelectedStandardVideoFilePath());
+		final String newFileNameStandard =dialog.getCurrentTime()+"_"+ fileStandard.getName();
+		final long filesize1 = fileStandard.length();
+		final String uiString3 = "步骤3: "+fileStandard.getName() +"  {0} %";
 		final FTPDataTransferListener ftpDataTransferListener1 = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -391,29 +402,53 @@ public class VideoClipController extends BaseController {
 			}
 			
 		};
-		//检测ftp上是否已存在文件名
-		Boolean fileisexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", file.getName());
-		if (fileisexist) {
-			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+file.getName());
-			return;
-		}
-		Boolean file1isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", file1.getName());
-		if (file1isexist) {
-			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+file1.getName());
-			return;
-		}
+		//超清文件
+		final File fileHyper = new File(dialog.getHyperFilePathTextField().getText());
+		final String newFileNameHyper =  dialog.getCurrentTime()+"_"+fileHyper.getName();
+		final long filesizeHyper = fileHyper.length();
+		final String uiStrHyper = "步骤0: "+fileHyper.getName() +"  {0} %";
+		final FTPDataTransferListener ftpDataTransListenerHyper = new FTPDataTransferAdater(){
+			private long curentLength = 0;
+			@Override
+			public void transferred(int transferedLength) {
+				curentLength = curentLength + transferedLength;
+				double d = 1;
+				d = 100 * curentLength / filesizeHyper;
+		        int  n = (int) d;
+		        dialog.getResultProgressBar().setValue(n);
+		        dialog.getResultProgressBar().setString(MessageFormat.format(uiStrHyper, n));
+			}
+		};
 		
+		
+		//检测ftp上是否已存在文件名
+		Boolean fileisexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHigh.getName());
+		if (fileisexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHigh.getName());
+			return;
+		}
+		Boolean file1isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileStandard.getName());
+		if (file1isexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileStandard.getName());
+			return;
+		}
+		Boolean file2isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHyper.getName());
+		if (file2isexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHyper.getName());
+			return;
+		}
 		new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", file,ftpDataTransferListener,"/VideoClips",newFileName);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", file1,ftpDataTransferListener1,"/VideoClips",newFileName1);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileStandard,ftpDataTransferListener1,"/VideoClips",newFileNameStandard);
             	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
             	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
             	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
             	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
-            	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileName,newFileName1, "ftp://"+ftpAddr+":"+ftpPort+"/VideoClips/"+thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername());
+            	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileNameHyper,newFileNameHigh,newFileNameStandard, thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername());
             	if (uploadVideoClipInfo) {
 //					System.out.println(uploadVideoClipInfo);
 					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
@@ -489,10 +524,10 @@ public class VideoClipController extends BaseController {
             	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
             	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
             	String liveStreamUrl = dialog.getLiveStreamURLTextField().getText();
-            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/Monitor/"+dialog.getCacheFileName();
+//            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/Monitor/"+dialog.getCacheFileName();
             	String title = dialog.getTitleTextField().getText();
             	String description = dialog.getDescriptionTextArea().getText();
-            	boolean uploadMonitorInfo = Vovo.getLcmUtil().uploadMonitorInfo(liveStreamUrl, thumbnailFtpUrl, title, description, ftpAddr, vovoinfo.getRealName(),vovoinfo.getUsername());
+            	boolean uploadMonitorInfo = Vovo.getLcmUtil().uploadMonitorInfo(liveStreamUrl, dialog.getCacheFileName(), title, description, ftpAddr, vovoinfo.getRealName(),vovoinfo.getUsername());
             	if (uploadMonitorInfo) {
 					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
 					dialog.dispose();
@@ -528,6 +563,10 @@ public class VideoClipController extends BaseController {
 				String filenameThumbnail = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getThumbnailUrl());
 				if (filenameThumbnail != null && !filenameThumbnail.equals("")) {
 					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
+				}
+				String filenameHyper = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHyper());
+				if (filenameHyper != null && !filenameHyper.equals("")) {
+					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
 				}
 				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
 				reflashVideoClipPanel();

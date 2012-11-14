@@ -16,18 +16,23 @@ public class VideoCommunityHandler extends BaseHandler {
 
 	
 	//上传视频信息
-	public boolean uploadVideoClipInfo(String videoClipNameHigh,String videoClipNameStandard,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
+	public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
 		//VideoCommunity
+		String rtspVideoClipUrlHyper = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHyper;
 		String rtspVideoClipUrlHigh = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHigh;
 		String rtspVideoClipUrlStandard = "rtsp://"+ftpSrvIp+":554/"+videoClipNameStandard;
+		String httpVideoClipUrlHyper = "http://"+ftpSrvIp+":8800/"+videoClipNameHyper;
 		String httpVideoClipUrlHigh = "http://"+ftpSrvIp+":8800/"+videoClipNameHigh;
 		String httpVideoClipUrlStandard = "http://"+ftpSrvIp+":8800/"+videoClipNameStandard;
+		String thumbnailUrl = "http://"+ftpSrvIp+":8800/"+thumbnailName;
 		VideoClipBean bean = new VideoClipBean();
+		bean.setRtspVideoUrlHyper(rtspVideoClipUrlHyper);
 		bean.setRtspVideoUrlHigh(rtspVideoClipUrlHigh);
 		bean.setRtspVideoUrlStandard(rtspVideoClipUrlStandard);
+		bean.setHttpVideoUrlHyper(httpVideoClipUrlHyper);
 		bean.setHttpVideoUrlHigh(httpVideoClipUrlHigh);
 		bean.setHttpVideoUrlStandard(httpVideoClipUrlStandard);
-		bean.setThumbnailUrl(thumbnailFtpUrl);
+		bean.setThumbnailUrl(thumbnailUrl);
 		bean.setTitle(title);
 		bean.setDescription(description);
 		bean.setCreaterName(createrName);
@@ -38,13 +43,16 @@ public class VideoCommunityHandler extends BaseHandler {
 	}
 	
 	//上传监控信息
-	public boolean uploadMonitorInfo(String liveStreamUrl,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo)throws Exception{
+	public boolean uploadMonitorInfo(String liveStreamUrl,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo)throws Exception{
+		String thumbnailUrl = "http://"+ftpSrvIp+":8800/"+thumbnailName;
 		VideoClipBean bean = new VideoClipBean();
 		bean.setRtspVideoUrlHigh(liveStreamUrl);
 		bean.setRtspVideoUrlStandard(liveStreamUrl);
 		bean.setHttpVideoUrlHigh(liveStreamUrl);
 		bean.setHttpVideoUrlStandard(liveStreamUrl);
-		bean.setThumbnailUrl(thumbnailFtpUrl);
+		bean.setHttpVideoUrlHyper(liveStreamUrl);
+		bean.setRtspVideoUrlHyper(liveStreamUrl);
+		bean.setThumbnailUrl(thumbnailUrl);
 		bean.setTitle(title);
 		bean.setDescription(description);
 		bean.setCreaterName(createrName);
@@ -81,6 +89,8 @@ public class VideoCommunityHandler extends BaseHandler {
 			 lcmVideoClip.setDescription(videoClipBean.getDescription());
 			 lcmVideoClip.setCategory(videoClipBean.getCategory());
 			 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
+			 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
+			 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
 			 arrayList.add(lcmVideoClip);
 		 }
 		 return arrayList;
@@ -109,6 +119,8 @@ public class VideoCommunityHandler extends BaseHandler {
 			 lcmVideoClip.setCategory(videoClipBean.getCategory());
 			 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
 			 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
+			 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
+			 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
 			 arrayList.add(lcmVideoClip);
 		 }
 		 return arrayList;

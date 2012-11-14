@@ -135,7 +135,8 @@ public interface Constants {
 
     public enum VideoDefinition{
     	High,
-    	Standard
+    	Standard,
+    	Hyper
     }
     
     public final String SUPPER_USER = "admin";
@@ -190,5 +191,6 @@ public interface Constants {
     
     final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
     
-    final static double MAXBITTATE = 2000;//Kbps
+    final static double MAXBITRATE_VIDEOHIGH = 2000;//Kbps
+    final static double MAXBITRATE_VIDEOHYPER = 5000;//kbps
 }
