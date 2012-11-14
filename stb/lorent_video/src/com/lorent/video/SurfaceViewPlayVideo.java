@@ -170,7 +170,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 		};
 		mTimer = new Timer();
 		mTimer.schedule(mTimerTask, 0, 1000);
-		controlLayout.setVisibility(View.VISIBLE);
+		controlLayout.setVisibility(View.INVISIBLE);
 //		controlLayout.setOnTouchListener(new ControlOnTouchListener());
 		seekBar.setOnSeekBarChangeListener(new PlayOnSeekBarChangeListener());
 		seekBar.setEnabled(true);
@@ -186,6 +186,9 @@ public class SurfaceViewPlayVideo extends Activity implements
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
 			Log.i("keyvalue", "拖动进度条中"+progress);
+			if(isDragSeekBar){
+				currentTimeTextView.setText(TimeUtil.convertMillisecond((int)progress));
+			}
 //			long newposition = (videoTimeLen * progress) / 1000;
 //			mPlayer.seekTo((int)newposition);
 //			currentTimeTextView.setText(TimeUtil.convertMillisecond((int)newposition));
@@ -209,6 +212,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 //			play(seekBar.getProgress());
 			mPlayer.seekTo(seekBar.getProgress());
 			mPlayer.start();
+			isDragSeekBar = false;
 			controlShow(defaultTimeout);
 //			mAM.setStreamMute(AudioManager.STREAM_MUSIC, false);
 			
@@ -499,6 +503,9 @@ public class SurfaceViewPlayVideo extends Activity implements
 		this.controlLayout.setVisibility(View.VISIBLE);
 		releaseRes();
 		finish();
+		keyEventHandler.removeMessages(SHOW_PLAY);
+		keyEventHandler.removeMessages(SHOW_PAUSE);
+		keyEventHandler.removeMessages(SHOW_PROGRESS);
 	}
 
 	// Activty销毁释放资源
@@ -549,17 +556,26 @@ public class SurfaceViewPlayVideo extends Activity implements
         	int c = (Integer)msg.obj;
         	switch (msg.what){
         	case SHOW_PROGRESS:
-        		seekBar.setProgress(c);
+        		if(seekBar!=null){
+        			seekBar.setProgress(c);
+            		currentTimeTextView.setText(TimeUtil.convertMillisecond((int)c));
+        		}
         		break;
         	case SHOW_PLAY:
 //        		keyEnable = false;
-        		mPlayer.seekTo(c);
-        		mPlayer.start();
+        		if(mPlayer!=null){
+        			mPlayer.seekTo(c);
+        			mPlayer.start();
+        			isDragSeekBar = false;
+        			keyDragSeekBar = false;
+        		}
 //        		play(c);
         		break;
         	case SHOW_PAUSE:
-        		currentP = mPlayer.getCurrentPosition();
-        		mPlayer.pause();
+        		if(mPlayer!=null){
+        			currentP = mPlayer.getCurrentPosition();
+            		mPlayer.pause();
+        		}
         		break;
         	}
             
