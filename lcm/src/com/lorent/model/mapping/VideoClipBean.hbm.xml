@@ -10,6 +10,8 @@
 		<property name="videoClipUrlHigh" column="videoclipurlhigh" />
 		<property name="videoClipUrlStandard" column="videoclipurlstandard" />
 		-->
+		<property name="httpVideoUrlHyper" column="httpvideourlhyper" />
+		<property name="rtspVideoUrlHyper" column="rtspvideourlhyper" />
 		<property name="httpVideoUrlHigh" column="httpvideourlhigh" />
 		<property name="httpVideoUrlStandard" column="httpvideourlstandard" />
 		<property name="rtspVideoUrlHigh" column="rtspvideourlhigh" />

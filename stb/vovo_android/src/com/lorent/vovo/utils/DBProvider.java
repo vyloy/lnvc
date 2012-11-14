@@ -120,9 +120,13 @@ public class DBProvider extends ContentProvider{
 			createSql = 
 				"CREATE TABLE " + TABLE_SIP_ACCOUNT + " (" +
 				"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-	            "username VARCHAR(20)," +
+	            "username VARCHAR(50)," +
 	            "userpwd VARCHAR(50)," +
-	            "serviceip VARCHAR(50)" +
+	            "serverip VARCHAR(50)," +
+	            "serverport VARCHAR(50)," +
+	            "videowidth VARCHAR(50)," +
+	            "videoheight VARCHAR(50)," +
+	            "videobitrate VARCHAR(50)" +
 	            ");";
 			Log.i("create sip_account",createSql);
 			db.execSQL(createSql);
@@ -167,6 +171,7 @@ public class DBProvider extends ContentProvider{
 		default:
 			break;
 		}
+		db.close();
 		return count;
 	}
 
@@ -199,6 +204,7 @@ public class DBProvider extends ContentProvider{
 		default:
 			break;
 		}
+		db.close();
 		return null;
 	}
 
@@ -214,7 +220,7 @@ public class DBProvider extends ContentProvider{
 			String[] selectionArgs, String sortOrder) {
 		// TODO Auto-generated method stub
 		Cursor c = null;
-		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 		switch (urimatcher.match(uri)) {
 		
 		case TB_FRIEND: 
@@ -245,8 +251,8 @@ public class DBProvider extends ContentProvider{
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Auto-generated method stub
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+//		db.beginTransaction();
 		int count = 0;
 		switch (urimatcher.match(uri)) {
 		case TB_FRIEND:
@@ -268,6 +274,9 @@ public class DBProvider extends ContentProvider{
 		default:
 			break;
 		}
+//		db.setTransactionSuccessful();
+//		db.endTransaction();
+		db.close();
 		return count;
 	}
 }

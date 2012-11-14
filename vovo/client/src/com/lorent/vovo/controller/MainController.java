@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+
 import com.jniwrapper.win32.registry.RegistryKey;
 import com.jniwrapper.win32.registry.RegistryKeyType;
 import com.jniwrapper.win32.registry.RegistryKeyValues;
@@ -197,6 +199,7 @@ public class MainController extends BaseController {
 		}catch(Exception e){
 			;//do noting
 		}
+		NativeInterface.runEventPump();
 		System.exit(0);
 	}
 	

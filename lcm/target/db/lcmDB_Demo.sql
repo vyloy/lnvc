@@ -2474,6 +2474,8 @@ CREATE TABLE videoclip
   ismonitor boolean DEFAULT false,
   rtspvideourlhigh character varying(2048),
   rtspvideourlstandard character varying(2048),
+  httpvideourlhyper character varying(2048),
+  rtspvideourlhyper character varying(2048),
   CONSTRAINT pk_videoclip_id PRIMARY KEY (id)
 );
 
