@@ -33,7 +33,7 @@ public class VideoScreen extends Activity{
 	.parse("content://com.lorent.lcc/history_tb");
 	public static final Uri FRIEND_TB_URI = Uri
 	.parse("content://com.lorent.lcc/friend_tb");
-	private String callin = "";
+	private String callingNum = "";
 	private boolean isRefuse = false; //是否拒接
 	private static final int UNRECIEVE = 0;//未接
 	private static final int RECIEVE = 1;  //已接
@@ -44,6 +44,7 @@ public class VideoScreen extends Activity{
 	private static final String TAG = "VideoScreen";
 	private boolean isCall = false;
 	private String min = "",ss = "";
+	private View hangupBtn;
 //	private ManageCenter mc = null;
 	
 	@Override
@@ -51,7 +52,7 @@ public class VideoScreen extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vedio_screen);
-		
+		hangupBtn = this.findViewById(R.id.notice_handoff);
 		Log.d(TAG, "onCreate()");
 		new Thread(new Runnable(){
 
@@ -72,9 +73,11 @@ public class VideoScreen extends Activity{
 			public void run() {
 				// TODO Auto-generated method stub
 				isRefuse = false;
-				insertHistory(DBProvider.CALL_IN, callin, UNRECIEVE);
+				insertHistory(DBProvider.CALL_IN, callingNum, UNRECIEVE);
 				PlayAudio.play(VideoScreen.this);
 			}}).start();
+
+		hangupBtn.requestFocus();
 		
 	}
 	@Override
@@ -94,8 +97,10 @@ public class VideoScreen extends Activity{
 
 			@Override
 			public void run() {
-				LCCUtil.lccUtil.hangup();
-				isCall = false;
+				if(isCall){
+					LCCUtil.lccUtil.hangup();
+					isCall = false;
+				}
 				PlayAudio.stop();
 				
 			}}).start();
@@ -109,22 +114,22 @@ public class VideoScreen extends Activity{
 	}
 	private void init(){
 		
-		open_lock = (Button)findViewById(R.id.open_lock);
-		open_lock.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				int action = event.getAction();
-				if(action == MotionEvent.ACTION_DOWN){
-					open_lock.setBackgroundResource(R.drawable.lvd1600_sip_lock_valid);
-				}else if(action == MotionEvent.ACTION_UP){
-					
-					open_lock.setBackgroundResource(R.drawable.lvd1600_sip_lock);
-				}
-				return false;
-			}
-		});
+//		open_lock = (Button)findViewById(R.id.open_lock);
+//		open_lock.setOnTouchListener(new View.OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				int action = event.getAction();
+//				if(action == MotionEvent.ACTION_DOWN){
+//					open_lock.setBackgroundResource(R.drawable.lvd1600_sip_lock_valid);
+//				}else if(action == MotionEvent.ACTION_UP){
+//					
+//					open_lock.setBackgroundResource(R.drawable.lvd1600_sip_lock);
+//				}
+//				return false;
+//			}
+//		});
 		mSurfaceView = (SurfaceView)findViewById(R.id.myVideo);
 		LCCUtil.lccUtil.setSurfaceView(mSurfaceView);
 //		
@@ -176,8 +181,12 @@ public class VideoScreen extends Activity{
 				return false;
 			}
 		});
-		callin = LCCUtil.callin_no;
-		recieve_time.setText(callin);
+		if(LCCUtil.calltype.equals("in")){			
+			callingNum = LCCUtil.callin_no;
+		}else{
+			callingNum = LCCUtil.callout_no;
+		}
+		recieve_time.setText(callingNum);
 	}
 	public void recieveClick(View v) {
 		
@@ -187,7 +196,9 @@ public class VideoScreen extends Activity{
 	public void hangupClick(View v) {
 
 		    isRefuse = true;
+		    isCall = false;
 			LCCUtil.lccUtil.hangup();
+			this.finish();
 	}
 	
 	// 通话计时
@@ -295,7 +306,7 @@ public class VideoScreen extends Activity{
 		int id = 0;
 		Cursor c = getContentResolver().query(HISTORY_TB_URI,
 				new String[] { "id" }, "lccno = ?",
-				new String[] {callin}, "id desc");
+				new String[] {callingNum}, "id desc");
 		if (c.moveToFirst()) {
 			id = c.getInt(c.getColumnIndex("id"));
 		}
@@ -310,7 +321,7 @@ public class VideoScreen extends Activity{
 		int id = 0;
 		Cursor c = getContentResolver().query(HISTORY_TB_URI,
 				new String[] { "id" }, "lccno = ?",
-				new String[] {callin}, "id desc");
+				new String[] {callingNum}, "id desc");
 		if (c.moveToFirst()) {
 			id = c.getInt(c.getColumnIndex("id"));
 		}
@@ -414,7 +425,7 @@ public class VideoScreen extends Activity{
     	int id = 0;
 		Cursor c = getContentResolver().query(HISTORY_TB_URI,
 				new String[] { "id" }, "lccno = ?",
-				new String[] {callin}, "id desc");
+				new String[] {callingNum}, "id desc");
 		if (c.moveToFirst()) {
 			id = c.getInt(c.getColumnIndex("id"));
 		}

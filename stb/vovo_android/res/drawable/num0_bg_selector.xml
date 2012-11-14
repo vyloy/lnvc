@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<!-- 获得焦点时 -->
-<item
-android:state_focused="true"
-android:drawable="@drawable/lvd1600_sip_13_"
-/>
-<item
-android:state_pressed="true"
-android:drawable="@drawable/lvd1600_sip_13_"
-/>
-<!-- 默认时 -->
-<item android:drawable="@drawable/lvd1600_sip_13"/>
+
+    <!-- 获得焦点时 -->
+    <item android:drawable="@drawable/lvd1600_sip_13_" android:state_focused="true"/>
+    <item android:drawable="@drawable/lvd1600_sip_13_" android:state_pressed="true"/>
+    <!-- 默认时 -->
+    <item android:drawable="@drawable/lvd1600_sip_13"/>
+
 </selector>

@@ -1,20 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-  
-  <LinearLayout android:orientation="horizontal" android:layout_marginTop="20dip" android:layout_width="fill_parent" android:layout_height="40dip">
-    
-    <TextView style="@style/MyDialogContent" android:text="名字" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="2"/>
-    <EditText style="@style/MyDialogContent" android:id="@+id/add_black_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
-    <Button android:textColor="#594c99" android:id="@+id/add_black_browse" android:text="浏览" android:layout_width="fill_parent" android:layout_gravity="center_vertical" android:layout_height="wrap_content" android:layout_weight="2"/>
-     
-  </LinearLayout>
-  <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="40dip">
-    <TextView style="@style/MyDialogContent" android:text="号码" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="4"/>
-    <EditText style="@style/MyDialogContent" android:maxLength="11" android:singleLine="true" android:inputType="phone" android:digits="0123456789" android:id="@+id/add_black_num" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"/>
-  
-  </LinearLayout>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="名字" />
+
+        <EditText
+            android:id="@+id/add_black_name"
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/add_black_browse"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="浏览"
+            android:textColor="#594c99" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="号码" />
+
+        <EditText
+            android:id="@+id/add_black_num"
+            style="@style/MyDialogContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:digits="0123456789"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:singleLine="true" />
+    </LinearLayout>
+
 </LinearLayout>
