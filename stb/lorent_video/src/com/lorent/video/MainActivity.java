@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	
+	private DeviceType device = DeviceType.PHONE;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -169,11 +169,12 @@ public class MainActivity extends Activity {
             	Log.i("player_which", which + "");
             	ResolveInfo info = videoPlayerList.get(which);
                 String className = info.activityInfo.name;
+                //com.skyworth.videoplayer.SkyVideoPlayer
                 Log.i("player_classname", className);
                 Intent it = new Intent(className);  
                 it.setAction(Intent.ACTION_VIEW);
                 it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                String tmpPath ="rtsp://10.168.250.12:554/20121026090508_317_720P_h264_test.mp4";
+                String tmpPath ="http://10.168.250.12:8800/20121109144057_287_480P_1000K.mp4";
 	            Uri uri = Uri.parse(tmpPath);  
 	            it.setType("video/*");
 	            it.setDataAndType(uri , "video/*");  
@@ -192,26 +193,38 @@ public class MainActivity extends Activity {
 				long arg3) {
 			
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
-			
-			//手机播放
-			/*Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
-			intent.putExtra("fileName", item.getTitle());
-			intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
-			startActivity(intent);*/
-			
-			//机顶盒播放视频
-			/*Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
-//			intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
-			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
-			intent.putExtra("fileName", item.getTitle());
-			startActivity(intent);*/
-			
-			//云电视
-			Intent intent = new Intent(MainActivity.this,WebVideoActivity.class);
-//			intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
-			intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
-			intent.putExtra("fileName", item.getTitle());
-			startActivity(intent);
+			if(device==DeviceType.PHONE){
+				//手机播放视频
+				Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
+				intent.putExtra("fileName", item.getTitle());
+				intent.putExtra("videoUrl", item.getRtspVideoUrlStandard());
+				startActivity(intent);
+			}else if(device==DeviceType.STB){
+				//机顶盒播放视频
+				Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
+				intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+//				intent.putExtra("videoUrl", "http://10.168.250.12:8800/");
+				intent.putExtra("fileName", item.getTitle());
+				startActivity(intent);
+			}else if(device==DeviceType.CLOUDTV){
+				//云电视播放视频
+//				Intent intent = new Intent(MainActivity.this,WebVideoActivity.class);
+//				intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+////				intent.putExtra("videoUrl", "http://10.168.250.12:8800/lian720p.mp4");
+//				intent.putExtra("fileName", item.getTitle());
+//				startActivity(intent);
+				
+//				selectPlayer();
+				
+//				Intent it = new Intent(Intent.ACTION_VIEW);
+//				it.setDataAndType(Uri.parse(item.getHttpVideoUrlHigh()), "video/mp4");
+//				startActivity(it);
+				
+				Intent intent = new Intent(MainActivity.this,HTML5Activity.class);
+				intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+				intent.putExtra("fileName", item.getTitle());
+				startActivity(intent);
+			}
 		}
     	
     }
@@ -264,5 +277,9 @@ public class MainActivity extends Activity {
     	return super.dispatchKeyEvent(event);
     }
     
-    
+    private enum DeviceType{
+    	PHONE,
+    	STB,
+    	CLOUDTV
+    } 
 }

@@ -577,6 +577,22 @@ public class ShareFileController extends BaseController {
 		}
 	}
 	
+	public boolean checkFileExistInFtpServer(String targetDirectory,String filename) throws Exception{
+		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		if (!ftpClient.isConnected()) {
+			ftpClient.connect(ftpAddr, ftpPort);
+			ftpClient.login(ftpUser, ftpPsw);
+		}
+		ftpClient.changeDirectory(targetDirectory);
+		String[] listNames = ftpClient.listNames();
+		for (String name : listNames) {
+			if (name.equals(filename)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void upLoadFile(ShareFileListPanel panel) throws Exception{
 		
 		log.info("upLoadFile "+panel);

@@ -11,7 +11,7 @@ import android.content.pm.ResolveInfo;
 public class ShareAppUtil {
 
 	/** 
-	 * 查询手机内所有支持视频播放的应用 
+	 * 鏌ヨ鎵嬫満鍐呮墍鏈夋敮鎸佽棰戞挱鏀剧殑搴旂敤 
 	 * @param context 
 	 * @return 
 	 */  
@@ -21,8 +21,7 @@ public class ShareAppUtil {
 	    intent.addCategory(Intent.CATEGORY_DEFAULT);    
 	    intent.setType("video/*");    
 	    PackageManager pManager = context.getPackageManager();  
-	    mApps = pManager.queryIntentActivities(intent,PackageManager.GET_ACTIVITIES);    
-	      
+	    mApps = pManager.queryIntentActivities(intent,PackageManager.GET_ACTIVITIES);
 	    return mApps;    
 	}
 	

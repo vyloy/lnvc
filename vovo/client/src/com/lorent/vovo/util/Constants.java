@@ -117,7 +117,8 @@ public interface Constants {
     	GroupChatSetFrame,
     	PhoneFrame,
     	UPLOADVIDEOCLIPDIALOG,
-    	VIDEOCLIPPANEL
+    	VIDEOCLIPPANEL,
+    	PLAYMONITORFRAME
     }
     
     public enum ConfigKey{
@@ -134,7 +135,8 @@ public interface Constants {
 
     public enum VideoDefinition{
     	High,
-    	Standard
+    	Standard,
+    	Hyper
     }
     
     public final String SUPPER_USER = "admin";
@@ -188,4 +190,7 @@ public interface Constants {
     int SEND_FILE_TIMEOUT = 10 * (60 * 1000);
     
     final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
+    
+    final static double MAXBITRATE_VIDEOHIGH = 2000;//Kbps
+    final static double MAXBITRATE_VIDEOHYPER = 5000;//kbps
 }

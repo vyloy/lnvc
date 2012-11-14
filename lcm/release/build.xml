@@ -8,7 +8,7 @@
 	<property name="release.dir" value="${basedir}/release"/>
 	<property name="target.file.dir" value="${basedir}/release/${project.name}.tar.gz"/>
 	<property name="lcm.dist" value="${basedir}/target/apache-tomcat-6.0.29/webapps/lcm"/>
-	<property name="mytomcatlcm" value="H:\apache-tomcat-6.0.29\webapps\lcm"/>
+	<property name="mytomcatlcm" value="E:\apache-tomcat-6.0.29\webapps\lcm"/>
     
     
 	<target name="clean" description="clean old files">

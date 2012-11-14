@@ -8,6 +8,8 @@ public class VideoClipBean extends BaseModel {
 	private static final long serialVersionUID = 1L;
 //	private String videoClipUrlHigh;//高清视频存放url地址
 //	private String videoClipUrlStandard;//标清视频存放url地址
+	private String httpVideoUrlHyper;
+	private String rtspVideoUrlHyper;
 	private String httpVideoUrlHigh;
 	private String httpVideoUrlStandard;
 	private String rtspVideoUrlHigh;
@@ -84,6 +86,18 @@ public class VideoClipBean extends BaseModel {
 	}
 	public void setRtspVideoUrlStandard(String rtspVideoUrlStandard) {
 		this.rtspVideoUrlStandard = rtspVideoUrlStandard;
+	}
+	public String getHttpVideoUrlHyper() {
+		return httpVideoUrlHyper;
+	}
+	public void setHttpVideoUrlHyper(String httpVideoUrlHyper) {
+		this.httpVideoUrlHyper = httpVideoUrlHyper;
+	}
+	public String getRtspVideoUrlHyper() {
+		return rtspVideoUrlHyper;
+	}
+	public void setRtspVideoUrlHyper(String rtspVideoUrlHyper) {
+		this.rtspVideoUrlHyper = rtspVideoUrlHyper;
 	}
 	
 }

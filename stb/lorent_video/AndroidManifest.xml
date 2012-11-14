@@ -32,6 +32,11 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
+            android:name="com.lorent.video.HTML5Activity"
+            android:label="@string/title_activity_showvideo"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.lorent.video.SurfaceViewPlayVideo"
             android:label="@string/title_activity_showvideo"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
