@@ -150,7 +150,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 				});
 
 		jLabel5.setText(VovoStringUtil
-				.getUIString("UploadVideoClipDialog.uploadfilehigh"));
+				.getUIString("UploadVideoClipDialog.uploadfilehyper"));
 
 		hyperFilePathTextField.setEnabled(false);
 
@@ -447,7 +447,8 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	private void selectFileHyperButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "selectedVideoClipFile", this,Constants.VideoDefinition.Hyper);
+		Vovo.exeC("videoclip", "selectedVideoClipFile", this,
+				Constants.VideoDefinition.Hyper);
 	}
 
 	private void selectFileStandardButtonActionPerformed(
