@@ -220,7 +220,7 @@
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="VovoStringUtil&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;.getUIString(&quot;UploadVideoClipDialog.uploadfilehigh&quot;)" type="code"/>
+                  <Connection code="VovoStringUtil&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;.getUIString(&quot;UploadVideoClipDialog.uploadfilehyper&quot;)" type="code"/>
                 </Property>
               </Properties>
             </Component>

@@ -196,7 +196,7 @@ public class VideoClipController extends BaseController {
 		}
 		else if(definitaion.equals(Constants.VideoDefinition.Hyper)){
 			if (nwidth != 1920 && nheight != 1080) {
-				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect720P"));
+				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect1080P"));
 				return false; 
 			}
 		}
@@ -238,7 +238,8 @@ public class VideoClipController extends BaseController {
 					file.mkdirs();
 				}
 				String selectedFile = StringUtil.convertFilePath2DOSCommandStr(jFileChooser.getSelectedFile().getAbsolutePath());
-				String cacheFileName = target+currentTime+"_"+thefile.getName().replaceAll(".", "_")+".jpg";
+				String newTheFileName = thefile.getName().replace(".", "_");
+				String cacheFileName = target+currentTime+"_"+newTheFileName+".jpg";
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
 				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 352x240 -f image2 "+targetPath);
@@ -347,6 +348,7 @@ public class VideoClipController extends BaseController {
 		dialog.getSelectFileHighButton().setEnabled(false);
 		dialog.getSelectFileStandardButton().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
+		dialog.getSelectFileHyperButton().setEnabled(false);
 		
 		//上传文件至ftp
 		//缩略图
