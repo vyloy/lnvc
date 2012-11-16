@@ -13,9 +13,9 @@ public class FetchMemberInfoService {
         MemberDto temp = new MemberDto();
         temp.setName(name);
         temp.setOnline(true);
-        temp.setNickname(name);
         Map<String, LCMRoleDto> confUserRole = LCMUtil.getConfUserRole(DataUtil.getLoginInfo().getConfno(), new String[]{name});
         LCMRoleDto roleDto = confUserRole.get(name);
+        temp.setNickname(roleDto.getNickname());
         temp.setRole(roleDto);
         return temp;
     }

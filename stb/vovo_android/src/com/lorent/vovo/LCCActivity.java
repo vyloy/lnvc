@@ -1112,6 +1112,7 @@ public class LCCActivity extends Activity {
 				map.put("calltype", "out");
 				map.put("outcallnum", callnum);
 				insertHistory(DBProvider.CALL_OUT, callnum, 2);
+				isCallOut = true;
 				callout(callnum);
 				try {
 					Thread.sleep(1000);
@@ -1131,7 +1132,7 @@ public class LCCActivity extends Activity {
 
 	private void callout(String callnum) {
 
-		isCallOut = true;
+
 //		findViewById(R.id.mainlayout_right).setVisibility(View.GONE);
 //		// myvideo.setVisibility(View.VISIBLE);
 //		out_callLayout.setVisibility(View.VISIBLE);

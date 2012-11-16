@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<SurfaceView android:id="@+id/surfaceView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_gravity="fill_horizontal" />
+
+<!-- auto search channel -->
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:id="@+id/linearLayout_auto_notice"
+    android:visibility="invisible"
+    >
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="251dip"
+    android:gravity="center"
+    >
+<LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="wrap_content">   
+<TextView android:text="@string/auto_search" android:layout_width="350dip" android:layout_height="wrap_content" android:textSize="16dp" android:gravity="center"/>
+</LinearLayout>
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="350dip"
+    android:layout_height="160dip"
+    android:background="@drawable/search_shape"
+    android:gravity="center"
+    >
+ 
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content" >
+<TextView android:text="@string/freq" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_searchChannel_freq" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:text="@string/symbolRate" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_searchChannel_symbolRate" android:text="6875" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:text="@string/modelation" android:layout_width="60dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_searchChannel_modulation" android:text="640AM" android:layout_width="50dip" android:layout_height="wrap_content"/>
+</LinearLayout>
+
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+<TextView android:text="@string/ber" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_search_searchChannel_ber"  android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:text="@string/signal_strength" android:layout_width="60dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_search_signal_strength" android:layout_width="40dip" android:layout_height="wrap_content"/>
+<TextView android:text="@string/signal_quality" android:layout_width="60dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_search_signal_quality" android:layout_width="50dip" android:layout_height="wrap_content"/>
+</LinearLayout> 
+
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+<TextView android:text="@string/freqCount" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_searchaChannel_freqCount" android:layout_width="50dip" android:layout_height="wrap_content"/>
+<TextView android:text="@string/tv_bc" android:layout_width="100dip" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/init_searchaChannel_tv_bc" android:layout_width="50dip" android:layout_height="wrap_content"/>
+</LinearLayout> 
+
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content" android:layout_marginTop="8dip">
+<TextView android:text="@string/search_process" android:layout_width="100dip" android:layout_height="wrap_content"/>
+<ProgressBar android:layout_width="200dip" android:layout_height="wrap_content" android:id="@+id/init_seekbar" style="?android:attr/progressBarStyleHorizontal" android:minHeight="13dip" android:maxHeight="15dip" android:layout_gravity="center_vertical"/>
+ 
+ </LinearLayout>
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+<TextView android:id="@+id/init_showResult" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+</LinearLayout>
+
+</LinearLayout>
+</LinearLayout>
+<LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="wrap_content">   
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"/>
+</LinearLayout>
+</LinearLayout> 
+<!-- channel number --> 
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">   
+<TextView android:id="@+id/channelNumber" android:layout_width="100dip"  android:layout_height="wrap_content" android:textSize="22dp" android:layout_marginRight="10dip" android:layout_marginTop="20dip"/>
+</LinearLayout>
+<!--  pvr_notice  -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">   
+<!--
+<ProgressBar android:id="@+id/pvr_notice" android:layout_width="wrap_content"  android:layout_height="wrap_content" android:layout_marginRight="40dip" android:visibility="invisible"/>
+-->
+<TextView android:id="@+id/pvr_notice" android:textColor="@drawable/tv_bc_bg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10dip"/>
+</LinearLayout>
+<!-- fullscreen  ui -->
+<LinearLayout android:id="@+id/linearLayout_fullscreen" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"  android:visibility="invisible" android:gravity="center">
+
+<LinearLayout android:id="@+id/linearLayout_introduce" android:orientation="vertical" android:layout_width="300dip" android:layout_height="120dip" android:background="#FFFFFF" android:visibility="invisible">
+
+<TextView android:id="@+id/fullscreen_title"  android:layout_width="fill_parent"  android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<TextView android:id="@+id/fullscreen_nowprogramNameAndDate" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/> 
+<TextView android:text="@string/main_program_introduction" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>   
+<TextView android:id="@+id/fullscreen_introduce" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor" android:textSize="10dp"/>
+</LinearLayout> 
+
+<LinearLayout android:id="@+id/full_banner_and_advertisement" android:layout_width="fill_parent" android:layout_height="75dip" android:orientation="horizontal" android:visibility="visible" android:gravity="center" android:layout_marginTop="75dip">
+<LinearLayout android:id="@+id/fullscreen2" android:orientation="vertical" android:layout_width="400dip" android:layout_height="75dip" android:background="#FFFFFF"  >
+
+<LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content">
+<TextView android:id="@+id/full_list_type" android:layout_width="80dip" android:layout_height="wrap_content" android:text="@string/main_sd" android:gravity="center" android:textColor="@drawable/full_textcolor"/>
+<TextView android:id="@+id/fullscreen_name"   android:layout_width="230dip"  android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>
+<TextView android:layout_width="90dip" android:layout_height="wrap_content" android:id="@+id/full_time" android:textColor="@drawable/full_textcolor" android:gravity="center"/>    
+</LinearLayout>
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content">
+<ImageView android:layout_width="80dip" android:layout_height="wrap_content"/>
+<View  android:layout_height="35dip" android:layout_width="1dip" android:background="#454545" android:layout_marginTop="5dip"/>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="5dip" android:layout_marginTop="5dip"> 
+<TextView android:id="@+id/fullscreen_now" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textColor="@drawable/full_textcolor"/>
+<TextView android:id="@+id/fullscreen_next" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>
+</LinearLayout>
+
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+<!-- menu  -->
+<LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"> 
+<LinearLayout android:id="@+id/linearLayout_menu_item" android:visibility="invisible" android:background="@drawable/menu_list" android:layout_marginLeft="20dip" android:layout_marginTop="20dip"  android:orientation="vertical" android:layout_width="90dip" android:layout_height="180dip">
+<ListView  android:layout_marginTop="10dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/listview_menu"  style="@style/menu_ListView_Specfication" android:fadingEdge="none" android:cacheColorHint="#00000000" />
+</LinearLayout>
+</LinearLayout>
+<!-- channel list -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+<LinearLayout android:gravity="center_vertical" android:layout_marginLeft="20dip" android:layout_marginTop="20dip" android:id="@+id/linearLayout_channelList" android:visibility="invisible" android:orientation="vertical" android:layout_width="145dip" android:layout_height="236dip" android:background="@drawable/channel_list1">
+<TextView android:id="@+id/channel_list_type" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/main_channel_list" android:gravity="center" />
+
+<FrameLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="177dip" android:layout_marginLeft="3dip">
+<ListView android:id="@+id/channelList_listView"  android:layout_width="139dip" android:layout_height="fill_parent" android:cacheColorHint="#00000000" style="@style/period_ListView_Specfication" android:fadingEdge="none" />
+<ListView android:id="@+id/bcList_listView" android:visibility="invisible" android:layout_width="139dip" android:layout_height="fill_parent" android:cacheColorHint="#00000000" style="@style/period_ListView_Specfication" android:fadingEdge="none" />
+<ListView android:id="@+id/loveList_listView" android:visibility="invisible" android:layout_width="139dip" android:layout_height="fill_parent" android:cacheColorHint="#00000000" style="@style/period_ListView_Specfication" android:fadingEdge="none" />
+</FrameLayout>
+</LinearLayout>
+</LinearLayout>
+<!--epg -->
+<LinearLayout android:background="@drawable/channel_edit_back" android:id="@+id/linearLayout_egp" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"  android:visibility="invisible">   
+
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="271dip"   
+    >
+<!-- left -->    
+<LinearLayout android:orientation="vertical" android:layout_width="200dip" android:layout_height="fill_parent"  android:layout_marginTop="10dip" android:layout_marginLeft="7dip">   
+<TextView android:text="@string/main_epg_trailer" android:layout_width="fill_parent" android:layout_height="20dip"  android:gravity="center" />
+
+<LinearLayout android:orientation="vertical" android:layout_width="310px" android:layout_height="wrap_content" android:layout_marginTop="195px" >
+<TextView android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/main_epg_channel_tv" android:textSize="12dp"/>
+</LinearLayout>
+
+<LinearLayout android:orientation="vertical" android:layout_width="310px" android:layout_height="fill_parent" android:layout_marginTop="2dip"> 
+<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/listview_period" style="@style/period_ListView_Specfication" android:fadingEdge="none" android:cacheColorHint="#00000000"/>
+</LinearLayout>
+</LinearLayout>
+
+<!-- right -->
+<LinearLayout android:orientation="vertical" android:layout_width="310dip" android:layout_height="fill_parent" android:layout_marginTop="10dip" android:layout_marginLeft="5dip"> 
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip" >
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/time_epg" android:layout_weight="1"/>
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/time_epg_now" android:gravity="right" android:layout_weight="2"/>
+</LinearLayout>
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" >
+<TextView android:layout_width="50px" android:layout_height="20dip" android:text="@string/main_epg_number" android:textSize="12dp" android:gravity="center" />
+<TextView android:layout_width="210px" android:layout_height="20dip" android:text="@string/main_epg_event_name" android:textSize="12dp" android:gravity="center" />
+<TextView android:layout_width="100px" android:layout_height="20dip" android:text="@string/main_epg_start_time" android:textSize="12dp" android:gravity="center" />
+<TextView android:layout_width="50px" android:layout_height="20dip" android:text="@string/main_epg_reveration_state" android:textSize="12dp" android:gravity="center" />
+<TextView android:layout_width="50px" android:layout_height="20dip" android:text="@string/main_epg_pvr_state" android:textSize="12dp" android:gravity="center" />
+</LinearLayout>
+<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/listview_epg"  style="@style/period_ListView_Specfication" android:fadingEdge="none" android:cacheColorHint="#00000000"/>
+</LinearLayout>    
+</LinearLayout>
+
+<!-- bottom -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="5dip" >
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_epg_bottom" android:textSize="10dp" />
+</LinearLayout>
+</LinearLayout>
+<LinearLayout android:id="@+id/linearLayout_epg_introduce" android:orientation="vertical" android:layout_width="350px" android:layout_height="100dip" android:layout_gravity="center" android:background="#ffffff" android:visibility="invisible">
+<TextView android:paddingLeft="8dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/main_program_introduction" android:textSize="11dp"/>
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<TextView android:paddingLeft="8dip" android:paddingRight="8dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/epg_introduce" android:textSize="10dp" />
+</LinearLayout>
+<!-- channel edit -->
+<LinearLayout android:id="@+id/linearLayout_edit" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+ android:visibility="invisible" android:background="@drawable/channel_edit_back">   
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="270dip"
+    >
+<!-- left  -->
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent"  android:layout_marginLeft="24px" android:layout_marginTop="10dip" >   
+<TextView android:text="@string/main_edit_channel_edit" android:layout_width="300px" android:layout_height="20dip" android:gravity="center"/>
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent" android:layout_marginTop="195px"> 
+<LinearLayout android:orientation="horizontal" android:layout_width="300px" android:layout_height="wrap_content">
+<TextView android:layout_width="70dip" android:layout_height="wrap_content" android:text="@string/main_edit_now_pf" android:textSize="14dp"/>
+<TextView android:id= "@+id/edit_now_time" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="14dp"/>
+</LinearLayout>
+<TextView android:gravity="center" android:id= "@+id/edit_now_name" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="14dp"/>   
+
+<LinearLayout android:orientation="horizontal" android:layout_width="330px" android:layout_height="wrap_content">
+<TextView android:layout_width="70dip" android:layout_height="wrap_content" android:text="@string/main_edit_next_pf" android:textSize="14dp"/>
+<TextView android:id= "@+id/edit_next_time" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textSize="13dp"/>
+</LinearLayout>
+<TextView android:gravity="center" android:id= "@+id/edit_next_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="14dp"/>
+
+</LinearLayout>
+</LinearLayout>
+<!-- right  -->
+<LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="fill_parent" android:layout_marginTop="10dip" >
+<TextView android:id="@+id/edit_time" android:layout_width="fill_parent" android:layout_height="20dip" android:gravity="center" />  
+    <LinearLayout  
+       android:orientation="horizontal"  
+        android:layout_width="fill_parent"  
+        android:layout_height="32px"
+        > 
+      <TextView android:id="@+id/edit_video_txt" android:layout_width="wrap_content" android:layout_height="32px" android:text="@string/main_edit_tv" android:textSize="14dp" android:layout_gravity="center_vertical" android:gravity="center" android:layout_weight="1" android:typeface="monospace" android:textColor="#f0f0f0"/> 
+      <TextView android:id="@+id/edit_bc_txt" android:layout_width="wrap_content" android:layout_height="32px" android:text="@string/main_edit_bc" android:textSize="14dp" android:layout_gravity="center_vertical" android:gravity="center" android:layout_weight="1" android:typeface="serif" android:textColor="#f0f0f0"/>
+      <TextView android:id="@+id/edit_love_txt" android:layout_width="wrap_content" android:layout_height="32px" android:text="@string/main_edit_love" android:textSize="14dp" android:layout_gravity="center_vertical" android:gravity="center" android:layout_weight="1" android:typeface="sans" android:textColor="#f0f0f0"/>  
+     </LinearLayout>
+     <View android:layout_width="fill_parent" android:layout_height="1px" android:background="#085db5"/>   
+     <LinearLayout  
+       android:orientation="horizontal"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"
+        > 
+      <TextView  android:layout_width="50dip" android:layout_height="38px" android:text="@string/main_edit_channel_number" android:textSize="12dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+      <TextView  android:layout_width="150dip" android:layout_height="38px" android:text="@string/main_edit_channel_name" android:textSize="12dp" android:layout_gravity="center_vertical" android:gravity="center" />
+      <TextView  android:layout_width="50dip" android:layout_height="38px" android:text="@string/main_edit_lock_state" android:textSize="12dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+      <TextView  android:id="@+id/edit_love_title" android:layout_width="50dip" android:layout_height="38px" android:text="@string/main_edit_love_state" android:textSize="12dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+     </LinearLayout>    
+     <View android:layout_width="fill_parent" android:layout_height="1px" android:background="#085db5"/>   
+        <FrameLayout  
+           android:layout_width="298dip"  
+           android:layout_height="175dip"
+           >             
+          <ListView    
+                android:id="@+id/edit_video_listview"  
+                android:layout_width="fill_parent"  
+                android:layout_height="fill_parent"
+                android:cacheColorHint="#00000000"
+                style="@style/period_ListView_Specfication"
+                android:fadingEdge="none"
+                android:visibility="visible"
+                android:focusable="true"
+                />  
+           <ListView    
+               android:id="@+id/edit_bc_listview"  
+               android:layout_width="fill_parent"                  
+               android:layout_height="fill_parent"
+               style="@style/period_ListView_Specfication"
+               android:fadingEdge="none"
+               android:visibility="invisible"
+               android:focusable="false"
+               />  
+             <ListView    
+               android:id="@+id/edit_love_listview"  
+               android:layout_width="fill_parent"  
+               android:layout_height="fill_parent"
+               style="@style/period_ListView_Specfication"    
+               android:visibility="invisible"
+               android:focusable="false"
+               /> 
+        </FrameLayout>  
+</LinearLayout>    
+</LinearLayout>
+<!-- bottom -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginTop="10dip">
+<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" >
+<TextView android:id="@+id/edit_video_bottom" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_edit_bottom_one" android:textSize="12dp" android:layout_gravity="center_horizontal"/>
+<TextView android:id="@+id/edit_love_bottom" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_edit_bottom_two" android:textSize="12dp" android:layout_gravity="center_horizontal"/>
+</FrameLayout>
+</LinearLayout>
+</LinearLayout>
+
+<!-- reveration play -->
+<LinearLayout android:id="@+id/linearLayout_reveration" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+ android:visibility="invisible" android:background="@drawable/channel_edit_back">   
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="270dip"
+    >
+ 
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent"  android:layout_marginLeft="8dip" android:layout_marginTop="10dip">   
+<TextView android:text="@string/main_reveration_play" android:layout_width="300px" android:layout_height="20dip" android:gravity="center"/>
+
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent" android:layout_marginTop="195px"  > 
+<TextView android:text="@string/main_reveration_now_introduce" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/reveration_introduce" android:layout_width="fill_parent" android:layout_height="fill_parent" android:textSize="10dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- right  -->
+<LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="fill_parent" android:layout_marginTop="10dip" android:layout_marginLeft="10dip">
+<TextView android:id="@+id/reveration_time" android:layout_width="fill_parent" android:layout_height="20dip" android:gravity="center"/>  
+     
+     <LinearLayout  
+        android:orientation="horizontal"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"
+        android:background="#104E8B"
+        > 
+      <TextView  android:layout_width="20dip" android:layout_height="38px" android:text="@string/main_reveration_number" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+      <TextView  android:layout_width="40dip" android:layout_height="38px" android:text="@string/main_reveration_channel_number" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+      <TextView  android:layout_width="60dip" android:layout_height="38px" android:text="@string/main_reveration_channel_name" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />
+      <TextView  android:layout_width="80dip" android:layout_height="38px" android:text="@string/main_reveration_event_name" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+      <TextView  android:layout_width="70dip" android:layout_height="38px" android:text="@string/main_reveration_duration_time" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+     </LinearLayout>    
+       <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+          <ListView    
+                android:id="@+id/reveration_listview"  
+                android:layout_width="fill_parent"  
+                android:layout_height="fill_parent"
+                android:cacheColorHint="#00000000"
+                style="@style/period_ListView_Specfication"
+                android:fadingEdge="none"
+                android:visibility="visible"
+                android:focusable="true"
+                />  
+       </LinearLayout>     
+</LinearLayout>    
+</LinearLayout>
+<!-- bottom -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginTop="10dip">
+<TextView android:id="@+id/reveration_bottom" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_reveration_bottom" android:textSize="11dp" android:layout_gravity="center_horizontal"/>
+</LinearLayout>
+</LinearLayout>
+
+<!-- pvr  -->
+<LinearLayout android:id="@+id/linearLayout_pvr" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+ android:visibility="invisible" android:background="@drawable/channel_edit_back">   
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="270dip"
+    >
+ 
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent"  android:layout_marginLeft="8dip" android:layout_marginTop="10dip">   
+<TextView android:text="@string/main_pvr" android:layout_width="300px" android:layout_height="20dip" android:gravity="center"/>
+
+<LinearLayout android:orientation="vertical" android:layout_width="210dip" android:layout_height="fill_parent" android:layout_marginTop="195px"  > 
+<TextView android:text="@string/main_reveration_now_introduce" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+<TextView android:id="@+id/pvr_introduce" android:layout_width="fill_parent" android:layout_height="fill_parent" android:textSize="10dp"/>
+</LinearLayout>
+</LinearLayout>
+<!-- right  -->
+<LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="fill_parent" android:layout_marginTop="10dip" android:layout_marginLeft="10dip">
+<TextView android:id="@+id/pvr_time" android:layout_width="fill_parent" android:layout_height="20dip" android:gravity="center"/>  
+     
+     <LinearLayout  
+       android:orientation="horizontal"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"
+        android:background="#104E8B"
+        > 
+      <TextView  android:layout_width="20dip" android:layout_height="38px" android:text="@string/main_reveration_number" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+      <TextView  android:layout_width="40dip" android:layout_height="38px" android:text="@string/main_reveration_channel_number" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+      <TextView  android:layout_width="60dip" android:layout_height="38px" android:text="@string/main_reveration_channel_name" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />
+      <TextView  android:layout_width="80dip" android:layout_height="38px" android:text="@string/main_reveration_event_name" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+      <TextView  android:layout_width="70dip" android:layout_height="38px" android:text="@string/main_reveration_duration_time" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" />  
+      <TextView  android:layout_width="30dip" android:layout_height="38px" android:text="@string/main_pvr_state" android:textSize="10dp" android:layout_gravity="center_vertical" android:gravity="center" /> 
+     </LinearLayout>    
+       <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+          <ListView    
+                android:id="@+id/pvr_listview"  
+                android:layout_width="fill_parent"  
+                android:layout_height="fill_parent"
+                android:cacheColorHint="#00000000"
+                style="@style/period_ListView_Specfication"
+                android:fadingEdge="none"
+                android:visibility="visible"
+                android:focusable="true"
+                />  
+       </LinearLayout>     
+</LinearLayout>    
+</LinearLayout>
+<!-- bottom -->
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginTop="10dip">
+<TextView android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_pvr_bottom" android:textSize="11dp" android:layout_gravity="center_horizontal"/>
+</LinearLayout>
+</LinearLayout>
+
+<LinearLayout android:id="@+id/media_audio_linearLayout" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:visibility="invisible">
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="bottom">
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/panel_background" android:orientation="horizontal" android:layout_gravity="center_horizontal">
+  <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_volume_small" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_gravity="center"/> 
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_media_audio" android:textAppearance="?android:attr/textAppearanceMedium"/> 
+  <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:id="@+id/level_progressbar" android:layout_width="200dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_gravity="center"/> 
+  <TextView android:layout_width="30dip" android:layout_height="wrap_content" android:id="@+id/media_level_num" android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="center"/> 
+ </LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</FrameLayout>

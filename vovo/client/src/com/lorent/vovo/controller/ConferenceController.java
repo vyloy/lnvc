@@ -494,7 +494,7 @@ public class ConferenceController extends BaseController {
 					confCanEnter(item.getLcmConferenceDto().getConfNo());
 					LCCUtil.getInstance().removeAllListener();
 					Launcher.setEventListener(new LvmcEventListener());
-					Launcher.startLvmcFromOutSide(argss, com.lorent.lvmc.util.Constants.AppName.VOVO, false);
+					Launcher.startLvmcFromOutSide(argss, com.lorent.lvmc.util.Constants.AppName.UCS, false);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, Vovo.getViewManager().getUIString("ConferenceController.ConferencePswWrong"));

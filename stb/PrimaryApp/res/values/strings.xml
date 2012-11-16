@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TV</string>
+    <!-- main ui -->
+    <string name="main_program_introduction">Program introduction</string>
+    <string name="main_sd">标清</string>
+    <string name="main_bc">广播</string>
+    <string name="main_channel_list">电视列表</string>
+    <string name="main_bc_list">广播列表</string>
+    <string name="main_love_list">喜爱列表</string>
+    <string name="main_media_audio">媒体音量</string>
+    <string name="main_prv_ing">正在录制</string> 
+    <!-- EPG -->
+    <string name="main_epg_trailer">Trailer</string>
+    <string name="main_epg_channel_tv">频道列表</string>
+    <string name="main_epg_schudle">TV Schudle</string> 
+    <string name="main_epg_number">Number</string>
+    <string name="main_epg_event_name">Event Name</string>
+    <string name="main_epg_start_time">Duration Time</string>
+    <string name="main_epg_reveration_state">Reveration</string>
+    <string name="main_epg_pvr_state">PVR</string>
+    <string name="main_epg_bottom">返回/退出:进入全屏,确认:预约,红键:添加录制,黄建:取下一天节目预告,绿键:取上一天节目预告</string>
+    
+    <!-- edit -->
+    <string name="main_edit_channel_edit">Channel Edit</string>
+    <string name="main_edit_now_pf">Now Trailer</string>
+    <string name="main_edit_next_pf">Next Trailer</string>
+    <string name="main_edit_tv">TV</string>
+    <string name="main_edit_bc">Broadcast</string>
+    <string name="main_edit_love">Love</string>
+    <string name="main_edit_channel_number">Number</string>
+    <string name="main_edit_channel_name">Channel Name</string>
+    <string name="main_edit_lock_state">Lock</string>
+    <string name="main_edit_love_state">Love</string>
+    <string name="main_edit_bottom_one">返回/退出: 全屏播放; 红键: 添加喜爱; 黄键: 节目加锁; 绿键: 切换频道列表。</string>
+    <string name="main_edit_bottom_two">返回/退出: 全屏播放; 红键: 删除所有喜爱; 黄键: 删除单个喜爱;绿键：切换频道列表。</string>
+    
+    <!-- vod  -->
+    <string name="main_vod_play">VOD</string>
+    <string name="main_vod_name_list">Program List</string>
+    <string name="main_vod_audio"> Volume </string>
+    <string name="main_vod_time">Reveration VOD</string>
+    <string name="main_vod_introduce">Program Introduce</string>
+    <string name="main_vod_bottom">返回/退出: 进入全屏; 信息键: 显示当前影片简介, 左右键: 切换列表。</string> 
+    <!-- reveration play -->
+    <string name="main_reveration_play">Reveration Play</string>
+    <string name="main_reveration_now_introduce">Now Event Introduce</string>
+    <string name="main_reveration_number">Number</string>
+    <string name="main_reveration_channel_number">Channel Number</string>
+    <string name="main_reveration_channel_name">Channel Name</string>
+    <string name="main_reveration_event_name">Event Name</string>
+    <string name="main_reveration_duration_time">Duration Time</string>
+    <string name="main_reveration_bottom">返回/退出: 进入全屏; 红键: 删除所有; 黄键: 删除单个。</string>
+    
+    <!-- pvr play -->
+    <string name="main_pvr">Reveration PVR</string>
+    <string name="main_pvr_bottom">返回/退出: 进入全屏; 红键: 删除所有; 黄键: 删除单个,绿键：停止录制。</string>
+    <string name="main_pvr_state">State</string>
+    
+    <!-- set title -->
+    <string name="system_set">System settings</string>
+    <string name="list_search">Program search</string>
+    <string name="output_set">Output settings</string>
+    <string name="version_info">Version information</string>
+    <string name="ui_show">Interface settings</string>
+    <string name="channel_info">Channel information</string>
+    <string name="default_set">Restore factory</string>
+    
+    <!-- list set -->
+    <string name="main_freq">main frequency points</string>
+    <string name="start_search">start search</string>
+    <string name="list_search_content">Program search</string>
+    <string name="auto_search">Automatic search</string>
+    <string name="handler_search">Manual search</string>
+    <string name="freq_search"> frequency band search</string>
+    <string name="search_freq">Search frequency point</string>
+    <string name="start_freq">Start frequency</string>
+    <string name="end_freq">End frequency</string>
+    <string name="freq">frequency</string>
+    <string name="symbolRate">Symbol rate</string>
+    <string name="modelation">Demodulation method</string>
+    <string name="ber">Bit error rate</string>
+    <string name="signal_quality">signal quality</string>
+    <string name="signal_strength">signal strength</string>
+    <string name="freqCount">Frequency points</string>
+    <string name="tv_bc">tv/broadcast</string>
+    <string name="search_process">search process</string>
+     <string name="freq_unit">MHz</string>
+    <string name="default_freq">259000</string>
+    <string name="search_end">saving the data</string>
+    <string name="search_ing">search ...</string>
+    
+    <!-- output set -->
+    <string name="video_set">Video settings</string>
+    <string name="tv_type">Television system</string>
+    <string name="resolution">resolution</string>
+    <string name="osd_set">OSD settings</string>
+    <string name="aspect_ratio">Aspect ratio</string>
+    <string name="transparency">Transparency</string>
+    <string name="brightness">Brightness</string>
+    <string name="saturation">Saturation</string>
+    <string name="chroma">Chroma</string>
+    <string name="default_output_transparency">50</string>
+    <string name="default_output_brightness">50</string>
+    <string name="default_output_saturation">50</string>
+    <string name="default_output_chroma">50</string>
+    
+    <!-- version info -->
+    <string name="version_control">Version Control</string>
+    <string name="manufacturers_serial_number">Manufacturers serial number</string>
+    <string name="stb_serial_number">STB serial number</string>
+    <string name="hardware_version">Hardware version number</string>
+    <string name="software_version">Software version number</string>
+    <string name="loader_version">Loader version number</string>
+    <string name="ca_version">CA version number</string>
+    
+    <!-- ui show -->
+    <string name="ui_show_content">Interface settings</string>
+    <string name="language_set">Language settings</string>
+    <string name="timeout_set">Time-out settings</string>
+    <string-array name="ui_set_language">
+      <item>Chinese</item> 
+      <item>English</item> 
+      
+    </string-array>
+    <string-array name="ui_set_time">
+      <item>five second</item> 
+      <item>ten second</item> 
+      <item>fifhteen second</item>
+    </string-array>
+    
+    <!-- channel info -->
+    <string name="channel_info_content">Channel information</string>
+    <string name="service_number">Service number</string>
+    <string name="service_name">Service Name</string>
+    <string name="service_provider">Service providers</string>
+    <string name="service_pid">Service ID</string>
+    <string name="pcr_pid">PCR PID</string>
+    <string name="aud_pid">AUD PID</string>
+    <string name="vid_pid">VID PID</string>
+    
+  
+    
+    <!-- default set -->
+    <string name="restore_factory">Restore factory</string>
+    <string name="restore_factory_set">Restore factory settings</string>
+    <string name="restore_confirm">Confirm</string>
+    <string name="restore_cancel">cancel</string>
+    <string name="warning">warning</string>
+    <string name="warning_content">       After resetting, it will completely clear the program data, the user settings will be restored to factory condition。</string>
+    <string name="warning_one">       After resetting, it will completely clear the program data, the user settings will be restored to factory condition, confirm the restore factory settings, Cancel to close the dialog box。</string>
+    <string name="warning_two">Is to restore factory settings ...</string>
+</resources>

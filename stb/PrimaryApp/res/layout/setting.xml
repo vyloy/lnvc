@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/back"
+    >
+  <!--   header --> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20dip">
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/system_set" android:layout_marginLeft="10dip" android:textSize="16dp" android:layout_weight="1"/> 
+  <TextView android:id="@+id/setting_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="right" android:layout_marginRight="10dip" android:textSize="16dp" android:layout_weight="1"/> 
+  </LinearLayout>
+    
+  <TabHost android:id="@android:id/tabhost" android:layout_width="fill_parent" android:layout_height="fill_parent">
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+  <TabWidget android:id="@android:id/tabs" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_marginLeft="2dip" android:layout_marginRight="2dip"/>
+  <FrameLayout  
+           android:id="@android:id/tabcontent"  
+           android:layout_width="fill_parent"  
+           android:layout_height="fill_parent"
+           >          
+  <LinearLayout android:id="@+id/linearLayout_search"  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">         
+  <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+  
+ <!--  search one--> 
+<LinearLayout android:id="@+id/linearLayout_search_set" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+-
+<LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="220dip">
+  <Button android:id="@+id/auto_search" android:text="@string/auto_search" android:layout_width="140dip" android:layout_height="30dip" android:includeFontPadding="false" android:textSize="11dp" android:layout_marginLeft="50dip" /> 
+ <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip">
+  <TextView android:text="@string/main_freq" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="11dp" android:gravity="center"/> 
+  <EditText android:id="@+id/main_freq" android:nextFocusRight="@+id/main_freq" android:singleLine="true" android:text="@string/default_freq" android:layout_marginLeft="20dip" android:layout_width="80dip" android:layout_height="30dip" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/freq_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dip"/> 
+</LinearLayout> 
+  <Button android:id="@+id/handler_search" android:text="@string/handler_search" android:layout_width="140dip" android:layout_height="30dip" android:includeFontPadding="false" android:textSize="11dp" android:layout_marginLeft="50dip" /> 
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip">
+  <TextView android:text="@string/search_freq" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="11dp" android:gravity="center"/> 
+  <EditText android:id="@+id/single_freq" android:nextFocusRight="@+id/single_freq" android:singleLine="true" android:text="@string/default_freq" android:layout_marginLeft="20dip" android:layout_width="80dip" android:layout_height="30dip" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/freq_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dip"/> 
+</LinearLayout>
+  <Button android:id="@+id/freq_search" android:text="@string/freq_search" android:layout_width="140dip" android:layout_height="30dip" android:includeFontPadding="false" android:textSize="11dp" android:layout_marginLeft="50dip" /> 
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip">
+  <TextView android:text="@string/start_freq" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip"  android:textSize="11dp" android:gravity="center"/> 
+  <EditText android:id="@+id/start_freq" android:nextFocusRight="@+id/start_freq" android:singleLine="true" android:text="@string/default_freq" android:layout_marginLeft="20dip" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/freq_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dip"/> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_marginTop="5dip">
+  <TextView android:text="@string/end_freq" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip"  android:textSize="11dp" android:gravity="center"/> 
+  <EditText android:id="@+id/end_freq" android:nextFocusRight="@+id/end_freq" android:singleLine="true" android:text="@string/default_freq" android:layout_marginLeft="20dip" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/freq_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dip"/> 
+  </LinearLayout>
+ 
+ </LinearLayout>
+</LinearLayout>
+- <!--  search two 
+  --> 
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center" android:visibility="invisible" android:id="@+id/linearLayout_search_search">
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="221dip" android:gravity="center">
+- 
+<LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="wrap_content">
+  <TextView android:id="@+id/search_type" android:layout_width="350dip" android:layout_height="wrap_content" android:textSize="16dp" android:gravity="center" /> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="160dip" android:background="@drawable/search_shape" android:gravity="center">
+- <LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+  <TextView android:text="@string/freq" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchChannel_freq" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:text="@string/symbolRate" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchChannel_symbolRate" android:text="6875" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:text="@string/modelation" android:layout_width="60dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchChannel_modulation" android:text="640AM" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+  <TextView android:text="@string/ber" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchChannel_ber" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:text="@string/signal_quality" android:layout_width="60dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/signal_quality" android:layout_width="40dip" android:layout_height="wrap_content" /> 
+  <TextView android:text="@string/signal_strength" android:layout_width="60dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/signal_strength" android:layout_width="40dip" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+  <TextView android:text="@string/freqCount" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchaChannel_freqCount" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  <TextView android:text="@string/tv_bc" android:layout_width="100dip" android:layout_height="wrap_content" /> 
+  <TextView android:id="@+id/searchaChannel_tv_bc" android:layout_width="50dip" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content" android:layout_marginTop="8dip">
+  <TextView android:text="@string/search_process" android:layout_width="100dip" android:layout_height="wrap_content" /> 
+  <ProgressBar android:layout_width="200dip" android:layout_height="wrap_content" android:id="@+id/seekbar" style="?android:attr/progressBarStyleHorizontal" android:minHeight="13dip" android:maxHeight="15dip" android:layout_gravity="center_vertical"/> 
+  </LinearLayout>
+- 
+<LinearLayout android:orientation="horizontal" android:layout_width="310dip" android:layout_height="wrap_content">
+  <TextView android:id="@+id/showResult" android:layout_width="fill_parent" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+  
+  </LinearLayout>
+  </LinearLayout>
+ </LinearLayout>
+
+</FrameLayout>
+</LinearLayout>
+ <!--  output set --> 
+- <LinearLayout android:id="@+id/linearLayout_output_set" android:visibility="visible" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+- <LinearLayout android:orientation="vertical" android:layout_width="400dip" android:layout_height="fill_parent">
+  <TextView android:text="@string/video_set" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/tv_type" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" android:layout_gravity="center_vertical" /> 
+  <Spinner android:id="@+id/tv_type" android:text="411000" android:layout_width="140dip" android:layout_height="27dip" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/resolution" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" android:layout_gravity="center_vertical" /> 
+  <Spinner android:id="@+id/resolution" android:text="411000" android:layout_width="140dip" android:layout_height="27dip" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" /> 
+  </LinearLayout>
+  <TextView android:text="@string/osd_set" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/aspect_ratio" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" android:layout_gravity="center_vertical" /> 
+  <Spinner android:id="@+id/aspect_ratio" android:text="411000" android:layout_width="140dip" android:layout_height="fill_parent" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/transparency" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" /> 
+  <EditText android:id="@+id/transparency" android:nextFocusLeft="@+id/transparency" android:nextFocusRight="@+id/transparency" android:text="50" android:layout_width="140dip" android:layout_height="fill_parent" android:textSize="9dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" android:gravity="center" style="?android:attr/textViewStyle" /> 
+  <TextView android:text="%" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/brightness" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" /> 
+  <EditText android:id="@+id/brightness" android:nextFocusLeft="@+id/brightness" android:nextFocusRight="@+id/brightness" android:text="50" android:layout_width="140dip" android:layout_height="fill_parent" android:textSize="9dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" android:gravity="center" style="?android:attr/textViewStyle" /> 
+  <TextView android:text="%" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/saturation" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" /> 
+  <EditText android:id="@+id/saturation" android:nextFocusLeft="@+id/saturation" android:nextFocusRight="@+id/saturation" android:text="50" android:layout_width="140dip" android:layout_height="fill_parent" android:textSize="9dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" android:gravity="center" style="?android:attr/textViewStyle" /> 
+  <TextView android:text="%" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="27dip">
+  <TextView android:text="@string/chroma" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" /> 
+  <EditText android:id="@+id/chroma" android:nextFocusLeft="@+id/chroma" android:nextFocusRight="@+id/chroma" android:text="50" android:layout_width="140dip" android:layout_height="fill_parent" android:textSize="9dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" android:gravity="center" style="?android:attr/textViewStyle" /> 
+  <TextView android:text="%" android:layout_width="wrap_content" android:layout_height="wrap_content" /> 
+  </LinearLayout>
+  </LinearLayout>
+  </LinearLayout>
+  <!-- version info -->
+<LinearLayout android:id="@+id/linearLayout_version_info" android:visibility="invisible" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+- <LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="200dip">
+  <TextView android:text="@string/version_control" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dip" /> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip" android:layout_marginTop="10dip">
+  <TextView android:text="@string/manufacturers_serial_number" android:layout_width="200dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/manufacturers_serial_number" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/stb_serial_number" android:layout_width="150dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/stb_serial_number" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/hardware_version" android:layout_width="150dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/hardware_version" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/software_version" android:layout_width="150dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/software_version" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/loader_version" android:layout_width="150dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/loader_version" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/ca_version" android:layout_width="150dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/ca_version" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+  </LinearLayout>
+  </LinearLayout>
+
+    <!--  界面显示  --> 
+- <LinearLayout android:id="@+id/linearLayout_ui_show" android:visibility="visible" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+- <LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="200dip">
+  <TextView android:text="@string/ui_show_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dip" /> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip" android:layout_marginTop="25dip">
+  <TextView android:text="@string/language_set" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" android:layout_gravity="center_vertical" /> 
+  <Spinner android:id="@+id/language_spinner" android:text="411000" android:layout_width="140dip" android:layout_height="30dip" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip">
+  <TextView android:text="@string/timeout_set" android:layout_width="140dip" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:gravity="right" android:textSize="12dp" android:layout_gravity="center_vertical" /> 
+  <Spinner android:id="@+id/timeout_spinner" android:text="411000" android:layout_width="140dip" android:layout_height="30dip" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginLeft="30dip" /> 
+  <TextView android:text="/s" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="3dip" android:layout_gravity="center_vertical" /> 
+  </LinearLayout>
+  </LinearLayout>
+  </LinearLayout>
+  
+  <!--  频道信息    --> 
+- <LinearLayout android:id="@+id/linearLayout_channel_info" android:visibility="visible" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+- <LinearLayout android:orientation="vertical" android:layout_width="350dip" android:layout_height="200dip">
+  <TextView android:text="@string/channel_info_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dip" /> 
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip" android:layout_marginTop="10dip">
+  <TextView android:text="@string/service_number" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/service_number" android:layout_width="70dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/service_name" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/service_name" android:layout_width="50dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/service_provider" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/service_provider" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/service_pid" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/service_ID" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/pcr_pid" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/pcr_pid" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="20dip">
+  <TextView android:text="@string/aud_pid" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/aud_pid" android:layout_width="70dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  <TextView android:text="@string/vid_pid" android:layout_width="100dip" android:layout_height="wrap_content" android:layout_marginLeft="50dip" android:textSize="12dp" /> 
+  <TextView android:id="@+id/vid_pid" android:layout_width="50dip" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" /> 
+  </LinearLayout>
+  </LinearLayout>
+  </LinearLayout>
+  
+   <!--  恢复出厂设置
+  --> 
+- <LinearLayout android:id="@+id/linearLayout_restore_factory_settings" android:visibility="visible" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+- <LinearLayout android:orientation="vertical" android:layout_width="300dip" android:layout_height="200dip">
+  <TextView android:text="@string/restore_factory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dip" /> 
+- <FrameLayout android:layout_width="240dip" android:layout_height="125dip" android:layout_marginLeft="40dip">
+- <!--  恢复出厂 
+  --> 
+- <LinearLayout android:id="@+id/linearLayout_restore_factory_main" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:visibility="visible">
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="90dip">
+  <TextView android:text="@string/warning" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="12dp" android:gravity="center" android:layout_marginTop="25dip" /> 
+  <TextView android:text="@string/warning_content" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginTop="6dip" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="5dip">
+  <Button android:id="@+id/restore_factory_settings" android:text="@string/restore_factory_set" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="11dp" /> 
+  </LinearLayout>
+  </LinearLayout>
+- <!--  恢復出廠 提示1 
+  --> 
+- <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout_restore_factory_one" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="#5F9EA0">
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="90dip">
+  <TextView android:text="@string/warning" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="12dp" android:gravity="center" android:layout_marginTop="20dip" /> 
+  <TextView android:text="@string/warning_one" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" android:gravity="center" /> 
+  </LinearLayout>
+- <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="30dip" android:gravity="center">
+  <Button android:id="@+id/restore_confirm" android:nextFocusLeft="@+id/restore_confirm" android:nextFocusRight="@+id/restore_cancel" android:text="@string/restore_confirm" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="12dp" /> 
+  <Button android:id="@+id/restore_cancel" android:nextFocusLeft="@+id/restore_confirm" android:nextFocusRight="@+id/restore_cancel" android:text="@string/restore_cancel" android:layout_width="80dip" android:layout_height="wrap_content" android:textSize="12dp" /> 
+  </LinearLayout>
+  </LinearLayout>
+- <!--  恢复出厂提示2 
+  --> 
+- <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout_restore_factory_two" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="#5F9EA0">
+- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="70dip" android:layout_marginTop="25dip">
+  <TextView android:text="@string/warning" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10dip" android:textSize="12dp" android:gravity="center" /> 
+  <TextView android:text="@string/warning_two" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="11dp" android:includeFontPadding="false" android:layout_marginTop="6dip" android:gravity="center" /> 
+  </LinearLayout>
+  </LinearLayout>
+  </FrameLayout>
+  
+  </LinearLayout>
+  </LinearLayout>
+  
+                      
+ </FrameLayout>
+  </LinearLayout>
+  </TabHost>
+  
+</LinearLayout>

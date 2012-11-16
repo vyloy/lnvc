@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">电视</string>
+    <!-- main ui -->
+    <string name="main_program_introduction">节目简介</string>
+    <string name="main_sd">标清</string>
+    <string name="main_bc">广播</string>
+    <string name="main_channel_list">电视列表</string>
+    <string name="main_bc_list">广播列表</string>
+    <string name="main_love_list">喜爱列表</string>
+    <string name="main_channel">频道</string>
+    <string name="main_media_audio">媒体音量</string>
+    <string name="main_prv_ing">正在录制</string>
+    <!-- EPG -->
+    <string name="main_epg_trailer">节目预告</string>
+    <string name="main_epg_channel_tv">频道列表</string>
+    <string name="main_epg_schudle">节目时间表</string> 
+    <string name="main_epg_number">序号</string>
+    <string name="main_epg_event_name">事件名称</string>
+    <string name="main_epg_start_time">起始时间</string>
+    <string name="main_epg_reveration_state">预约</string>
+    <string name="main_epg_pvr_state">录制</string>
+    <string name="main_epg_bottom">返回/退出:进入全屏,确认:预约,红键:添加录制,黄建:取下一天节目预告,绿键:取上一天节目预告</string>
+    <!-- edit -->
+    <string name="main_edit_channel_edit">频道编辑</string>
+    <string name="main_edit_now_pf">当前节目</string>
+    <string name="main_edit_next_pf">后续节目</string>
+    <string name="main_edit_tv">电视频道</string>
+    <string name="main_edit_bc">广播频道</string>
+    <string name="main_edit_love">喜爱频道</string>
+    <string name="main_edit_channel_number">编号</string>
+    <string name="main_edit_channel_name">频道名称</string>
+    <string name="main_edit_lock_state">加锁</string>
+    <string name="main_edit_love_state">喜爱</string>
+    <string name="main_edit_bottom_one">返回/退出: 全屏播放; 红键: 添加喜爱; 黄键: 节目加锁; 绿键: 切换频道列表。</string>
+    <string name="main_edit_bottom_two">返回/退出: 全屏播放; 红键: 删除所有喜爱; 黄键: 删除单个喜爱;绿键：切换频道列表。</string>
+    <!-- vod  -->
+    <string name="main_vod_play">近视频点播</string>
+    <string name="main_vod_name_list">节目列表</string>
+    <string name="main_vod_audio">音量</string>
+    <string name="main_vod_time">预约点播</string>
+    <string name="main_vod_introduce">节目简介</string>
+    <string name="main_vod_bottom">返回/退出: 进入全屏; 信息键: 显示当前影片简介, 左右键: 切换列表。</string>
+    <!-- reveration play -->
+    <string name="main_reveration_play">预约播放</string>
+    <string name="main_reveration_now_introduce">当前节目简介</string>
+    <string name="main_reveration_number">序号</string>
+    <string name="main_reveration_channel_number">频道号</string>
+    <string name="main_reveration_channel_name">频道名称</string>
+    <string name="main_reveration_event_name">事件名称</string>
+    <string name="main_reveration_duration_time">起始时间</string>
+    <string name="main_reveration_bottom">返回/退出: 进入全屏; 红键: 删除所有; 黄键: 删除单个。</string>
+    
+    <!-- pvr play -->
+    <string name="main_pvr">预约录制</string>
+    <string name="main_pvr_bottom">返回/退出: 进入全屏; 红键: 删除所有; 黄键: 删除单个,绿键：停止录制。</string>
+    <string name="main_pvr_state">状态</string>
+    
+    
+    
+    <!--launch  -->
+    
+    
+    
+    <!-- set title -->
+    <string name="system_set">系统设置</string>
+    <string name="list_search">节目搜索</string>
+    <string name="output_set">输出设置</string>
+    <string name="version_info">版本信息</string>
+    <string name="ui_show">界面设置</string>
+    <string name="channel_info">频道信息</string>
+    <string name="default_set">恢复出厂</string>
+    
+    <!-- list set -->
+    <string name="main_freq">主频点</string>
+    <string name="start_search">开始搜索</string>
+    <string name="list_search_content">节目搜索</string>
+    <string name="auto_search">自动搜索</string>
+    <string name="handler_search">手动搜索</string>
+    <string name="freq_search">频点搜索</string>
+    <string name="search_freq">搜索频点</string>
+    <string name="start_freq">开始频点</string>
+    <string name="end_freq">结束频点</string>
+    <string name="freq">频率</string>
+    <string name="symbolRate">符号率</string>
+    <string name="modelation">解调方式</string>
+    <string name="ber">误码率</string>
+    <string name="signal_quality">信号质量</string>
+    <string name="signal_strength">信号强度</string>
+    <string name="freqCount">频点数</string>
+    <string name="tv_bc">电视/广播</string>
+    <string name="search_process">搜索进度</string>
+    <string name="freq_unit">MHz</string>
+    <string name="default_freq">259000</string>
+    <string name="search_end">正在保存数据...</string>
+    <string name="search_ing">搜索中...</string>
+   
+    <!-- output set -->
+    <string name="video_set">视频设置</string>
+    <string name="tv_type">电视制式</string>
+    <string name="resolution">分辨率</string>
+    <string name="osd_set">OSD设置</string>
+    <string name="aspect_ratio">宽高比</string>
+    <string name="transparency">透明度</string>
+    <string name="brightness">亮度</string>
+    <string name="saturation">饱和度</string>
+    <string name="chroma">色度</string>
+    <string name="default_output_transparency">50</string>
+    <string name="default_output_brightness">50</string>
+    <string name="default_output_saturation">50</string>
+    <string name="default_output_chroma">50</string>
+    
+    <!-- version info -->
+    <string name="version_control">版本控制</string>
+    <string name="manufacturers_serial_number">厂商序列号:</string>
+    <string name="stb_serial_number">STB 序列号:</string>
+    <string name="hardware_version">硬件版本号:</string>
+    <string name="software_version">软件版本号:</string>
+    <string name="loader_version">LOADER版本号:</string>
+    <string name="ca_version">CA版本号:</string>
+    
+    <!-- ui show -->
+    <string name="ui_show_content">界面设置</string>
+    <string name="language_set">语言设置</string>
+    <string name="timeout_set">超时设置</string>
+    <string-array name="ui_set_language">
+      <item>中文</item> 
+      <item>英文</item> 
+      
+    </string-array>
+    <string-array name="ui_set_time">
+      <item>5 秒</item> 
+      <item>10 秒</item> 
+      
+    </string-array>
+    
+    <!-- channel info -->
+    <string name="channel_info_content">频道信息</string>
+    <string name="service_number">服务序号</string>
+    <string name="service_name">服务名</string>
+    <string name="service_provider">服务提供商</string>
+    <string name="service_pid">服务ID</string>
+    <string name="pcr_pid">PCR PID</string>
+    <string name="aud_pid">AUD PID</string>
+    <string name="vid_pid">VID PID</string>
+   
+    
+    <!-- default set -->
+    <string name="restore_factory">恢复出厂</string>
+    <string name="restore_factory_set">恢复出厂设置</string>
+    <string name="restore_confirm">确认</string>
+    <string name="restore_cancel">取消</string>
+    <string name="warning">警  告</string>
+    <string name="warning_content">       恢复出厂设置后,将彻底清除节目数据,对用户操作的各项设置都会恢复到出厂状态。</string>
+    <string name="warning_one">       恢复出厂设置后,将彻底清除节目数据,对用户操作的各项设置都会恢复到出厂状态,确认恢复出厂设置,取消关闭对话框。</string>
+    <string name="warning_two">正在恢复出厂设置...</string>
+</resources>

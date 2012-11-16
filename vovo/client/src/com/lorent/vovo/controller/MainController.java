@@ -199,7 +199,7 @@ public class MainController extends BaseController {
 		}catch(Exception e){
 			;//do noting
 		}
-		NativeInterface.runEventPump();
+
 		System.exit(0);
 	}
 	

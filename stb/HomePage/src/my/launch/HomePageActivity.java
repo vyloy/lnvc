@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,24 +34,44 @@ public class HomePageActivity extends Activity {
 	
 	private ImageButton btn_music,btn_file,btn_game,btn_tv,btn_phone,btn_set,btn_service,btn_systemsetting,btn_videoclip;
 	private TextView register_show,network_show;
+	private String TAG = "HomePageActivity";
     
 	/** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	sendBroadcast(new Intent("lorent.stb.tv.MyServer"));
-       
+    public void onCreate(Bundle savedInstanceState) {       
     	super.onCreate(savedInstanceState);
+//    	sendBroadcast(new Intent("lorent.stb.tv.MyServer"));
         setContentView(R.layout.main);
         initView();
 //        initGrid();
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        System.out.println("homepage oncreate()"+sDateFormat.format(new java.util.Date()));
+        Log.i(TAG, "homepage oncreate() "+sDateFormat.format(new java.util.Date()));
         
-        registerReceiver(lccMessage, new IntentFilter("com.lorent.lcc.register"));
-        registerReceiver(networkMessage, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+
        
     }
     
+    
+    @Override
+    protected void onPause() {
+    	Log.i(TAG, "onPause");
+    	super.onPause();
+    	unregisterReceiver(lccMessage);
+    	unregisterReceiver(networkMessage);
+    }
+    
+    @Override
+    protected void onRestart() {
+    	Log.i(TAG, "onRestart");
+    	super.onRestart();
+    }
+    
+    @Override
+    protected void onStop() {
+    	Log.i(TAG, "onStop");
+
+    	super.onStop();
+    }
     
   //广播接收器
     private BroadcastReceiver lccMessage = new BroadcastReceiver(){
@@ -146,9 +167,8 @@ public class HomePageActivity extends Activity {
 		};
     @Override
     protected void onStart() {
-    	// TODO Auto-generated method stub
+    	Log.i(TAG, "onStart");
     	super.onStart();
-    	
     }
     
     class MyAdapter extends BaseAdapter{
@@ -245,11 +265,13 @@ public class HomePageActivity extends Activity {
     }
     @Override
     protected void onResume() {
-    	// TODO Auto-generated method stub
+    	Log.i(TAG, "onResume");
     	super.onResume();
     	Message msg = new Message();
 		handlerNetworkMsg.sendMessage(msg);
     	btn_music.setFocusable(true);
+        registerReceiver(lccMessage, new IntentFilter("com.lorent.lcc.register"));
+        registerReceiver(networkMessage, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
     
     public static boolean isPkgInstalled(Context ctx, String packageName){
