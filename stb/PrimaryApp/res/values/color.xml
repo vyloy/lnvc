@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <drawable name="full_textcolor">#000000</drawable>  
+  <color name="edit_right_up_selected">#9AFF9A</color>
+  <color name="period_listview_item">#FFFF00</color>
+  <drawable name="tv_bc_bg">#FFFF00</drawable>
+  <drawable name="menuset_bg">#B9D3EE</drawable>
+  <color name="edit_right_title">#085db5</color>
+</resources>

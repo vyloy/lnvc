@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/FrameLayout_order"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout android:id="@+id/LinearLayout_top_load" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center">
+<TextView android:id="@+id/txt_load" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="正在搜索nvod數據，請稍侯!" android:gravity="center" android:textSize="15dp"/>
+<ProgressBar android:id="@+id/progressbar_order" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dip" />
+</LinearLayout>
+<SurfaceView android:id="@+id/surfaceView_order" android:layout_width="300px" android:layout_height="170px" android:layout_gravity="fill_horizontal" android:visibility="invisible"/>
+
+<LinearLayout android:id="@+id/LinearLayout_order" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="@drawable/tvmin_bg" android:visibility="invisible">   
+
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="270dip"   
+    >
+<!-- left -->    
+<LinearLayout android:orientation="vertical" android:layout_width="249dip" android:layout_height="fill_parent"  android:layout_marginLeft="30dip" android:layout_marginTop="10dip">   
+<TextView android:text="@string/main_vod_play" android:layout_width="200dip" android:layout_height="20dip"  android:gravity="center" android:textSize="12dp"/>
+<TextView android:layout_width="300px" android:layout_height="110dip" android:background="@drawable/tvmin_screen"/>
+<LinearLayout android:orientation="vertical" android:layout_width="200dip" android:layout_height="90dip" android:layout_marginTop="10dip" > 
+<TextView android:text="@string/main_vod_name_list" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="11dp"/>
+<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/listview_program_order" android:background="#E6E6FA" style="@style/period_ListView_Specfication"/>
+</LinearLayout>
+<LinearLayout android:orientation="horizontal" android:layout_width="200dip" android:layout_height="wrap_content" android:layout_marginTop="10dip" >
+<TextView android:id="@+id/audio_order" android:layout_width="35dip" android:layout_height="wrap_content" android:text="@string/main_vod_audio" android:textSize="13dp"/>
+<ProgressBar android:id="@+id/seekbar_order" android:layout_width="fill_parent" android:layout_height="wrap_content" android:focusable="false" style="?android:attr/progressBarStyleHorizontal" android:minHeight="12dip" android:maxHeight="15dip" android:layout_gravity="center_vertical"/>
+</LinearLayout>
+</LinearLayout>
+<!-- right -->
+<LinearLayout android:orientation="vertical" android:layout_width="220dip" android:layout_height="fill_parent" android:layout_marginTop="10dip" android:layout_marginRight="20dip">
+<TextView android:id= "@+id/mintime_order" android:layout_width="fill_parent" android:layout_height="20dip"  android:gravity="center" android:textSize="12dp"/>
+<TextView android:layout_width="fill_parent" android:layout_height="20dip" android:text="@string/main_vod_time" android:textSize="13dp" android:gravity="center" android:background="#104E8B"/>
+<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/listview_time_order" android:background="#E6E6FA" style="@style/period_ListView_Specfication"/>
+</LinearLayout>    
+</LinearLayout>
+
+<!-- bottom -->
+<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="25dip">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/main_vod_bottom" android:textSize="10dp" />
+</LinearLayout>
+
+</LinearLayout>
+<!-- nvod introduce -->
+<LinearLayout android:id="@+id/linearLayout_nvod_introduce" android:orientation="vertical" android:layout_width="350px" android:layout_height="100dip" android:layout_gravity="center" android:background="#ffffff" android:visibility="invisible">
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/main_vod_introduce" android:textSize="11dp"/>
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<TextView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/nvod_introduce" android:textSize="10dp" />
+</LinearLayout>
+
+<!-- fullscreen  ui -->
+<LinearLayout android:id="@+id/linearLayout_nvod_fullscreen" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"  android:visibility="invisible" android:gravity="center">
+
+<LinearLayout android:id="@+id/linearLayout_nvod_full_introduce" android:orientation="vertical" android:layout_width="300dip" android:layout_height="120dip" android:background="#FFFFFF" android:visibility="invisible">
+
+<TextView android:id="@+id/nvod_fullscreen_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/> 
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<TextView android:text="@string/main_vod_introduce" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>   
+<TextView android:id="@+id/nvod_fullscreen_introduce" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor" android:textSize="10dp"/>
+</LinearLayout> 
+
+<LinearLayout android:id="@+id/linearLayout_nvod_full_banner" android:layout_width="fill_parent" android:layout_height="75dip" android:orientation="horizontal" android:visibility="visible" android:gravity="center" android:layout_marginTop="75dip">
+<LinearLayout android:id="@+id/linearLayout_nvod_fullscreen2" android:orientation="vertical" android:layout_width="400dip" android:layout_height="75dip" android:background="#FFFFFF"  >
+
+<LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content">
+<TextView android:layout_width="80dip" android:layout_height="wrap_content" android:text="@string/main_sd" android:gravity="center" android:textColor="@drawable/full_textcolor"/>
+<TextView  android:layout_width="230dip"  android:layout_height="wrap_content" android:textColor="@drawable/full_textcolor"/>
+<TextView android:layout_width="90dip" android:layout_height="wrap_content" android:id="@+id/nvod_full_time" android:textColor="@drawable/full_textcolor" android:gravity="center"/>    
+</LinearLayout>
+<View android:layout_width="fill_parent" android:layout_height="1dip" android:background="#00BFFF"/>
+<LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content">
+<ImageView android:layout_width="80dip" android:layout_height="wrap_content"/>
+<View  android:layout_height="35dip" android:layout_width="1dip" android:background="#454545" android:layout_marginTop="5dip"/>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="5dip" android:layout_marginTop="5dip"> 
+<TextView android:id="@+id/nvod_fullscreen_now" android:layout_width="fill_parent" android:layout_height="wrap_content"  android:textColor="@drawable/full_textcolor"/>
+</LinearLayout>
+
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</FrameLayout>

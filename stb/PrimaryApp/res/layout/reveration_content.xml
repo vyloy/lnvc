@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  
+  <TextView
+    android:id="@+id/reveration_num"  
+    android:layout_width="20dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    android:textColor="@drawable/menulist_itemcolor"
+    />
+<TextView
+    android:id="@+id/reveration_channel_num"  
+    android:layout_width="40dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    android:textColor="@drawable/menulist_itemcolor"
+    />      
+    <TextView
+    android:id="@+id/reveration_channel_name"  
+    android:layout_width="60dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    android:textColor="@drawable/menulist_itemcolor"
+    android:singleLine="true"
+    />
+<TextView
+    android:id="@+id/reveration_event_name"  
+    android:layout_width="80dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    android:textColor="@drawable/menulist_itemcolor"
+    android:singleLine="true"
+    />      
+    <TextView
+    android:id="@+id/reveration_event_time"  
+    android:layout_width="70dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    android:textColor="@drawable/menulist_itemcolor"
+    />
+<!--<TextView
+    android:id="@+id/reveration_state"  
+    android:layout_width="30dip" 
+    android:layout_height="17dip" 
+    android:textSize="10dp"
+    android:gravity="center"
+    />        
+-->
+</LinearLayout>

@@ -31,6 +31,7 @@ import com.lorent.vovo.LCCActivity;
 import com.lorent.vovo.VideoScreen;
 import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
+import com.lorent.vovo.utils.ProcessUtil;
 
 
 public class LCCUtil extends Service {
@@ -39,6 +40,7 @@ public class LCCUtil extends Service {
 	.parse("content://com.lorent.lcc/history_tb");
 	
 	private static final String LIBRARY = "lcccore_stb";
+//	private static final String LIBRARY = "lcccore_phone";
 	private static String TAG = "LCCUtil";
 	private static final String reciverMsg = "com.lorent.lcc.oper";
     
@@ -241,6 +243,18 @@ public class LCCUtil extends Service {
 		};
 	};	
 	
+	private BroadcastReceiver tvRec = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String operate = intent.getStringExtra("operate");
+			Log.i(TAG, "tvRec operate = " + operate);
+			if("finish".equals(operate)){
+				showVideoScreen();
+			}
+		}
+	};
+	
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
@@ -258,6 +272,8 @@ public class LCCUtil extends Service {
 		registerReceiver(CancelDnd,new IntentFilter("lvd.set.cancel.dnd"));
 		registerReceiver(AlarmReceiver,new IntentFilter("com.lorent.msg.Alarm"));
 		registerReceiver(unregister_Rec, new IntentFilter("lorent.set.unregister"));
+		Log.i(TAG, "registerReceiver tvRec");
+		registerReceiver(tvRec, new IntentFilter("lorent.stb.tv.phone"));
 //		registerReceiver(AutoBr, new IntentFilter("ManageCenter.ACTION_COMMAND_MANAGECENTER"));
 		
 	}
@@ -409,6 +425,8 @@ public class LCCUtil extends Service {
 		unregisterReceiver(AlarmReceiver);
 		unregisterReceiver(unregister_Rec);
 		
+		Log.i(TAG, "UNregisterReceiver tvRec");
+		unregisterReceiver(tvRec);
 
 		super.onDestroy();
 	}
@@ -506,12 +524,13 @@ public class LCCUtil extends Service {
 //	}
 
 	public void hangup() {
-		Log.i(TAG, "hangup");
+		Log.i(TAG, "hangup callindex = " + call_index);
 		hangup(call_index);
+		calltype = null;
 	}
 
 	public void answer() {
-		Log.i(TAG, "answer");
+		Log.i(TAG, "answer callindex = " + call_index);
 		answer(call_index);
 	}
 
@@ -565,22 +584,36 @@ public class LCCUtil extends Service {
 				new String[] { "lccno" }, "lccno = ?", new String[] { nMsg },
 				null);
 		if (c.getCount() > 0) {
+			Log.i(TAG, "the lccno is in blacklist");
 			c.close();
 			return;
 		} else {
 			c.close();
+	        callin_no = nMsg;
 			call_index = getanswercallindex();
-//			String[] args = new String[] { nMsg };
-            callin_no = nMsg;
-            calltype = "in"; //呼进
+			Log.i(TAG, "callindex " + call_index);
+	        calltype = "in"; //呼进
+			if(ProcessUtil.isRunningForeground(this, "lorent.stb.tv")){//close tv first
+				Log.i(TAG, "close tv first");
+				Intent intent = new Intent("com.lorent.vovo");
+		        intent.putExtra("operate", "callincoming");
+		        sendBroadcast(intent);
+			}else{
+				showVideoScreen();
+			}
+		}
+		
+	}
+	
+	private void showVideoScreen(){
+
+		if(calltype != null){
 			Intent intent = new Intent(this, VideoScreen.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-
+//			String[] args = new String[] { nMsg };
 //			sendMessage(INCOMINGCB, args);
-			Log.i(TAG, "javaincomingcb message:" + nMsg);
 		}
-		
 	}
 
 	public void javaconnectedcb(String nMsg) {
@@ -603,20 +636,20 @@ public class LCCUtil extends Service {
 		
 		String[] args = new String[] { nMsg };
 		sendMessage(HANGUPCB, args);
-		
-		if("in".equals(calltype) && checkState(callin_no))
-		{
-			/*boolean isStart = MusicServiceIsStart(mServiceList, noticeClassName); 
-			if(!isStart)
-			{
-			    System.out.println("isStart ="+isStart);
-				startService(new Intent(LCCActivity.this, NoticeServer.class));
-				
-			}*/
-			Intent intent = new Intent();
-			intent.setAction("my.lcc.notice");
-			sendBroadcast(intent);
-		}
+		calltype = null;
+//		if("in".equals(calltype) && checkState(callin_no))
+//		{
+//			/*boolean isStart = MusicServiceIsStart(mServiceList, noticeClassName); 
+//			if(!isStart)
+//			{
+//			    System.out.println("isStart ="+isStart);
+//				startService(new Intent(LCCActivity.this, NoticeServer.class));
+//				
+//			}*/
+//			Intent intent = new Intent();
+//			intent.setAction("my.lcc.notice");
+//			sendBroadcast(intent);
+//		}
 	}
 
 	private boolean checkState(String num){

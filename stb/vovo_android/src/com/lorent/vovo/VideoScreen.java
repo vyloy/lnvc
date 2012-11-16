@@ -53,7 +53,7 @@ public class VideoScreen extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vedio_screen);
 		hangupBtn = this.findViewById(R.id.notice_handoff);
-		Log.d(TAG, "onCreate()");
+		Log.i(TAG, "onCreate()");
 		new Thread(new Runnable(){
 
 			@Override
@@ -82,16 +82,14 @@ public class VideoScreen extends Activity{
 	}
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d(TAG, "onResume");
+		Log.i(TAG, "onResume");
 		
 	}
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
-		
+		Log.i(TAG, "onStop");
 		super.onStop();
 		new Thread(new Runnable(){
 
@@ -107,7 +105,7 @@ public class VideoScreen extends Activity{
 	}
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
+		Log.i(TAG, "onDestroy");
 		super.onDestroy();
 		PlayAudio.stop();
 		unregisterReceiver(video_msg);
@@ -181,7 +179,7 @@ public class VideoScreen extends Activity{
 				return false;
 			}
 		});
-		if(LCCUtil.calltype.equals("in")){			
+		if("in".equals(LCCUtil.calltype)){			
 			callingNum = LCCUtil.callin_no;
 		}else{
 			callingNum = LCCUtil.callout_no;
@@ -198,7 +196,7 @@ public class VideoScreen extends Activity{
 		    isRefuse = true;
 		    isCall = false;
 			LCCUtil.lccUtil.hangup();
-			this.finish();
+//			this.finish();
 	}
 	
 	// 通话计时

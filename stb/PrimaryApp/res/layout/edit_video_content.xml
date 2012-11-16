@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+   <TextView
+    android:id="@+id/edit_vedeo_num"  
+    android:layout_width="50dip" 
+    android:layout_height="17dip" 
+    android:textSize="11dp"
+    android:gravity="center"
+    />
+<TextView
+    android:id="@+id/edit_video_name"  
+    android:layout_width="150dip" 
+    android:layout_height="17dip" 
+    android:textSize="11dp"
+    android:gravity="center"
+    />      
+<ImageView 
+    android:layout_width="50dip" 
+    android:layout_height="17dip"
+    android:id="@+id/edit_video_lock_image"
+    android:layout_gravity="center_vertical"
+    /> 
+    <ImageView 
+    android:layout_width="50dip" 
+    android:layout_height="17dip"
+    android:id="@+id/edit_video_love_image"
+    android:layout_gravity="center_vertical"
+    />             
+</LinearLayout>
