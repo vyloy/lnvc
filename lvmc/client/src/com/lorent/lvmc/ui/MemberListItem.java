@@ -60,7 +60,7 @@ public class MemberListItem extends javax.swing.JPanel {
 					"/com/lorent/lvmc/resource/images/state_offline.png")));
 		}
 		if (LvmcUtil.isUCSAPP()) {
-			memberName.setText(data.getName());
+			memberName.setText(data.getNickname());
 		} else {
 			memberName.setText(data.getNickname());
 		}

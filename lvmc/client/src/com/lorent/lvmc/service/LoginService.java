@@ -82,7 +82,7 @@ public class LoginService extends BaseService {
         try {
         	roleDto = LCMUtil.getMyRoleAndPermission(confno, username);
         	if(LvmcUtil.isUCSAPP()){
-        		info.setNickName(username);
+        		info.setNickName(roleDto.getNickname());
         	}else{
         		info.setNickName(roleDto.getNickname());
         	}
@@ -176,7 +176,7 @@ public class LoginService extends BaseService {
             try{
             	roleDto = LCMUtil.getMyRoleAndPermission(confno, username);
             	if(LvmcUtil.isUCSAPP()){
-            		info.setNickName(username);
+            		info.setNickName(roleDto.getNickname());
             	}else{
             		info.setNickName(roleDto.getNickname());
             	}

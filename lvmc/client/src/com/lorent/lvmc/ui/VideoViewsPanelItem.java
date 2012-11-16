@@ -60,6 +60,9 @@ public class VideoViewsPanelItem extends javax.swing.JPanel {
 		if(!LvmcUtil.isUCSAPP()){
 			this.nickName = nickName;
 			nickNameLabel.setText(nickName);
+		}else{
+			this.nickName = nickName;
+			nickNameLabel.setText(nickName);
 		}
 	}
 
@@ -101,7 +104,7 @@ public class VideoViewsPanelItem extends javax.swing.JPanel {
 			lccNoLabel.setText("");
 		} else {
 			if(LvmcUtil.isUCSAPP()){
-				lccNoLabel.setText(lccUserName);
+				lccNoLabel.setText("(" + lccUserName + ")");
 			}else{
 				lccNoLabel.setText("(" + lccUserName + ")");
 			}

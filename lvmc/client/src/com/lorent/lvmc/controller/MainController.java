@@ -204,7 +204,7 @@ public class MainController extends BaseController{
             if(memberDto.getName().equals(DataUtil.getLoginInfo().getUsername()))
                 continue;
             if(LvmcUtil.isUCSAPP()){
-            	listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getName()));
+            	listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getNickname()));
             }else{
             	listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getNickname()));
             }

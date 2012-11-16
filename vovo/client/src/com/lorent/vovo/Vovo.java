@@ -139,6 +139,7 @@ public class Vovo extends BaseApplication{
 				exeC("main", "showLogin");
 			}
 		});
+		NativeInterface.runEventPump();
 	}
 	
 	public static LCMUtil getLcmUtil() throws Exception{

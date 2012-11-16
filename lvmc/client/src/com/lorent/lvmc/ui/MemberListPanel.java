@@ -336,16 +336,20 @@ public class MemberListPanel extends javax.swing.JPanel {
 			memberList.setSelectedIndex(locationToIndex);
 			Object selectedValue = memberList.getSelectedValue();
 			MemberListItem item = (MemberListItem) selectedValue;
-			ControllerFacade.execute("videoViewsController", "showMemberVideo",
-					item);
+			if(item != null){
+				ControllerFacade.execute("videoViewsController", "showMemberVideo",
+						item);
+			}
 		}else if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1
 				&& evt.getClickCount() == 1){
 			int locationToIndex = memberList.locationToIndex(evt.getPoint());
 			memberList.setSelectedIndex(locationToIndex);
 			Object selectedValue = memberList.getSelectedValue();
 			MemberListItem item = (MemberListItem) selectedValue;
-			Rectangle cellBounds = memberList.getCellBounds(locationToIndex, locationToIndex);
-			item.handleClick(evt.getPoint(), cellBounds);
+			if(item != null){
+				Rectangle cellBounds = memberList.getCellBounds(locationToIndex, locationToIndex);
+				item.handleClick(evt.getPoint(), cellBounds);
+			}
 		}else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
 			int locationToIndex = memberList.locationToIndex(evt.getPoint());
 			memberList.setSelectedIndex(locationToIndex);
