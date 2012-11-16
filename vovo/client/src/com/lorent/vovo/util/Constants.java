@@ -118,7 +118,8 @@ public interface Constants {
     	PhoneFrame,
     	UPLOADVIDEOCLIPDIALOG,
     	VIDEOCLIPPANEL,
-    	PLAYMONITORFRAME
+    	PLAYMONITORFRAME,
+    	VODFRAME
     }
     
     public enum ConfigKey{

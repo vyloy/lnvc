@@ -75,9 +75,8 @@ public class ShareFileController extends BaseController {
 	private void checkAndCreateDefaultFtpPath(String parentPath,String sessionID) throws Exception{
 		log.debug("checkAndCreateDefaultFtpPath");
 		FTPClient ftpClient = getFtpClient(sessionID);
+//		ftpClient.setAutoNoopTimeout(10000);
 		if (!ftpClient.isConnected()) {
-//			ftpClient.noop();
-			ftpClient.setAutoNoopTimeout(10000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
