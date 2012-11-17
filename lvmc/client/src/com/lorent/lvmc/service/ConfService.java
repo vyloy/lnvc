@@ -24,7 +24,7 @@ import com.lorent.lvmc.util.LvmcUtil;
 public class ConfService extends BaseService{
     
     public List<MemberDto> getMemberList()throws Exception{
-        if(LvmcUtil.isUCSAPP()){
+        if(LvmcUtil.isUCSAPP() || LvmcUtil.isVOVOAPP()){
         	FetchMemberInfoService fetchMemberInfoService = new FetchMemberInfoService();
         	List<MemberDto> ret = new ArrayList<MemberDto>();
         	Object object = ControllerFacade.execute("phoneController", "getMemberinfomap");
@@ -74,10 +74,7 @@ public class ConfService extends BaseService{
     }
     
     public List<MemberDto> getOpenfireMemberList()throws Exception{
-    	FetchMemberInfoService fetchMemberInfoService = null;
-    	if(LvmcUtil.isUCSAPP()){
-    		fetchMemberInfoService = new FetchMemberInfoService();
-    	}
+
         List<MemberDto> ret = new ArrayList<MemberDto>();
         List<String> currentMembers = LvmcOpenfireUtil.getCurrentMembers();
         if(DataUtil.getLoginInfo()!=null && !currentMembers.contains(DataUtil.getLoginInfo().getUsername())){
@@ -85,7 +82,8 @@ public class ConfService extends BaseService{
         }
         for(String currentMember : currentMembers){
         	MemberDto temp = null;
-        	if(LvmcUtil.isUCSAPP()){
+        	if(LvmcUtil.isUCSAPP() || LvmcUtil.isVOVOAPP()){
+            	FetchMemberInfoService fetchMemberInfoService =  new FetchMemberInfoService();
         		temp = fetchMemberInfoService.getMemberDtoByName(currentMember);
         	}else{
         		temp = getMemberDtoByName(currentMember);

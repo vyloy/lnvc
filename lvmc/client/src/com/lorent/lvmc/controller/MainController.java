@@ -201,13 +201,11 @@ public class MainController extends BaseController{
         listperson.add(new ChatComboxMemberModel(null,"所有人"));
         for (Iterator<MemberDto> it = members.iterator(); it.hasNext();) {
             MemberDto memberDto = it.next();
-            if(memberDto.getName().equals(DataUtil.getLoginInfo().getUsername()))
+            if(memberDto.getName().equals(DataUtil.getLoginInfo().getUsername())){
                 continue;
-            if(LvmcUtil.isUCSAPP()){
-            	listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getNickname()));
-            }else{
-            	listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getNickname()));
             }
+            listperson.add(new ChatComboxMemberModel(memberDto.getName(),memberDto.getNickname()));
+            
         }
         ViewManager.getComponent(ChatMainPanel.class).initcombox(listperson.toArray(new ChatComboxMemberModel[listperson.size()]));
 //      
@@ -384,7 +382,9 @@ public class MainController extends BaseController{
     	chatMainPanel.addReconnectMsg();
 //    	services.getLoginService().reAddMultUserChatListeners();
     	LvmcOpenfireUtil.enterRoom(DataUtil.getLoginInfo().getConfno(),DataUtil.getLoginInfo().getUsername());
-    	if(!LvmcUtil.isUCSAPP()){
+    	if(LvmcUtil.isUCSAPP() || LvmcUtil.isVOVOAPP()){
+    		;
+    	}else{
     		createMemberList();
     	}
     	this.initChatMainPanelCombox();
@@ -422,11 +422,11 @@ public class MainController extends BaseController{
 			        	log.info("join lccno:" + member + " from memberlistpanel " + isOpenfireUser);
 
 			        	MemberDto temp = null;
-			        	if(!LvmcUtil.isUCSAPP()){
-			        		temp = services.getConfService().getMemberDtoByName(member);
-			        	}else{
+			        	if(LvmcUtil.isUCSAPP() || LvmcUtil.isVOVOAPP()){
 			        		FetchMemberInfoService fetchMemberInfoService = new FetchMemberInfoService();
 			        		temp = fetchMemberInfoService.getMemberDtoByName(member);
+			        	}else{
+			        		temp = services.getConfService().getMemberDtoByName(member);
 			        	}
 			        	
 			        	String[] values = paras.getValue("values");
@@ -437,9 +437,9 @@ public class MainController extends BaseController{
 				        	temp.setEnableAudio(enableAudio);
 				        	temp.setEnableVideo(enableVideo);
 			        	}
-			        	if(LvmcUtil.isUCSAPP() && !isOpenfireUser){
+			        	if((LvmcUtil.isUCSAPP() || LvmcUtil.isVOVOAPP()) && !isOpenfireUser){
 			        		panel.joinOneMember(temp);
-			        	}else if(!LvmcUtil.isUCSAPP() && isOpenfireUser){
+			        	}else if((!LvmcUtil.isUCSAPP() && !LvmcUtil.isVOVOAPP()) && isOpenfireUser){
 			        		panel.joinOneMember(temp);
 			        	}
 			            if(isOpenfireUser && !temp.getName().equals(loginInfo.getUsername()))

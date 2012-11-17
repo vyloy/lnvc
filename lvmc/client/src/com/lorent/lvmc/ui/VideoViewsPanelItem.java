@@ -57,13 +57,8 @@ public class VideoViewsPanelItem extends javax.swing.JPanel {
 	}
 
 	public void setNickName(String nickName) {
-		if(!LvmcUtil.isUCSAPP()){
-			this.nickName = nickName;
-			nickNameLabel.setText(nickName);
-		}else{
-			this.nickName = nickName;
-			nickNameLabel.setText(nickName);
-		}
+		this.nickName = nickName;
+		nickNameLabel.setText(nickName);
 	}
 
 	private String confno;
@@ -103,11 +98,7 @@ public class VideoViewsPanelItem extends javax.swing.JPanel {
 		if (lccUserName == null || lccUserName.equals("")) {
 			lccNoLabel.setText("");
 		} else {
-			if(LvmcUtil.isUCSAPP()){
-				lccNoLabel.setText("(" + lccUserName + ")");
-			}else{
-				lccNoLabel.setText("(" + lccUserName + ")");
-			}
+			lccNoLabel.setText("(" + lccUserName + ")");
 		}
 	}
 

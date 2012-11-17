@@ -110,4 +110,11 @@ public class LvmcUtil {
     	return flag;
     }
     
+    public static boolean isVOVOAPP(){
+    	boolean flag = false;
+    	if(DataUtil.getAppName()!=null && DataUtil.getAppName().equals(Constants.AppName.VOVO)){
+    		flag = true;
+    	}
+    	return flag;
+    }
 }

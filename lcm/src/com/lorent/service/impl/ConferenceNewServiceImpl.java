@@ -297,7 +297,7 @@ ConferenceNewService{
 				//设置返回数据
 				ConferenceRoleBean role = daoFacade.getConferenceRoleDao().get(defaultRoleId);
 				data.addName(role.getRoleName());
-				data.setNickname(userBean.getUsername());
+				data.setNickname(userBean.getRealName());
 				data.setConferenceTitle(conf.getConferenceName());
 				List<AuthorityBean> authoritys = daoFacade.getConferenceRoleDao().getAuthorityByRoleId(defaultRoleId);
 				for(AuthorityBean authority : authoritys){
