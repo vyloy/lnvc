@@ -243,7 +243,7 @@ public class ConferenceController extends BaseController {
 		LoginInfo logginInfo = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
 		for (MemberBean memberBean : memberBeans) {
 			if (memberBean.getLccAccount().equals(logginInfo.getUsername())) {
-				model.addRow(new Object[]{memberBean.getRealName()+" ("+memberBean.getLccAccount()+")",Boolean.TRUE,Boolean.FALSE,Boolean.FALSE,memberBean.getId()+"",memberBean.getUsername()});
+				model.addRow(new Object[]{memberBean.getRealName()+" ("+memberBean.getLccAccount()+")",Boolean.TRUE,Boolean.TRUE,Boolean.FALSE,memberBean.getId()+"",memberBean.getUsername()});
 			}
 			else{
 				model.addRow(new Object[]{memberBean.getRealName()+" ("+memberBean.getLccAccount()+")",Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,memberBean.getId()+"",memberBean.getUsername()});
@@ -494,7 +494,7 @@ public class ConferenceController extends BaseController {
 					confCanEnter(item.getLcmConferenceDto().getConfNo());
 					LCCUtil.getInstance().removeAllListener();
 					Launcher.setEventListener(new LvmcEventListener());
-					Launcher.startLvmcFromOutSide(argss, com.lorent.lvmc.util.Constants.AppName.UCS, false);
+					Launcher.startLvmcFromOutSide(argss, com.lorent.lvmc.util.Constants.AppName.VOVO, false);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, Vovo.getViewManager().getUIString("ConferenceController.ConferencePswWrong"));

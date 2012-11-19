@@ -59,11 +59,8 @@ public class MemberListItem extends javax.swing.JPanel {
 			memberImg.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 					"/com/lorent/lvmc/resource/images/state_offline.png")));
 		}
-		if (LvmcUtil.isUCSAPP()) {
-			memberName.setText(data.getNickname());
-		} else {
-			memberName.setText(data.getNickname());
-		}
+		memberName.setText(data.getNickname() + "(" + data.getName() + ")");
+
 		//		memberRole.setText("");
 		StringBuilder roleText = new StringBuilder();
 		roleText.append("(");

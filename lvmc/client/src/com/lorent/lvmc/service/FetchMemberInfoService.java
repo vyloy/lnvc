@@ -13,8 +13,8 @@ public class FetchMemberInfoService {
         MemberDto temp = new MemberDto();
         temp.setName(name);
         temp.setOnline(true);
-        Map<String, LCMRoleDto> confUserRole = LCMUtil.getConfUserRole(DataUtil.getLoginInfo().getConfno(), new String[]{name});
-        LCMRoleDto roleDto = confUserRole.get(name);
+//        Map<String, LCMRoleDto> confUserRole = LCMUtil.getConfUserRole(DataUtil.getLoginInfo().getConfno(), new String[]{name});
+        LCMRoleDto roleDto = LCMUtil.getMyRoleAndPermission(DataUtil.getLoginInfo().getConfno(), name);
         temp.setNickname(roleDto.getNickname());
         temp.setRole(roleDto);
         return temp;

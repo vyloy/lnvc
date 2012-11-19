@@ -177,7 +177,7 @@ public class PhoneController extends BaseController {
                 isExitApplication = false;
             }
 			memberinfomap.clear();
-    		if(LvmcUtil.isUCSAPP() && Launcher.isStartedFromOutSide){
+    		if(Launcher.isStartedFromOutSide){
     			DataUtil.setValue(DataUtil.Key.AleardyHangup, true);
     			Launcher.stopLvmcFromOutSide();
     		}

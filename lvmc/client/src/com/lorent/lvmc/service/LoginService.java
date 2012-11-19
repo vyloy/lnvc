@@ -62,7 +62,9 @@ public class LoginService extends BaseService {
         chat.removeListeners();
         
         LvmcOpenfireUtil.doRemoveListener();
-        OpenfireUtil.getInstance().disconnect();
+        if(LvmcUtil.isUCSAPP()){
+        	OpenfireUtil.getInstance().disconnect();
+        }
         DataUtil.setValue(DataUtil.Key.Room, null);
         
         
@@ -81,11 +83,7 @@ public class LoginService extends BaseService {
         ConfigUtil.setProperty("serverIP", serverIP);
         try {
         	roleDto = LCMUtil.getMyRoleAndPermission(confno, username);
-        	if(LvmcUtil.isUCSAPP()){
-        		info.setNickName(roleDto.getNickname());
-        	}else{
-        		info.setNickName(roleDto.getNickname());
-        	}
+        	info.setNickName(roleDto.getNickname());
             info.setConferenceTitle(roleDto.getConferenceTitle());
             DataUtil.setValue(Key.myPermission, roleDto);
 		} catch (Exception e) {
@@ -175,11 +173,7 @@ public class LoginService extends BaseService {
             
             try{
             	roleDto = LCMUtil.getMyRoleAndPermission(confno, username);
-            	if(LvmcUtil.isUCSAPP()){
-            		info.setNickName(roleDto.getNickname());
-            	}else{
-            		info.setNickName(roleDto.getNickname());
-            	}
+            	info.setNickName(roleDto.getNickname());
                 info.setConferenceTitle(roleDto.getConferenceTitle());
                 DataUtil.setValue(Key.myPermission, roleDto);
             }catch(Exception e){
