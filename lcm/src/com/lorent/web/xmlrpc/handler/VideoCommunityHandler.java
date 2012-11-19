@@ -16,7 +16,9 @@ public class VideoCommunityHandler extends BaseHandler {
 
 	
 	//上传视频信息
-	public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
+	public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,
+			String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo,
+			String duration,String category) throws Exception{
 		//VideoCommunity
 		String rtspVideoClipUrlHyper = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHyper;
 		String rtspVideoClipUrlHigh = "rtsp://"+ftpSrvIp+":554/"+videoClipNameHigh;
@@ -38,6 +40,8 @@ public class VideoCommunityHandler extends BaseHandler {
 		bean.setCreaterName(createrName);
 		bean.setCreaterNo(createrNo);
 		bean.setIsmonitor(false);
+		bean.setDuration(duration);
+		bean.setCategory(category);
 		serviceFacade.getVideoClipService().addVideoClip(bean);
 		return true;
 	}
@@ -96,6 +100,41 @@ public class VideoCommunityHandler extends BaseHandler {
 		 return arrayList;
 	}
 	
+	//获得某类别视频列表信息
+	public List<LCMVideoClip> getVideoClipList(Integer pageIndex,Integer pageSize,String category) throws Exception{
+		
+		List<VideoClipBean> videoClipList = serviceFacade.getVideoClipService().getVideoClipList(pageIndex, pageSize);
+		 if (videoClipList.size() <= 0) {
+			return null;
+		 }
+		 ArrayList<LCMVideoClip> arrayList = new ArrayList<LCMVideoClip>();
+		 for (VideoClipBean videoClipBean : videoClipList) {
+			 if (videoClipBean.getCategory() != null && videoClipBean.getCategory().equals(category)) {
+				 LCMVideoClip lcmVideoClip = new LCMVideoClip();
+				 lcmVideoClip.setId(videoClipBean.getId());
+				 lcmVideoClip.setStatus(videoClipBean.getStatus());
+				 lcmVideoClip.setRtspVideoUrlHigh(videoClipBean.getRtspVideoUrlHigh());
+				 lcmVideoClip.setRtspVideoUrlStandard(videoClipBean.getRtspVideoUrlStandard());
+				 lcmVideoClip.setHttpVideoUrlHigh(videoClipBean.getHttpVideoUrlHigh());
+				 lcmVideoClip.setHttpVideoUrlStandard(videoClipBean.getHttpVideoUrlStandard());
+				 lcmVideoClip.setCreaterName(videoClipBean.getCreaterName());
+				 lcmVideoClip.setCreaterNo(videoClipBean.getCreaterNo());
+				 lcmVideoClip.setThumbnailUrl(videoClipBean.getThumbnailUrl());
+				 lcmVideoClip.setTitle(videoClipBean.getTitle());
+				 lcmVideoClip.setDescription(videoClipBean.getDescription());
+				 lcmVideoClip.setCategory(videoClipBean.getCategory());
+				 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
+				 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
+				 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
+				 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
+				 lcmVideoClip.setDuration(videoClipBean.getDuration());
+				 lcmVideoClip.setHits(videoClipBean.getHits());
+				 arrayList.add(lcmVideoClip);
+			 }
+		 }
+		 return arrayList;
+	}
+	
 	//获得视频列表信息
 	public List<LCMVideoClip> getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
 		 List<VideoClipBean> videoClipList = serviceFacade.getVideoClipService().getVideoClipList(pageIndex, pageSize);
@@ -121,6 +160,8 @@ public class VideoCommunityHandler extends BaseHandler {
 			 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
 			 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
 			 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
+			 lcmVideoClip.setDuration(videoClipBean.getDuration());
+			 lcmVideoClip.setHits(videoClipBean.getHits());
 			 arrayList.add(lcmVideoClip);
 		 }
 		 return arrayList;
@@ -128,6 +169,17 @@ public class VideoCommunityHandler extends BaseHandler {
 	
 	public Integer getVideoListLength() throws Exception{
 		return serviceFacade.getVideoClipService().getAllVideoClip().size();
+	}
+	
+	public Integer getVideoListLength(String category) throws Exception{
+		List<VideoClipBean> allVideoClip = serviceFacade.getVideoClipService().getAllVideoClip();
+		ArrayList<VideoClipBean> arrayList = new ArrayList<VideoClipBean>();
+		for (VideoClipBean videoClipBean : allVideoClip) {
+			if (videoClipBean.getCategory() != null && videoClipBean.getCategory().equals(category)) {
+				arrayList.add(videoClipBean);
+			}
+		}
+		return arrayList.size();
 	}
 	
 	public Integer getMonitorListLength() throws Exception{

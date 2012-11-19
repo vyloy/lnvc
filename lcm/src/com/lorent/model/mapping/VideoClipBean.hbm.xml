@@ -23,5 +23,7 @@
 		<property name="createrName" column="creatername" />
 		<property name="createrNo" column="createrno" />
 		<property name="ismonitor" column="ismonitor" />
+		<property name="duration" column="duration" />
+		<property name="hits" column="hits" />
 	</class>
 </hibernate-mapping>

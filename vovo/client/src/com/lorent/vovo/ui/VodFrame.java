@@ -7,6 +7,14 @@
 package com.lorent.vovo.ui;
 
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+import org.apache.log4j.Logger;
+import org.jdesktop.swingx.painter.ImagePainter;
+import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 
 import com.lorent.vovo.VovoVod;
 import com.lorent.vovo.util.Constants;
@@ -17,8 +25,19 @@ import com.lorent.vovo.util.Constants;
  */
 public class VodFrame extends javax.swing.JFrame {
 
+	private Logger log = Logger.getLogger(VodFrame.class);
+
 	private int pageIndex = 0;
+
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
 	private int maxPageIndex = -1;
+
+	public int getMaxPageIndex() {
+		return maxPageIndex;
+	}
 
 	public void setMaxPageIndex(int maxPageIndex) {
 		this.maxPageIndex = maxPageIndex;
@@ -29,6 +48,20 @@ public class VodFrame extends javax.swing.JFrame {
 		initComponents();
 		setIconImage(Toolkit.getDefaultToolkit().createImage(
 				getClass().getResource(Constants.TRAYICON_PATH)));
+
+		ImagePainter imagePainter = null;
+		try {
+			imagePainter = new ImagePainter(ImageIO.read(getClass()
+					.getResource(
+							"/com/lorent/vovo/resource/images/Heise15.jpg")));
+		} catch (IOException e) {
+			log.error("reflashVideoClipPanel ", e);
+			e.printStackTrace();
+		}
+		imagePainter.setScaleToFit(true);
+		imagePainter.setScaleType(ScaleType.Distort);
+		jXPanel1.setBackgroundPainter(imagePainter);
+
 	}
 
 	/** This method is called from within the constructor to
@@ -41,6 +74,7 @@ public class VodFrame extends javax.swing.JFrame {
 	private void initComponents() {
 
 		buttonGroup1 = new javax.swing.ButtonGroup();
+		jXPanel1 = new org.jdesktop.swingx.JXPanel();
 		buttomPanel = new javax.swing.JPanel();
 		topVodListPanel = new javax.swing.JPanel();
 		navigatePagePanel = new javax.swing.JPanel();
@@ -52,6 +86,8 @@ public class VodFrame extends javax.swing.JFrame {
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
 
+		jXPanel1.setLayout(new java.awt.BorderLayout());
+
 		javax.swing.GroupLayout buttomPanelLayout = new javax.swing.GroupLayout(
 				buttomPanel);
 		buttomPanel.setLayout(buttomPanelLayout);
@@ -60,12 +96,16 @@ public class VodFrame extends javax.swing.JFrame {
 				.addGap(0, 688, Short.MAX_VALUE));
 		buttomPanelLayout.setVerticalGroup(buttomPanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 31, Short.MAX_VALUE));
+				.addGap(0, 0, Short.MAX_VALUE));
 
-		getContentPane().add(buttomPanel, java.awt.BorderLayout.PAGE_END);
+		jXPanel1.add(buttomPanel, java.awt.BorderLayout.PAGE_END);
 
+		topVodListPanel.setOpaque(false);
 		topVodListPanel.setLayout(new java.awt.BorderLayout());
 
+		navigatePagePanel.setOpaque(false);
+
+		lastPageButton.setFont(new java.awt.Font("微软雅黑", 0, 12));
 		lastPageButton.setText("\u4e0a\u4e00\u9875");
 		lastPageButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +118,7 @@ public class VodFrame extends javax.swing.JFrame {
 				java.awt.FlowLayout.CENTER, 5, 0));
 		navigatePagePanel.add(navigateNumberPanel);
 
+		nextPageButton.setFont(new java.awt.Font("微软雅黑", 0, 12));
 		nextPageButton.setText("\u4e0b\u4e00\u9875");
 		nextPageButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,10 +129,13 @@ public class VodFrame extends javax.swing.JFrame {
 
 		topVodListPanel.add(navigatePagePanel, java.awt.BorderLayout.PAGE_END);
 
+		vodListPanel.setOpaque(false);
 		vodListPanel.setLayout(new java.awt.GridLayout(0, 4));
 		topVodListPanel.add(vodListPanel, java.awt.BorderLayout.CENTER);
 
-		getContentPane().add(topVodListPanel, java.awt.BorderLayout.CENTER);
+		jXPanel1.add(topVodListPanel, java.awt.BorderLayout.CENTER);
+
+		getContentPane().add(jXPanel1, java.awt.BorderLayout.CENTER);
 
 		pack();
 	}// </editor-fold>
@@ -100,9 +144,9 @@ public class VodFrame extends javax.swing.JFrame {
 	private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		pageIndex++;
 		if (pageIndex > maxPageIndex) {
-			pageIndex =  maxPageIndex;
+			pageIndex = maxPageIndex;
 		}
-		VovoVod.exeC("vod", "nextVodListPage", this,pageIndex);
+		VovoVod.exeC("vod", "reflashVodList", this, pageIndex);
 	}
 
 	private void lastPageButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,7 +154,7 @@ public class VodFrame extends javax.swing.JFrame {
 		if (pageIndex < 0) {
 			pageIndex = 0;
 		}
-		VovoVod.exeC("vod", "lastVodListPage", this,pageIndex);
+		VovoVod.exeC("vod", "reflashVodList", this, pageIndex);
 	}
 
 	/**
@@ -128,6 +172,7 @@ public class VodFrame extends javax.swing.JFrame {
 	// Variables declaration - do not modify
 	private javax.swing.JPanel buttomPanel;
 	private javax.swing.ButtonGroup buttonGroup1;
+	private org.jdesktop.swingx.JXPanel jXPanel1;
 	private javax.swing.JButton lastPageButton;
 	private javax.swing.JPanel navigateNumberPanel;
 	private javax.swing.JPanel navigatePagePanel;
@@ -142,5 +187,9 @@ public class VodFrame extends javax.swing.JFrame {
 
 	public javax.swing.JPanel getNavigateNumberPanel() {
 		return navigateNumberPanel;
+	}
+
+	public javax.swing.JPanel getNavigatePagePanel() {
+		return navigatePagePanel;
 	}
 }

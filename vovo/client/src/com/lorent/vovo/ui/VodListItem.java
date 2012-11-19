@@ -10,6 +10,7 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 
 import com.lorent.common.dto.LCMVideoClip;
+import com.lorent.vovo.VovoVod;
 
 /**
  *
@@ -18,7 +19,7 @@ import com.lorent.common.dto.LCMVideoClip;
 public class VodListItem extends javax.swing.JPanel {
 
 	private LCMVideoClip lcmVideoClip;
-	
+
 	public LCMVideoClip getLcmVideoClip() {
 		return lcmVideoClip;
 	}
@@ -50,19 +51,27 @@ public class VodListItem extends javax.swing.JPanel {
 		jPanel2 = new javax.swing.JPanel();
 		videoPictureXPanel = new org.jdesktop.swingx.JXPanel();
 
+		setOpaque(false);
 		setLayout(new java.awt.BorderLayout());
 
+		jXPanel1.setOpaque(false);
 		jXPanel1.setLayout(new java.awt.BorderLayout());
 
+		jPanel1.setOpaque(false);
 		jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1,
 				javax.swing.BoxLayout.Y_AXIS));
 
+		jPanel3.setOpaque(false);
 		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 12,
-				5));
+				3));
 
-		videoTitleLabel.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		videoTitleLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
 		videoTitleLabel.setText("jLabel1");
 		videoTitleLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				videoTitleLabelMouseClicked(evt);
+			}
+
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				videoTitleLabelMouseEntered(evt);
 			}
@@ -75,8 +84,9 @@ public class VodListItem extends javax.swing.JPanel {
 
 		jPanel1.add(jPanel3);
 
+		jPanel4.setOpaque(false);
 		jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 12,
-				5));
+				2));
 
 		videoDescriptionLabel.setFont(new java.awt.Font("微软雅黑", 0, 11));
 		videoDescriptionLabel.setText("jLabel2");
@@ -86,9 +96,15 @@ public class VodListItem extends javax.swing.JPanel {
 
 		jXPanel1.add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
+		jPanel2.setOpaque(false);
+
 		videoPictureXPanel.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+				.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 		videoPictureXPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				videoPictureXPanelMouseClicked(evt);
+			}
+
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				videoPictureXPanelMouseEntered(evt);
 			}
@@ -106,7 +122,7 @@ public class VodListItem extends javax.swing.JPanel {
 				.addGap(0, 202, Short.MAX_VALUE));
 		videoPictureXPanelLayout.setVerticalGroup(videoPictureXPanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE));
+				.addGap(0, 97, Short.MAX_VALUE));
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
 				jPanel2);
@@ -133,13 +149,24 @@ public class VodListItem extends javax.swing.JPanel {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void videoTitleLabelMouseClicked(java.awt.event.MouseEvent evt) {
+		VovoVod.exeC("videoclip", "playVideoClip", getLcmVideoClip()
+				.getHttpVideoUrlHyper());
+	}
+
+	private void videoPictureXPanelMouseClicked(java.awt.event.MouseEvent evt) {
+		VovoVod.exeC("videoclip", "playVideoClip", getLcmVideoClip()
+				.getHttpVideoUrlHyper());
+	}
+
 	private void videoTitleLabelMouseExited(java.awt.event.MouseEvent evt) {
+		videoTitleLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	private void videoPictureXPanelMouseExited(java.awt.event.MouseEvent evt) {
 		videoPictureXPanel.setBorder(new javax.swing.border.LineBorder(
-				new java.awt.Color(0, 0, 0), 2, false));
+				new java.awt.Color(204, 204, 204), 2, false));
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
@@ -151,6 +178,7 @@ public class VodListItem extends javax.swing.JPanel {
 	}
 
 	private void videoTitleLabelMouseEntered(java.awt.event.MouseEvent evt) {
+		videoTitleLabel.setFont(new java.awt.Font("微软雅黑", 3, 14));
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 

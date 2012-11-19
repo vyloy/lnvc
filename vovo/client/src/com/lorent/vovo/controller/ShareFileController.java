@@ -77,6 +77,7 @@ public class ShareFileController extends BaseController {
 		FTPClient ftpClient = getFtpClient(sessionID);
 //		ftpClient.setAutoNoopTimeout(10000);
 		if (!ftpClient.isConnected()) {
+//			ftpClient.setAutoNoopTimeout(10000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
@@ -554,6 +555,7 @@ public class ShareFileController extends BaseController {
 	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
@@ -566,6 +568,7 @@ public class ShareFileController extends BaseController {
 	public void upLoadFileToFtpServer(File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
@@ -579,6 +582,7 @@ public class ShareFileController extends BaseController {
 	public boolean checkFileExistInFtpServer(String targetDirectory,String filename) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}

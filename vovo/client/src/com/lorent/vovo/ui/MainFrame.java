@@ -41,7 +41,7 @@ public class MainFrame extends javax.swing.JFrame {
 		BufferedImage bi = Vovo.getValue(Constants.DataKey.BACKGROUND_IMAGE
 				.toString());
 		ImagePainter ip = new ImagePainter(bi);
-		//		ip.setScaleToFit(true);
+		ip.setScaleToFit(true);
 		ip.setScaleType(ScaleType.Distort);
 		bgPanel.setBackgroundPainter(ip);
 		mainTab.setUI(new VoVoTabbedPaneUI());

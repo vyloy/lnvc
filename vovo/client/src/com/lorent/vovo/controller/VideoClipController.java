@@ -203,6 +203,58 @@ public class VideoClipController extends BaseController {
 		return true;
 	}
 	
+	private String getDuration(String durationStr) throws Exception{
+		String duration = durationStr;
+		String shours = "";
+		String sminutes = "";
+		String sseconds = "";
+		if (duration.indexOf("h") != -1) {
+			String trim1 = duration.substring(0, duration.indexOf("h")).trim();
+			Integer hours = 0;
+			hours = Integer.parseInt(trim1);
+			if (hours < 10) {
+				shours = "0"+hours;
+			}
+			else{
+				shours = trim1;
+			}
+			duration = duration.substring(duration.indexOf("h")+1);
+		}
+		else{
+			shours = "00";
+		}
+		if (duration.indexOf("mn") != -1) {
+			String trim2 = duration.substring(0, duration.indexOf("mn")).trim();
+			Integer minutes = 0;
+			minutes = Integer.parseInt(trim2);
+			if (minutes < 10) {
+				sminutes = "0"+minutes;
+			}
+			else{
+				sminutes = trim2;
+			}
+			duration = duration.substring(duration.indexOf("mn")+2);
+		}
+		else{
+			sminutes = "00";
+		}
+		if (duration.indexOf("s") != -1) {
+			String trim3 = duration.substring(0,duration.indexOf("s")).trim();
+			Integer seconds = 0;
+			seconds = Integer.parseInt(trim3);
+			if (seconds < 10) {
+				sseconds = "0"+seconds;
+			}
+			else{
+				sseconds = trim3;
+			}
+		}
+		else{
+			sseconds = "00";
+		}
+		return shours+":"+sminutes+":"+sseconds;
+	}
+	
 	public void selectedVideoClipFile(UploadVideoClipDialog dialog,Constants.VideoDefinition definitaion) throws Exception{
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.mp4", new String[]{"mp4"}));
@@ -218,13 +270,17 @@ public class VideoClipController extends BaseController {
 			if (checkVideoFile == false) {
 				return;
 			}
+			String duration = videoPrifilesMap.get("General_Duration");
+			String duration2 = getDuration(duration);
+			dialog.getDurationLabel().setText("时长："+duration2);
+			dialog.setDuration(duration2);
 			if (definitaion.equals(Constants.VideoDefinition.High)) {
-				mp4box(thefile.getAbsolutePath());
+//				mp4box(thefile.getAbsolutePath());
 				dialog.setSelectedHighVideoFilePath(thefile.getAbsolutePath());
 				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			}
 			else if(definitaion.equals(Constants.VideoDefinition.Standard)){
-				mp4box(thefile.getAbsolutePath());
+//				mp4box(thefile.getAbsolutePath());
 				dialog.setSelectedStandardVideoFilePath(thefile.getAbsolutePath());
 				dialog.getStandardFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			}
@@ -242,7 +298,7 @@ public class VideoClipController extends BaseController {
 				String cacheFileName = target+currentTime+"_"+newTheFileName+".jpg";
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
-				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 352x240 -f image2 "+targetPath);
+				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 300x420 -f mjpeg "+targetPath);
 				log.info(cmdStr);
 				Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
 				byte b[] = new byte[1024];
@@ -255,9 +311,8 @@ public class VideoClipController extends BaseController {
 				String resultStr = resultBuffer.toString();
 				log.info(resultStr);
 				
-				mp4box(thefile.getAbsolutePath());
+//				mp4box(thefile.getAbsolutePath());
 				
-//				dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 				File cacheimagefile = new File(cacheFileName);
 				if (cacheimagefile.exists()) {
 					BufferedImage bufferimage =ImageIO.read(cacheimagefile);
@@ -272,7 +327,7 @@ public class VideoClipController extends BaseController {
 		}
 	}
 	
-	private void mp4box(String targetFilePath) throws Exception{
+	private void mp4box(String targetFilePath,UploadVideoClipDialog dialog) throws Exception{
 		//mp4box
 		byte b[] = new byte[1024];
         int r = 0;
@@ -283,13 +338,15 @@ public class VideoClipController extends BaseController {
 		log.info(cmdStr);
 		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr0);
 		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
-            log.info(new String(b, 0, r));
+			dialog.getResultProgressBar().setString(new String(b, 0, r));
+//            log.info(new String(b, 0, r));
         }
 		startProcess1.waitFor();
 		
 		startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
 		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
-            log.info(new String(b, 0, r));
+			dialog.getResultProgressBar().setString(new String(b, 0, r));
+//            log.info(new String(b, 0, r));
         }
 		startProcess1.waitFor();
 	}
@@ -359,7 +416,6 @@ public class VideoClipController extends BaseController {
 			private long curentLength = 0;
 			@Override
 			public void transferred(int transferedLength) {
-				// TODO Auto-generated method stub
 				curentLength = curentLength + transferedLength;
 				double d = 1;
 				d = 100 * curentLength / thumbailfilesize;
@@ -422,7 +478,6 @@ public class VideoClipController extends BaseController {
 			}
 		};
 		
-		
 		//检测ftp上是否已存在文件名
 		Boolean fileisexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHigh.getName());
 		if (fileisexist) {
@@ -439,9 +494,17 @@ public class VideoClipController extends BaseController {
 			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHyper.getName());
 			return;
 		}
+		
 		new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
+            	dialog.getResultProgressBar().setString(fileHigh.getAbsolutePath());
+        		mp4box(fileHigh.getAbsolutePath(),dialog);
+        		dialog.getResultProgressBar().setString(fileStandard.getAbsolutePath());
+        		mp4box(fileStandard.getAbsolutePath(),dialog);
+        		dialog.getResultProgressBar().setString(fileHyper.getAbsolutePath());
+        		mp4box(fileHyper.getAbsolutePath(),dialog);
+            	
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
@@ -450,7 +513,7 @@ public class VideoClipController extends BaseController {
             	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
             	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
             	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
-            	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileNameHyper,newFileNameHigh,newFileNameStandard, thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername());
+            	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileNameHyper,newFileNameHigh,newFileNameStandard, thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername(),dialog.getDuration(),dialog.getCategoryComboBox().getSelectedItem().toString());
             	if (uploadVideoClipInfo) {
 //					System.out.println(uploadVideoClipInfo);
 					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
@@ -607,7 +670,7 @@ public class VideoClipController extends BaseController {
 										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
 									} catch (Exception e) {
 										try {
-											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
+											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));
 										} catch (IOException e1) {
 											log.error("reflashVideoClipPanel ",e );
 											e1.printStackTrace();
@@ -674,7 +737,7 @@ public class VideoClipController extends BaseController {
 										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
 									} catch (Exception e) {
 										try {
-											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/brokenimg.png")));
+											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));
 										} catch (IOException e1) {
 											log.error("reflashVideoClipPanel ",e );
 											e1.printStackTrace();
@@ -810,7 +873,7 @@ public class VideoClipController extends BaseController {
 	public void playVideoClip(String url) throws Exception{
 		String vlc = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\vlc\\vlc.exe");
 		String newUrl = StringUtil.convertFilePath2DOSCommandStr(url);
-		final String cmdStr =  "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(vlc+" --one-instance "+newUrl);
+		final String cmdStr =  "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(vlc+" --one-instance --fullscreen --no-video-title-show --play-and-exit  "+newUrl);
 		new Thread(){
 
 			@Override
