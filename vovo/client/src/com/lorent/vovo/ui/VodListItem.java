@@ -50,6 +50,8 @@ public class VodListItem extends javax.swing.JPanel {
 		videoDescriptionLabel = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
 		videoPictureXPanel = new org.jdesktop.swingx.JXPanel();
+		durationXPanel = new org.jdesktop.swingx.JXPanel();
+		durationLabel = new javax.swing.JLabel();
 
 		setOpaque(false);
 		setLayout(new java.awt.BorderLayout());
@@ -113,16 +115,16 @@ public class VodListItem extends javax.swing.JPanel {
 				videoPictureXPanelMouseExited(evt);
 			}
 		});
+		videoPictureXPanel.setLayout(new java.awt.BorderLayout());
 
-		javax.swing.GroupLayout videoPictureXPanelLayout = new javax.swing.GroupLayout(
-				videoPictureXPanel);
-		videoPictureXPanel.setLayout(videoPictureXPanelLayout);
-		videoPictureXPanelLayout.setHorizontalGroup(videoPictureXPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 202, Short.MAX_VALUE));
-		videoPictureXPanelLayout.setVerticalGroup(videoPictureXPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 97, Short.MAX_VALUE));
+		durationXPanel.setOpaque(false);
+		durationXPanel.setLayout(new java.awt.FlowLayout(
+				java.awt.FlowLayout.LEFT));
+
+		durationLabel.setText("jLabel1");
+		durationXPanel.add(durationLabel);
+
+		videoPictureXPanel.add(durationXPanel, java.awt.BorderLayout.SOUTH);
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
 				jPanel2);
@@ -131,16 +133,14 @@ public class VodListItem extends javax.swing.JPanel {
 				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
 				jPanel2Layout.createSequentialGroup().addContainerGap()
 						.addComponent(videoPictureXPanel,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, 141,
 								Short.MAX_VALUE).addContainerGap()));
 		jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
 				javax.swing.GroupLayout.Alignment.TRAILING,
 				jPanel2Layout.createSequentialGroup().addContainerGap()
 						.addComponent(videoPictureXPanel,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, 157,
 								Short.MAX_VALUE).addContainerGap()));
 
 		jXPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -184,6 +184,8 @@ public class VodListItem extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JLabel durationLabel;
+	private org.jdesktop.swingx.JXPanel durationXPanel;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
@@ -204,6 +206,14 @@ public class VodListItem extends javax.swing.JPanel {
 
 	public javax.swing.JLabel getVideoTitleLabel() {
 		return videoTitleLabel;
+	}
+
+	public javax.swing.JLabel getDurationLabel() {
+		return durationLabel;
+	}
+
+	public org.jdesktop.swingx.JXPanel getDurationXPanel() {
+		return durationXPanel;
 	}
 
 }

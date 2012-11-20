@@ -10,6 +10,7 @@ public interface VideoClipService extends IGenericService<VideoClipDao, VideoCli
 	public List<VideoClipBean> getAllVideoClip() throws Exception;
 	public List<VideoClipBean> getAllMonitor() throws Exception;
 	public List getVideoClipList(int index,int size) throws Exception;
+	public List getVideoClipList(int index,int size,String category) throws Exception;
 	public List getMonitorList(int index,int size) throws Exception;
 	public boolean addVideoClip(VideoClipBean bean) throws Exception;
 	public boolean deleteVideoClip(int id) throws Exception;

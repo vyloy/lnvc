@@ -1,6 +1,8 @@
 package com.lorent.vovo.controller;
 
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -24,6 +26,7 @@ import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.vovo.VovoVod;
 import com.lorent.vovo.ui.VodFrame;
 import com.lorent.vovo.ui.VodListItem;
+import com.lorent.vovo.ui.VodListPanel;
 import com.lorent.vovo.util.Constants;
 
 public class VodController extends BaseController {
@@ -43,18 +46,27 @@ public class VodController extends BaseController {
 //		frame.setLocation(0, 0);
 		frame.setVisible(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		reflashVodList(frame, 0);
+		String[] videoCategory = Constants.VIDEO_CATEGORY;
+		for (String category : videoCategory) {
+			VodListPanel vodListPanel = new VodListPanel();
+			vodListPanel.setCategory(category);
+			frame.getVodListCardPanel().add(vodListPanel,category);
+			reflashVodList(vodListPanel, 0);
+		}
+//		frame.getVodListCardPanel().add(comp)
+//		reflashVodList(frame, 0);
 	}
+
 	
-	public void reflashVodList(final VodFrame frame,int index) throws Exception{
-		JPanel vodListPane = frame.getVodListPanel();
+	public void reflashVodList(final VodListPanel vodListPanel,int index) throws Exception{
+		JPanel vodListPane = vodListPanel.getListPanel();
 		java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
 		int ntemp = 6;
-		int videoListLength = VovoVod.getLcmUtil().getVideoListLength();
+		int videoListLength = VovoVod.getLcmUtil().getVideoListLength(vodListPanel.getCategory());
 		int maxPageCount = videoListLength / vodListColSize;
-		frame.setMaxPageIndex(maxPageCount);
-		frame.setPageIndex(index);
-		LCMVideoClip[] videoClipList = VovoVod.getLcmUtil().getVideoClipList(index, vodListColSize);
+		vodListPanel.setMaxPageIndex(maxPageCount);
+		vodListPanel.setPageIndex(index);
+		LCMVideoClip[] videoClipList = VovoVod.getLcmUtil().getVideoClipList(index, vodListColSize,vodListPanel.getCategory());
 		vodListPane.removeAll();
 		if (videoClipList != null) {
 			
@@ -70,6 +82,7 @@ public class VodController extends BaseController {
 		            VodListItem vodListItem = new VodListItem();
 		            ImagePainter imagePainter = null;
 		            try {
+		            	Image image = Toolkit.getDefaultToolkit().getImage(videoClipList[i].getThumbnailUrl());
 						imagePainter = new ImagePainter(new URL(videoClipList[i].getThumbnailUrl()));
 					} catch (Exception e) {
 						imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));//video_no_pic.png
@@ -79,14 +92,24 @@ public class VodController extends BaseController {
 		            imagePainter.setScaleType(ScaleType.Distort);
 		            vodListItem.getVideoPictureXPanel().setBackgroundPainter(imagePainter);
 		            String title = videoClipList[i].getTitle();
-		            if (title.length() > 30) {
-						title = title.substring(0, 30)+"...";
+		            if (title.length() > 17) {
+						title = title.substring(0, 17)+"...";
 					}
 		            String description = videoClipList[i].getDescription();
-		            if (description.length() > 37) {
-		            	description = description.substring(0, 37) + "...";
+		            if (description.length() > 24) {
+		            	description = description.substring(0, 24) + "...";
 					}
 		            vodListItem.getVideoTitleLabel().setText(title);
+		            if (videoClipList[i].getDuration() == null) {
+		            	vodListItem.getDurationLabel().setText(" ");
+					}
+		            else{
+		            	vodListItem.getDurationLabel().setText(videoClipList[i].getDuration());
+		            }
+		            
+		            ImagePainter imagePainter2 = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/tran_1.png")));
+		            imagePainter2.setScaleType(ScaleType.Distort);
+		            vodListItem.getDurationXPanel().setBackgroundPainter(imagePainter2);
 		            vodListItem.getVideoTitleLabel().setToolTipText(videoClipList[i].getTitle());
 		            vodListItem.getVideoDescriptionLabel().setText(description);
 		            vodListItem.getVideoDescriptionLabel().setToolTipText(videoClipList[i].getDescription());
@@ -105,9 +128,9 @@ public class VodController extends BaseController {
 				}
 			}
 		}
-		JPanel navigateNumberPanel = frame.getNavigateNumberPanel();
+		JPanel navigateNumberPanel = vodListPanel.getNavigateNumberPanel();
 		navigateNumberPanel.removeAll();
-		int maxPageIndex = frame.getMaxPageIndex();
+		int maxPageIndex = vodListPanel.getMaxPageIndex();
 		int beginindex =  index - pageTabsSize/2;
 		int endindex =  index + pageTabsSize/2;
 		if (beginindex < 0) {
@@ -133,7 +156,7 @@ public class VodController extends BaseController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						reflashVodList(frame, Integer.parseInt(jButton.getName()));
+						reflashVodList(vodListPanel, Integer.parseInt(jButton.getName()));
 					} catch (NumberFormatException e1) {
 						log.error("reflashVodList", e1);
 						e1.printStackTrace();
@@ -151,7 +174,7 @@ public class VodController extends BaseController {
 		}
 		log.info("nextVodListPage: "+index);
 //		frame.getVodListPanel().repaint();
-		frame.getVodListPanel().revalidate();
+		vodListPanel.getListPanel().revalidate();
 	}
 	
 }

@@ -6,6 +6,7 @@
 
 package com.lorent.vovo.ui;
 
+import java.awt.Cursor;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -427,6 +428,19 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		thumbnailXPanel1.setToolTipText("300 x 420");
 		thumbnailXPanel1.setMaximumSize(new java.awt.Dimension(300, 420));
 		thumbnailXPanel1.setMinimumSize(new java.awt.Dimension(300, 420));
+		thumbnailXPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseClicked(evt);
+			}
+
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseEntered(evt);
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseExited(evt);
+			}
+		});
 
 		javax.swing.GroupLayout thumbnailXPanel1Layout = new javax.swing.GroupLayout(
 				thumbnailXPanel1);
@@ -519,6 +533,18 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void thumbnailXPanel1MouseClicked(java.awt.event.MouseEvent evt) {
+		Vovo.exeC("videoclip", "selectedVideoClipPicture", this);
+	}
+
+	private void thumbnailXPanel1MouseExited(java.awt.event.MouseEvent evt) {
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	private void thumbnailXPanel1MouseEntered(java.awt.event.MouseEvent evt) {
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
 
 	private void selectFileHyperButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {

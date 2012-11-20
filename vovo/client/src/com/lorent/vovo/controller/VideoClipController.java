@@ -255,6 +255,46 @@ public class VideoClipController extends BaseController {
 		return shours+":"+sminutes+":"+sseconds;
 	}
 	
+	public void selectedVideoClipPicture(final UploadVideoClipDialog dialog) throws Exception{
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", new String[]{"jpg"}));
+				if (dialog.getCurrentTime() == null || dialog.getCurrentTime().equals("")) {
+					JOptionPane.showMessageDialog(null, "请先选择超清文件");
+					return;
+				}
+				int showOpenDialog = jFileChooser.showOpenDialog(dialog);
+				if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
+					File thefile = jFileChooser.getSelectedFile();
+					String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
+					File file = new File(target);
+					if (!file.exists()) {
+						file.mkdirs();
+					}
+					String cacheFileName = dialog.getThumbnailImageFilePath();
+					FileUtil.localFileCopy(jFileChooser.getSelectedFile().getAbsolutePath(), cacheFileName);
+					
+					File cacheimagefile = new File(cacheFileName);
+					if (cacheimagefile.exists()) {
+						try {
+							BufferedImage bufferimage =ImageIO.read(cacheimagefile);
+							ImagePainter ip = new ImagePainter(bufferimage);
+							ip.setScaleToFit(true);
+							ip.setScaleType(ScaleType.Distort);
+							dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
+						} catch (Exception e) {
+							log.error("selectedVideoClipPicture", e);
+						}
+					}
+				}
+			}
+		});
+	}
+	
 	public void selectedVideoClipFile(UploadVideoClipDialog dialog,Constants.VideoDefinition definitaion) throws Exception{
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.mp4", new String[]{"mp4"}));
@@ -294,7 +334,7 @@ public class VideoClipController extends BaseController {
 					file.mkdirs();
 				}
 				String selectedFile = StringUtil.convertFilePath2DOSCommandStr(jFileChooser.getSelectedFile().getAbsolutePath());
-				String newTheFileName = thefile.getName().replace(".", "_");
+				String newTheFileName = thefile.getName().replace(".", "_").replace(" ", "_");
 				String cacheFileName = target+currentTime+"_"+newTheFileName+".jpg";
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
@@ -406,7 +446,7 @@ public class VideoClipController extends BaseController {
 		dialog.getSelectFileStandardButton().setEnabled(false);
 		dialog.getUploadButton().setEnabled(false);
 		dialog.getSelectFileHyperButton().setEnabled(false);
-		
+		dialog.getCategoryComboBox().setEnabled(false);
 		//上传文件至ftp
 		//缩略图
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());

@@ -62,6 +62,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		jToolBar1 = new javax.swing.JToolBar();
 		reflashButton = new javax.swing.JButton();
 		uploadVideoClipButton = new javax.swing.JButton();
+		jPanel5 = new javax.swing.JPanel();
 		jXPanel1 = new org.jdesktop.swingx.JXPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		videoClipPanel = new javax.swing.JPanel();
@@ -135,6 +136,9 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 		jPanel2.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
+		jPanel5.setOpaque(false);
+		jPanel5.setLayout(new java.awt.BorderLayout());
+
 		jXPanel1.setOpaque(false);
 		jXPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -147,7 +151,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 		jXPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-		jPanel2.add(jXPanel1, java.awt.BorderLayout.CENTER);
+		jPanel5.add(jXPanel1, java.awt.BorderLayout.CENTER);
 
 		jPanel1.setOpaque(false);
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
@@ -175,7 +179,9 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		});
 		jPanel1.add(lastPageButton);
 
-		jPanel2.add(jPanel1, java.awt.BorderLayout.SOUTH);
+		jPanel5.add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+		jPanel2.add(jPanel5, java.awt.BorderLayout.CENTER);
 
 		jTabbedPane1.addTab("\u89c6\u9891\u70b9\u64ad", jPanel2);
 
@@ -377,6 +383,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
+	private javax.swing.JPanel jPanel5;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JScrollPane jScrollPane2;
 	private javax.swing.JTabbedPane jTabbedPane1;
