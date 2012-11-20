@@ -85,10 +85,10 @@ public class VideoClipItem extends javax.swing.JPanel {
 		pictureXPanel.setLayout(pictureXPanelLayout);
 		pictureXPanelLayout.setHorizontalGroup(pictureXPanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 101, Short.MAX_VALUE));
+				.addGap(0, 64, Short.MAX_VALUE));
 		pictureXPanelLayout.setVerticalGroup(pictureXPanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 72, Short.MAX_VALUE));
+				.addGap(0, 80, Short.MAX_VALUE));
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -172,7 +172,8 @@ public class VideoClipItem extends javax.swing.JPanel {
 	//GEN-END:initComponents
 
 	private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "playVideoClip",lcmVideoClip.getHttpVideoUrlHigh());
+		Vovo.exeC("videoclip", "playVideoClip", lcmVideoClip
+				.getHttpVideoUrlHigh());
 	}
 
 	private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
