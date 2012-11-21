@@ -1681,6 +1681,7 @@ public class LCCActivity extends Activity {
 			System.out.println("keycode = back");
 			if (isCallOut)
 				return true;
+			onBackPressed();
 
 		}else if(keyCode == KeyEvent.KEYCODE_DPAD_UP
 				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
@@ -1917,20 +1918,20 @@ public class LCCActivity extends Activity {
 					}
 				}
 			} else if (LCCUtil.CONNECTEDCB.equals(type)) {
-
-				if ("out".equals(lccUtil.calltype)) {
-
-					handler_msg.removeMessages(timeout_msg);
-					isCall = true;
-					Log.d(TAG, "连接成功");
-					findViewById(R.id.mainlayout_right)
-							.setVisibility(View.GONE);
-
-					out_callLayout.setVisibility(View.GONE);
-					noticeCallout.setVisibility(View.VISIBLE);
-					System.out.println("call out   连接成功");
-					set_timer();
-				}
+//
+//				if ("out".equals(lccUtil.calltype)) {
+//
+//					handler_msg.removeMessages(timeout_msg);
+//					isCall = true;
+//					Log.d(TAG, "连接成功");
+//					findViewById(R.id.mainlayout_right)
+//							.setVisibility(View.GONE);
+//
+//					out_callLayout.setVisibility(View.GONE);
+//					noticeCallout.setVisibility(View.VISIBLE);
+//					System.out.println("call out   连接成功");
+//					set_timer();
+//				}
 
 			} else if (LCCUtil.HANGUPCB.equals(type)) {
 
