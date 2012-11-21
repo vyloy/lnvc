@@ -172,7 +172,10 @@ public class VideoClipItem extends javax.swing.JPanel {
 	//GEN-END:initComponents
 
 	private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "playVideoClip",lcmVideoClip.getHttpVideoUrlHigh());
+		if(lcmVideoClip.getIsmonitor()){
+			Vovo.exeC("videoclip", "playMonitor",lcmVideoClip.getHttpVideoUrlHigh());
+		}else
+			Vovo.exeC("videoclip", "playVideoClip",lcmVideoClip.getHttpVideoUrlHigh());
 	}
 
 	private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
