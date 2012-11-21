@@ -75,9 +75,9 @@ public class ShareFileController extends BaseController {
 	private void checkAndCreateDefaultFtpPath(String parentPath,String sessionID) throws Exception{
 		log.debug("checkAndCreateDefaultFtpPath");
 		FTPClient ftpClient = getFtpClient(sessionID);
+//		ftpClient.setAutoNoopTimeout(10000);
 		if (!ftpClient.isConnected()) {
-//			ftpClient.noop();
-			ftpClient.setAutoNoopTimeout(10000);
+//			ftpClient.setAutoNoopTimeout(10000);
 			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
@@ -554,20 +554,27 @@ public class ShareFileController extends BaseController {
 	
 	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
-		if (!ftpClient.isConnected()) {
+		if (!ftpClient.isConnected() ) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
+		}
+		if (!ftpClient.isAuthenticated()) {
 			ftpClient.login(ftpUser, ftpPsw);
 		}
 		ftpClient.changeDirectory(targetDirectory);
 		if (fileName != null && !fileName.equals("")) {
 			ftpClient.deleteFile(fileName);
 		}
+		ftpClient.logout();
 	}
 	
 	public void upLoadFileToFtpServer(File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
+		}
+		if (!ftpClient.isAuthenticated()) {
 			ftpClient.login(ftpUser, ftpPsw);
 		}
 		ftpClient.changeDirectory(targetDirectory);
@@ -575,21 +582,27 @@ public class ShareFileController extends BaseController {
 		if (newFileName != null && !newFileName.equals("")) {
 			ftpClient.rename(file.getName(), newFileName);
 		}
+		ftpClient.logout();
 	}
 	
 	public boolean checkFileExistInFtpServer(String targetDirectory,String filename) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		if (!ftpClient.isConnected()) {
+			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
+		}
+		if (!ftpClient.isAuthenticated()) {
 			ftpClient.login(ftpUser, ftpPsw);
 		}
 		ftpClient.changeDirectory(targetDirectory);
 		String[] listNames = ftpClient.listNames();
 		for (String name : listNames) {
 			if (name.equals(filename)) {
+				ftpClient.logout();
 				return true;
 			}
 		}
+		ftpClient.logout();
 		return false;
 	}
 	

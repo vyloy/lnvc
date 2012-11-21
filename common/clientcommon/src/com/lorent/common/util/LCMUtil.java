@@ -149,8 +149,8 @@ public class LCMUtil {
     	return (Object[])client.execute("lcmConf.getUCSConf", new Object[]{});
     }
     
-    public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo) throws Exception{
-    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipNameHyper,videoClipNameHigh,videoClipNameStandard,thumbnailName,title,description,ftpSrvIp,createrName,createrNo});
+    public boolean uploadVideoClipInfo(String videoClipNameHyper,String videoClipNameHigh,String videoClipNameStandard,String thumbnailName,String title,String description,String ftpSrvIp,String createrName,String createrNo,String duration,String category) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.uploadVideoClipInfo",new Object[]{videoClipNameHyper,videoClipNameHigh,videoClipNameStandard,thumbnailName,title,description,ftpSrvIp,createrName,createrNo,duration,category});
     }
     
     public boolean uploadMonitorInfo(String liveStreamUrl,String thumbnailFtpUrl,String title,String description,String ftpSrvIp,String createrName,String createrNo)throws Exception{
@@ -159,6 +159,10 @@ public class LCMUtil {
     
     public int getVideoListLength() throws Exception{
     	return (Integer)client.execute("lcmVideo.getVideoListLength",new Object[]{});
+    }
+    
+    public int getVideoListLength(String category) throws Exception{
+    	return (Integer)client.execute("lcmVideo.getVideoListLength",new Object[]{category});
     }
     
     public int getMonitorListLength() throws Exception{
@@ -184,6 +188,21 @@ public class LCMUtil {
     //获得点播视频列表，index由0开始
     public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
     	Object obj = (Object)client.execute("lcmVideo.getVideoClipList",new Object[]{pageIndex,pageSize});
+    	if (obj != null) {
+			Object[] lcmVideoClipbjects = (Object[]) obj;
+			LCMVideoClip[] lcmVideoClips = new LCMVideoClip[lcmVideoClipbjects.length];
+    		for (int i = 0; i < lcmVideoClipbjects.length; i++) {
+    			lcmVideoClips[i] = (LCMVideoClip) lcmVideoClipbjects[i];
+			}
+    		return lcmVideoClips;
+		}
+    	else{
+    		return null;
+    	}
+    }
+    
+    public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize,String category) throws Exception{
+    	Object obj = (Object)client.execute("lcmVideo.getVideoClipList",new Object[]{pageIndex,pageSize,category});
     	if (obj != null) {
 			Object[] lcmVideoClipbjects = (Object[]) obj;
 			LCMVideoClip[] lcmVideoClips = new LCMVideoClip[lcmVideoClipbjects.length];
@@ -223,13 +242,13 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://192.168.75.132:6090/lcm/lcmRpc";
+        String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
         int x = 0;
-        int y = 3;
+        int y = 6;
         LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
         for (LCMVideoClip lcmVideoClip : videoClipList) {
-			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+			System.out.println("全部: " +lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
 		}
         System.out.println("length: "+lcm.getVideoListLength());
        
@@ -239,6 +258,11 @@ public class LCMUtil {
 		}
         System.out.println("length: "+lcm.getVideoListLength());
         
+       videoClipList = lcm.getVideoClipList(x, y, "电影");
+       for (LCMVideoClip lcmVideoClip : videoClipList) {
+			System.out.println("电影"+ lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+       }
+       System.out.println("电影 length: "+lcm.getVideoListLength("电影"));
 //		lcm.uploadMonitorInfo("url123", "ftp://xxxx", "biaoti", "miaoshu", "10.168.250.12", "createname", "33013");
 		
 //        lcm.deleteVideoClip(3);

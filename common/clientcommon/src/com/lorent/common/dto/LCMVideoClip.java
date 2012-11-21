@@ -17,8 +17,22 @@ public class LCMVideoClip implements Serializable {
 	private String createrName;
 	private String createrNo;
 	private Boolean ismonitor;//是否监控
+	private String duration;//时长
+	private Integer hits;//点击(人气)
 	protected Integer id;
 	protected Integer status;
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+	public Integer getHits() {
+		return hits;
+	}
+	public void setHits(Integer hits) {
+		this.hits = hits;
+	}
 	public Boolean getIsmonitor() {
 		return ismonitor;
 	}

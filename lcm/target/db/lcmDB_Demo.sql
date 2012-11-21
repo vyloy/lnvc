@@ -2476,6 +2476,8 @@ CREATE TABLE videoclip
   rtspvideourlstandard character varying(2048),
   httpvideourlhyper character varying(2048),
   rtspvideourlhyper character varying(2048),
+  duration character varying(100),
+  hits bigint DEFAULT 0,
   CONSTRAINT pk_videoclip_id PRIMARY KEY (id)
 );
 

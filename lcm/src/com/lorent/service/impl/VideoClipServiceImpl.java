@@ -37,6 +37,12 @@ public class VideoClipServiceImpl extends GenericServiceImpl<VideoClipDao, Video
 	}
 
 	@Override
+	public List getVideoClipList(int index, int size, String category)
+			throws Exception {
+		return daoFacade.getVideoClipDao().getVideoClipList(index, size, category);
+	}
+
+	@Override
 	public boolean deleteVideoClip(int id) throws Exception {
 		return daoFacade.getVideoClipDao().delete(new Integer[]{id});
 	}

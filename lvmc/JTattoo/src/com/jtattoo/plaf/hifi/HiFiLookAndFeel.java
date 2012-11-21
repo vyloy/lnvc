@@ -162,7 +162,7 @@ public class HiFiLookAndFeel extends AbstractLookAndFeel {
             "ToggleButtonUI", HiFiToggleButtonUI.class.getName(),
             "ComboBoxUI", HiFiComboBoxUI.class.getName(),
             "SliderUI", HiFiSliderUI.class.getName(),
-            "PanelUI", HiFiPanelUI.class.getName(),
+//            "PanelUI", HiFiPanelUI.class.getName(),
             "ScrollPaneUI", HiFiScrollPaneUI.class.getName(),
             "TabbedPaneUI", HiFiTabbedPaneUI.class.getName(),
             "ScrollBarUI", HiFiScrollBarUI.class.getName(),

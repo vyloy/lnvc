@@ -125,24 +125,28 @@ public class ProcessUtil {
 			e.printStackTrace();
 		}
 		*/
-    	try {
-    		String liveTv = StringUtil.convertFilePath2DOSCommandStr("D:\\MyEclipseWorkspaces\\git\\lnvc2\\vovo\\client\\livetv\\tv.jar");
-    		final String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr("java -jar "+liveTv);
-    		new Thread(){
-
-    			@Override
-    			public void run() {
-    				try {
-    					Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
-    					startProcess.waitFor();
-    				} catch (Exception e) {
-    				}
-    			}
-    		}.start();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+    	String duration = " 29mn 10s";
+		Integer hours = 0;
+		Integer minutes = 0;
+		Integer seconds = 0;
+		if (duration.indexOf("h") != -1) {
+			String trim1 = duration.substring(0, duration.indexOf("h")).trim();
+			hours = Integer.parseInt(trim1);
+			duration = duration.substring(duration.indexOf("h")+1);
 		}
+		else{
+			hours = 0;
+		}
+		if (duration.indexOf("mn") != -1) {
+			String trim2 = duration.substring(0, duration.indexOf("mn")).trim();
+			minutes = Integer.parseInt(trim2);
+			duration = duration.substring(duration.indexOf("mn")+2);
+		}
+		if (duration.indexOf("s") != -1) {
+			String trim3 = duration.substring(0,duration.indexOf("s")).trim();
+			seconds = Integer.parseInt(trim3);
+		}
+		System.out.println(hours+":"+minutes+":"+seconds);
     }
     
     public int getOwnPid(){

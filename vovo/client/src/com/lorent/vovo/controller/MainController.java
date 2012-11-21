@@ -133,7 +133,7 @@ public class MainController extends BaseController {
 		Vovo.exeC("conference", "getConferenceList", conferencePanel);
 		Vovo.exeC("sharefile", "getDefaultFileList", shareFileListPanel);
 		Vovo.exeC("videoclip", "reflashMonitorPanel");
-		Vovo.exeC("videoclip", "reflashVideoClipPanel");
+		Vovo.exeC("videoclip", "reflashAllVideoClipPanel");
 		PrivateDataUtil.setLoginTime(new Date());
 	}
 	

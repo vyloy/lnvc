@@ -6,6 +6,7 @@
 
 package com.lorent.vovo.ui;
 
+import java.awt.Cursor;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -26,6 +27,15 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	private String selectedHighVideoFilePath;
 	private String selectedStandardVideoFilePath;
 	private String currentTime;
+	private String duration;
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 
 	public String getVideoDescrption() {
 		return videoDescrption;
@@ -97,8 +107,11 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		jLabel5 = new javax.swing.JLabel();
 		hyperFilePathTextField = new javax.swing.JTextField();
 		selectFileHyperButton = new javax.swing.JButton();
+		jLabel6 = new javax.swing.JLabel();
+		categoryComboBox = new javax.swing.JComboBox();
 		jPanel3 = new javax.swing.JPanel();
 		thumbnailXPanel1 = new org.jdesktop.swingx.JXPanel();
+		durationLabel = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
 		uploadButton = new javax.swing.JButton();
 		cancelButton = new javax.swing.JButton();
@@ -163,6 +176,12 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 					}
 				});
 
+		jLabel6.setText(VovoStringUtil
+				.getUIString("UploadVideoClipDialog.duration"));
+
+		categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				Constants.VIDEO_CATEGORY));
+
 		javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(
 				jPanel4);
 		jPanel4.setLayout(jPanel4Layout);
@@ -190,7 +209,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																		.addComponent(
 																				hyperFilePathTextField,
 																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				315,
+																				291,
 																				Short.MAX_VALUE)
 																		.addGap(
 																				7,
@@ -210,7 +229,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																		.addComponent(
 																				hightFilePathTextField,
 																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				315,
+																				291,
 																				Short.MAX_VALUE)
 																		.addGap(
 																				7,
@@ -230,7 +249,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																		.addComponent(
 																				StandardFilePathTextField,
 																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				315,
+																				291,
 																				Short.MAX_VALUE)
 																		.addGap(
 																				7,
@@ -242,30 +261,39 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																javax.swing.GroupLayout.Alignment.TRAILING,
 																jPanel4Layout
 																		.createSequentialGroup()
-																		.addGroup(
-																				jPanel4Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.LEADING)
-																						.addComponent(
-																								jLabel2)
-																						.addComponent(
-																								jLabel3))
+																		.addComponent(
+																				jLabel6)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addGroup(
-																				jPanel4Layout
-																						.createParallelGroup(
-																								javax.swing.GroupLayout.Alignment.TRAILING)
-																						.addComponent(
-																								jScrollPane1,
-																								javax.swing.GroupLayout.DEFAULT_SIZE,
-																								431,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								titleTextField,
-																								javax.swing.GroupLayout.DEFAULT_SIZE,
-																								431,
-																								Short.MAX_VALUE))))
+																		.addComponent(
+																				categoryComboBox,
+																				0,
+																				407,
+																				Short.MAX_VALUE))
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jLabel2)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				titleTextField,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				407,
+																				Short.MAX_VALUE))
+														.addGroup(
+																jPanel4Layout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jLabel3)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				jScrollPane1,
+																				javax.swing.GroupLayout.DEFAULT_SIZE,
+																				407,
+																				Short.MAX_VALUE)))
 										.addContainerGap()));
 		jPanel4Layout
 				.setVerticalGroup(jPanel4Layout
@@ -354,7 +382,20 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																				jLabel4)
 																		.addComponent(
 																				selectFileStandardButton)))
-										.addGap(18, 18, 18)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+										.addGroup(
+												jPanel4Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(jLabel6)
+														.addComponent(
+																categoryComboBox,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addGroup(
 												jPanel4Layout
 														.createParallelGroup(
@@ -366,7 +407,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																javax.swing.GroupLayout.DEFAULT_SIZE,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 										.addGroup(
 												jPanel4Layout
 														.createParallelGroup(
@@ -377,42 +418,90 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 																javax.swing.GroupLayout.PREFERRED_SIZE,
 																127,
 																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(18, Short.MAX_VALUE)));
+										.addContainerGap(17, Short.MAX_VALUE)));
 
 		jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
 		thumbnailXPanel1.setBackground(new java.awt.Color(204, 204, 204));
 		thumbnailXPanel1.setBorder(new javax.swing.border.LineBorder(
 				new java.awt.Color(0, 0, 0), 1, true));
+		thumbnailXPanel1.setToolTipText("300 x 420");
+		thumbnailXPanel1.setMaximumSize(new java.awt.Dimension(300, 420));
+		thumbnailXPanel1.setMinimumSize(new java.awt.Dimension(300, 420));
+		thumbnailXPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseClicked(evt);
+			}
+
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseEntered(evt);
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				thumbnailXPanel1MouseExited(evt);
+			}
+		});
 
 		javax.swing.GroupLayout thumbnailXPanel1Layout = new javax.swing.GroupLayout(
 				thumbnailXPanel1);
 		thumbnailXPanel1.setLayout(thumbnailXPanel1Layout);
 		thumbnailXPanel1Layout.setHorizontalGroup(thumbnailXPanel1Layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 139, Short.MAX_VALUE));
+				.addGap(0, 162, Short.MAX_VALUE));
 		thumbnailXPanel1Layout.setVerticalGroup(thumbnailXPanel1Layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 127, Short.MAX_VALUE));
+				.addGap(0, 186, Short.MAX_VALUE));
+
+		durationLabel.setText("\u65f6\u957f\uff1a");
 
 		javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(
 				jPanel3);
 		jPanel3.setLayout(jPanel3Layout);
-		jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				jPanel3Layout.createSequentialGroup().addContainerGap()
-						.addComponent(thumbnailXPanel1,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addContainerGap()));
-		jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				jPanel3Layout.createSequentialGroup().addContainerGap()
-						.addComponent(thumbnailXPanel1,
-								javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(148, Short.MAX_VALUE)));
+		jPanel3Layout
+				.setHorizontalGroup(jPanel3Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel3Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												jPanel3Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.TRAILING,
+																false)
+														.addComponent(
+																durationLabel,
+																javax.swing.GroupLayout.Alignment.LEADING,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																Short.MAX_VALUE)
+														.addComponent(
+																thumbnailXPanel1,
+																javax.swing.GroupLayout.Alignment.LEADING,
+																javax.swing.GroupLayout.PREFERRED_SIZE,
+																164,
+																Short.MAX_VALUE))
+										.addContainerGap(
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
+		jPanel3Layout
+				.setVerticalGroup(jPanel3Layout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								jPanel3Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(
+												thumbnailXPanel1,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												188,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(durationLabel)
+										.addContainerGap(96, Short.MAX_VALUE)));
 
 		jPanel1.add(jPanel3, java.awt.BorderLayout.WEST);
 
@@ -444,6 +533,18 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void thumbnailXPanel1MouseClicked(java.awt.event.MouseEvent evt) {
+		Vovo.exeC("videoclip", "selectedVideoClipPicture", this);
+	}
+
+	private void thumbnailXPanel1MouseExited(java.awt.event.MouseEvent evt) {
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	private void thumbnailXPanel1MouseEntered(java.awt.event.MouseEvent evt) {
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
 
 	private void selectFileHyperButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
@@ -493,7 +594,9 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JTextField StandardFilePathTextField;
 	private javax.swing.JButton cancelButton;
+	private javax.swing.JComboBox categoryComboBox;
 	private javax.swing.JTextArea descriptionTextArea;
+	private javax.swing.JLabel durationLabel;
 	private javax.swing.JTextField hightFilePathTextField;
 	private javax.swing.JTextField hyperFilePathTextField;
 	private javax.swing.JLabel jLabel1;
@@ -501,6 +604,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel6;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
@@ -558,6 +662,14 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	public javax.swing.JButton getSelectFileHyperButton() {
 		return selectFileHyperButton;
+	}
+
+	public javax.swing.JComboBox getCategoryComboBox() {
+		return categoryComboBox;
+	}
+
+	public javax.swing.JLabel getDurationLabel() {
+		return durationLabel;
 	}
 
 }
