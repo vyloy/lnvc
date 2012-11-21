@@ -102,35 +102,31 @@ public class VideoCommunityHandler extends BaseHandler {
 	
 	//获得某类别视频列表信息
 	public List<LCMVideoClip> getVideoClipList(Integer pageIndex,Integer pageSize,String category) throws Exception{
-		
-		List<VideoClipBean> videoClipList = serviceFacade.getVideoClipService().getVideoClipList(pageIndex, pageSize);
+		List<VideoClipBean> videoClipList = serviceFacade.getVideoClipService().getVideoClipList(pageIndex, pageSize,category);
 		 if (videoClipList.size() <= 0) {
 			return null;
 		 }
 		 ArrayList<LCMVideoClip> arrayList = new ArrayList<LCMVideoClip>();
 		 for (VideoClipBean videoClipBean : videoClipList) {
-			 if (videoClipBean.getCategory() != null && videoClipBean.getCategory().equals(category)) {
-				 LCMVideoClip lcmVideoClip = new LCMVideoClip();
-				 lcmVideoClip.setId(videoClipBean.getId());
-				 lcmVideoClip.setStatus(videoClipBean.getStatus());
-				 lcmVideoClip.setRtspVideoUrlHigh(videoClipBean.getRtspVideoUrlHigh());
-				 lcmVideoClip.setRtspVideoUrlStandard(videoClipBean.getRtspVideoUrlStandard());
-				 lcmVideoClip.setHttpVideoUrlHigh(videoClipBean.getHttpVideoUrlHigh());
-				 lcmVideoClip.setHttpVideoUrlStandard(videoClipBean.getHttpVideoUrlStandard());
-				 lcmVideoClip.setCreaterName(videoClipBean.getCreaterName());
-				 lcmVideoClip.setCreaterNo(videoClipBean.getCreaterNo());
-				 lcmVideoClip.setThumbnailUrl(videoClipBean.getThumbnailUrl());
-				 lcmVideoClip.setTitle(videoClipBean.getTitle());
-				 lcmVideoClip.setDescription(videoClipBean.getDescription());
-				 lcmVideoClip.setCategory(videoClipBean.getCategory());
-				 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
-				 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
-				 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
-				 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
-				 lcmVideoClip.setDuration(videoClipBean.getDuration());
-				 lcmVideoClip.setHits(videoClipBean.getHits());
-				 arrayList.add(lcmVideoClip);
-			 }
+			 LCMVideoClip lcmVideoClip = new LCMVideoClip();
+			 lcmVideoClip.setId(videoClipBean.getId());
+			 lcmVideoClip.setStatus(videoClipBean.getStatus());
+			 lcmVideoClip.setRtspVideoUrlHigh(videoClipBean.getRtspVideoUrlHigh());
+			 lcmVideoClip.setRtspVideoUrlStandard(videoClipBean.getRtspVideoUrlStandard());
+			 lcmVideoClip.setHttpVideoUrlHigh(videoClipBean.getHttpVideoUrlHigh());
+			 lcmVideoClip.setHttpVideoUrlStandard(videoClipBean.getHttpVideoUrlStandard());
+			 lcmVideoClip.setCreaterName(videoClipBean.getCreaterName());
+			 lcmVideoClip.setCreaterNo(videoClipBean.getCreaterNo());
+			 lcmVideoClip.setThumbnailUrl(videoClipBean.getThumbnailUrl());
+			 lcmVideoClip.setTitle(videoClipBean.getTitle());
+			 lcmVideoClip.setDescription(videoClipBean.getDescription());
+			 lcmVideoClip.setCategory(videoClipBean.getCategory());
+			 lcmVideoClip.setIsmonitor(videoClipBean.getIsmonitor());
+			 lcmVideoClip.setHttpVideoUrlHyper(videoClipBean.getHttpVideoUrlHyper());
+			 lcmVideoClip.setRtspVideoUrlHyper(videoClipBean.getRtspVideoUrlHyper());
+			 lcmVideoClip.setDuration(videoClipBean.getDuration());
+			 lcmVideoClip.setHits(videoClipBean.getHits());
+			 arrayList.add(lcmVideoClip);
 		 }
 		 return arrayList;
 	}

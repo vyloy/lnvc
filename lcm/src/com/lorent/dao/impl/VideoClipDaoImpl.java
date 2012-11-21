@@ -49,6 +49,21 @@ public class VideoClipDaoImpl extends GenericDaoImpl<VideoClipBean,Integer> impl
 	}
 
 	@Override
+	public List<VideoClipBean> getVideoClipList(int index, int size,
+			String category) throws Exception {
+		List<VideoClipBean> list = new ArrayList<VideoClipBean>();
+		String hql = "from VideoClipBean video where video.ismonitor = false and video.category='"+category+"' order by video.id";
+		List<VideoClipBean> all = queryByHql(hql);
+		int begin =  index * size;
+		for (int i = 0; i < all.size(); i++) {
+			if (i >= begin && i< begin+size) {
+				list.add(all.get(i));
+			}
+		}
+		return list;
+	}
+
+	@Override
 	public List<VideoClipBean> getMonitorList(int index, int size)
 			throws Exception {
 		List<VideoClipBean> list = new ArrayList<VideoClipBean>();

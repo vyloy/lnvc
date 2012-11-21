@@ -219,7 +219,7 @@ public class VideoScreen extends Activity{
 						e.printStackTrace();
 					}
 					i++;
-					System.out.println("i=" + i);
+					Log.i(TAG, "i=" + i);
 				}
 				
 			}

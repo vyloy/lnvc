@@ -19,6 +19,7 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 import com.jtattoo.plaf.BaseTabbedPaneUI;
 import com.jtattoo.plaf.vovoglass.VoVoTabbedPaneUI;
 import com.lorent.vovo.Vovo;
+import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.Constants.DataKey;
 
 /**
@@ -34,7 +35,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		initComponents();
 		jToolBar1.setUI(new BasicToolBarUI());
 		monitorToolBar.setUI(new BasicToolBarUI());
-		jScrollPane1.getViewport().setOpaque(false);
+//		videoClipTabbedPane.setUI(new VoVoTabbedPaneUI());
 		jScrollPane2.getViewport().setOpaque(false);
 		jTabbedPane1.setUI(new VoVoTabbedPaneUI());
 		BufferedImage whiteimg;
@@ -45,11 +46,16 @@ public class VideoClipPanel extends javax.swing.JPanel {
 			ip.setScaleToFit(true);
 			ip.setScaleType(ScaleType.Distort);
 			//			this.bannerPanel.setBackgroundPainter(ip);
-			jXPanel1.setBackgroundPainter(ip);
 			jXPanel2.setBackgroundPainter(ip);
 		} catch (Exception e) {
 			log.error("VideoClipPanel()", e);
 			e.printStackTrace();
+		}
+		String[] videoCategory = Constants.VIDEO_CATEGORY;
+		for (String category : videoCategory) {
+			VideoClipListPanel videoClipListPanel = new VideoClipListPanel();
+			videoClipListPanel.setCategory(category);
+			videoClipTabbedPane.addTab(category, videoClipListPanel);
 		}
 	}
 
@@ -62,12 +68,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		jToolBar1 = new javax.swing.JToolBar();
 		reflashButton = new javax.swing.JButton();
 		uploadVideoClipButton = new javax.swing.JButton();
-		jXPanel1 = new org.jdesktop.swingx.JXPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		videoClipPanel = new javax.swing.JPanel();
-		jPanel1 = new javax.swing.JPanel();
-		prePageButton = new javax.swing.JButton();
-		lastPageButton = new javax.swing.JButton();
+		videoClipTabbedPane = new javax.swing.JTabbedPane();
 		jPanel3 = new javax.swing.JPanel();
 		monitorToolBar = new javax.swing.JToolBar();
 		reflashMonitorButton = new javax.swing.JButton();
@@ -135,47 +136,10 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 		jPanel2.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
-		jXPanel1.setOpaque(false);
-		jXPanel1.setLayout(new java.awt.BorderLayout());
-
-		jScrollPane1.setOpaque(false);
-
-		videoClipPanel.setOpaque(false);
-		videoClipPanel.setLayout(new javax.swing.BoxLayout(videoClipPanel,
-				javax.swing.BoxLayout.Y_AXIS));
-		jScrollPane1.setViewportView(videoClipPanel);
-
-		jXPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-		jPanel2.add(jXPanel1, java.awt.BorderLayout.CENTER);
-
-		jPanel1.setOpaque(false);
-		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-
-		prePageButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/com/lorent/vovo/resource/images/arrow-left-2.png"))); // NOI18N
-		prePageButton.setText("\u4e0a\u4e00\u9875");
-		prePageButton.setEnabled(false);
-		prePageButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				prePageButtonActionPerformed(evt);
-			}
-		});
-		jPanel1.add(prePageButton);
-
-		lastPageButton.setIcon(new javax.swing.ImageIcon(getClass()
-				.getResource(
-						"/com/lorent/vovo/resource/images/arrow-right-2.png"))); // NOI18N
-		lastPageButton.setText("\u4e0b\u4e00\u9875");
-		lastPageButton.setEnabled(false);
-		lastPageButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				lastPageButtonActionPerformed(evt);
-			}
-		});
-		jPanel1.add(lastPageButton);
-
-		jPanel2.add(jPanel1, java.awt.BorderLayout.SOUTH);
+		videoClipTabbedPane
+				.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+		videoClipTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
+		jPanel2.add(videoClipTabbedPane, java.awt.BorderLayout.CENTER);
 
 		jTabbedPane1.addTab("\u89c6\u9891\u70b9\u64ad", jPanel2);
 
@@ -354,14 +318,6 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		Vovo.exeC("videoclip", "startLiveTv");
 	}
 
-	private void lastPageButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "lastVideoClipPage");
-	}
-
-	private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("videoclip", "preVideoClipPage");
-	}
-
 	private void reflashButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "reflashVideoClipPanel");
 	}
@@ -373,46 +329,29 @@ public class VideoClipPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
-	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JScrollPane jScrollPane2;
 	private javax.swing.JTabbedPane jTabbedPane1;
 	private javax.swing.JToolBar jToolBar1;
-	private org.jdesktop.swingx.JXPanel jXPanel1;
 	private org.jdesktop.swingx.JXPanel jXPanel2;
-	private javax.swing.JButton lastPageButton;
 	private javax.swing.JButton lastPageMonitorButton;
 //	private javax.swing.JButton liveMonitorButton;
 	private javax.swing.JButton liveTvButton;
 	private javax.swing.JPanel monitorPanel;
 	private javax.swing.JToolBar monitorToolBar;
-	private javax.swing.JButton prePageButton;
 	private javax.swing.JButton prePageMonitorButton;
 	private javax.swing.JButton reflashButton;
 	private javax.swing.JButton reflashMonitorButton;
 	private javax.swing.JButton uploadMonitorButton1;
 	private javax.swing.JButton uploadVideoClipButton;
-	private javax.swing.JPanel videoClipPanel;
+	private javax.swing.JTabbedPane videoClipTabbedPane;
 
 	// End of variables declaration//GEN-END:variables
 
-	public javax.swing.JPanel getVideoClipPanel() {
-		return videoClipPanel;
-	}
-
 	public javax.swing.JPanel getMonitorPanel() {
 		return monitorPanel;
-	}
-
-	public javax.swing.JButton getLastPageButton() {
-		return lastPageButton;
-	}
-
-	public javax.swing.JButton getPrePageButton() {
-		return prePageButton;
 	}
 
 	public javax.swing.JButton getLastPageMonitorButton() {
@@ -423,4 +362,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		return prePageMonitorButton;
 	}
 
+	public javax.swing.JTabbedPane getVideoClipTabbedPane() {
+		return videoClipTabbedPane;
+	}
 }

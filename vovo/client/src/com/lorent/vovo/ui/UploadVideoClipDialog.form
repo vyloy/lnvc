@@ -315,6 +315,11 @@
                   <Dimension value="[300, 420]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="thumbnailXPanel1MouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="thumbnailXPanel1MouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="thumbnailXPanel1MouseExited"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">

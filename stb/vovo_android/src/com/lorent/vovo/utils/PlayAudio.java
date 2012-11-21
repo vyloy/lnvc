@@ -46,16 +46,12 @@ public class PlayAudio {
 			try {
 				mMediaPlayer.setDataSource(context, alert);
 			} catch (IllegalArgumentException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SecurityException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IllegalStateException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			final AudioManager audioManager = (AudioManager) context
@@ -66,10 +62,8 @@ public class PlayAudio {
 				try {
 					mMediaPlayer.prepare();
 				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				mMediaPlayer.start();

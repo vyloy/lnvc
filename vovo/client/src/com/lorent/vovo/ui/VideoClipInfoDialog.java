@@ -98,7 +98,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																										.addComponent(
 																												createrNameTextField,
 																												javax.swing.GroupLayout.DEFAULT_SIZE,
-																												335,
+																												341,
 																												Short.MAX_VALUE))
 																						.addGroup(
 																								jPanel1Layout
@@ -116,12 +116,12 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																														.addComponent(
 																																jScrollPane1,
 																																javax.swing.GroupLayout.DEFAULT_SIZE,
-																																335,
+																																341,
 																																Short.MAX_VALUE)
 																														.addComponent(
 																																titleTextField,
 																																javax.swing.GroupLayout.DEFAULT_SIZE,
-																																335,
+																																341,
 																																Short.MAX_VALUE))))
 																		.addGap(
 																				32,
@@ -133,7 +133,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																		.addComponent(
 																				jLabel3)
 																		.addContainerGap(
-																				405,
+																				411,
 																				Short.MAX_VALUE))
 														.addGroup(
 																jPanel1Layout
@@ -147,7 +147,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																		.addComponent(
 																				liveStreamUrlTextField,
 																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				335,
+																				341,
 																				Short.MAX_VALUE)
 																		.addGap(
 																				32,
@@ -196,7 +196,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 																javax.swing.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												11, Short.MAX_VALUE)
+												29, Short.MAX_VALUE)
 										.addGroup(
 												jPanel1Layout
 														.createParallelGroup(
@@ -223,7 +223,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 				.addGap(0, 203, Short.MAX_VALUE));
 		pictureXPanelLayout.setVerticalGroup(pictureXPanelLayout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGap(0, 173, Short.MAX_VALUE));
+				.addGap(0, 242, Short.MAX_VALUE));
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
 				jPanel2);
@@ -239,10 +239,9 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
 				jPanel2Layout.createSequentialGroup().addContainerGap()
 						.addComponent(pictureXPanel,
-								javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(75, Short.MAX_VALUE)));
+								javax.swing.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addContainerGap()));
 
 		jXPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
 
