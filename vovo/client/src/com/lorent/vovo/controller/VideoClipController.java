@@ -2,6 +2,7 @@ package com.lorent.vovo.controller;
 
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,6 +44,7 @@ import com.lorent.vovo.ui.UploadMonitorDialog;
 import com.lorent.vovo.ui.UploadVideoClipDialog;
 import com.lorent.vovo.ui.VideoClipInfoDialog;
 import com.lorent.vovo.ui.VideoClipItem;
+import com.lorent.vovo.ui.VideoClipListPanel;
 import com.lorent.vovo.ui.VideoClipPanel;
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.VovoStringUtil;
@@ -745,28 +747,30 @@ public class VideoClipController extends BaseController {
 		});
 	}
 	
-	private void reflashVideoClipPanel(final int pageIndex,final int pageSize) throws Exception{
+	private void reflashVideoClipPanel(final VideoClipListPanel listpanel ,final int pageIndex,final int pageSize) throws Exception{
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
-					LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
-					LCMVideoClip[] videoClipList = Vovo.getLcmUtil().getVideoClipList(pageIndex, pageSize);
+					
+					
+					
+					LCMVideoClip[] videoClipList = Vovo.getLcmUtil().getVideoClipList(pageIndex, pageSize,listpanel.getCategory());
 					if (videoClipList != null) {
 						log.info("videoClipList size: "+videoClipList.length);
-						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
-						panel.getVideoClipPanel().removeAll();
-						
+//						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+//						panel.getVideoClipPanel().removeAll();
+//						listpanel.removeAll();
+						listpanel.getVideoClipPanel().removeAll();
 						for (final LCMVideoClip lcmVideoClip : videoClipList) {
-//							System.out.println(lcmVideoClip);
 							final VideoClipItem videoClipItem = new VideoClipItem();
 							videoClipItem.setLcmVideoClip(lcmVideoClip);
-//							videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
 							videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
 							videoClipItem.getDescriptionLabel().setText(lcmVideoClip.getDescription());
-							panel.getVideoClipPanel().add(videoClipItem);
-							
+//							panel.getVideoClipPanel().add(videoClipItem);
+							listpanel.getVideoClipPanel().add(videoClipItem);
+//							listpanel.add(videoClipItem);
 							new Thread(){
 
 								@Override
@@ -802,8 +806,10 @@ public class VideoClipController extends BaseController {
 							}
 							
 						}
-						panel.getVideoClipPanel().repaint();
-						panel.getVideoClipPanel().revalidate();
+						listpanel.repaint();
+						listpanel.revalidate();
+//						panel.getVideoClipPanel().repaint();
+//						panel.getVideoClipPanel().revalidate();
 					}
 					else{
 						log.info("videoClipList size: "+videoClipList);
@@ -812,6 +818,18 @@ public class VideoClipController extends BaseController {
 					
 				} catch (Exception e) {
 					log.error("reflashVideoClipPanel", e);
+				}
+				if (listpanel.getMaxPageIndex()-1 <= listpanel.getPageIndex()) {
+					listpanel.getLastPageButton().setEnabled(false);
+				}
+				else{
+					listpanel.getLastPageButton().setEnabled(true);
+				}
+				if (1 <= listpanel.getPageIndex()) {
+					listpanel.getPrePageButton().setEnabled(true);
+				}
+				else{
+					listpanel.getPrePageButton().setEnabled(false);
 				}
 			}
 		});
@@ -827,8 +845,9 @@ public class VideoClipController extends BaseController {
 		else{
 			maxPageIndexM = monitorListLength / pageSize;
 		}
-		reflashMonitorPanel(pageIndexM, pageSize);
+		
 		VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+		reflashMonitorPanel(pageIndexM, pageSize);
 		if (maxPageIndexM-1 <= pageIndexM) {
 			panel.getLastPageMonitorButton().setEnabled(false);
 		}
@@ -843,40 +862,66 @@ public class VideoClipController extends BaseController {
 		}
 	}
 	
+	public void reflashAllVideoClipPanel() throws Exception{
+		VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+		Component[] components = panel.getVideoClipTabbedPane().getComponents();
+		for (Component component : components) {
+			if (component instanceof VideoClipListPanel) {
+				VideoClipListPanel listPanel = (VideoClipListPanel) component;
+				int videoListLength = Vovo.getLcmUtil().getVideoListLength(listPanel.getCategory());
+				int left = videoListLength % pageSize;
+				if (left >0 ) {
+					listPanel.setMaxPageIndex(videoListLength / pageSize + 1);
+				}
+				else{
+					listPanel.setMaxPageIndex(videoListLength / pageSize);
+				}
+				reflashVideoClipPanel(listPanel,listPanel.getPageIndex(),pageSize);
+				if (listPanel.getMaxPageIndex()-1 <= listPanel.getPageIndex()) {
+					listPanel.getLastPageButton().setEnabled(false);
+				}
+				else{
+					listPanel.getLastPageButton().setEnabled(true);
+				}
+				if (1 <= listPanel.getPageIndex()) {
+					listPanel.getPrePageButton().setEnabled(true);
+				}
+				else{
+					listPanel.getPrePageButton().setEnabled(false);
+				}
+			}
+		}
+	}
+	
 	//刷新
 	public void reflashVideoClipPanel() throws Exception{
-		int videoListLength = Vovo.getLcmUtil().getVideoListLength();
+		VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
+		int selectedIndex = panel.getVideoClipTabbedPane().getSelectedIndex();
+		VideoClipListPanel listPanel = (VideoClipListPanel) panel.getVideoClipTabbedPane().getComponentAt(selectedIndex);
+		int videoListLength = Vovo.getLcmUtil().getVideoListLength(listPanel.getCategory());
 		int left = videoListLength % pageSize;
 		if (left >0 ) {
-			maxPageIndex = videoListLength / pageSize + 1;
+			listPanel.setMaxPageIndex(videoListLength / pageSize + 1);
 		}
 		else{
-			maxPageIndex = videoListLength / pageSize;
+			listPanel.setMaxPageIndex(videoListLength / pageSize);
 		}
-		reflashVideoClipPanel(pageIndex,pageSize);
-		VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
-		if (maxPageIndex-1 <= pageIndex) {
-			panel.getLastPageButton().setEnabled(false);
-		}
-		else{
-			panel.getLastPageButton().setEnabled(true);
-		}
-		if (1 <= pageIndex) {
-			panel.getPrePageButton().setEnabled(true);
-		}
-		else{
-			panel.getPrePageButton().setEnabled(false);
-		}
+		reflashVideoClipPanel(listPanel,listPanel.getPageIndex(),pageSize);
+		
 	}
 	
-	public void preVideoClipPage() throws Exception{
-		pageIndex--;
-		reflashVideoClipPanel();
+	public void preVideoClipPage(VideoClipListPanel panel) throws Exception{
+		int pageIndex = panel.getPageIndex() -1;
+		panel.setPageIndex(pageIndex);
+//		pageIndex--;
+		reflashVideoClipPanel(panel,pageIndex,pageSize);
 	}
 	
-	public void lastVideoClipPage() throws Exception{
-		pageIndex++;
-		reflashVideoClipPanel();
+	public void lastVideoClipPage(VideoClipListPanel panel) throws Exception{
+		int pageIndex = panel.getPageIndex() +1;
+		panel.setPageIndex(pageIndex);
+//		pageIndex++;
+		reflashVideoClipPanel(panel,pageIndex,pageSize);
 	}
 	
 	public void preMonitorPage() throws Exception{
