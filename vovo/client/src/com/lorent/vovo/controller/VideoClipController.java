@@ -5,13 +5,16 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -47,6 +50,8 @@ import com.lorent.vovo.ui.VideoClipItem;
 import com.lorent.vovo.ui.VideoClipListPanel;
 import com.lorent.vovo.ui.VideoClipPanel;
 import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.MonitorsUtil;
+import com.lorent.vovo.util.MonitorsUtil.Monitor;
 import com.lorent.vovo.util.VovoStringUtil;
 
 public class VideoClipController extends BaseController {
@@ -74,28 +79,28 @@ public class VideoClipController extends BaseController {
 	public void selectedMonitorPictureFile(UploadMonitorDialog dialog) throws Exception{
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", new String[]{"jpg"}));
-		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss_SSS");
-		String currentTime=dateformat1.format(new Date(Vovo.getLcmUtil().getSystemTime()));
+//		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss_SSS");
+//		String currentTime=dateformat1.format(new Date(Vovo.getLcmUtil().getSystemTime()));
 		int showOpenDialog = jFileChooser.showOpenDialog(dialog);
 		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
 			File thefile = jFileChooser.getSelectedFile();
 //			dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			dialog.getThumbnailTextField().setText(thefile.getAbsolutePath());
 			
-			String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
-			String cacheFileName = target+currentTime+"_"+thefile.getName();
+//			String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
+//			String cacheFileName = target+currentTime+"_"+thefile.getName();
 			
 //			FileUtil.fileCopy(thefile.getAbsolutePath(), cacheFileName);
-			FileUtil.localFileCopy(thefile.getAbsolutePath(), cacheFileName);
+//			FileUtil.localFileCopy(thefile.getAbsolutePath(), cacheFileName);
 			
-			File cacheimagefile = new File(cacheFileName);
-			if (cacheimagefile.exists()) {
-				BufferedImage bufferimage =ImageIO.read(cacheimagefile);
+//			File cacheimagefile = new File(cacheFileName);
+			if (thefile.exists()&&thefile.isFile()&&thefile.length()>0) {
+				BufferedImage bufferimage =ImageIO.read(thefile);
 				ImagePainter ip = new ImagePainter(bufferimage);
 				ip.setScaleToFit(true);
 				ip.setScaleType(ScaleType.Distort);
 				dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
-				dialog.setCacheFileName(cacheimagefile.getName());
+				dialog.setCacheFileName(thefile.getName());
 			}
 		}
 	}
@@ -607,43 +612,66 @@ public class VideoClipController extends BaseController {
 		dialog.getUploadButton().setEnabled(false);
 		//上传文件至ftp
 		
-		final File thumbailfile = new File(dialog.getThumbnailTextField().getText());
-		final String uiString = " "+ thumbailfile.getName() + "  {0} %";
-		final long thumbailfilesize = thumbailfile.length();
-		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
-			private long curentLength = 0;
-			@Override
-			public void transferred(int transferedLength) {
-				curentLength = curentLength + transferedLength;
-				double d = 1;
-				d = 100 * curentLength / thumbailfilesize;
-		        int  n = (int) d;
-		        dialog.getResultProgressBar().setValue(n);
-		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString, n));
-			}
-		};
-		new SwingWorker<Object, Object>(){
-            @Override
-            protected Object doInBackground() throws Exception {
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/Monitor",dialog.getCacheFileName());
-            	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
-            	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
-            	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
-            	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
-            	String liveStreamUrl = dialog.getLiveStreamURLTextField().getText();
-//            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/Monitor/"+dialog.getCacheFileName();
-            	String title = dialog.getTitleTextField().getText();
-            	String description = dialog.getDescriptionTextArea().getText();
-            	boolean uploadMonitorInfo = Vovo.getLcmUtil().uploadMonitorInfo(liveStreamUrl, dialog.getCacheFileName(), title, description, ftpAddr, vovoinfo.getRealName(),vovoinfo.getUsername());
-            	if (uploadMonitorInfo) {
-					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
-					dialog.dispose();
+		File file = new File(thumbnail);
+		if(!file.exists()||file.length()<1)
+			return;
+		FileInputStream in = new FileInputStream(file);
+		byte[] data=new byte[(int) file.length()];
+		byte[] temp=new byte[1024*512];
+		int c,index=0;
+		while((c=in.read(temp))>0){
+			System.arraycopy(temp, 0, data, index, c);
+			index+=c;
+		}
+		Monitor monitor = new Monitor(data, liveUrl, title, description);
+		MonitorsUtil.add(monitor);
+//		final File thumbailfile = new File(dialog.getThumbnailTextField().getText());
+//		final String uiString = " "+ thumbailfile.getName() + "  {0} %";
+//		final long thumbailfilesize = thumbailfile.length();
+//		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
+//			private long curentLength = 0;
+//			@Override
+//			public void transferred(int transferedLength) {
+//				curentLength = curentLength + transferedLength;
+//				double d = 1;
+//				d = 100 * curentLength / thumbailfilesize;
+//		        int  n = (int) d;
+//		        dialog.getResultProgressBar().setValue(n);
+//		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString, n));
+//			}
+//		};
+//		new SwingWorker<Object, Object>(){
+//            @Override
+//            protected Object doInBackground() throws Exception {
+//            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/Monitor",dialog.getCacheFileName());
+//            	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
+//            	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
+//            	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
+//            	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
+//            	String liveStreamUrl = dialog.getLiveStreamURLTextField().getText();
+////            	String thumbnailFtpUrl = "ftp://"+ftpAddr+":"+ftpPort+"/Monitor/"+dialog.getCacheFileName();
+//            	String title = dialog.getTitleTextField().getText();
+//            	String description = dialog.getDescriptionTextArea().getText();
+//            	boolean uploadMonitorInfo = Vovo.getLcmUtil().uploadMonitorInfo(liveStreamUrl, dialog.getCacheFileName(), title, description, ftpAddr, vovoinfo.getRealName(),vovoinfo.getUsername());
+//            	if (uploadMonitorInfo) {
+//					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
+//					dialog.dispose();
+//					reflashMonitorPanel();
+//				}
+//            	
+//                return new Object();
+//            }
+//        }.execute();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				dialog.dispose();
+				try {
 					reflashMonitorPanel();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-            	
-                return new Object();
-            }
-        }.execute();
+			}
+		});
 	}
 		
 	public void deleteVideoClip(VideoClipItem item) throws Exception{
@@ -651,11 +679,12 @@ public class VideoClipController extends BaseController {
 		if (showConfirmDialog == JOptionPane.YES_OPTION) {
 			
 			if (item.getLcmVideoClip().getIsmonitor()) {
-				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHigh());
-				if (filenameHigh != null && !filenameHigh.equals("")) {
-					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/Monitor",filenameHigh);
-				}
-				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
+//				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHigh());
+//				if (filenameHigh != null && !filenameHigh.equals("")) {
+//					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/Monitor",filenameHigh);
+//				}
+//				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
+				MonitorsUtil.delete((Monitor) item.getLcmVideoClip());
 				reflashMonitorPanel();
 			}
 			else{
@@ -688,14 +717,27 @@ public class VideoClipController extends BaseController {
 			public void run() {
 				try {
 					LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
-					LCMVideoClip[] monitorList = Vovo.getLcmUtil().getMonitorList(pageIndex, pageSize);
+//					LCMVideoClip[] monitorList = Vovo.getLcmUtil().getMonitorList(pageIndex, pageSize);
+					int index=pageIndex*pageSize;
+					int count=pageSize;
+					Monitor[] monitors =MonitorsUtil.getArray();
+					if(null==monitors||monitors.length<index)
+						return;
+					if(monitors.length<index+count)
+						count=monitors.length-index;
+					Monitor[] monitorList =new Monitor[count];
+					System.arraycopy(monitors, index, monitorList, 0, count);
 					if (monitorList != null) {
 						log.info("MonitorList size: "+monitorList.length);
 						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
 						panel.getMonitorPanel().removeAll();
-						for (final LCMVideoClip lcmVideoClip : monitorList) {
+						for (final Monitor lcmVideoClip : monitorList) {
+							if(lcmVideoClip==null)
+								return;
 //							System.out.println(lcmVideoClip);
 							final VideoClipItem videoClipItem = new VideoClipItem();
+							lcmVideoClip.setIsmonitor(true);
+							lcmVideoClip.setHttpVideoUrlHigh(lcmVideoClip.getUri());
 							videoClipItem.setLcmVideoClip(lcmVideoClip);
 //							videoClipItem.getPictureLabel().setIcon(new ImageIcon(new URL(lcmVideoClip.getThumbnailUrl())));
 							videoClipItem.getTitleLabel().setText(lcmVideoClip.getTitle());
@@ -709,7 +751,7 @@ public class VideoClipController extends BaseController {
 									
 									ImagePainter imagePainter = null;
 									try {
-										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
+										imagePainter = new ImagePainter(ImageIO.read(new ByteArrayInputStream(lcmVideoClip.getData())));
 									} catch (Exception e) {
 										try {
 											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));
@@ -726,16 +768,17 @@ public class VideoClipController extends BaseController {
 								
 							}.start();
 							
-							if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
-								videoClipItem.getDeleteButton().setVisible(false);
-							}
-							else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
-								videoClipItem.getDeleteButton().setVisible(true);
-							}
-							else{
-								videoClipItem.getDeleteButton().setVisible(false);
-							}
+//							if (lcmVideoClip.getCreaterNo() == null || lcmVideoClip.getCreaterNo().equals("")) {
+//								videoClipItem.getDeleteButton().setVisible(false);
+//							}
+//							else if(lcmVideoClip.getCreaterNo().equals(lcmVideoClip.getCreaterNo())){
+//								videoClipItem.getDeleteButton().setVisible(true);
+//							}
+//							else{
+//								videoClipItem.getDeleteButton().setVisible(false);
+//							}
 							
+							videoClipItem.getDeleteButton().setVisible(true);
 						}
 						panel.getMonitorPanel().repaint();
 						panel.getMonitorPanel().revalidate();
@@ -837,7 +880,7 @@ public class VideoClipController extends BaseController {
 	
 	//刷新
 	public void reflashMonitorPanel() throws Exception{
-		int monitorListLength = Vovo.getLcmUtil().getMonitorListLength();
+		int monitorListLength = MonitorsUtil.getLength();
 		int left = monitorListLength % pageSize;
 		if (left >0 ) {
 			maxPageIndexM = monitorListLength / pageSize + 1;
@@ -944,6 +987,8 @@ public class VideoClipController extends BaseController {
 		Vovo.getViewManager().setWindowCenterLocation(videoClipInfoDialog);
 		videoClipInfoDialog.setTitle("视频信息");
 		if (item.getLcmVideoClip().getIsmonitor()) {
+			videoClipInfoDialog.getCreaterNameTextField().setVisible(false);
+			videoClipInfoDialog.getUploadLabel().setVisible(false);
 			videoClipInfoDialog.getLiveStreamUrlLabel().setVisible(true);
 			videoClipInfoDialog.getLiveStreamUrlTextField().setVisible(true);
 			videoClipInfoDialog.getLiveStreamUrlTextField().setText(item.getLcmVideoClip().getRtspVideoUrlHigh());
@@ -961,6 +1006,26 @@ public class VideoClipController extends BaseController {
 		final String cmdStr =  "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(vlc+" --one-instance --fullscreen --no-video-title-show --play-and-exit  "+newUrl);
 		new Thread(){
 
+			@Override
+			public void run() {
+				try {
+					log.info(cmdStr);
+					Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
+//					startProcess.waitFor();
+					log.info("play video end");
+				} catch (Exception e) {
+					log.error("playVideoClip", e);
+				}
+			}
+		}.start();
+		
+	}
+	public void playMonitor(String url) throws Exception{
+		String vlc = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\vlc\\vlc.exe");
+		String newUrl = StringUtil.convertFilePath2DOSCommandStr(url);
+		final String cmdStr =  "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(vlc+" --no-video-title-show "+newUrl);
+		new Thread(){
+			
 			@Override
 			public void run() {
 				try {
