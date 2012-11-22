@@ -1,9 +1,9 @@
 package com.lorent.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMRoleDto;
@@ -11,6 +11,7 @@ import com.lorent.dao.ConferenceNewDao;
 import com.lorent.dao.GenericDaoImpl;
 import com.lorent.model.AuthorityBean;
 import com.lorent.model.ConferenceNewBean;
+import com.lorent.model.UserBean;
 import com.lorent.util.StringUtil;
 
 public class ConferenceNewDaoImpl extends GenericDaoImpl<ConferenceNewBean,Integer> implements ConferenceNewDao{
@@ -131,6 +132,20 @@ public class ConferenceNewDaoImpl extends GenericDaoImpl<ConferenceNewBean,Integ
 			}
 		}
 		return data;
+	}
+	
+	//查询某一会议某一角色的用户
+	public List<UserBean> getConfRoleUser(String confno, int roleId){
+		String hql = "select u " +
+		"from ConferenceNewBean c ,ConferenceUserBean cu ,UserBean u, ConfUserRoleBean cur " +
+		"where c.id = cu.conferenceId and cu.userId = u.id and cur.conferenceUserId = cu.id " +
+		"cur.roleId = " + roleId + " and c.confNo = '" + confno + "'";
+		List<UserBean> list = this.queryByHql(hql);
+		if(list != null && list.size() > 0){
+			return list;
+		}else{
+			return null;
+		}
 	}
 
 	@Override

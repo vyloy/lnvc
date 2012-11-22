@@ -5,6 +5,7 @@ public class XmlrpcConf {
 	private String confno;
 	private Integer layout;
 	private Integer quality;
+	private Integer memberCount;
 	
 	public String getConfno() {
 		return confno;
@@ -24,5 +25,12 @@ public class XmlrpcConf {
 	public void setQuality(Integer quality) {
 		this.quality = quality;
 	}
+	public Integer getMemberCount() {
+		return memberCount;
+	}
+	public void setMemberCount(Integer memberCount) {
+		this.memberCount = memberCount;
+	}
+	
 	
 }

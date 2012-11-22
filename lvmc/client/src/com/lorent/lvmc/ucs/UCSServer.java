@@ -338,4 +338,15 @@ public class UCSServer {
 		return true;
 	}
 	
+	public int invitemeeting(String inviter, String confno, String invitee)throws Exception{
+		log.info("inviteUserFromeLcm : inviter = " + inviter + " , confno = " + confno + " , invitee = " + invitee);
+		return getLCMUtil().inviteUserFromLcm(inviter, confno, invitee);
+	}
+	
+	//返回object数组，数组里面的每一个元素是字符串数组，其中string[0]代表会议号码，其中string[1]主持人，string[2]当前人数
+	public Object[] getconflist2()throws Exception{
+		log.info("getconflist2");
+		return getLCMUtil().getCurrentConfInfo();
+	}
+	
 }

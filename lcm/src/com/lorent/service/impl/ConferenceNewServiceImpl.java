@@ -12,6 +12,7 @@ import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMRoleDto;
 import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.dao.ConferenceNewDao;
+import com.lorent.dto.XmlrpcConf;
 import com.lorent.exception.ArgsException;
 import com.lorent.exception.ServerException;
 import com.lorent.model.AuthorityBean;
@@ -24,6 +25,7 @@ import com.lorent.model.ConferenceRoleBean;
 import com.lorent.model.ConferenceTypeBean;
 import com.lorent.model.ConferenceTypeRoleBean;
 import com.lorent.model.ConferenceUserBean;
+import com.lorent.model.CustomerBean;
 import com.lorent.model.SipConfBean;
 import com.lorent.model.UserBean;
 import com.lorent.service.ConferenceNewService;
@@ -35,6 +37,7 @@ import com.lorent.util.PropertiesUtil;
 import com.lorent.util.StringUtil;
 import com.lorent.util.ThreadLocaleUtil;
 import com.lorent.whiteboard.client.Client;
+import com.lorent.xmlrpc.McuXmlrpc;
 
 public class ConferenceNewServiceImpl extends GenericServiceImpl<ConferenceNewDao,ConferenceNewBean,Integer> implements
 ConferenceNewService{
@@ -549,6 +552,54 @@ ConferenceNewService{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int inviteUserFromLcm(String inviter, String confno, String invitee)
+			throws Exception {
+		log.info("inviteUserFromeLcm : inviter = " + inviter + " , confno = " + confno + " , invitee = " + invitee);
+		LCMRoleDto roleDto = getMyRoleAndPermission(confno, inviter);
+		if(roleDto.getNames().contains("主持人")){//不是主持人不能邀请
+			log.info("inviteUserFromeLcm : inviter = " + inviter + " is not master");
+			return -1; 
+		}
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+		try{
+			McuUtil.inviteConfUser(xmlrpcUrl, confno, invitee);
+		}catch(Exception e){
+			log.error("mcu invite user not success", e);
+			return -2;
+		}
+		log.info("inviteUserFromeLcm success");
+		return 0;
+	}
+
+	
+	@Override
+	public Object[] getCurrentForwardConfInfo() throws Exception {
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+		List<XmlrpcConf> confs = McuXmlrpc.getForwardConferenceList(xmlrpcUrl);
+		if(confs.size() == 0){
+			log.info("getCurrentForwardConfInfo : no conf");
+			return null;
+		}
+		Object[] objs = new Object[confs.size()];
+		for(int i = 0; i < objs.length; i++){
+			String[] strs = new String[3];
+			XmlrpcConf conf = confs.get(i);
+			strs[0] = conf.getConfno();
+			List<UserBean> users = daoFacade.getConferenceNewDao().getConfRoleUser(conf.getConfno(), 1);//主持人
+			if(users != null){
+				strs[1] = users.get(0).getLccAccount();//只有一个主持人
+			}
+			strs[2] = conf.getMemberCount() + "";
+			//返回object数组，数组里面的每一个元素是字符串数组，其中string[0]代表会议号码，其中string[1]主持人，string[2]当前人数
+			log.info("getCurrentForwardConfInfo : confno = " + strs[0] + " & master = " + strs[1] + " & memberCount = " + strs[2]);
+			objs[i] = strs;
+		}
+		return objs;
 	}
 
 }

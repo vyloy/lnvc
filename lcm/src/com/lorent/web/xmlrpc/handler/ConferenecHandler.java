@@ -790,6 +790,11 @@ public class ConferenecHandler extends BaseHandler {
 		return McuUtil.inviteConfUser(xmlrpcUrl, confNo, lccno);
 	}
 	
+	public int inviteUserFromLcm(String inviter, String confno, String invitee)throws Exception{
+		int ret = serviceFacade.getConferenceNewService().inviteUserFromLcm(inviter, confno, invitee);
+		return ret;
+	}
+	
 	//通过mcu从会议中踢出用户
 	public boolean removeUserFromMcu(String confNo,String lccno) throws Exception {
 		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
@@ -839,6 +844,12 @@ public class ConferenecHandler extends BaseHandler {
 		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
 		return McuXmlrpc.setConfUserAudio(xmlrpcUrl, confno, lccno, enable);
 	}
+	
+	public Object[] getCurrentForwardConfInfo()throws Exception{
+		log.info("getCurrentForwardConfInfo");
+		return serviceFacade.getConferenceNewService().getCurrentForwardConfInfo();
+	}
+	
 	//--------------------------------------供 VOVO 调用(不带业务逻辑)end ----------------------------------
 	/**
 	 * @param args
