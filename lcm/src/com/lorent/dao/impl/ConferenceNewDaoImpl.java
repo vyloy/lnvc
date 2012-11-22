@@ -139,7 +139,7 @@ public class ConferenceNewDaoImpl extends GenericDaoImpl<ConferenceNewBean,Integ
 		String hql = "select u " +
 		"from ConferenceNewBean c ,ConferenceUserBean cu ,UserBean u, ConfUserRoleBean cur " +
 		"where c.id = cu.conferenceId and cu.userId = u.id and cur.conferenceUserId = cu.id " +
-		"cur.roleId = " + roleId + " and c.confNo = '" + confno + "'";
+		"and cur.roleId = " + roleId + " and c.confNo = '" + confno + "'";
 		List<UserBean> list = this.queryByHql(hql);
 		if(list != null && list.size() > 0){
 			return list;

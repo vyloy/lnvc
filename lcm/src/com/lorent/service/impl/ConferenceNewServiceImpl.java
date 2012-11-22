@@ -559,7 +559,7 @@ ConferenceNewService{
 			throws Exception {
 		log.info("inviteUserFromeLcm : inviter = " + inviter + " , confno = " + confno + " , invitee = " + invitee);
 		LCMRoleDto roleDto = getMyRoleAndPermission(confno, inviter);
-		if(roleDto.getNames().contains("主持人")){//不是主持人不能邀请
+		if(!roleDto.getNames().contains("主持人")){//不是主持人不能邀请
 			log.info("inviteUserFromeLcm : inviter = " + inviter + " is not master");
 			return -1; 
 		}
