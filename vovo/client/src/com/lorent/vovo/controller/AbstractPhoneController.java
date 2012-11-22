@@ -247,27 +247,26 @@ public abstract class AbstractPhoneController extends BaseController {
 		MyPlayer.stop();
 	}
 
-	public void makeCallInvite(String lccno, FriendChatPanel panel,
-			boolean soundOnly) throws Exception {
-		if (!LCCUtil.canCall()) {
-			showMessageDialog(getUIString("info.tip"),
-					getUIString("phone.alreadyHadOneCall"));
-			return;
-		}
+	public void makeCallInviteP2P(String sip_lccnostr,String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception{
+		makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
+	}
+	
+	private void makeCallInviteDetail(String sip_lccnostr,String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception{
 		
 		if (panel != null) {
 			if (soundOnly) {
 				panel.showSoundCall();
 				LCCUtil.getInstance().setVideo(false, null);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno, LCCUtil.CALL_TYPE_SOUND);
+				LCCUtil.getInstance().doCall(sip_lccnostr, LCCUtil.CALL_TYPE_SOUND);
 			} else {
 				Panel videoPanel = panel.showVideoCall();
 				LCCUtil.getInstance().setVideo(true, videoPanel);
 				LCCUtil.getInstance().setPreview(true);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno,
-						LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
+				LCCUtil.getInstance().doCall(sip_lccnostr,LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
 			}
 
 		} else {
@@ -283,7 +282,8 @@ public abstract class AbstractPhoneController extends BaseController {
 				FriendChatPanel fcp = (FriendChatPanel) context
 						.getExecuteManager().executeController("chat",
 								"getFriendChatPanel", memberBean);
-				makeCallInvite(lccno, fcp, soundOnly);
+//				makeCallInvite(sip_lccnostr, fcp, soundOnly);////???????????????
+				makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
 				_frame.setVisible(true);
 				frame.setVisible(false);
 				return;
@@ -293,31 +293,35 @@ public abstract class AbstractPhoneController extends BaseController {
 			frame.getCameraOpenToggleButton().setEnabled(false);
 			frame.getCameraCloseToggleButton().setEnabled(false);
 			String statusInfo = "呼出";
-			Image image = Toolkit
-					.getDefaultToolkit()
-					.getImage(
-							getClass()
-									.getResource(
-											"/com/lorent/vovo/resource/images/dial/call-start_1.png"));
+			Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/lorent/vovo/resource/images/dial/call-start_1.png"));
 			setPhoneFrameState(statusInfo, image);
 			callingLccNo = lccno;
 			if (soundOnly) {
 				LCCUtil.getInstance().setVideo(false, null);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno, LCCUtil.CALL_TYPE_SOUND);
+				LCCUtil.getInstance().doCall(sip_lccnostr, LCCUtil.CALL_TYPE_SOUND);
 			} else {
 				Panel videoPanel = frame.getScreenPanel();
 				LCCUtil.getInstance().setVideo(true, videoPanel);
 				LCCUtil.getInstance().setPreview(true);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno,
-						LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
+				LCCUtil.getInstance().doCall(sip_lccnostr,LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
 				preview = true;
 			}
 			
 			addPhoneRecord(new CallHistoryItem(CallInfo.CALL_OUT.mask, lccno, new Date().getTime()));
 		}
 		MyPlayer.play(MyPlayer.TYPE_RING_OUT);
+	}
+	
+	public void makeCallInvite(String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception {
+		if (!LCCUtil.canCall()) {
+			showMessageDialog(getUIString("info.tip"),
+					getUIString("phone.alreadyHadOneCall"));
+			return;
+		}
+		makeCallInviteDetail(lccno,lccno,panel,soundOnly);
 	}
 
 	public void addPhoneRecord(CallHistoryItem item){

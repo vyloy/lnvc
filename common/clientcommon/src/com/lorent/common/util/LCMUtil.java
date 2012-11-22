@@ -182,7 +182,10 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.enableConfUserAudio",new Object[]{confno, lccno, enable});
     }
     
-    
+    //MemberBean 包含ip地址的bean；fromlccno 发送者；tolccno 当为""发送全体，也可指定号码
+    public boolean broadcastMyIpAddress(MemberBean bean,String fromlccno,String tolccno) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.broadcastMyIpAddress",new Object[]{bean,fromlccno,tolccno});
+    }
     
     //index由0开始
     //获得点播视频列表，index由0开始

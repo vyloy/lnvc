@@ -6,7 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lorent.common.app.AppContext;
+import com.lorent.common.tree.MemberBean;
+import com.lorent.common.util.OpenfireUtil;
+import com.lorent.vovo.Vovo;
 import com.lorent.vovo.ui.FriendChatPanel;
+import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.TreeUtil;
 
 
 
@@ -89,7 +94,19 @@ public class PhoneController extends AbstractPhoneController {
 			@Override
 			public void run() {
 				try {
-					PhoneController.super.makeCallInvite(lccno, panel, soundOnly);
+					//判断是否断线
+					synchronized (OpenfireUtil.getInstance().isLogined) {
+						if (OpenfireUtil.getInstance().isLogined) {
+							PhoneController.super.makeCallInvite(lccno, panel, soundOnly);
+						}
+						else{
+							int intProperty = Vovo.getConfigManager().getIntProperty(Constants.ConfigKey.localcsport.toString(), Constants.CONFIG_LOCAL_CS_PORT);
+							MemberBean bean = TreeUtil.getMemberBeanByLccno(lccno);
+							String sip_lccnostr = "sip:"+bean.getLccAccount()+"@"+bean.getIp()+":"+intProperty;
+							PhoneController.super.makeCallInviteP2P(sip_lccnostr,lccno, panel, soundOnly);
+						}
+						
+					}
 				} catch (Exception e) {
 					logger.error(e.getMessage(),e);
 				}

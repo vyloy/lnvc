@@ -8,8 +8,12 @@ import com.lorent.common.controller.BaseController;
 import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.tree.DepartmentBean;
 import com.lorent.common.tree.MemberBean;
+import com.lorent.common.util.NetworkUtil;
+import com.lorent.vovo.Vovo;
+import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.GroupMemberListPanelManager;
 import com.lorent.vovo.ui.TreeManager;
+import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.MyOpenfireUtil;
 import com.lorent.vovo.util.TreeUtil;
@@ -80,5 +84,16 @@ public class OrganController extends BaseController {
 				}
 			}
 		});
+	}
+	
+	public void broadcastMyIpAddress(String user,int status) throws Exception{
+		if (status == Constants.STATUS_ONLINE || status == Constants.STATUS_AWAY || status == Constants.STATUS_BUSY) {
+			LoginInfo info = context.getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
+			MemberBean bean = new MemberBean();
+			bean.setLccAccount(info.getUsername());
+			bean.setIp(NetworkUtil.getSimpleIP());
+			Vovo.getLcmUtil().broadcastMyIpAddress(bean,info.getUsername(),user);
+			log.info("vovo broadcastMyIpAddress "+bean+","+info.getUsername()+","+user);
+		}
 	}
 }
