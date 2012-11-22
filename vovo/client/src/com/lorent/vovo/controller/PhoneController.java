@@ -100,9 +100,7 @@ public class PhoneController extends AbstractPhoneController {
 							PhoneController.super.makeCallInvite(lccno, panel, soundOnly);
 						}
 						else{
-							int intProperty = Vovo.getConfigManager().getIntProperty(Constants.ConfigKey.localcsport.toString(), Constants.CONFIG_LOCAL_CS_PORT);
-							MemberBean bean = TreeUtil.getMemberBeanByLccno(lccno);
-							String sip_lccnostr = "sip:"+bean.getLccAccount()+"@"+bean.getIp()+":"+intProperty;
+							String sip_lccnostr = getSipStrForP2P(lccno);
 							PhoneController.super.makeCallInviteP2P(sip_lccnostr,lccno, panel, soundOnly);
 						}
 						
@@ -117,13 +115,27 @@ public class PhoneController extends AbstractPhoneController {
 	@Override
 	public void cancelCallInvite(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
-		super.cancelCallInvite(lccno, panel, soundOnly);
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			if (OpenfireUtil.getInstance().isLogined) {
+				super.cancelCallInvite(lccno, panel, soundOnly);
+			}
+			else{
+				super.cancelCallInvite(getSipStrForP2P(lccno), panel, soundOnly);
+			}
+		}
+		
 	}
 
 	@Override
 	public void acceptCallInvite(String lccno, FriendChatPanel panel) {
-		// TODO Auto-generated method stub
+//		synchronized (OpenfireUtil.getInstance().isLogined) {
+//			if (OpenfireUtil.getInstance().isLogined) {
+//				super.acceptCallInvite(lccno, panel);
+//			}
+//			else{
+//				super.acceptCallInvite(lccno, panel);
+//			}
+//		}
 		super.acceptCallInvite(lccno, panel);
 	}
 
@@ -144,15 +156,30 @@ public class PhoneController extends AbstractPhoneController {
 	@Override
 	public void rejectCallInvite(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
+//		synchronized (OpenfireUtil.getInstance().isLogined) {
+//			if (OpenfireUtil.getInstance().isLogined) {
+//				super.rejectCallInvite(lccno, panel, soundOnly);
+//			}
+//			else{
+//				super.rejectCallInvite(getSipStrForP2P(lccno), panel, soundOnly);
+//			}
+//		}
 		super.rejectCallInvite(lccno, panel, soundOnly);
 	}
 
 	@Override
 	public void hangupCall(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
-		super.hangupCall(lccno, panel, soundOnly);
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			if (OpenfireUtil.getInstance().isLogined) {
+				super.hangupCall(lccno, panel, soundOnly);
+			}
+			else{
+				super.hangupCall(getSipStrForP2P(lccno), panel, soundOnly);
+				super.hangupCall(lccno, panel, soundOnly);
+			}
+		}
+//		super.hangupCall(lccno, panel, soundOnly);
 	}
 
 	@Override

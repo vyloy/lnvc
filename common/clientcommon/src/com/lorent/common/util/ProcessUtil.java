@@ -147,6 +147,16 @@ public class ProcessUtil {
 			seconds = Integer.parseInt(trim3);
 		}
 		System.out.println(hours+":"+minutes+":"+seconds);
+		
+		String lccno="sip:101010@10.168.250.12:5666";
+		lccno = "22222";
+		String lccnostr = lccno;
+		if (lccno.indexOf("sip:") != -1 && lccno.indexOf("@") != -1) {
+			int begin = lccno.indexOf("sip:")+4;
+			int end = lccno.indexOf("@");
+			lccnostr = lccno.substring(begin, end);
+		}
+		System.out.println(lccnostr);
     }
     
     public int getOwnPid(){
