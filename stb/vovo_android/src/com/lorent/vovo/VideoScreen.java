@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -25,6 +24,7 @@ import android.widget.Button;
 import com.lorent.LCCUtil;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.PlayAudio;
+import com.phonecommand.PhoneCommander;
 
 public class VideoScreen extends Activity{
 	
@@ -78,13 +78,39 @@ public class VideoScreen extends Activity{
 			}}).start();
 
 		hangupBtn.requestFocus();
+		phoneCommandReceiver = new PhoneCommandReceiver();
 		
 	}
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume");
+		this.registerReceiver(phoneCommandReceiver, new IntentFilter(PhoneCommander.PHONE_COMMAND_ACTION));
 		
+	}
+	
+	private PhoneCommandReceiver phoneCommandReceiver;
+	private class PhoneCommandReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			int key = intent.getIntExtra("key", -1);
+			Log.d(TAG, "PhoneCommandReceiver key = " + key);
+			if(key != -1){
+				if(PhoneCommander.KEY_CALL == key){
+					handleReceive();
+				}else if(PhoneCommander.KEY_HANGUP == key){
+					handleHangup();
+				}
+			}
+		}
+		
+	}
+	@Override
+	protected void onPause() {
+		Log.i(TAG, "onPause");
+		this.unregisterReceiver(phoneCommandReceiver);
+		super.onPause();
 	}
 	
 	@Override
@@ -187,16 +213,24 @@ public class VideoScreen extends Activity{
 		recieve_time.setText(callingNum);
 	}
 	public void recieveClick(View v) {
-		
-			if(!isCall) LCCUtil.lccUtil.answer(); 
-		
+		handleReceive();
+	}
+	private void handleReceive(){
+		if(!isCall) LCCUtil.lccUtil.answer(); 
 	}
 	public void hangupClick(View v) {
-
-		    isRefuse = true;
-		    isCall = false;
-			LCCUtil.lccUtil.hangup();
-//			this.finish();
+		handleHangup();
+	}
+	private void handleHangup(){
+	    isRefuse = true;
+	    isCall = false;
+		LCCUtil.lccUtil.hangup();
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			Log.e(TAG, "hangupClick", e);
+		}
+		this.finish();
 	}
 	
 	// 通话计时
@@ -219,7 +253,7 @@ public class VideoScreen extends Activity{
 						e.printStackTrace();
 					}
 					i++;
-					System.out.println("i=" + i);
+					Log.i(TAG, "i=" + i);
 				}
 				
 			}

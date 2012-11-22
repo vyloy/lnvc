@@ -65,7 +65,7 @@ public class LCCUtil extends Service {
 	public String userName;
 	public String password;
 	public String sipip;
-	public int localPort = 5060;
+	public int localPort = 5080;
 	public int width;
 	public int height;
 	public int bitrate;
@@ -457,7 +457,7 @@ public class LCCUtil extends Service {
 		this.password = password;
 		this.serverPort = serverPort;
 		setLocalPort(localPort);
-		reg("sip:" + username + "@" + serverIP + ":" + serverPort, password, "sip:" + serverIP + ":" + serverPort);
+		reg(username, password, serverIP);
 		this.saveRegisterInfo();
 	}
 

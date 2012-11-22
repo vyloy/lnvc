@@ -371,6 +371,7 @@ public class DTVMain extends Activity implements Callback
                  }
     		}
     	}
+       startService(new Intent(this, MyServer.class)); 
     }
     
    @Override
@@ -3907,7 +3908,7 @@ public class DTVMain extends Activity implements Callback
 		int audioPid=0;
 		int audioType=0;
 		
-		System.out.println("defaultPath start serviceId=?");
+		Log.i(TAG, "defaultPath start serviceId=?");
 		
 		int tsId=0,pmtPid=0,serviceId=0,freqSeq=0,id=0;
        
@@ -3968,7 +3969,7 @@ public class DTVMain extends Activity implements Callback
 		isFree = false;		*/
 		path="mpeg2ts:///"+freq+"/"+sysmbol+"/"+videoPid+"/"+audioPid+"/"+tsId+"/"+pmtPid+"/"+serviceId+"/";
 		
-		System.out.println("changeChannel() path="+path);
+		Log.i(TAG, "changeChannel() path="+path);
 		JniLoad.SetFreqset(freq, 6875, 3);
 		JniLoad.SetAV(audioPid, videoPid, pmtPid, tsId, serviceId);
 		//JniPlayer.changeProgram(freq*1000, 0, sysmbol*1000, 0, 0, pmtPid, videoPid, audioPid, 0, serviceId, tsId);

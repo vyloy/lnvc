@@ -49,10 +49,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:digits="0123456789"
             android:includeFontPadding="false"
-            android:inputType="phone"
-            android:maxLength="11"
+            android:inputType="text"
             android:singleLine="true" />
     </LinearLayout>
 

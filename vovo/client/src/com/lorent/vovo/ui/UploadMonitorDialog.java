@@ -52,15 +52,13 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 		descriptionTextArea = new javax.swing.JTextArea();
 		jLabel4 = new javax.swing.JLabel();
 		liveStreamURLTextField = new javax.swing.JTextField();
-		resultProgressBar = new javax.swing.JProgressBar();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER,
 				50, 5));
 
-		uploadButton.setText(VovoStringUtil
-				.getUIString("UploadVideoClipDialog.upload"));
+		uploadButton.setText("确定");
 		uploadButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				uploadButtonActionPerformed(evt);
@@ -296,9 +294,6 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 
 		jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-		resultProgressBar.setStringPainted(true);
-		jPanel1.add(resultProgressBar, java.awt.BorderLayout.SOUTH);
-
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
 		pack();
@@ -350,7 +345,6 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTextField liveStreamURLTextField;
-	private javax.swing.JProgressBar resultProgressBar;
 	private javax.swing.JButton selectFileHighButton;
 	private javax.swing.JTextField thumbnailTextField;
 	private org.jdesktop.swingx.JXPanel thumbnailXPanel1;
@@ -364,10 +358,6 @@ public class UploadMonitorDialog extends javax.swing.JDialog {
 
 	public javax.swing.JTextField getLiveStreamURLTextField() {
 		return liveStreamURLTextField;
-	}
-
-	public javax.swing.JProgressBar getResultProgressBar() {
-		return resultProgressBar;
 	}
 
 	public javax.swing.JButton getSelectFileHighButton() {

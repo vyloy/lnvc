@@ -96,24 +96,21 @@
     </LinearLayout>
     <!-- ui part -->
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mainlayout_right"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/lvd1600_sip_back_480"
+        android:background="@drawable/lvd1600_sip_back"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="2px"
         android:visibility="visible" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="265dip"
-            android:orientation="vertical" >
 
             <FrameLayout
+                android:id="@+id/operateFramelayout"
+                android:layout_above="@+id/menuLayout"
+                android:layout_alignParentTop="true"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="wrap_content" >
 
                 <!-- diaLayout -->
 
@@ -982,20 +979,19 @@
                         android:src="@drawable/lvd1600_sip_logo" />
                 </LinearLayout>
             </FrameLayout>
-        </LinearLayout>
 
         <!-- menu button -->
-
+
         <LinearLayout
             android:id="@+id/menuLayout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center_horizontal"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal" >
-
+
             <LinearLayout
-                android:layout_width="57dip"
-                android:layout_height="wrap_content"
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
@@ -1014,7 +1010,7 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1038,7 +1034,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1063,7 +1059,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1088,7 +1084,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1113,7 +1109,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1138,7 +1134,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="57dip"
+                android:layout_width="50dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" >
 
@@ -1160,6 +1156,6 @@
                     android:onClick="backClick" />
             </FrameLayout>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </merge>

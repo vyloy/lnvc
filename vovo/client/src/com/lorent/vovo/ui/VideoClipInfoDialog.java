@@ -5,6 +5,7 @@
  */
 
 package com.lorent.vovo.ui;
+import javax.swing.JLabel;
 
 /**
  *
@@ -310,4 +311,7 @@ public class VideoClipInfoDialog extends javax.swing.JDialog {
 		return liveStreamUrlTextField;
 	}
 
+	public JLabel getUploadLabel() {
+		return jLabel1;
+	}
 }

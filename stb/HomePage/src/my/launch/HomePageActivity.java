@@ -1,8 +1,6 @@
 package my.launch;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -26,9 +24,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.phonecommand.PhoneCommander;
 
 public class HomePageActivity extends Activity {
 	
@@ -47,8 +46,10 @@ public class HomePageActivity extends Activity {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Log.i(TAG, "homepage oncreate() "+sDateFormat.format(new java.util.Date()));
         
-
-       
+        registerReceiver(lccMessage, new IntentFilter("com.lorent.lcc.register"));
+        registerReceiver(networkMessage, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        
+        PhoneCommander.getInstance(this).startServer();
     }
     
     
@@ -56,8 +57,7 @@ public class HomePageActivity extends Activity {
     protected void onPause() {
     	Log.i(TAG, "onPause");
     	super.onPause();
-    	unregisterReceiver(lccMessage);
-    	unregisterReceiver(networkMessage);
+
     }
     
     @Override
@@ -71,6 +71,13 @@ public class HomePageActivity extends Activity {
     	Log.i(TAG, "onStop");
 
     	super.onStop();
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	unregisterReceiver(lccMessage);
+    	unregisterReceiver(networkMessage);
+    	super.onDestroy();
     }
     
   //广播接收器
@@ -112,15 +119,15 @@ public class HomePageActivity extends Activity {
 					int type =activeNetwork.getType();
 					if(type == ConnectivityManager.TYPE_WIFI)
 					{
-						System.out.println("wifi network");
+						Log.i(TAG, "wifi network");
 					}
 					else if(type == ConnectivityManager.TYPE_MOBILE)
 					{
-						System.out.println("mobile network");
+						Log.i(TAG, "mobile network");
 					}
 					else
 					{
-						System.out.println("unknow network");
+						Log.i(TAG, "unknow network");
 					}
 					network_show.setText(getString(R.string.netconnected));
 					
@@ -270,8 +277,6 @@ public class HomePageActivity extends Activity {
     	Message msg = new Message();
 		handlerNetworkMsg.sendMessage(msg);
     	btn_music.setFocusable(true);
-        registerReceiver(lccMessage, new IntentFilter("com.lorent.lcc.register"));
-        registerReceiver(networkMessage, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
     
     public static boolean isPkgInstalled(Context ctx, String packageName){
