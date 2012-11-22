@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.phonecommand.PhoneCommander;
+
 public class HomePageActivity extends Activity {
 	
 	private ImageButton btn_music,btn_file,btn_game,btn_tv,btn_phone,btn_set,btn_service,btn_systemsetting,btn_videoclip;
@@ -47,7 +49,7 @@ public class HomePageActivity extends Activity {
         registerReceiver(lccMessage, new IntentFilter("com.lorent.lcc.register"));
         registerReceiver(networkMessage, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         
-        new PhoneCommandReceiver().startServer();
+        PhoneCommander.getInstance(this).startServer();
     }
     
     

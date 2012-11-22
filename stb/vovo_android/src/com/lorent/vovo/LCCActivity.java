@@ -40,7 +40,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -62,6 +61,7 @@ import com.lorent.vovo.bean.RecordBean;
 import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.PlayAudio;
+import com.phonecommand.PhoneCommander;
 
 public class LCCActivity extends Activity {
 
@@ -233,6 +233,7 @@ public class LCCActivity extends Activity {
 	private Map<String, Object> map = new HashMap<String, Object>();
 
 	private static final String MY_DND = "my_dnd";
+	public static final String PHONE_COMMAND_ACTION = "com.lorent.phonecommand";
 
 	private Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -1211,6 +1212,7 @@ public class LCCActivity extends Activity {
 
 		// thislcc = this;
 		init_on_create();
+		phoneCommandReceiver = new PhoneCommandReceiver();
 
 	}
 
@@ -1667,28 +1669,62 @@ public class LCCActivity extends Activity {
 			isLimit = false;
 
 		// LockScreenTool.cancelLock();
-
-		System.out.println("on pause +++");
-
+		unregisterReceiver(phoneCommandReceiver);
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-
+		Log.d(TAG, "onKeyDown keyCode = " + keyCode);
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-			System.out.println("keycode = back");
+			Log.d(TAG, "keycode = back");
 			if (isCallOut)
 				return true;
 			onBackPressed();
 
-		}else if(keyCode == KeyEvent.KEYCODE_DPAD_UP
-				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
-				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
-				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
-			Log.i(TAG, "focus on " + this.getCurrentFocus().toString());
+		}else if(keyCode == KeyEvent.KEYCODE_0){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("0");
+		}else if(keyCode == KeyEvent.KEYCODE_1){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("1");
+		}else if(keyCode == KeyEvent.KEYCODE_2){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("2");
+		}else if(keyCode == KeyEvent.KEYCODE_3){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("3");
+		}else if(keyCode == KeyEvent.KEYCODE_4){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("4");
+		}else if(keyCode == KeyEvent.KEYCODE_5){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("5");
+		}else if(keyCode == KeyEvent.KEYCODE_6){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("6");
+		}else if(keyCode == KeyEvent.KEYCODE_7){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("7");
+		}else if(keyCode == KeyEvent.KEYCODE_8){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("8");
+		}else if(keyCode == KeyEvent.KEYCODE_9){
+			if(dialLayout.getVisibility() == View.VISIBLE)
+				this.callEdit.append("9");
+		}else if(keyCode == KeyEvent.KEYCODE_DEL){
+			if(dialLayout.getVisibility() == View.VISIBLE){
+				if (callEdit.getText().toString().length() > 0) {
+					String s = callEdit.getText().toString();
+					callEdit.getText().delete(s.length() - 1, s.length());
+				}
+			}
 		}
+//		else if(keyCode == KeyEvent.KEYCODE_DPAD_UP
+//				|| keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+//				|| keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+//				|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
+//			Log.i(TAG, "focus on " + this.getCurrentFocus().toString());
+//		}
 
 		return super.onKeyDown(keyCode, event);
 	}
@@ -1736,7 +1772,8 @@ public class LCCActivity extends Activity {
 	protected void onResume() {
 
 		super.onResume();
-		System.out.println(TAG + " onresume()");
+		Log.i(TAG, "onresume()");
+		this.registerReceiver(phoneCommandReceiver, new IntentFilter(PhoneCommander.PHONE_COMMAND_ACTION));
 		// 锁屏
 		// LockScreenTool.lockScreen(this);
 		new Thread(new Runnable() {
@@ -1811,8 +1848,33 @@ public class LCCActivity extends Activity {
 			historyListLv.setAdapter(historylist_adapter);
 			NoticeServer.haveUnreciever = false;
 		}*/
-		sendBroadcast(new Intent("my.hide.notice"));
+//		sendBroadcast(new Intent("my.hide.notice"));
 
+
+		
+	} 
+	private PhoneCommandReceiver phoneCommandReceiver;
+	private class PhoneCommandReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			int key = intent.getIntExtra("key", -1);
+			Log.d(TAG, "PhoneCommandReceiver key = " + key);
+			if(key != -1){
+				if(dialLayout.getVisibility() == View.VISIBLE){
+					if(PhoneCommander.KEY_CALL == key){
+						doCall(callEdit.getText().toString());
+					}else if(PhoneCommander.KEY_PLUS == key){
+						callEdit.append("#");
+					}else if(PhoneCommander.KEY_STAR == key){
+						callEdit.append("*");
+					}else if(PhoneCommander.KEY_CLEAN == key){
+						callEdit.setText("");
+					}
+				}
+			}
+		}
+		
 	}
 
 	public int px2dip(Context context, float pxValue) {
