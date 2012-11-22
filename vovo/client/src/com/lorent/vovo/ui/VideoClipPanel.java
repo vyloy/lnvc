@@ -172,7 +172,7 @@ public class VideoClipPanel extends javax.swing.JPanel {
 		uploadMonitorButton1
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/vovo/resource/images/edit-add-2.png"))); // NOI18N
-		uploadMonitorButton1.setText("\u6dfb\u52a0\u76f4\u64ad");
+		uploadMonitorButton1.setText("添加监控");
 		uploadMonitorButton1.setContentAreaFilled(false);
 		uploadMonitorButton1.setFocusable(false);
 		uploadMonitorButton1
