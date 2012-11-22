@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lorent.common.dto.LCMVideoClip;
+import com.lorent.common.tree.BroadcastEvent;
+import com.lorent.common.tree.MemberBean;
 import com.lorent.model.VideoClipBean;
+import com.lorent.util.OpenfireUtil;
 
 public class VideoCommunityHandler extends BaseHandler {
 
@@ -180,5 +183,10 @@ public class VideoCommunityHandler extends BaseHandler {
 	
 	public Integer getMonitorListLength() throws Exception{
 		return serviceFacade.getVideoClipService().getAllMonitor().size();
+	}
+	
+	public Boolean broadcastMyIpAddress(MemberBean bean,String from,String to) throws Exception{
+		OpenfireUtil.getInstance().sendGroupBroadcast(BroadcastEvent.BROADCAST_MY_IPADDRESS, new Object[]{bean,from,to});
+		return true;
 	}
 }

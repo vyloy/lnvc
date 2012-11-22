@@ -41,6 +41,7 @@
     </event>
     <event id="userStatusChange">
         <listener class="organ" method="userStatusChange" />
+        <listener class="organ" method="broadcastMyIpAddress" />
     </event> 
     <event id="showConferenceBubbleDialog">
         <listener class="conference" method="showConferenceBubbleDialog" />
@@ -125,5 +126,8 @@
     </event>
     <event id="reconnectionSuccessful">
     	<listener class="main" method="reconnectionSuccessful" />
+    </event>
+    <event id="receiveBroadcastIP">
+    	<listener class="main" method="receiveBroadcastIP" />
     </event>
 </events-configuration>

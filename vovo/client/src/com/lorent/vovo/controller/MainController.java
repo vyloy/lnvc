@@ -18,16 +18,23 @@ import com.jniwrapper.win32.registry.RegistryKeyValues;
 import com.jniwrapper.win32.registry.RegistryValueTransformer;
 import com.lorent.common.controller.BaseController;
 import com.lorent.common.dto.VovoMyInfo;
+import com.lorent.common.tree.BroadcastEvent;
+import com.lorent.common.tree.MemberBean;
 import com.lorent.common.util.FileUtil;
+import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.NetworkUtil;
+import com.lorent.common.util.OpenfireUtil;
 import com.lorent.common.util.StringUtil;
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.AboutDialog;
 import com.lorent.vovo.ui.ChangeHeadImgDialog;
 import com.lorent.vovo.ui.ConferencePanel;
+import com.lorent.vovo.ui.FriendChatPanel;
 import com.lorent.vovo.ui.GroupListPanel;
 import com.lorent.vovo.ui.LoginFrame;
 import com.lorent.vovo.ui.MainFrame;
+import com.lorent.vovo.ui.MessageTabPanel;
 import com.lorent.vovo.ui.MyTrayIcon;
 import com.lorent.vovo.ui.OrganListPanel;
 import com.lorent.vovo.ui.PhoneFrame;
@@ -37,8 +44,10 @@ import com.lorent.vovo.ui.VideoClipPanel;
 import com.lorent.vovo.util.CallHistory;
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
+import com.lorent.vovo.util.MyLoginSessionUtil;
 import com.lorent.vovo.util.MyOpenfireUtil;
 import com.lorent.vovo.util.PrivateDataUtil;
+import com.lorent.vovo.util.TreeUtil;
 import com.lorent.vovo.util.UserInfoUtil;
 import com.lorent.vovo.util.VovoStringUtil;
 
@@ -98,13 +107,22 @@ public class MainController extends BaseController {
 		context.getDataManager().setValue(Constants.DataKey.LOGGININFO.toString(), UserInfoUtil.getInfo(username));
 		context.getExecuteManager().executeService("login", "doLogin",username,password,serverIP, status);
 		context.getExecuteManager().executeController("sharefile", "setFtpConfig", "admin","1234",serverIP,2121);
-//		TestMainFrame mainFrame = context.getViewManager().createView(TestMainFrame.class, Constants.ViewKey.MAIN_FRAME_NAME.toString());
-//		mainFrame.setVisible(true);
+		
+		try {
+			String addcounthttpurl = "http://"+serverIP+":6090/videoserver/video.jsp";
+			MyLoginSessionUtil.downLoadPages(addcounthttpurl, true);
+		} catch (Exception e) {
+			log.error("MainController.doLogin", e);
+		}
+		
 		MyTrayIcon trayIcon = context.getViewManager().getView(Constants.ViewKey.TRAYICON.toString());
 		trayIcon.showMainMenu();
-		//context.getExecuteManager().executeController("chat", "showMessageFrame");
 		showMainFrame(status, username);
-//		context.getExecuteManager().executeController("chat", "init");
+		
+		MemberBean bean = new MemberBean();
+		bean.setLccAccount(username);
+		bean.setIp(NetworkUtil.getSimpleIP());
+		Vovo.getLcmUtil().broadcastMyIpAddress(bean,username,"");
 	}
 	
 	private void showMainFrame(int status, String lccno)throws Exception{
@@ -300,6 +318,30 @@ public class MainController extends BaseController {
 		MyOpenfireUtil.doAfterDataIsReady();
 	}
 	
+	public void receiveBroadcastIP(String operate,MemberBean bean,String from,String to){
+		if (operate != null && operate.equals(BroadcastEvent.BROADCAST_MY_IPADDRESS)) {
+			LoginInfo loginInfo = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
+			if (to == null || to.equals("") || to.equals(loginInfo.getUsername())) {
+				if (!loginInfo.getUsername().equals(bean.getLccAccount())) {
+					MemberBean memberBeanByLccno = TreeUtil.getMemberBeanByLccno(bean.getLccAccount());
+					if (memberBeanByLccno != null) {
+						memberBeanByLccno.setIp(bean.getIp());
+						TreeUtil.reflashMemberNode(memberBeanByLccno);
+						System.out.println("receiveBroadcastIP "+bean.getLccAccount()+"  "+bean.getIp());
+						//更新已打开的msgFrame
+						MessageTabPanel tabPanel = context.getViewManager().getView(Constants.ViewKey.MESSAGETABPANEL.toString());
+						if (tabPanel != null) {
+							FriendChatPanel panel = (FriendChatPanel) Vovo.exeC("chat", "getFriendChatPanel", memberBeanByLccno);
+							if (panel != null) {
+								panel.setInfo(memberBeanByLccno);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public void confirmExit()throws Exception{
 		int i = this.showConfirmDialog(null, "你是否要退出VOVO?");
 		if(i == JOptionPane.OK_OPTION){
@@ -393,11 +435,17 @@ public class MainController extends BaseController {
 	}
 	
 	public void serverDisconnect(){
-		
+//		JOptionPane.showMessageDialog(null, "serverDisconnect");
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			OpenfireUtil.getInstance().isLogined = false;
+		}
 	}
 	
 	
 	public void reconnectionSuccessful(){
-		
+//		JOptionPane.showMessageDialog(null, "reconnectionSuccessful");
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			OpenfireUtil.getInstance().isLogined = true;
+		}
 	}
 }

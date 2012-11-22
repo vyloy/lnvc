@@ -19,6 +19,7 @@ import com.lorent.common.app.AppContext;
 import com.lorent.common.controller.BaseController;
 import com.lorent.common.tree.MemberBean;
 import com.lorent.util.LCCUtil;
+import com.lorent.vovo.Vovo;
 import com.lorent.vovo.ui.CallHistoryNodePanel;
 import com.lorent.vovo.ui.FriendChatPanel;
 import com.lorent.vovo.ui.MessageFrame;
@@ -49,7 +50,8 @@ public abstract class AbstractPhoneController extends BaseController {
 	}
 
 	public void callIncoming(String lccno, int type) throws Exception {
-		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccno);
+		String lccnostr = getLccNoFromSipStr(lccno);
+		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccnostr);
 		if (memberBean != null) {
 			MessageFrame frame = (MessageFrame) context.getExecuteManager()
 					.executeController("chat", "getMessageFrame");
@@ -67,7 +69,7 @@ public abstract class AbstractPhoneController extends BaseController {
 			}
 			frame.setVisible(true);
 		} else {
-			callingLccNo = lccno;
+			callingLccNo = lccnostr;
 			if (LCCUtil.CALL_TYPE_SOUND_AND_VIDEO == type
 					|| LCCUtil.CALL_TYPE_VIDEO == type) {
 				Panel videoPanel = frame.getScreenPanel();
@@ -84,7 +86,7 @@ public abstract class AbstractPhoneController extends BaseController {
 			frame.getCameraCloseToggleButton().setEnabled(false);
 			frame.getMainRightTabbedPane().setSelectedIndex(0);
 
-			String statusInfo = "有电话呼入，呼入号码：" + lccno;
+			String statusInfo = "有电话呼入，呼入号码：" + lccnostr;
 			Image image = Toolkit
 					.getDefaultToolkit()
 					.getImage(
@@ -107,7 +109,8 @@ public abstract class AbstractPhoneController extends BaseController {
 
 	public void callHangup(String lccno, int type, boolean isConnect)
 			throws Exception {
-		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccno);
+		String lccnostr = getLccNoFromSipStr(lccno);
+		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccnostr);
 		if (memberBean != null) {
 			FriendChatPanel panel = (FriendChatPanel) context
 					.getExecuteManager().executeController("chat",
@@ -155,7 +158,7 @@ public abstract class AbstractPhoneController extends BaseController {
 			setPhoneFrameState(statusInfo, image);
 			if(incoming){
 				incoming=false;
-				addPhoneRecord(new CallHistoryItem(CallInfo.MISSED_CALL.mask, lccno, new Date().getTime()));
+				addPhoneRecord(new CallHistoryItem(CallInfo.MISSED_CALL.mask, lccnostr, new Date().getTime()));
 			}
 			frame.setVisible(true);
 		}
@@ -163,7 +166,8 @@ public abstract class AbstractPhoneController extends BaseController {
 	}
 
 	public void callConnected(String lccno, int type) {
-		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccno);
+		String lccnostr = getLccNoFromSipStr(lccno);
+		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccnostr);
 		if (memberBean != null) {
 			FriendChatPanel panel = (FriendChatPanel) context
 					.getExecuteManager().executeController("chat",
@@ -198,7 +202,7 @@ public abstract class AbstractPhoneController extends BaseController {
 			setPhoneFrameState(statusInfo, image);
 			if(incoming){
 				incoming=false;
-				addPhoneRecord(new CallHistoryItem(CallInfo.CALL_IN.mask, lccno, new Date().getTime()));
+				addPhoneRecord(new CallHistoryItem(CallInfo.CALL_IN.mask, lccnostr, new Date().getTime()));
 			}
 			frame.setVisible(true);
 		}
@@ -206,7 +210,8 @@ public abstract class AbstractPhoneController extends BaseController {
 	}
 
 	public void callError(String lccno, int type) throws Exception {
-		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccno);
+		String lccnostr = getLccNoFromSipStr(lccno);
+		final MemberBean memberBean = TreeUtil.getMemberBeanByLccno(lccnostr);
 		if (memberBean != null) {
 			FriendChatPanel panel = (FriendChatPanel) context
 					.getExecuteManager().executeController("chat",
@@ -247,27 +252,26 @@ public abstract class AbstractPhoneController extends BaseController {
 		MyPlayer.stop();
 	}
 
-	public void makeCallInvite(String lccno, FriendChatPanel panel,
-			boolean soundOnly) throws Exception {
-		if (!LCCUtil.canCall()) {
-			showMessageDialog(getUIString("info.tip"),
-					getUIString("phone.alreadyHadOneCall"));
-			return;
-		}
+	public void makeCallInviteP2P(String sip_lccnostr,String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception{
+		makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
+	}
+	
+	private void makeCallInviteDetail(String sip_lccnostr,String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception{
 		
 		if (panel != null) {
 			if (soundOnly) {
 				panel.showSoundCall();
 				LCCUtil.getInstance().setVideo(false, null);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno, LCCUtil.CALL_TYPE_SOUND);
+				LCCUtil.getInstance().doCall(sip_lccnostr, LCCUtil.CALL_TYPE_SOUND);
 			} else {
 				Panel videoPanel = panel.showVideoCall();
 				LCCUtil.getInstance().setVideo(true, videoPanel);
 				LCCUtil.getInstance().setPreview(true);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno,
-						LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
+				LCCUtil.getInstance().doCall(sip_lccnostr,LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
 			}
 
 		} else {
@@ -283,7 +287,8 @@ public abstract class AbstractPhoneController extends BaseController {
 				FriendChatPanel fcp = (FriendChatPanel) context
 						.getExecuteManager().executeController("chat",
 								"getFriendChatPanel", memberBean);
-				makeCallInvite(lccno, fcp, soundOnly);
+//				makeCallInvite(sip_lccnostr, fcp, soundOnly);////???????????????
+				makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
 				_frame.setVisible(true);
 				frame.setVisible(false);
 				return;
@@ -293,31 +298,35 @@ public abstract class AbstractPhoneController extends BaseController {
 			frame.getCameraOpenToggleButton().setEnabled(false);
 			frame.getCameraCloseToggleButton().setEnabled(false);
 			String statusInfo = "呼出";
-			Image image = Toolkit
-					.getDefaultToolkit()
-					.getImage(
-							getClass()
-									.getResource(
-											"/com/lorent/vovo/resource/images/dial/call-start_1.png"));
+			Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/lorent/vovo/resource/images/dial/call-start_1.png"));
 			setPhoneFrameState(statusInfo, image);
 			callingLccNo = lccno;
 			if (soundOnly) {
 				LCCUtil.getInstance().setVideo(false, null);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno, LCCUtil.CALL_TYPE_SOUND);
+				LCCUtil.getInstance().doCall(sip_lccnostr, LCCUtil.CALL_TYPE_SOUND);
 			} else {
 				Panel videoPanel = frame.getScreenPanel();
 				LCCUtil.getInstance().setVideo(true, videoPanel);
 				LCCUtil.getInstance().setPreview(true);
 				Thread.sleep(200);
-				LCCUtil.getInstance().doCall(lccno,
-						LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
+				LCCUtil.getInstance().doCall(sip_lccnostr,LCCUtil.CALL_TYPE_SOUND_AND_VIDEO);
 				preview = true;
 			}
 			
 			addPhoneRecord(new CallHistoryItem(CallInfo.CALL_OUT.mask, lccno, new Date().getTime()));
 		}
 		MyPlayer.play(MyPlayer.TYPE_RING_OUT);
+	}
+	
+	public void makeCallInvite(String lccno, FriendChatPanel panel,
+			boolean soundOnly) throws Exception {
+		if (!LCCUtil.canCall()) {
+			showMessageDialog(getUIString("info.tip"),
+					getUIString("phone.alreadyHadOneCall"));
+			return;
+		}
+		makeCallInviteDetail(lccno,lccno,panel,soundOnly);
 	}
 
 	public void addPhoneRecord(CallHistoryItem item){
@@ -427,4 +436,23 @@ public abstract class AbstractPhoneController extends BaseController {
 				Constants.ViewKey.PhoneFrame.toString());
 	}
 
+	protected String getLccNoFromSipStr(String lccno){
+		String lccnostr = lccno;
+		if (lccno.indexOf("sip:") != -1 && lccno.indexOf("@") != -1) {
+			int begin = lccno.indexOf("sip:")+4;
+			int end = lccno.indexOf("@");
+			lccnostr = lccno.substring(begin, end);
+		}
+		return lccnostr;
+	}
+	
+	protected String getSipStrForP2P(String lccno){
+		int intProperty = Vovo.getConfigManager().getIntProperty(Constants.ConfigKey.localcsport.toString(), Constants.CONFIG_LOCAL_CS_PORT);
+		MemberBean bean = TreeUtil.getMemberBeanByLccno(lccno);
+		String sip_lccnostr = "sip:"+bean.getLccAccount()+"@"+bean.getIp()+":"+intProperty;
+		if (bean.getIp() == null || bean.getIp().equals("")) {
+			sip_lccnostr = lccno;
+		}
+		return sip_lccnostr;
+	}
 }

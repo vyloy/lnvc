@@ -385,15 +385,17 @@ public class VideoClipController extends BaseController {
 		log.info(cmdStr);
 		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr0);
 		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
-			dialog.getResultProgressBar().setString(new String(b, 0, r));
-//            log.info(new String(b, 0, r));
+			String string = new String(b, 0, r);
+			dialog.getResultProgressBar().setString(string);
+            log.info(string);
         }
 		startProcess1.waitFor();
 		
 		startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
 		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
-			dialog.getResultProgressBar().setString(new String(b, 0, r));
-//            log.info(new String(b, 0, r));
+			String string = new String(b, 0, r);
+			dialog.getResultProgressBar().setString(string);
+            log.info(string);
         }
 		startProcess1.waitFor();
 	}
@@ -796,9 +798,6 @@ public class VideoClipController extends BaseController {
 			@Override
 			public void run() {
 				try {
-					
-					
-					
 					LCMVideoClip[] videoClipList = Vovo.getLcmUtil().getVideoClipList(pageIndex, pageSize,listpanel.getCategory());
 					if (videoClipList != null) {
 						log.info("videoClipList size: "+videoClipList.length);
@@ -849,15 +848,13 @@ public class VideoClipController extends BaseController {
 							}
 							
 						}
-						listpanel.repaint();
-						listpanel.revalidate();
-//						panel.getVideoClipPanel().repaint();
-//						panel.getVideoClipPanel().revalidate();
 					}
 					else{
+						listpanel.getVideoClipPanel().removeAll();
 						log.info("videoClipList size: "+videoClipList);
 					}
-					
+					listpanel.getVideoClipPanel().repaint();
+					listpanel.getVideoClipPanel().revalidate();
 					
 				} catch (Exception e) {
 					log.error("reflashVideoClipPanel", e);

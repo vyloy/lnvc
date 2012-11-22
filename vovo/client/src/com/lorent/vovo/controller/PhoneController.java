@@ -6,7 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lorent.common.app.AppContext;
+import com.lorent.common.tree.MemberBean;
+import com.lorent.common.util.OpenfireUtil;
+import com.lorent.vovo.Vovo;
 import com.lorent.vovo.ui.FriendChatPanel;
+import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.TreeUtil;
 
 
 
@@ -89,7 +94,17 @@ public class PhoneController extends AbstractPhoneController {
 			@Override
 			public void run() {
 				try {
-					PhoneController.super.makeCallInvite(lccno, panel, soundOnly);
+					//判断是否断线
+					synchronized (OpenfireUtil.getInstance().isLogined) {
+						if (OpenfireUtil.getInstance().isLogined) {
+							PhoneController.super.makeCallInvite(lccno, panel, soundOnly);
+						}
+						else{
+							String sip_lccnostr = getSipStrForP2P(lccno);
+							PhoneController.super.makeCallInviteP2P(sip_lccnostr,lccno, panel, soundOnly);
+						}
+						
+					}
 				} catch (Exception e) {
 					logger.error(e.getMessage(),e);
 				}
@@ -100,13 +115,27 @@ public class PhoneController extends AbstractPhoneController {
 	@Override
 	public void cancelCallInvite(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
-		super.cancelCallInvite(lccno, panel, soundOnly);
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			if (OpenfireUtil.getInstance().isLogined) {
+				super.cancelCallInvite(lccno, panel, soundOnly);
+			}
+			else{
+				super.cancelCallInvite(getSipStrForP2P(lccno), panel, soundOnly);
+			}
+		}
+		
 	}
 
 	@Override
 	public void acceptCallInvite(String lccno, FriendChatPanel panel) {
-		// TODO Auto-generated method stub
+//		synchronized (OpenfireUtil.getInstance().isLogined) {
+//			if (OpenfireUtil.getInstance().isLogined) {
+//				super.acceptCallInvite(lccno, panel);
+//			}
+//			else{
+//				super.acceptCallInvite(lccno, panel);
+//			}
+//		}
 		super.acceptCallInvite(lccno, panel);
 	}
 
@@ -127,15 +156,30 @@ public class PhoneController extends AbstractPhoneController {
 	@Override
 	public void rejectCallInvite(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
+//		synchronized (OpenfireUtil.getInstance().isLogined) {
+//			if (OpenfireUtil.getInstance().isLogined) {
+//				super.rejectCallInvite(lccno, panel, soundOnly);
+//			}
+//			else{
+//				super.rejectCallInvite(getSipStrForP2P(lccno), panel, soundOnly);
+//			}
+//		}
 		super.rejectCallInvite(lccno, panel, soundOnly);
 	}
 
 	@Override
 	public void hangupCall(String lccno, FriendChatPanel panel,
 			boolean soundOnly) throws Exception {
-		// TODO Auto-generated method stub
-		super.hangupCall(lccno, panel, soundOnly);
+		synchronized (OpenfireUtil.getInstance().isLogined) {
+			if (OpenfireUtil.getInstance().isLogined) {
+				super.hangupCall(lccno, panel, soundOnly);
+			}
+			else{
+				super.hangupCall(getSipStrForP2P(lccno), panel, soundOnly);
+				super.hangupCall(lccno, panel, soundOnly);
+			}
+		}
+//		super.hangupCall(lccno, panel, soundOnly);
 	}
 
 	@Override

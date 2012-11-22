@@ -479,6 +479,24 @@ public class LCCUtil {
 
     }
     
+    public void registerForP2P(String lccNO,String serverIP,String serverPort,String password,int localPort){
+    	this.regLccNo = lccNO;
+    	this.regServerIP = serverIP;
+    	this.regServerPort = serverPort;
+    	this.regPassword = password;
+    	tempRegData = new RegisterData(lccNO, password, serverIP, localPort);
+        if (isRegister) {
+        	log.info("unregister");            
+        	reRegister = true;
+            this.unreg();
+        } else {
+        	log.info("setsipport:" + localPort);
+            this.setsipport(localPort);
+            log.info("reg sip_username:" + lccNO + " password:" + password + " sip_serverIP:" + serverIP);
+            this.reg(lccNO, password, serverIP);
+        }
+    }
+    
     public void register(String lccNO,String serverIP,String serverPort,String password,int localPort){
     	this.regLccNo = lccNO;
     	this.regServerIP = serverIP;

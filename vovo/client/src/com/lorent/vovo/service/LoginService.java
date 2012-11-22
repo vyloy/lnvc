@@ -26,6 +26,7 @@ public class LoginService extends BaseService {
 			//openfire登录
 			int serverPort = context.getConfigManager().getIntProperty(Constants.ConfigKey.OPENFIRE_PORT.toString(), Constants.CONFIG_OPENFIRE_PORT);
 			int timeout = context.getConfigManager().getIntProperty(Constants.ConfigKey.timeout.toString(), Constants.CONFIG_TIME_OUT);
+			int localCSPort = context.getConfigManager().getIntProperty(Constants.ConfigKey.localcsport.toString(), Constants.CONFIG_LOCAL_CS_PORT);
 //			OpenfireUtil.init(serverIP, serverPort);
 //			OpenfireUtil.login(userName, passPsw);
 			try {
@@ -56,7 +57,8 @@ public class LoginService extends BaseService {
 			initLCCUtil();
 			int csPort = context.getConfigManager().getIntProperty("csPort", 5060);
 //			LCCUtil.getInstance().register("sip:" + userName + "@" + serverIP + ":" + csPort, passPsw, "sip:" + serverIP + ":" + csPort, 0);
-			LCCUtil.getInstance().register(userName, serverIP, csPort+"", passPsw, 0);
+//			LCCUtil.getInstance().register(userName, serverIP, csPort+"", passPsw, 0);
+			LCCUtil.getInstance().registerForP2P(userName, serverIP, csPort+"", passPsw, localCSPort);
         //init database
         MyDataBase.init(userName);
         /*

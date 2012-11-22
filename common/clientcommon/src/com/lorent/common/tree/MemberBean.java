@@ -24,6 +24,7 @@ public class MemberBean implements Serializable{
 	private String email;
 	private String gender;
 	private String deptName;
+	private String ip;//登录的ip
 	
 	public MemberBean(){
 		
@@ -47,6 +48,7 @@ public class MemberBean implements Serializable{
 		this.setRealName(bean.getRealName());
 		this.setSign(bean.getSign());
 		this.setUsername(bean.getUsername());
+		this.setIp(bean.getIp());
 	}
 	
 	public MemberBean(int id,String jid,String desc,int state,String post,String lccAccount,String defaultImg,ImageIcon icon,String realName){
@@ -169,7 +171,12 @@ public class MemberBean implements Serializable{
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
-	
-	
-	
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 }
