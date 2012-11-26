@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,6 +63,7 @@ public class VideoClipController extends BaseController {
 	private int maxPageIndex = -1;
 	private int pageIndexM = 0;
 	private int maxPageIndexM = -1;
+	private String lastSelectPath = "";
 	
 	public void showUploadVideoClipDialog() throws Exception{
 		UploadVideoClipDialog uploadVideoClipDialog = new UploadVideoClipDialog(null, true);
@@ -78,12 +80,16 @@ public class VideoClipController extends BaseController {
 	
 	public void selectedMonitorPictureFile(UploadMonitorDialog dialog) throws Exception{
 		JFileChooser jFileChooser = new JFileChooser();
+		if (lastSelectPath != "") {
+			jFileChooser.setCurrentDirectory(new File(lastSelectPath));
+		}
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", new String[]{"jpg"}));
 //		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss_SSS");
 //		String currentTime=dateformat1.format(new Date(Vovo.getLcmUtil().getSystemTime()));
 		int showOpenDialog = jFileChooser.showOpenDialog(dialog);
 		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
 			File thefile = jFileChooser.getSelectedFile();
+			lastSelectPath = thefile.getAbsolutePath();
 //			dialog.getHightFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			dialog.getThumbnailTextField().setText(thefile.getAbsolutePath());
 			
@@ -269,6 +275,9 @@ public class VideoClipController extends BaseController {
 			@Override
 			public void run() {
 				JFileChooser jFileChooser = new JFileChooser();
+				if (lastSelectPath != "") {
+					jFileChooser.setCurrentDirectory(new File(lastSelectPath));
+				}
 				jFileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", new String[]{"jpg"}));
 				if (dialog.getCurrentTime() == null || dialog.getCurrentTime().equals("")) {
 					JOptionPane.showMessageDialog(null, "请先选择超清文件");
@@ -277,6 +286,7 @@ public class VideoClipController extends BaseController {
 				int showOpenDialog = jFileChooser.showOpenDialog(dialog);
 				if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
 					File thefile = jFileChooser.getSelectedFile();
+					lastSelectPath = thefile.getAbsolutePath();
 					String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
 					File file = new File(target);
 					if (!file.exists()) {
@@ -304,6 +314,9 @@ public class VideoClipController extends BaseController {
 	
 	public void selectedVideoClipFile(UploadVideoClipDialog dialog,Constants.VideoDefinition definitaion) throws Exception{
 		JFileChooser jFileChooser = new JFileChooser();
+		if (lastSelectPath != "") {
+			jFileChooser.setCurrentDirectory(new File(lastSelectPath));
+		}
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.mp4", new String[]{"mp4"}));
 		//改为获得服务器时间
 		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss_SSS");
@@ -311,6 +324,7 @@ public class VideoClipController extends BaseController {
 		int showOpenDialog = jFileChooser.showOpenDialog(dialog);
 		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
 			File thefile = jFileChooser.getSelectedFile();
+			lastSelectPath = thefile.getAbsolutePath();
 			//检测文件
 			LinkedHashMap<String, String> videoPrifilesMap = getVideoPrifilesMap(thefile.getAbsolutePath());
 			boolean checkVideoFile = checkVideoFile(videoPrifilesMap,definitaion);
@@ -341,8 +355,9 @@ public class VideoClipController extends BaseController {
 					file.mkdirs();
 				}
 				String selectedFile = StringUtil.convertFilePath2DOSCommandStr(jFileChooser.getSelectedFile().getAbsolutePath());
-				String newTheFileName = thefile.getName().replace(".", "_").replace(" ", "_");
-				String cacheFileName = target+currentTime+"_"+newTheFileName+".jpg";
+//				String newTheFileName = thefile.getName().replace(".", "_").replace(" ", "_");
+//				newTheFileName = URLEncoder.encode(newTheFileName);
+				String cacheFileName = target+currentTime+"_"+""+".jpg";
 				dialog.setCurrentTime(currentTime);
 				String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
 				String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 300x420 -f mjpeg "+targetPath);
@@ -379,8 +394,9 @@ public class VideoClipController extends BaseController {
 		byte b[] = new byte[1024];
         int r = 0;
 		String mp4box = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\GPAC\\mp4box.exe");
-		String cmdStr0 = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -unhint "+targetFilePath);
-		String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -hint "+targetFilePath);
+		String targetPath = StringUtil.convertFilePath2DOSCommandStr(targetFilePath);
+		String cmdStr0 = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -unhint "+targetPath);
+		String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -hint "+targetPath);
 		System.out.println(cmdStr);
 		log.info(cmdStr);
 		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr0);
@@ -475,7 +491,7 @@ public class VideoClipController extends BaseController {
 		};
 		//高清文件
 		final File fileHigh = new File(dialog.getSelectedHighVideoFilePath());
-		final String newFileNameHigh =dialog.getCurrentTime()+"_"+ fileHigh.getName();
+		final String newFileNameHigh =dialog.getCurrentTime()+"_720P.mp4";//+ fileHigh.getName();
 		final long filesize = fileHigh.length();
 		final String uiString2 = "步骤1: "+fileHigh.getName() +"  {0} %";
 		final FTPDataTransferListener ftpDataTransferListener = new FTPDataTransferAdater(){
@@ -493,7 +509,7 @@ public class VideoClipController extends BaseController {
 		};
 		//标清文件
 		final File fileStandard = new File(dialog.getSelectedStandardVideoFilePath());
-		final String newFileNameStandard =dialog.getCurrentTime()+"_"+ fileStandard.getName();
+		final String newFileNameStandard =dialog.getCurrentTime()+"_480P.mp4";//+ fileStandard.getName();
 		final long filesize1 = fileStandard.length();
 		final String uiString3 = "步骤3: "+fileStandard.getName() +"  {0} %";
 		final FTPDataTransferListener ftpDataTransferListener1 = new FTPDataTransferAdater(){
@@ -511,7 +527,7 @@ public class VideoClipController extends BaseController {
 		};
 		//超清文件
 		final File fileHyper = new File(dialog.getHyperFilePathTextField().getText());
-		final String newFileNameHyper =  dialog.getCurrentTime()+"_"+fileHyper.getName();
+		final String newFileNameHyper =  dialog.getCurrentTime()+"_1080P.mp4";//+fileHyper.getName();
 		final long filesizeHyper = fileHyper.length();
 		final String uiStrHyper = "步骤0: "+fileHyper.getName() +"  {0} %";
 		final FTPDataTransferListener ftpDataTransListenerHyper = new FTPDataTransferAdater(){
@@ -549,10 +565,13 @@ public class VideoClipController extends BaseController {
             protected Object doInBackground() throws Exception {
             	dialog.getResultProgressBar().setString(fileHigh.getAbsolutePath());
         		mp4box(fileHigh.getAbsolutePath(),dialog);
+        		Thread.sleep(2000);
         		dialog.getResultProgressBar().setString(fileStandard.getAbsolutePath());
         		mp4box(fileStandard.getAbsolutePath(),dialog);
+        		Thread.sleep(2000);
         		dialog.getResultProgressBar().setString(fileHyper.getAbsolutePath());
         		mp4box(fileHyper.getAbsolutePath(),dialog);
+        		Thread.sleep(2000);
             	
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
@@ -820,6 +839,12 @@ public class VideoClipController extends BaseController {
 									
 									ImagePainter imagePainter = null;
 									try {
+//										String stemp1 = lcmVideoClip.getThumbnailUrl(); 
+//										int indexOf = stemp1.indexOf(":8800/");
+//										String endstr = stemp1.substring(indexOf+6);
+//										String beginstr = stemp1.substring(0, indexOf+6);
+//										String url = beginstr+ URLEncoder.encode(endstr);
+//										imagePainter = new ImagePainter(new URL(url));
 										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
 									} catch (Exception e) {
 										try {

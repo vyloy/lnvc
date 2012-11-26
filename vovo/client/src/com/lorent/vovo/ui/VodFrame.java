@@ -32,14 +32,13 @@ public class VodFrame extends javax.swing.JFrame {
 	/** Creates new form VodFrame */
 	public VodFrame() {
 		initComponents();
-		setIconImage(Toolkit.getDefaultToolkit().createImage(
-				getClass().getResource(Constants.TRAYICON_PATH)));
-
 		ImagePainter imagePainter = null;
 		try {
+			String logofilepath = Constants.USER_DIR+"\\logo\\vod.png";
+			setIconImage(Toolkit.getDefaultToolkit().createImage(logofilepath));
+			
 			imagePainter = new ImagePainter(ImageIO
-					.read(getClass().getResource(
-							"/com/lorent/vovo/resource/images/Heise15.jpg")));
+					.read(getClass().getResource("/com/lorent/vovo/resource/images/Heise15.jpg")));
 		} catch (IOException e) {
 			log.error("reflashVideoClipPanel ", e);
 			e.printStackTrace();
