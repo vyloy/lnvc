@@ -35,4 +35,6 @@ public interface ConferenceNewService extends IGenericService<ConferenceNewDao,C
 	boolean validateConfData(String[] paras, int conftype)throws Exception;
 	boolean grantAuthority(String confNo,String lccno,String roleName) throws Exception;
 	boolean revokeAuthority(String confNo,String lccno,String roleName) throws Exception;
+	int inviteUserFromLcm(String inviter, String confno, String invitee)throws Exception;
+	Object[] getCurrentForwardConfInfo()throws Exception;
 }

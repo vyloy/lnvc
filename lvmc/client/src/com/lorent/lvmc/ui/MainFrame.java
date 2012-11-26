@@ -35,6 +35,7 @@ import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.controller.ViewManager;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
+import com.lorent.lvmc.util.LvmcUtil;
 import com.lorent.lvmc.util.StringUtil;
 
 /**
@@ -118,6 +119,9 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 			this.logoPanel.add(panel);
 		} catch (Exception e) {
 			log.error("MainFrame()", e);
+		}
+		if(LvmcUtil.isUCSAPP()){
+			themeButton.setVisible(false);
 		}
 
 		instance = this;

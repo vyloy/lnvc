@@ -162,9 +162,9 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 			throw new ArgsException("args.usernameisused");
 		}
 		if(user.getLccAccount()!=null && !user.getLccAccount().equals("")){
-			if(user.getLccAccount().length() != Constant.getLccnoLength()){
-				throw new ArgsException("{args.lccnolengthmust}" + Constant.getLccnoLength());
-			}
+//			if(user.getLccAccount().length() != Constant.getLccnoLength()){
+//				throw new ArgsException("{args.lccnolengthmust}" + Constant.getLccnoLength());
+//			}
 			if(getByLccAccount(user.getLccAccount())!=null){
 				throw new ArgsException("args.lccnoexist");
 			}
@@ -201,9 +201,9 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 			if (user.getLccAccount() == null || user.getLccAccount().equals("")) {
 				throw new ArgsException("args.lccno_required");
 			}
-			if(user.getLccAccount().length() != Constant.getLccnoLength()){
-				throw new ArgsException("{args.lccnolengthmust}" + Constant.getLccnoLength());
-			}
+//			if(user.getLccAccount().length() != Constant.getLccnoLength()){
+//				throw new ArgsException("{args.lccnolengthmust}" + Constant.getLccnoLength());
+//			}
 			UserBean temp = getByLccAccount(user.getLccAccount());
 			if(temp!=null && !temp.getId().equals(user.getId())){
 				throw new ArgsException("args.lccnoexist");
@@ -384,10 +384,10 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 		customer.setMcuServer(mcu);
 		customer.setRates(rates);
 		customer.setCustomerName(PropertiesUtil.getConstant("initdata.customer.name"));
-		customer.setCustomerUserlimit(10);
+		customer.setCustomerUserlimit(100);
 		customer.setCustomerNolimit(0);
 		customer.setPerConfNoLimit(0);
-		customer.setConfPeopleLimit(9);
+		customer.setConfPeopleLimit(16);
 //		customer.setCustomerCode(PropertiesUtil.getConstant("initdata.customer.code"));
 		customer.setStatus(Constant.RECORD_STATUS_VALID);
 		customer.setCustomerStatus(Constant.RECORD_VALID);

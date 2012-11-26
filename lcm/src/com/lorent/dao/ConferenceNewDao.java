@@ -7,6 +7,7 @@ import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMRoleDto;
 import java.util.Map;
 import com.lorent.model.ConferenceNewBean;
+import com.lorent.model.UserBean;
 
 public interface ConferenceNewDao extends IGenericDao<ConferenceNewBean,Integer>{
 	public LCMRoleDto getMyRoleAndPermission(String confno, String lccno)throws Exception;
@@ -26,4 +27,7 @@ public interface ConferenceNewDao extends IGenericDao<ConferenceNewBean,Integer>
 	public List getConferenceDto() throws Exception;
 	
 	public int getValidConfNum();
+	
+	//查询某一会议某一角色的用户
+	public List<UserBean> getConfRoleUser(String confno, int roleId);
 }
