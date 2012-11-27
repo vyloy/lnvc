@@ -2,12 +2,15 @@ package com.lorent.vovo;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -25,6 +28,7 @@ import com.lorent.common.manager.ConfigManager;
 import com.lorent.common.manager.ViewManager;
 import com.lorent.common.permission.NoPermissionException;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.util.LCCUtil;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.MessageTabPanel;
 import com.lorent.vovo.util.Constants;
@@ -118,11 +122,24 @@ public class Vovo extends BaseApplication{
 
 	@Override
 	protected String getConfigFilePath() {
+		log.info("Vovo config file : "+Constants.CONFIG_PATH);
+		log.info("java.library.path: "+System.getProperty("java.library.path"));
+//		LCCUtil.getInstance();
 		return Constants.CONFIG_PATH;
+//		return "c:\\vovo.conf";
 	}
 
 	@Override
 	protected void startApp() {
+//		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+//		int year = c.get(Calendar.YEAR);
+//		int month = c.get(Calendar.MONTH);
+//		int day = c.get(Calendar.DATE);
+//		if (year >= 2013 && month >= 1) {
+//			JOptionPane.showMessageDialog(null, "超过期限");
+//			System.exit(0);
+//		}
+		
 		NativeInterface.open();
 		try {
 			 UIManager.setLookAndFeel(new McWinLookAndFeel());

@@ -46,6 +46,7 @@ import com.lorent.vovo.ui.MainFrame;
 import com.lorent.vovo.ui.PlayMonitorFrame;
 import com.lorent.vovo.ui.UploadMonitorDialog;
 import com.lorent.vovo.ui.UploadVideoClipDialog;
+import com.lorent.vovo.ui.UploadYunLianVideoClipDialog;
 import com.lorent.vovo.ui.VideoClipInfoDialog;
 import com.lorent.vovo.ui.VideoClipItem;
 import com.lorent.vovo.ui.VideoClipListPanel;
@@ -64,12 +65,21 @@ public class VideoClipController extends BaseController {
 	private int pageIndexM = 0;
 	private int maxPageIndexM = -1;
 	private String lastSelectPath = "";
+	private static SwingWorker<Object, Object> uploadSwingWorker = null;
 	
 	public void showUploadVideoClipDialog() throws Exception{
-		UploadVideoClipDialog uploadVideoClipDialog = new UploadVideoClipDialog(null, true);
-		context.getViewManager().setWindowCenterLocation(uploadVideoClipDialog);
-		uploadVideoClipDialog.setVisible(true);
 		
+		int intProperty = Vovo.getConfigManager().getIntProperty("yunlian", 0);
+		if (intProperty == 0) {
+			UploadVideoClipDialog uploadVideoClipDialog = new UploadVideoClipDialog(null, true);
+			context.getViewManager().setWindowCenterLocation(uploadVideoClipDialog);
+			uploadVideoClipDialog.setVisible(true);
+		}
+		else{
+			UploadYunLianVideoClipDialog uploadYunLianVideoClipDialog = new UploadYunLianVideoClipDialog(null, true);
+			context.getViewManager().setWindowCenterLocation(uploadYunLianVideoClipDialog);
+			uploadYunLianVideoClipDialog.setVisible(true);
+		}
 	}
 	
 	public void showUploadMonitorDialog() throws Exception{
@@ -188,6 +198,9 @@ public class VideoClipController extends BaseController {
 		if (definitaion.equals(Constants.VideoDefinition.Hyper)) {
 			BITTATE = Constants.MAXBITRATE_VIDEOHYPER;
 		}
+		else if(definitaion.equals(Constants.VideoDefinition.Other)){
+			BITTATE = Constants.MAXBITRATE_VIDEOHYPER;
+		}
 		if (nbitrate > BITTATE) {
 			String format = MessageFormat.format(VovoStringUtil.getUIString("VideoClipController.bitrateTooSmall"), BITTATE+"");
 			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), format);
@@ -211,6 +224,12 @@ public class VideoClipController extends BaseController {
 			if (nwidth != 1920 && nheight != 1080) {
 				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needselect1080P"));
 				return false; 
+			}
+		}
+		else if(definitaion.equals(Constants.VideoDefinition.Other)){
+			if (nwidth > 1920 && nheight > 1080) {
+				showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), "请使用等于或低于1080P的视频文件");
+				return false;
 			}
 		}
 		return true;
@@ -268,6 +287,49 @@ public class VideoClipController extends BaseController {
 		return shours+":"+sminutes+":"+sseconds;
 	}
 	
+	public void selectedYunLianVideoClipPicture(final UploadYunLianVideoClipDialog dialog) throws Exception{
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				JFileChooser jFileChooser = new JFileChooser();
+				if (lastSelectPath != "") {
+					jFileChooser.setCurrentDirectory(new File(lastSelectPath));
+				}
+				jFileChooser.setFileFilter(new FileNameExtensionFilter("*.jpg", new String[]{"jpg"}));
+				if (dialog.getCurrentTime() == null || dialog.getCurrentTime().equals("")) {
+					JOptionPane.showMessageDialog(null, "请先选择超清文件");
+					return;
+				}
+				int showOpenDialog = jFileChooser.showOpenDialog(dialog);
+				if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
+					File thefile = jFileChooser.getSelectedFile();
+					lastSelectPath = thefile.getAbsolutePath();
+					String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
+					File file = new File(target);
+					if (!file.exists()) {
+						file.mkdirs();
+					}
+					String cacheFileName = dialog.getThumbnailImageFilePath();
+					FileUtil.localFileCopy(jFileChooser.getSelectedFile().getAbsolutePath(), cacheFileName);
+					
+					File cacheimagefile = new File(cacheFileName);
+					if (cacheimagefile.exists()) {
+						try {
+							BufferedImage bufferimage =ImageIO.read(cacheimagefile);
+							ImagePainter ip = new ImagePainter(bufferimage);
+							ip.setScaleToFit(true);
+							ip.setScaleType(ScaleType.Distort);
+							dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
+						} catch (Exception e) {
+							log.error("selectedVideoClipPicture", e);
+						}
+					}
+				}
+			}
+		});
+	}
+	
 	public void selectedVideoClipPicture(final UploadVideoClipDialog dialog) throws Exception{
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -310,6 +372,68 @@ public class VideoClipController extends BaseController {
 				}
 			}
 		});
+	}
+	
+	public void selectedYunLianVideoClipFile(UploadYunLianVideoClipDialog dialog) throws Exception{
+		JFileChooser jFileChooser = new JFileChooser();
+		if (lastSelectPath != "") {
+			jFileChooser.setCurrentDirectory(new File(lastSelectPath));
+		}
+		jFileChooser.setFileFilter(new FileNameExtensionFilter("*.mp4", new String[]{"mp4"}));
+		//改为获得服务器时间
+		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss_SSS");
+		String currentTime=dateformat1.format(new Date(Vovo.getLcmUtil().getSystemTime()));
+		int showOpenDialog = jFileChooser.showOpenDialog(dialog);
+		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
+			File thefile = jFileChooser.getSelectedFile();
+			lastSelectPath = thefile.getAbsolutePath();
+			//检测文件
+			LinkedHashMap<String, String> videoPrifilesMap = getVideoPrifilesMap(thefile.getAbsolutePath());
+			boolean checkVideoFile = checkVideoFile(videoPrifilesMap,Constants.VideoDefinition.Other);
+			if (checkVideoFile == false) {
+				return;
+			}
+			String duration = videoPrifilesMap.get("General_Duration");
+			String duration2 = getDuration(duration);
+			dialog.getDurationLabel().setText("时长："+duration2);
+			dialog.setDuration(duration2);
+			//ffmpeg
+			String ffmpeg = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\ffmpeg\\ffmpeg.exe");
+			String target = Constants.USER_HOME+"\\lorent\\vovo\\videoclip\\";
+			File file = new File(target);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			String selectedFile = StringUtil.convertFilePath2DOSCommandStr(jFileChooser.getSelectedFile().getAbsolutePath());
+			String cacheFileName = target+currentTime+"_"+""+".jpg";
+			dialog.setCurrentTime(currentTime);
+			String targetPath = StringUtil.convertFilePath2DOSCommandStr(cacheFileName);
+			String cmdStr ="cmd /c " + StringUtil.convertFilePath2DOSCommandStr(ffmpeg+" -i "+selectedFile+" -ss 3 -vframes 1 -r 1 -ac 1 -ab 2 -s 300x420 -f mjpeg "+targetPath);
+			log.info(cmdStr);
+			Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
+			byte b[] = new byte[1024];
+            int r = 0;
+            StringBuffer resultBuffer = new StringBuffer();
+			while ((r = startProcess.getErrorStream().read(b, 0, 1024)) > -1) {
+                resultBuffer.append(new String(b, 0, r));
+            }
+			startProcess.waitFor();
+			String resultStr = resultBuffer.toString();
+			log.info(resultStr);
+			
+//			mp4box(thefile.getAbsolutePath());
+			
+			File cacheimagefile = new File(cacheFileName);
+			if (cacheimagefile.exists()) {
+				BufferedImage bufferimage =ImageIO.read(cacheimagefile);
+				ImagePainter ip = new ImagePainter(bufferimage);
+				ip.setScaleToFit(true);
+				ip.setScaleType(ScaleType.Distort);
+				dialog.getThumbnailXPanel1().setBackgroundPainter(ip);
+				dialog.setThumbnailImageFilePath(cacheFileName);
+			}
+			dialog.getHyperFilePathTextField().setText(jFileChooser.getSelectedFile().getAbsolutePath());
+		}
 	}
 	
 	public void selectedVideoClipFile(UploadVideoClipDialog dialog,Constants.VideoDefinition definitaion) throws Exception{
@@ -389,6 +513,33 @@ public class VideoClipController extends BaseController {
 		}
 	}
 	
+	private void mp4boxYunLian(String targetFilePath,UploadYunLianVideoClipDialog dialog) throws Exception{
+		//mp4box
+		byte b[] = new byte[1024];
+        int r = 0;
+		String mp4box = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\GPAC\\mp4box.exe");
+		String targetPath = StringUtil.convertFilePath2DOSCommandStr(targetFilePath);
+		String cmdStr0 = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -unhint "+targetPath);
+		String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(mp4box +" -hint "+targetPath);
+		System.out.println(cmdStr);
+		log.info(cmdStr);
+		Process startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr0);
+		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
+			String string = new String(b, 0, r);
+			dialog.getResultProgressBar().setString(string);
+            log.info(string);
+        }
+		startProcess1.waitFor();
+		
+		startProcess1 = ProcessUtil.getInstance().startProcess(cmdStr);
+		while ((r = startProcess1.getInputStream().read(b, 0, 1024)) > -1) {
+			String string = new String(b, 0, r);
+			dialog.getResultProgressBar().setString(string);
+            log.info(string);
+        }
+		startProcess1.waitFor();
+	}
+	
 	private void mp4box(String targetFilePath,UploadVideoClipDialog dialog) throws Exception{
 		//mp4box
 		byte b[] = new byte[1024];
@@ -434,6 +585,133 @@ public class VideoClipController extends BaseController {
 		}
 	}
 	
+	public void cancelUpLoadVideoClip(UploadVideoClipDialog dialog) throws Exception{
+		
+		if (uploadSwingWorker != null) {
+			uploadSwingWorker.cancel(true);
+		}
+		//删除超清文件
+		String filenameHyper = FileUtil.getFileNameFromURL(dialog.getHyperFilePathTextField().getText());
+		if (filenameHyper != null && !filenameHyper.equals("")) {
+			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
+		}
+		
+		//删除高清文件
+		String filenameHigh = FileUtil.getFileNameFromURL(dialog.getSelectedHighVideoFilePath());
+		if (filenameHigh != null && !filenameHigh.equals("")) {
+			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+		}
+		filenameHigh = FileUtil.getFileNameFromURL(dialog.getHightFilePathTextField().getText());
+		if (filenameHigh != null && !filenameHigh.equals("")) {
+			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+		}
+		//删除标清文件
+		
+		
+		//删除缩略图
+		
+		dialog.setUIEnable();
+		
+	}
+	
+	public void uploadYunLianVideoClip(final UploadYunLianVideoClipDialog dialog) throws Exception{
+		//检测输入
+		String title = dialog.getTitleTextField().getText();
+		if (title == null || title.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needTitle"));
+			return;
+		}
+		else if (title.length() >= 100) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.titleTooLong"));
+			return;
+		}
+		String description = dialog.getDescriptionTextArea().getText();
+		if (description == null || description.equals("")) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.needDescription"));
+			return;
+		}
+		else if (description.length() >= 255) {
+			showErrorDialog(VovoStringUtil.getUIString("VideoClipController.infoTip"), VovoStringUtil.getUIString("VideoClipController.descriptionTooLong"));
+			return;
+		}
+		
+		dialog.setUIDisable();
+		//上传文件至ftp
+		//缩略图
+		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
+		final long thumbailfilesize = thumbailfile.length();
+		final String uiString1 = "步骤2: "+ thumbailfile.getName() + "  {0} %";
+		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
+			private long curentLength = 0;
+			@Override
+			public void transferred(int transferedLength) {
+				curentLength = curentLength + transferedLength;
+				double d = 1;
+				d = 100 * curentLength / thumbailfilesize;
+		        int  n = (int) d;
+		        dialog.getResultProgressBar().setValue(n);
+		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString1, n));
+			}
+		};
+		//超清文件
+		final File fileHyper = new File(dialog.getHyperFilePathTextField().getText());
+		final String newFileNameHyper =  dialog.getCurrentTime()+"_1080P.mp4";//+fileHyper.getName();
+		final long filesizeHyper = fileHyper.length();
+		final String uiStrHyper = "步骤0: "+fileHyper.getName() +"  {0} %";
+		final FTPDataTransferListener ftpDataTransListenerHyper = new FTPDataTransferAdater(){
+			private long curentLength = 0;
+			@Override
+			public void transferred(int transferedLength) {
+				curentLength = curentLength + transferedLength;
+				double d = 1;
+				d = 100 * curentLength / filesizeHyper;
+		        int  n = (int) d;
+		        dialog.getResultProgressBar().setValue(n);
+		        dialog.getResultProgressBar().setString(MessageFormat.format(uiStrHyper, n));
+			}
+		};
+		
+		//检测ftp上是否已存在文件名
+		Boolean file2isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHyper.getName());
+		if (file2isexist) {
+			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHyper.getName());
+			dialog.setUIEnable();
+			return;
+		}
+		//检测文件是否正在打开
+		boolean fileIsOpened = false;
+		fileIsOpened = FileUtil.fileIsOpened(fileHyper.getAbsolutePath());
+		if (fileIsOpened) {
+			JOptionPane.showMessageDialog(null, "文件已被打开："+fileHyper.getAbsolutePath());
+			dialog.setUIEnable();
+			return;
+		}
+		uploadSwingWorker = new SwingWorker<Object, Object>(){
+            @Override
+            protected Object doInBackground() throws Exception {
+        		dialog.getResultProgressBar().setString(fileHyper.getAbsolutePath());
+        		mp4boxYunLian(fileHyper.getAbsolutePath(),dialog);
+        		Thread.sleep(2000);
+            	
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
+            	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
+            	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
+            	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
+            	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
+            	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileNameHyper,newFileNameHyper,newFileNameHyper, thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername(),dialog.getDuration(),dialog.getCategoryComboBox().getSelectedItem().toString());
+            	if (uploadVideoClipInfo) {
+//					System.out.println(uploadVideoClipInfo);
+					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
+					dialog.dispose();
+					reflashVideoClipPanel();
+				}
+                return new Object();
+            }
+        };
+        uploadSwingWorker.execute();
+	}
+	
 	public void uploadVideoClip(final UploadVideoClipDialog dialog) throws Exception{
 		//检测输入
 		String highFilePath = dialog.getHightFilePathTextField().getText();
@@ -465,13 +743,7 @@ public class VideoClipController extends BaseController {
 			return;
 		}
 		
-		dialog.getTitleTextField().setEnabled(false);
-		dialog.getDescriptionTextArea().setEnabled(false);
-		dialog.getSelectFileHighButton().setEnabled(false);
-		dialog.getSelectFileStandardButton().setEnabled(false);
-		dialog.getUploadButton().setEnabled(false);
-		dialog.getSelectFileHyperButton().setEnabled(false);
-		dialog.getCategoryComboBox().setEnabled(false);
+		dialog.setUIDisable();
 		//上传文件至ftp
 		//缩略图
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
@@ -547,20 +819,44 @@ public class VideoClipController extends BaseController {
 		Boolean fileisexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHigh.getName());
 		if (fileisexist) {
 			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHigh.getName());
+			dialog.setUIEnable();
 			return;
 		}
 		Boolean file1isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileStandard.getName());
 		if (file1isexist) {
 			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileStandard.getName());
+			dialog.setUIEnable();
 			return;
 		}
 		Boolean file2isexist = (Boolean) Vovo.exeC("sharefile", "checkFileExistInFtpServer","/VideoClips", fileHyper.getName());
 		if (file2isexist) {
 			JOptionPane.showMessageDialog(null, "服务器已存在文件名："+fileHyper.getName());
+			dialog.setUIEnable();
 			return;
 		}
 		
-		new SwingWorker<Object, Object>(){
+		//检测文件是否正在打开
+		boolean fileIsOpened = false;
+		fileIsOpened = FileUtil.fileIsOpened(fileHigh.getAbsolutePath());
+		if (fileIsOpened) {
+			JOptionPane.showMessageDialog(null, "文件已被打开："+fileHigh.getAbsolutePath());
+			dialog.setUIEnable();
+			return;
+		}
+		fileIsOpened = FileUtil.fileIsOpened(fileStandard.getAbsolutePath());
+		if (fileIsOpened) {
+			JOptionPane.showMessageDialog(null, "文件已被打开："+fileStandard.getAbsolutePath());
+			dialog.setUIEnable();
+			return;
+		}
+		fileIsOpened = FileUtil.fileIsOpened(fileHyper.getAbsolutePath());
+		if (fileIsOpened) {
+			JOptionPane.showMessageDialog(null, "文件已被打开："+fileHyper.getAbsolutePath());
+			dialog.setUIEnable();
+			return;
+		}
+		
+		uploadSwingWorker = new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
             	dialog.getResultProgressBar().setString(fileHigh.getAbsolutePath());
@@ -590,7 +886,8 @@ public class VideoClipController extends BaseController {
 				}
                 return new Object();
             }
-        }.execute();
+        };
+        uploadSwingWorker.execute();
 	}
 	
 	public void uploadMonitor(final UploadMonitorDialog dialog) throws Exception{
@@ -711,19 +1008,35 @@ public class VideoClipController extends BaseController {
 			else{
 				String filenameHigh = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHigh());
 				if (filenameHigh != null && !filenameHigh.equals("")) {
-					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+					try {
+						Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+					} catch (Exception e) {
+						log.error("deleteVideoClip", e);
+					}
 				}
 				String filenameStandard = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlStandard());
 				if (filenameStandard != null && !filenameStandard.equals("")) {
-					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
+					try {
+						Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
+					} catch (Exception e) {
+						log.error("deleteVideoClip", e);
+					}
 				}
 				String filenameThumbnail = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getThumbnailUrl());
 				if (filenameThumbnail != null && !filenameThumbnail.equals("")) {
-					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
+					try {
+						Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
+					} catch (Exception e) {
+						log.error("deleteVideoClip", e);
+					}
 				}
 				String filenameHyper = FileUtil.getFileNameFromURL(item.getLcmVideoClip().getRtspVideoUrlHyper());
 				if (filenameHyper != null && !filenameHyper.equals("")) {
-					Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
+					try {
+						Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
+					} catch (Exception e) {
+						log.error("deleteVideoClip", e);
+					}
 				}
 				Vovo.getLcmUtil().deleteVideoClip(item.getLcmVideoClip().getId());
 				reflashVideoClipPanel();
@@ -1022,6 +1335,16 @@ public class VideoClipController extends BaseController {
 		videoClipInfoDialog.setVisible(true);
 	}
 	
+	private static Process videoClipPlayerProcess = null;
+	
+	public void killPlayer() throws Exception{
+//		if (videoClipPlayerProcess != null) {
+//			System.out.println("kill ...");
+//			videoClipPlayerProcess.destroy();
+//		}
+		ProcessUtil.getInstance().killProcessByName("vlc.exe");
+	}
+	
 	public void playVideoClip(String url) throws Exception{
 		String vlc = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\vlc\\vlc.exe");
 		String newUrl = StringUtil.convertFilePath2DOSCommandStr(url);
@@ -1032,8 +1355,9 @@ public class VideoClipController extends BaseController {
 			public void run() {
 				try {
 					log.info(cmdStr);
-					Process startProcess = ProcessUtil.getInstance().startProcess(cmdStr);
+					videoClipPlayerProcess = ProcessUtil.getInstance().startProcess(cmdStr);
 //					startProcess.waitFor();
+//					videoClipPlayerProcess.destroy();
 					log.info("play video end");
 				} catch (Exception e) {
 					log.error("playVideoClip", e);

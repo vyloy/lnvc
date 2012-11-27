@@ -139,7 +139,8 @@ public interface Constants {
     public enum VideoDefinition{
     	High,
     	Standard,
-    	Hyper
+    	Hyper,
+    	Other
     }
     
     public final String SUPPER_USER = "admin";
