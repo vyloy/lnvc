@@ -32,11 +32,11 @@ public class VodFrame extends javax.swing.JFrame {
 	/** Creates new form VodFrame */
 	public VodFrame() {
 		initComponents();
-		setIconImage(Toolkit.getDefaultToolkit().createImage(
-				getClass().getResource(Constants.TRAYICON_PATH)));
-
 		ImagePainter imagePainter = null;
 		try {
+			String logofilepath = Constants.USER_DIR + "\\logo\\vod.png";
+			setIconImage(Toolkit.getDefaultToolkit().createImage(logofilepath));
+
 			imagePainter = new ImagePainter(ImageIO
 					.read(getClass().getResource(
 							"/com/lorent/vovo/resource/images/Heise15.jpg")));
@@ -67,7 +67,17 @@ public class VodFrame extends javax.swing.JFrame {
 		jToggleButton6 = new javax.swing.JToggleButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setTitle("\u89c6\u9891\u70b9\u64ad");
 		setResizable(false);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosed(java.awt.event.WindowEvent evt) {
+				formWindowClosed(evt);
+			}
+
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				formWindowClosing(evt);
+			}
+		});
 
 		jXPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -145,6 +155,15 @@ public class VodFrame extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+		System.out.println("formWindowClosing");
+		VovoVod.exeC("videoclip", "killPlayer");
+	}
+
+	private void formWindowClosed(java.awt.event.WindowEvent evt) {
+		System.out.println("formWindowClosed");
+	}
 
 	private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {
 		CardLayout layout = (CardLayout) vodListCardPanel.getLayout();

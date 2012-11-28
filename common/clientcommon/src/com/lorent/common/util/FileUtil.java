@@ -186,6 +186,15 @@ public class FileUtil {
     	return url.substring(lastIndexOf+1);
     }
     
+    public static boolean fileIsOpened(String filepath) throws Exception{
+    	File file = new File(filepath);
+    	File file2 = new File(filepath);
+    	if (file.exists() && !file.renameTo(file2)) {
+			return true;
+		}
+    	return false;
+    }
+    
     /**
 	 * @param args
 	 */

@@ -23,7 +23,7 @@
 		</field-validator>
 		<field-validator type="int" short-circuit="true">
 			<param name="min">1</param>
-			<param name="max">100</param>
+			<param name="max">1000</param>
 			<message>${getText("page.validate.customer.userrange",{min,max})}</message>
 		</field-validator>
 	</field>

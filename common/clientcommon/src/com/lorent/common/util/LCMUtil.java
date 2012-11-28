@@ -132,6 +132,13 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.inviteUserFromMcu", new Object[]{confNo,siplccno});
     }
     
+    public int inviteUserFromLcm(String inviter, String confno, String invitee)throws Exception{
+    	log.info("inviteUserFromeLcm : inviter = " + inviter + " , confno = " + confno + " , invitee = " + invitee);
+    	int ret = (Integer)client.execute("lcmConf.inviteUserFromLcm", new Object[]{inviter, confno, invitee});
+    	log.info("inviteUserFromeLcm result = " + ret);
+    	return ret;
+    }
+    
     public boolean removeUserFromMcu(String confNo,String lccno) throws Exception{
     	log.info("removeUserFromMcu confNo = " + confNo + " & lccno = " + lccno);
     	return (Boolean)client.execute("lcmConf.removeUserFromMcu", new Object[]{confNo,lccno});
@@ -182,7 +189,10 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.enableConfUserAudio",new Object[]{confno, lccno, enable});
     }
     
-    
+    //MemberBean 包含ip地址的bean；fromlccno 发送者；tolccno 当为""发送全体，也可指定号码
+    public boolean broadcastMyIpAddress(MemberBean bean,String fromlccno,String tolccno) throws Exception{
+    	return (Boolean)client.execute("lcmVideo.broadcastMyIpAddress",new Object[]{bean,fromlccno,tolccno});
+    }
     
     //index由0开始
     //获得点播视频列表，index由0开始
@@ -239,6 +249,16 @@ public class LCMUtil {
 	 */
     public void addOrUpdateUCSUser(Object[] users)throws Exception{
     	client.execute("lcmUser.addOrUpdateUCSUser", new Object[]{users});
+    }
+    
+    public Object[] getCurrentConfInfo()throws Exception{
+    	log.info("getCurrentConfInfo");
+    	Object[] objs = (Object[])client.execute("lcmConf.getCurrentForwardConfInfo",new Object[]{});
+    	for(Object obj : objs){
+    		Object[] strs = (Object[])obj;
+    		log.info("getCurrentConfInfo : confno = " + strs[0] + " & master = " + strs[1] + " & memberCount = " + strs[2]);
+    	}
+    	return objs;
     }
     
     public static void main(String[] args) throws Exception{

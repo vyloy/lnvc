@@ -346,6 +346,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		
     		</table>	
 			</fieldset>
+			
+    		<fieldset>
+				<legend>擎旗IM</legend>
+    		<table border="0" cellspacing="0" cellpadding="0" class="dialogue_table">
+    		<colgroup>
+    			<col style="width: 20%;"  />
+    			<col style="width: 30%;" />
+    			<col style="width: 20%;"  />
+    			<col style="width: 30%;" />
+    		</colgroup>
+    		
+    		<tr>
+    			<td class="dialogue_td_text">
+    				IP
+    			</td>
+    			<td class="dialogue_td_input" colspan="3">
+    				<s:textfield name="sysServerconfigBean.qingqiServerIP" cssStyle="width:300" theme="simple"/>
+    			</td>
+    		</tr>
+    		
+    		</table>	
+			</fieldset>
     		
     		<!--  -->
     		

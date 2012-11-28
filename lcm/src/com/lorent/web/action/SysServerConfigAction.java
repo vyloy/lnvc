@@ -225,7 +225,9 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 			if (!oldServerconfigBean.getSerialport().equals(sysServerconfigBean.getSerialport())) {
 				PropertiesUtil.setConstant(this.serialport, sysServerconfigBean.getSerialport());
 			}
-			
+			if (!oldServerconfigBean.getQingqiServerIP().equals(sysServerconfigBean.getQingqiServerIP())) {
+				PropertiesUtil.setConstant(this.qingqiServerIP, sysServerconfigBean.getQingqiServerIP());
+			}
 			//修改邮件服务的配置  
 				 /*String file = emailUrl;
 //				 String projectname=ServletActionContext.getRequest().getContextPath();
@@ -380,6 +382,9 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 	private String emailUrl=PropertiesUtil.getConstant("emailUrl");
 	//短信猫通讯端口
 	private String serialport="sms.serialport";
+	//擎旗IMserverIP
+	private String qingqiServerIP="ucstar.ip";
+	
 	/**
 	 * 从配置文件读取配置信息  
 	 */
@@ -543,6 +548,8 @@ public class SysServerConfigAction extends BaseAction<SysServerconfigBean, Integ
 		//短信猫通讯端口
 		String smsserialport_sed = PropertiesUtil.getConstant(this.serialport);
 		sysServerconfigBean.setSerialport(smsserialport_sed);
+		
+		sysServerconfigBean.setQingqiServerIP(PropertiesUtil.getConstant(this.qingqiServerIP));
 	}
 	
 	

@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -147,6 +148,29 @@ public class ProcessUtil {
 			seconds = Integer.parseInt(trim3);
 		}
 		System.out.println(hours+":"+minutes+":"+seconds);
+		
+		String lccno="sip:101010@10.168.250.12:5666";
+		lccno = "22222";
+		String lccnostr = lccno;
+		if (lccno.indexOf("sip:") != -1 && lccno.indexOf("@") != -1) {
+			int begin = lccno.indexOf("sip:")+4;
+			int end = lccno.indexOf("@");
+			lccnostr = lccno.substring(begin, end);
+		}
+		System.out.println(lccnostr);
+		
+		String stemp1 = "http://10.168.130.213:8800/20121123135924_642_NASA月球的变迁_1080P_4800K_mp4.jpg";
+		String stemp2 = "NASA月球的变迁_1080P_4800K_mp4.jpg";
+		String stemp3 = "http://10.168.130.213:8800/20121123135924_642_NASA%E6%9C%88%E7%90%83%E7%9A%84%E5%8F%98%E8%BF%81_1080P_4800K_mp4.jpg";
+		System.out.println(stemp3);
+		System.out.println("http://10.168.130.213:8800/20121123135924_642_"+URLEncoder.encode(stemp2));
+		
+		int indexOf = stemp1.indexOf(":8800/");
+		String endstr = stemp1.substring(indexOf+6);
+		String beginstr = stemp1.substring(0, indexOf+6);
+		String url = beginstr+ URLEncoder.encode(endstr);
+		System.out.println(url);
+		
     }
     
     public int getOwnPid(){

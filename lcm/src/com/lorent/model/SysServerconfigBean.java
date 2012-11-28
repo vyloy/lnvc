@@ -52,9 +52,16 @@ public class SysServerconfigBean implements Cloneable{
 	
 	private String serialport;
 	private String mcuserverpassword;
+	private String qingqiServerIP;
 	
 	public String getMcuserverpassword() {
 		return mcuserverpassword;
+	}
+	public String getQingqiServerIP() {
+		return qingqiServerIP;
+	}
+	public void setQingqiServerIP(String qingqiServerIP) {
+		this.qingqiServerIP = qingqiServerIP;
 	}
 	public void setMcuserverpassword(String mcuserverpassword) {
 		this.mcuserverpassword = mcuserverpassword;

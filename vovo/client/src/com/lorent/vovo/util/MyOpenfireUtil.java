@@ -204,6 +204,13 @@ public class MyOpenfireUtil{
 				|| operate.equals(BroadcastEvent.DELETE_DEPT)){
 			DepartmentBean bean = (DepartmentBean)msg.getProperty("data");
 			sendMsgAfterDataReady("deptChange", new Object[]{operate, bean});
+		}else if(operate != null && operate.equals(BroadcastEvent.BROADCAST_MY_IPADDRESS)){
+			Object property = msg.getProperty("data");
+			Object[] pros = (Object[]) property;
+			MemberBean bean = (MemberBean) pros[0];
+			String from = (String) pros[1];
+			String to = (String) pros[2];
+			sendMsgAfterDataReady("receiveBroadcastIP", new Object[]{operate, bean,from,to});
 		}
 		Object property = msg.getProperty("msgType");
 		if (property != null && property.equals("ConfNotice")) {
@@ -881,6 +888,10 @@ public class MyOpenfireUtil{
         	}
     	}
     	return state;
+    }
+    
+    public static void sendMyIpAddress(String to,MemberBean bean) throws Exception{
+    	
     }
     
     public static void changeMyPresence(int status){

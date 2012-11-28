@@ -18,6 +18,7 @@ public interface Constants {
 	String CONFIG_PORT = "5060"; 
 	int CONFIG_OPENFIRE_PORT = 5222;
 	int CONFIG_TIME_OUT = 5000;
+	int CONFIG_LOCAL_CS_PORT = 0;
 	
 	//Config Key
 //	String CONFIG_KEY_USERNAME = "username";
@@ -125,7 +126,8 @@ public interface Constants {
     public enum ConfigKey{
     	USERNAME,
     	OPENFIRE_PORT,
-    	timeout
+    	timeout,
+    	localcsport
     }
     
     public enum GroupChatPermission{
@@ -137,7 +139,8 @@ public interface Constants {
     public enum VideoDefinition{
     	High,
     	Standard,
-    	Hyper
+    	Hyper,
+    	Other
     }
     
     public final String SUPPER_USER = "admin";

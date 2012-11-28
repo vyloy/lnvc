@@ -110,6 +110,7 @@ public class McuXmlrpc {
 			conf.setConfno((String)map.get("id"));
 			conf.setLayout((Integer)map.get("layout"));
 			conf.setQuality((Integer)map.get("quality"));
+			conf.setMemberCount((Integer)map.get("member_count"));
 			list.add(conf);
 //			System.out.println("id=" + id + "&layout=" + layout + "&quality=" + quality);
 		}
@@ -125,6 +126,7 @@ public class McuXmlrpc {
 			Map map = (Map)o;
 			XmlrpcConf conf = new XmlrpcConf();
 			conf.setConfno((String)map.get("id"));
+			conf.setMemberCount((Integer)map.get("member_count"));
 			list.add(conf);
 //			System.out.println("id=" + id + "&layout=" + layout + "&quality=" + quality);
 		}

@@ -20,6 +20,7 @@ import org.jivesoftware.smackx.muc.RoomInfo;
  */
 public class OpenfireUtil {
 
+	public static Boolean isLogined = false;
 	private static Logger log = Logger.getLogger(OpenfireUtil.class);
 	private  XMPPConnection conn = null;
 	public XMPPConnection getConn() {
@@ -78,6 +79,9 @@ public class OpenfireUtil {
 		log.info("登录");
 		try {
 			conn.login(username, passwd, resource);
+			synchronized (isLogined) {
+				isLogined = true;
+			}
 		} catch (Exception e) {
 			// throw new
 			// Exception(StringUtil.getErrorString("error.username_password.msg"));
