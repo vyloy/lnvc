@@ -157,12 +157,16 @@ public class AsyncImageLoader {
             Drawable d = null;
             try {
             	Log.e("loading", url);
-                m = new URL(url);  
+//            	int sidx = url.lastIndexOf("/");
+//            	int eidx = url.lastIndexOf(".");
+//            	String picName = url.substring(sidx + "/".length(),eidx);
+//            	String encodeName = java.net.URLEncoder.encode(picName,"utf-8");
+//            	String encodeUrl = url.replaceFirst(picName, encodeName);
+                m = new URL(StringUtil.encodeUrl(url));  
                 i = (InputStream) m.getContent();
                 d = Drawable.createFromStream(i, "src");
             } catch (Exception e) {
-            	Log.e("loadimage", e.getMessage());
-                e.printStackTrace(); 
+            	e.printStackTrace(); 
             }finally{
             	try {
             		if(i!=null){

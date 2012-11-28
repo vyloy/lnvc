@@ -3,62 +3,359 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lvd1610_monitor_back"
     android:gravity="center" >
 
     <GridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
         android:layout_above="@+id/toolbar"
-        android:horizontalSpacing="10dp"
-        android:columnWidth="70dp"
         android:numColumns="auto_fit"
-        android:scrollbarSize="30dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" 
         android:gravity="center"
+        style="@style/activity_main_GridView"
         />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom|center"
-        android:orientation="horizontal" >
-
+        android:orientation="horizontal" 
+        android:gravity="center"
+        android:background="@color/black"
+        style="@style/activity_main_toolbar"
+        >
+        <!-- <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/movLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/mov"
+            	android:id="@+id/movImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/movTextV"
+            	android:text="@string/movie"
+            	android:textColor="@color/category_text_color"
+            	style="@style/categoryTextSize"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/tvLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/tv"
+            	android:id="@+id/tvImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/tvTextV"
+            	android:text="@string/tvset"
+            	style="@style/categoryTextSize"
+            	android:textColor="@color/category_text_color"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/newsLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/news"
+            	android:id="@+id/newsImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/newsTextV"
+            	android:text="@string/news"
+            	android:textColor="@color/category_text_color"
+            	style="@style/categoryTextSize"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/gameLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/game"
+            	android:id="@+id/gameImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/gameTextV"
+            	android:text="@string/game"
+            	android:textColor="@color/category_text_color"
+            	style="@style/categoryTextSize"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/dongmLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/dongm"
+            	android:id="@+id/dongmImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/dongmTextV"
+            	android:text="@string/dongm"
+            	android:textColor="@color/category_text_color"
+            	style="@style/categoryTextSize"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/otherLayout"
+            android:clickable="true"  
+        	android:focusable="true"
+        	android:background="@drawable/category_layout_bg"
+        	android:onClick="getVideoList"
+            >
+            <ImageView
+                android:layout_width="35dp"
+            	android:layout_height="35dp"
+            	android:gravity="center"
+            	android:src="@drawable/other"
+            	android:id="@+id/otherImageV"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+            	android:layout_height="15dp"
+            	android:gravity="center"
+            	android:id="@+id/otherTextV"
+            	android:text="@string/other"
+            	android:textColor="@color/category_text_color"
+            	style="@style/categoryTextSize"
+                />
+         </LinearLayout> -->
+         <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/monitorOptionLayout"
+        	android:onClick="startMonitorActivity"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="center"
+            	android:src="@drawable/monitor"
+            	android:id="@+id/monitorImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="center"
+            	android:id="@+id/monitorTextV"
+            	android:text="@string/monitor"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/setupLayout"
+        	android:onClick="openSetupDialog"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="center"
+            	android:src="@drawable/setup"
+            	android:id="@+id/setupImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="center"
+            	android:id="@+id/setupTextV"
+            	android:text="@string/setup_text"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/previousLayout"
+        	android:onClick="loadData"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="center"
+            	android:src="@drawable/prv"
+            	android:id="@+id/previousImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="center"
+            	android:id="@+id/previousTextV"
+            	android:text="@string/previouspage"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/nextLayout"
+        	android:onClick="loadData"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="center"
+            	android:src="@drawable/next"
+            	android:id="@+id/nextImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="center"
+            	android:id="@+id/nextTextV"
+            	android:text="@string/nextpage"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>  
+		<!-- <Button
+            android:id="@+id/movbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/mov"
+            />
+		<Button
+            android:id="@+id/tvbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/tv"
+            />
+		<Button
+            android:id="@+id/newsbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/news"
+            />
+		<Button
+            android:id="@+id/gamebutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/game"
+            />
+		<Button
+            android:id="@+id/dongmbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/dongm"
+            />
+		<Button
+            android:id="@+id/otherbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/other"
+            />
         <Button
             android:id="@+id/previousbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center"
             android:onClick="loadData"
-            android:text="@string/previouspage" />
-
+            android:background="@drawable/previous_button"
+            />
+        <Button
+            android:id="@+id/setupbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="openSetupDialog"
+            android:background="@drawable/setup_button"
+             />
         <Button
             android:id="@+id/nextbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/next_button"
             android:gravity="center"
-            android:onClick="loadData"
-            android:text="@string/nextpage"
-             />
-        
-        <!-- <Button
-            android:id="@+id/setupbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="0dip"
-            android:onClick="openSetupDialog"
-            android:background="@drawable/setup_button" /> -->
-
+            android:layout_gravity="right"
+            android:onClick="loadData" />
+             -->
     </LinearLayout>
    
 </RelativeLayout>

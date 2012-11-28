@@ -408,6 +408,13 @@ public class SurfaceViewPlayVideo extends Activity implements
 	@Override
 	public void onSeekComplete(MediaPlayer mp) {
 	}
+	
+	private Handler freshHandler = new Handler(){
+		@Override
+        public void handleMessage(Message msg){
+			surfaceView.invalidate();
+		}
+	};
 
 	// 播放处理
 	@Override
@@ -426,9 +433,10 @@ public class SurfaceViewPlayVideo extends Activity implements
 //        } else {
 //            mCanPause = mCanSeekBack = mCanSeekForward = true;
 //        }
-		videoTimeLen = mPlayer.getDuration();
-		DialogUtil.dismissDialog(dialog);
 		
+		DialogUtil.dismissDialog(dialog);
+		freshHandler.sendMessageDelayed(freshHandler.obtainMessage(), 500);
+		videoTimeLen = mPlayer.getDuration();
 		seekBar.setMax(videoTimeLen);
 		
 		// 按视频本身大小播放
@@ -601,6 +609,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 	    			this.currentP = mPlayer.getCurrentPosition();
 	    			c = currentP;
 //	    			mPlayer.pause();
+	    		}else if(mPlayer!=null && !mPlayer.isPlaying() && !isDragSeekBar){
+	    			Log.i("pausep", ""+currentP);
+	    			mPlayer.start();
+	    			playBtn.setImageResource(R.drawable.mediacontroller_pause_button);
+	    			return super.dispatchKeyEvent(event);
 	    		}else{
 	    			c = seekBar.getProgress();
 	    		}
