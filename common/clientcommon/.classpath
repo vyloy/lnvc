@@ -30,7 +30,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/spring/org.springframework.web.struts-3.0.5.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-logging-api-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/smack/smack.jar" sourcepath="F:/down/im/smack_src_3_2_1/source"/>
+	<classpathentry exported="true" kind="lib" path="lib/smack/smack.jar" sourcepath="F:/git/lnvc2/common/smack_src_3_2_1"/>
 	<classpathentry exported="true" kind="lib" path="lib/smack/smackx-debug.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/smack/smackx-jingle.jar" sourcepath="E:/桌面/openfire/smack_src_3_2_1/source"/>
 	<classpathentry exported="true" kind="lib" path="lib/smack/smackx.jar"/>
