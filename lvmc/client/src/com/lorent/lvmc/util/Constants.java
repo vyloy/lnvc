@@ -21,6 +21,7 @@ public class Constants {
     public static final String DllPath = System.getProperty("user.dir").replace("\\", "/")+"/dll";
     public static final String LayoutDataPath = System.getProperty("user.home").replace("\\", "/")+"/lorent/lvmc/layouts";
     public static final String SKIN_PATH = System.getProperty("user.dir").replace("\\", "/")+"/skin";
+   
     
     public static final int OPER_ADD = 0;
     public static final int OPER_MODIFY = 1;

@@ -13,6 +13,7 @@ import org.apache.xmlrpc.webserver.WebServer;
 
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.MyPlayer;
 import com.lorent.common.util.PlatformUtil;
 import com.lorent.common.util.StringUtil;
 import com.lorent.lvmc.Launcher;
@@ -128,6 +129,7 @@ public class UCSServer {
 	
 	public int hangup(String username){
 		log.info("hangup : username = " + username);
+		MyPlayer.stop();
 		return LCCUtil.getInstance().doHangup(username);
 	}
 	

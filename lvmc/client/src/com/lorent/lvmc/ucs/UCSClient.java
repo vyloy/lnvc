@@ -98,6 +98,6 @@ public class UCSClient {
 	public static void sendCallError(String username){
 		log.info("sendCallError username = " + username);
 		sendCommand("ucscb.callerror", username);
-		MyPlayer.stop();
+		MyPlayer.play(MyPlayer.TYPE_CALL_ERROR);
 	}
 }
