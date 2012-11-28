@@ -1,8 +1,8 @@
 package com.lorent.common.util;
 
 public class MyPlayer {
-	private static final String RING_IN_FILE = "/com/lorent/vovo/resource/sound/ringin.wav";
-	private static final String RING_OUT_FILE = "/com/lorent/vovo/resource/sound/ringout.wav";
+	private static final String RING_IN_FILE = "/com/lorent/common/resource/sound/ringin.wav";
+	private static final String RING_OUT_FILE = "/com/lorent/common/resource/sound/ringout.wav";
 	
 	public static final int TYPE_RING_IN = 1;
 	public static final int TYPE_RING_OUT = 2;
@@ -24,5 +24,9 @@ public class MyPlayer {
 		if(player != null){
 			player.stop();
 		}
+	}
+	
+	public static void main(String[] args){
+		MyPlayer.play(TYPE_RING_OUT);
 	}
 }
