@@ -6,6 +6,6 @@
     <string name="item_imageview_height">160</string>
     <string name="item_horizontalSpacing">20</string>
     <string name="item_verticalSpacing">10</string>
-    <string name="monitor_surface_view_width">600</string>
-    <string name="monitor_surface_view_height">480</string>
+    <string name="monitor_surface_view_width">450</string>
+    <string name="monitor_surface_view_height">350</string>
 </resources>
