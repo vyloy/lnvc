@@ -48,6 +48,6 @@
     <string name="delete_text">删除</string>
     <string name="monitor_title">监控标题</string>
     <string name="monitor_url">监控链接</string>
-    <string name="monitor_surface_view_width">300</string>
-    <string name="monitor_surface_view_height">200</string>
+    <string name="monitor_surface_view_width">250</string>
+    <string name="monitor_surface_view_height">160</string>
 </resources>
