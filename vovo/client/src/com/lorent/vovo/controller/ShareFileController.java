@@ -552,6 +552,15 @@ public class ShareFileController extends BaseController {
 		ftpClient.abortCurrentDataTransfer(true);
 	}
 	
+	public void stopTransferAtFtpServer() throws Exception{
+		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		try {
+			ftpClient.abortCurrentDataTransfer(false);
+		} catch (Exception e) {
+			log.error("stopTransferAtFtpServer", e);
+		}
+	}
+	
 	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
 		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
 		try {
@@ -564,9 +573,13 @@ public class ShareFileController extends BaseController {
 			ftpClient.login(ftpUser, ftpPsw);
 		}
 		if (ftpClient.isConnected()) {
-			ftpClient.changeDirectory(targetDirectory);
-			if (fileName != null && !fileName.equals("")) {
-				ftpClient.deleteFile(fileName);
+			try {
+				ftpClient.changeDirectory(targetDirectory);
+				if (fileName != null && !fileName.equals("")) {
+					ftpClient.deleteFile(fileName);
+				}
+			} catch (Exception e) {
+				log.error("deleteFileAtFtpServer",e);
 			}
 		}
 	}
@@ -585,10 +598,14 @@ public class ShareFileController extends BaseController {
 		}
 		if (ftpClient.isConnected()) {
 			ftpClient.setType(FTPClient.TYPE_BINARY);
-			ftpClient.changeDirectory(targetDirectory);
-			ftpClient.upload(file,listener);
-			if (newFileName != null && !newFileName.equals("")) {
-				ftpClient.rename(file.getName(), newFileName);
+			try {
+				ftpClient.changeDirectory(targetDirectory);
+				ftpClient.upload(file,listener);
+				if (newFileName != null && !newFileName.equals("")) {
+					ftpClient.rename(file.getName(), newFileName);
+				}
+			} catch (Exception e) {
+				log.error("upLoadFileToFtpServer", e);
 			}
 		}
 	}

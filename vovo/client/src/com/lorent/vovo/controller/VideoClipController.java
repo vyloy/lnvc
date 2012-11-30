@@ -449,6 +449,11 @@ public class VideoClipController extends BaseController {
 		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
 			File thefile = jFileChooser.getSelectedFile();
 			lastSelectPath = thefile.getAbsolutePath();
+			//检查文件名是否有特殊字符
+			if (thefile.getName().indexOf(" ") != -1) {
+				JOptionPane.showMessageDialog(null, "文件名有不符合的字符。");
+				return;
+			}
 			//检测文件
 			LinkedHashMap<String, String> videoPrifilesMap = getVideoPrifilesMap(thefile.getAbsolutePath());
 			boolean checkVideoFile = checkVideoFile(videoPrifilesMap,definitaion);
@@ -588,30 +593,78 @@ public class VideoClipController extends BaseController {
 	public void cancelUpLoadVideoClip(UploadVideoClipDialog dialog) throws Exception{
 		
 		if (uploadSwingWorker != null) {
-			uploadSwingWorker.cancel(true);
+//			uploadSwingWorker.cancel(true);
+			uploadSwingWorker = null;
+			
+			synchronized (dialog.uploading) {
+				dialog.uploading = false;
+			}
+			Vovo.exeC("sharefile", "stopTransferAtFtpServer");
+			dialog.getCancelButton().setEnabled(false);
+			Thread.sleep(1000);
+			
+//			return;
 		}
+		
 		//删除超清文件
-		String filenameHyper = FileUtil.getFileNameFromURL(dialog.getHyperFilePathTextField().getText());
+		String filenameHyper = FileUtil.getFileNameFromFilePath(dialog.getNewHyperVideoFileName());
 		if (filenameHyper != null && !filenameHyper.equals("")) {
-			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameHyper);
+			} catch (Exception e) {
+				log.error("cancelUpLoadVideoClip", e);
+			}
+			String fileNameHyperFromFilePath = FileUtil.getFileNameFromFilePath(dialog.getHyperFilePathTextField().getText());
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", fileNameHyperFromFilePath);
+			} catch (Exception e) {
+				log.error("cancelUpLoadVideoClip", e);
+			}
 		}
 		
 		//删除高清文件
-		String filenameHigh = FileUtil.getFileNameFromURL(dialog.getSelectedHighVideoFilePath());
+		String filenameHigh = FileUtil.getFileNameFromFilePath(dialog.getNewHighVideoFileName());
 		if (filenameHigh != null && !filenameHigh.equals("")) {
-			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
+			} catch (Exception e) {
+				log.error("cancelUpLoadVideoClip", e);
+			}
+			String fileNameHighFromFilePath = FileUtil.getFileNameFromFilePath(dialog.getHightFilePathTextField().getText());
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",fileNameHighFromFilePath);
+			} catch (Exception e) {
+				log.error("cancelUpLoadVideoClip", e);
+			}
 		}
-		filenameHigh = FileUtil.getFileNameFromURL(dialog.getHightFilePathTextField().getText());
-		if (filenameHigh != null && !filenameHigh.equals("")) {
-			Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips",filenameHigh);
-		}
-		//删除标清文件
 		
+		//删除标清文件
+		String filenameStandard = FileUtil.getFileNameFromFilePath(dialog.getNewStandardVideoFileName());
+		if (filenameStandard != null && !filenameStandard.equals("")) {
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameStandard);
+			} catch (Exception e) {
+				log.error("deleteVideoClip", e);
+			}
+			String fileNameStandardFromFilePath = FileUtil.getFileNameFromFilePath(dialog.getStandardFilePathTextField().getText());
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", fileNameStandardFromFilePath);
+			} catch (Exception e) {
+				log.error("deleteVideoClip", e);
+			}
+		}
 		
 		//删除缩略图
-		
-		dialog.setUIEnable();
-		
+		String filenameThumbnail = FileUtil.getFileNameFromURL(dialog.getThumbnailImageFilePath());
+		if (filenameThumbnail != null && !filenameThumbnail.equals("")) {
+			try {
+				Vovo.exeC("sharefile", "deleteFileAtFtpServer", "/VideoClips", filenameThumbnail);
+			} catch (Exception e) {
+				log.error("deleteVideoClip", e);
+			}
+		}
+//		dialog.setUIEnable();
+		dialog.dispose();
 	}
 	
 	public void uploadYunLianVideoClip(final UploadYunLianVideoClipDialog dialog) throws Exception{
@@ -763,9 +816,10 @@ public class VideoClipController extends BaseController {
 		};
 		//高清文件
 		final File fileHigh = new File(dialog.getSelectedHighVideoFilePath());
-		final String newFileNameHigh =dialog.getCurrentTime()+"_720P.mp4";//+ fileHigh.getName();
+		final String newFileNameHigh = dialog.getCurrentTime()+"_720P.mp4";//+ fileHigh.getName();
 		final long filesize = fileHigh.length();
 		final String uiString2 = "步骤1: "+fileHigh.getName() +"  {0} %";
+		dialog.setNewHighVideoFileName(newFileNameHigh);
 		final FTPDataTransferListener ftpDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -784,6 +838,7 @@ public class VideoClipController extends BaseController {
 		final String newFileNameStandard =dialog.getCurrentTime()+"_480P.mp4";//+ fileStandard.getName();
 		final long filesize1 = fileStandard.length();
 		final String uiString3 = "步骤3: "+fileStandard.getName() +"  {0} %";
+		dialog.setNewStandardVideoFileName(newFileNameStandard);
 		final FTPDataTransferListener ftpDataTransferListener1 = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -802,6 +857,7 @@ public class VideoClipController extends BaseController {
 		final String newFileNameHyper =  dialog.getCurrentTime()+"_1080P.mp4";//+fileHyper.getName();
 		final long filesizeHyper = fileHyper.length();
 		final String uiStrHyper = "步骤0: "+fileHyper.getName() +"  {0} %";
+		dialog.setNewHyperVideoFileName(newFileNameHyper);
 		final FTPDataTransferListener ftpDataTransListenerHyper = new FTPDataTransferAdater(){
 			private long curentLength = 0;
 			@Override
@@ -855,35 +911,75 @@ public class VideoClipController extends BaseController {
 			dialog.setUIEnable();
 			return;
 		}
-		
+		synchronized (dialog.uploading) {
+			dialog.uploading = true;
+		}
 		uploadSwingWorker = new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
             	dialog.getResultProgressBar().setString(fileHigh.getAbsolutePath());
-        		mp4box(fileHigh.getAbsolutePath(),dialog);
-        		Thread.sleep(2000);
+            	synchronized (dialog.uploading) {
+        			if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
+            	mp4box(fileHigh.getAbsolutePath(),dialog);
+				Thread.sleep(2000);
         		dialog.getResultProgressBar().setString(fileStandard.getAbsolutePath());
+        		synchronized (dialog.uploading) {
+        			if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
         		mp4box(fileStandard.getAbsolutePath(),dialog);
         		Thread.sleep(2000);
         		dialog.getResultProgressBar().setString(fileHyper.getAbsolutePath());
+        		synchronized (dialog.uploading) {
+        			if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
         		mp4box(fileHyper.getAbsolutePath(),dialog);
         		Thread.sleep(2000);
-            	
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
+        		synchronized (dialog.uploading) {
+        			if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
+        		Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
+            	synchronized (dialog.uploading) {
+            		if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
+            	synchronized (dialog.uploading) {
+            		if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
+            	synchronized (dialog.uploading) {
+            		if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
             	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileStandard,ftpDataTransferListener1,"/VideoClips",newFileNameStandard);
+            	synchronized (dialog.uploading) {
+            		if (dialog.uploading == false) {
+        				return new Object();
+					}
+        		}
             	String ftpAddr = (String) Vovo.exeC("sharefile", "getFtpAddr");
             	Integer ftpPort = (Integer) Vovo.exeC("sharefile", "getFtpPort");
             	LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
             	VovoMyInfo vovoinfo = Vovo.getLcmUtil().getVovoMyInfo(info.getUsername());
             	boolean uploadVideoClipInfo = Vovo.getLcmUtil().uploadVideoClipInfo(newFileNameHyper,newFileNameHigh,newFileNameStandard, thumbailfile.getName(), dialog.getTitleTextField().getText(),dialog.getDescriptionTextArea().getText(),ftpAddr,vovoinfo.getRealName(),vovoinfo.getUsername(),dialog.getDuration(),dialog.getCategoryComboBox().getSelectedItem().toString());
             	if (uploadVideoClipInfo) {
-//					System.out.println(uploadVideoClipInfo);
-					JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
-					dialog.dispose();
-					reflashVideoClipPanel();
-				}
+            		JOptionPane.showMessageDialog(null, VovoStringUtil.getUIString("VideoClipController.uploadSuccess"));
+            		dialog.dispose();
+            		reflashVideoClipPanel();
+            	}
                 return new Object();
             }
         };
