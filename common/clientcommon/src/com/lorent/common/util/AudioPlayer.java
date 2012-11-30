@@ -1,4 +1,4 @@
-package com.lorent.vovo.util;
+package com.lorent.common.util;
 
 import java.net.URL;
 

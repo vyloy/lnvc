@@ -7,18 +7,16 @@
 
     <ImageView
         android:id="@+id/ItemImage"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:background="@drawable/imgv_bg"
-        android:src="@drawable/video_no_pic" >
+        android:src="@drawable/video_no_pic"
+        style="@style/video_item_ImageView"
+         >
     </ImageView>
 
     <TextView
         android:id="@+id/ItemText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:lines="3"
-        android:textColor="#FFFFFFFF" />
+        android:gravity="center"
+        android:textColor="@color/white"
+        style="@style/video_item_TextView"
+         />
 
 </LinearLayout>

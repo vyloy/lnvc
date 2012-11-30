@@ -2,7 +2,7 @@
 
     <string name="app_name">视频点播</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">络威视频</string>
+    <string name="title_activity_main">视频点播</string>
     <string name="title_activity_showvideo">观看视频</string>
 	<string name="button">点击观看视频</string>
 	<string name="previouspage">上一页</string>
@@ -19,7 +19,7 @@
     <string name="vitamio_videoview_error_button">OK</string>
     <string name="mediacontroller_play_pause">Play/Pause</string>
     <string name="playvideofail">对不起，视频无法播放</string>
-    <string name="pageSize">42</string>
+    <string name="pageSize">20</string>
     <string name="connect_server_timeout">无法连接到服务器</string>
     <string name="no_more_content">没有更多内容加载</string>
     <string name="NEXT_PAGE_KEY">32</string>
@@ -27,4 +27,27 @@
     <string name="PLAY_FORWARD_KEY">22</string>
     <string name="PLAY_BACK_KEY">21</string>
     <string name="PLAY_PAUSE_KEY">66</string>
+    <string name="setup_text">设置</string>
+    <string name="serverip">服务器IP：</string>
+    <string name="serverport">服务器端口：</string>
+    <string name="oktext">确定</string>
+    <string name="canceltext">取消</string>
+    <string name="item_imageview_width">70</string>
+    <string name="item_imageview_height">70</string>
+    <string name="item_horizontalSpacing">10</string>
+    <string name="item_verticalSpacing">10</string>
+    <string name="movie">电影</string>
+    <string name="tvset">电视</string>
+    <string name="game">游戏</string>
+    <string name="news">资讯</string>
+    <string name="dongm">动漫</string>
+    <string name="other">其他</string>
+    <string name="monitor">监控</string>
+    <string name="categoryTextSize">10dp</string>
+    <string name="add_text">添加</string>
+    <string name="delete_text">删除</string>
+    <string name="monitor_title">监控标题</string>
+    <string name="monitor_url">监控链接</string>
+    <string name="monitor_surface_view_width">300</string>
+    <string name="monitor_surface_view_height">200</string>
 </resources>
