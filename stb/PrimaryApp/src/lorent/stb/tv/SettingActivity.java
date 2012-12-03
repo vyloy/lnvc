@@ -333,8 +333,8 @@ public class SettingActivity extends TabActivity implements android.view.View.On
 			public void run(){
 				while(true){
 			      
-			        SimpleDateFormat df1 = new SimpleDateFormat("yyyy��MM��dd��EEE HH:mm");
-			 		String sDate=df1.format(new Date()).replace("��", "����");
+			        SimpleDateFormat df1 = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+			 		String sDate=df1.format(new Date());
 			        try {
 			        	   Message msg = new Message();
 					       String[] dates ={sDate};
