@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.video.bean.VideoInfo;
 import com.lorent.video.service.VideoService;
 import com.lorent.video.util.AsyncImageLoader;
+import com.lorent.video.util.DBAdapterImpl;
 import com.lorent.video.util.ImageUtil;
 import com.lorent.video.util.NetWorkUtil;
 import com.lorent.video.util.ShareAppUtil;
@@ -60,8 +62,9 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	private DeviceType device = DeviceType.CLOUDTV;
+	private DeviceType device = DeviceType.STB;
 	private String selectedType = "电影";
+	private LinearLayout setupLayout;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class MainActivity extends Activity {
 //        Log.i("container", cw + ":" + ch);
         Display display = getWindowManager().getDefaultDisplay();
         container.setBackgroundDrawable(new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight())));
-        
+        setupLayout = (LinearLayout)findViewById(R.id.setupLayout);
         getSeverInfoPreferences();
         videoService = new VideoService(this);
         if(this.findViewById(R.id.gridview) instanceof GridView){
@@ -93,6 +96,7 @@ public class MainActivity extends Activity {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
         datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
+        DBAdapterImpl.init(this);
         new LoadInfoThread().start();
 //        show();
         
@@ -299,6 +303,10 @@ public class MainActivity extends Activity {
     		nextPageKey = 167;
     		prePageKey = 166;
     	}
+    	if(event.getKeyCode()== KeyEvent.KEYCODE_1){
+    		setupLayout.requestFocus();
+    		return true;
+    	}
     	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==nextPageKey||event.getKeyCode()==prePageKey)){
     		if(!loadDataFinish){
     			return super.dispatchKeyEvent(event);
@@ -359,22 +367,30 @@ public class MainActivity extends Activity {
     public void saveServerInfo(View v){
     	if(v.getId()==R.id.setupOkBtn){
     		alertDialog.dismiss();
-    		final String oldIp = new String(ip);
-    		new Thread(){
-    			public void run(){
-    				NetWorkUtil.clearSessionId(oldIp);
+    		if(!(ip.equals(ipComponent.getText().toString().trim()))){
+    			if(datas!=null){
+    				datas.clear();
     			}
-    		}.start();
-    		ip = ipComponent.getText().toString();
-            port = portComponent.getText().toString();
-            setSeverInfoPreferences(ip,port);
-            currentPage = 1;
-            new Thread(){
-    			public void run(){
-    				NetWorkUtil.setSessionId(ip);
+    			if(adapter!=null){
+    				adapter.notifyDataSetChanged();
     			}
-    		}.start();
-            new LoadInfoThread().start();
+	    		final String oldIp = new String(ip);
+	    		new Thread(){
+	    			public void run(){
+	    				NetWorkUtil.clearSessionId(oldIp);
+	    			}
+	    		}.start();
+	    		ip = ipComponent.getText().toString();
+	            port = portComponent.getText().toString();
+	            setSeverInfoPreferences(ip,port);
+	            currentPage = 1;
+	            new Thread(){
+	    			public void run(){
+	    				NetWorkUtil.setSessionId(ip);
+	    			}
+	    		}.start();
+	            new LoadInfoThread().start();
+    		}
     	}else{
     		alertDialog.dismiss();
     	}

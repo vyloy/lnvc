@@ -181,8 +181,8 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 				lp.height = (full || windowRatio > videoRatio) ? windowHeight : (int) (windowWidth / videoRatio);
 			}
 		}else if(getActivitySizeType()==ActivitySizeType.MONITOR){
-			int tempW = Integer.parseInt(mContext.getResources().getString(com.lorent.video.R.string.monitor_surface_view_width));
-			int tempH = Integer.parseInt(mContext.getResources().getString(com.lorent.video.R.string.monitor_surface_view_height));
+			int tempW = pixWidth;//Integer.parseInt(mContext.getResources().getString(com.lorent.video.R.string.monitor_surface_view_width));
+			int tempH = pixHeight;//Integer.parseInt(mContext.getResources().getString(com.lorent.video.R.string.monitor_surface_view_height));
 			mSurfaceHeight = mVideoHeight;
 			mSurfaceWidth = mVideoWidth;
 			lp.width = tempW;
@@ -841,5 +841,15 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 	public enum ActivitySizeType{
 		VIDEO,
 		MONITOR
+	}
+	
+	int pixWidth;
+	int pixHeight;
+	public void setPixWidth(int w){
+		pixWidth = w;
+	}
+	
+	public void setPixHeight(int h){
+		pixHeight = h;
 	}
 }
