@@ -29,6 +29,8 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 //import android.view.SurfaceView;
 
 
@@ -36,6 +38,7 @@ public abstract class LntCamera {
 
 	protected Camera camera;
 	private RecorderParams params;
+	private static final String TAG = "LntCamera";
 
 	private PreviewCallback storedPreviewCallback;
 	private boolean previewStarted;
@@ -51,6 +54,13 @@ public abstract class LntCamera {
 		return Collections.emptyList();
 	}
 	
+	private static SurfaceView sv;
+	
+	public static void setSv(SurfaceView sv) {
+		Log.i(TAG, "setSv = " + sv);
+		LntCamera.sv = sv;
+	}
+
 	public void startPreview() { // FIXME throws exception?
 		if (previewStarted) {
 			Log.w(tag, "Already started");
@@ -106,10 +116,12 @@ public abstract class LntCamera {
 
 
 		try {
+			Log.i(TAG, "surface view = " + sv);
+			camera.setPreviewDisplay(sv.getHolder());
 			camera.startPreview();
 			previewStarted = true;
 		} catch (Throwable e) {
-			Log.e(tag, "Can't start camera preview");
+			Log.e(tag, "Can't start camera preview", e);
 		}
 
 		previewStarted = true;
