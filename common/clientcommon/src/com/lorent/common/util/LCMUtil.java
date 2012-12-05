@@ -191,6 +191,7 @@ public class LCMUtil {
     
     //MemberBean 包含ip地址的bean；fromlccno 发送者；tolccno 当为""发送全体，也可指定号码
     public boolean broadcastMyIpAddress(MemberBean bean,String fromlccno,String tolccno) throws Exception{
+    	log.info("broadcastMyIpAddress: "+bean.getIp()+","+fromlccno+","+tolccno);
     	return (Boolean)client.execute("lcmVideo.broadcastMyIpAddress",new Object[]{bean,fromlccno,tolccno});
     }
     

@@ -91,7 +91,12 @@ public class OrganController extends BaseController {
 			LoginInfo info = context.getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
 			MemberBean bean = new MemberBean();
 			bean.setLccAccount(info.getUsername());
-			bean.setIp(NetworkUtil.getSimpleIP());
+			String[] allLocalHostIP = NetworkUtil.getAllLocalHostIP();
+			for (int i = 0; i < allLocalHostIP.length; i++) {
+				log.info(i+" : "+allLocalHostIP[i]);
+			}
+			int networkinterfaceIndex = Vovo.getConfigManager().getIntProperty("networkinterfaceIndex", 0);
+			bean.setIp(allLocalHostIP[networkinterfaceIndex]);
 			Vovo.getLcmUtil().broadcastMyIpAddress(bean,info.getUsername(),user);
 			log.info("vovo broadcastMyIpAddress "+bean+","+info.getUsername()+","+user);
 		}
