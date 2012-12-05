@@ -1080,7 +1080,7 @@ public class LCCActivity extends Activity {
 	 * @param callnum
 	 */
 	private void doCall(String callnum) {
-		if (LCCUtil.lccUtil.isRegister) {
+//		if (LCCUtil.lccUtil.isRegister) {
 			if (callnum.length() == 0) {
 
 //				String magCenter_houseno_tempt = null;
@@ -1125,10 +1125,10 @@ public class LCCActivity extends Activity {
 
 //			callEdit.setText("");
 
-		} else {
-			Toast.makeText(this, R.string.isregister, Toast.LENGTH_SHORT)
-					.show();
-		}
+//		} else {
+//			Toast.makeText(this, R.string.isregister, Toast.LENGTH_SHORT)
+//					.show();
+//		}
 	}
 
 	private void callout(String callnum) {
