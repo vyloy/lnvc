@@ -28,7 +28,10 @@ import com.lorent.common.manager.ConfigManager;
 import com.lorent.common.manager.ViewManager;
 import com.lorent.common.permission.NoPermissionException;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.ProcessUtil;
+import com.lorent.common.util.StringUtil;
 import com.lorent.util.LCCUtil;
+import com.lorent.util.LCCUtil.Device;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.ui.MessageTabPanel;
 import com.lorent.vovo.util.Constants;
@@ -131,15 +134,45 @@ public class Vovo extends BaseApplication{
 
 	@Override
 	protected void startApp() {
-//		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-//		int year = c.get(Calendar.YEAR);
-//		int month = c.get(Calendar.MONTH);
-//		int day = c.get(Calendar.DATE);
-//		if (year >= 2013 && month >= 1) {
-//			JOptionPane.showMessageDialog(null, "超过期限");
-//			System.exit(0);
-//		}
+		/*
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DATE);
+		if (year >= 2013 && month >= 1) {
+			JOptionPane.showMessageDialog(null, "超过期限");
+			System.exit(0);
+		}
 		
+		List<Device> localMicList = LCCUtil.getInstance().getLocalMicList();
+		for (Device device : localMicList) {
+			log.info("localMicList: "+device.getIndex()+","+device.getName());
+		}
+		List<Device> localPlayBackList = LCCUtil.getInstance().getLocalPlayBackList();
+		for (Device device : localPlayBackList) {
+			log.info("localPlayBackList: "+device.getIndex()+","+device.getName());
+		}
+		int localMicIndex = Vovo.getConfigManager().getIntProperty("localMicIndex", 0);
+		int localPlayBackIndex = Vovo.getConfigManager().getIntProperty("localPlayBackIndex", 0);
+		LCCUtil.getInstance().setMic(localMicIndex);
+		LCCUtil.getInstance().setPlayBack(localPlayBackIndex);
+		
+		new Thread(){
+
+			@Override
+			public void run() {
+				try {
+					String cmdstr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\processwatch.exe");
+					ProcessUtil.getInstance().startProcess(cmdstr);
+					log.info(cmdstr);
+				} catch (Exception e) {
+					log.error("startApp", e);
+					e.printStackTrace();
+				}
+			}
+			
+		}.start();
+		*/
 		NativeInterface.open();
 		try {
 			 UIManager.setLookAndFeel(new McWinLookAndFeel());

@@ -1,5 +1,6 @@
 package com.lorent.vovo;
 
+import java.net.URL;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -11,6 +12,8 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.lorent.common.app.BaseApplication;
 import com.lorent.common.util.LCMUtil;
+import com.lorent.common.util.ProcessUtil;
+import com.lorent.common.util.StringUtil;
 import com.lorent.util.LCCUtil;
 import com.lorent.vovo.dto.LoginInfo;
 import com.lorent.vovo.util.Constants;
@@ -53,14 +56,30 @@ public class VovoVod extends BaseApplication {
 
 	@Override
 	protected void startApp() throws Exception {
-//		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-//		int year = c.get(Calendar.YEAR);
-//		int month = c.get(Calendar.MONTH);
-//		int day = c.get(Calendar.DATE);
-//		if (year >= 2013 && month >= 1) {
-//			JOptionPane.showMessageDialog(null, "超过期限");
-//			System.exit(0);
-//		}
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DATE);
+		if (year >= 2013 && month >= 1) {
+			JOptionPane.showMessageDialog(null, "超过期限");
+			System.exit(0);
+		}
+		
+		new Thread(){
+
+			@Override
+			public void run() {
+				try {
+					String cmdstr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\processwatch.exe");
+					ProcessUtil.getInstance().startProcess(cmdstr);
+					log.info(cmdstr);
+				} catch (Exception e) {
+					log.error("startApp", e);
+					e.printStackTrace();
+				}
+			}
+			
+		}.start();
 		
 		try {
 			UIManager.setLookAndFeel(new HiFiLookAndFeel());
@@ -81,6 +100,8 @@ public class VovoVod extends BaseApplication {
 	 */
 	public static void main(String[] args) {
 		VovoVod instance = new VovoVod();
+		URL location = instance.getClass().getProtectionDomain().getCodeSource().getLocation();
+		System.out.println(location);
 		instance.setContext(new VovoVodContext());
 		instance.execute();
 	}

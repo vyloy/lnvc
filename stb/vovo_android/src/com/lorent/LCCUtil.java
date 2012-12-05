@@ -33,14 +33,15 @@ import com.lorent.vovo.bean.SetupBean;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.ProcessUtil;
 
-
 public class LCCUtil extends Service {
 	
 	public static final Uri HISTORY_TB_URI = Uri
 	.parse("content://com.lorent.lcc/history_tb");
 	
+	
 	private static final String LIBRARY = "lcccore_stb";
 //	private static final String LIBRARY = "lcccore_phone";
+//	private static final String LIBRARY = "lcccore_phone_2.2";
 	private static String TAG = "LCCUtil";
 	private static final String reciverMsg = "com.lorent.lcc.oper";
     
@@ -680,6 +681,9 @@ public class LCCUtil extends Service {
 	 * 2011.12.5 for call wrong number not hang up automatically
 	 */
 	public void javacallerrorcb(String nMsg) {
+		Intent in = new Intent();
+		in.setAction("lorent.lccUtil.callerror");
+		sendBroadcast(in);
 		String[] args = new String[] { nMsg };
 		sendMessage(CALLERRORCB, args); // if error, hang up
 		Log.i(TAG, "javacallerrorcb message:" + nMsg);
