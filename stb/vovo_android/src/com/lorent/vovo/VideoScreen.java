@@ -16,12 +16,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 
 import com.lorent.LCCUtil;
+import com.lorent.video.LntCamera;
 import com.lorent.vovo.utils.DBProvider;
 import com.lorent.vovo.utils.PlayAudio;
 import com.phonecommand.PhoneCommander;
@@ -40,6 +42,7 @@ public class VideoScreen extends Activity{
 	private static final int REFUSE = 3;   //拒接
 	private Button open_lock;
 	private SurfaceView mSurfaceView;
+	private SurfaceView otherSurface;
 	private Button recieve_time;
 	private static final String TAG = "VideoScreen";
 	private boolean isCall = false;
@@ -54,28 +57,31 @@ public class VideoScreen extends Activity{
 		setContentView(R.layout.vedio_screen);
 		hangupBtn = this.findViewById(R.id.notice_handoff);
 		Log.i(TAG, "onCreate()");
-		new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-//				mc = ManageCenter.getInstance();
-				IntentFilter mIntentFilter = new IntentFilter();
-				mIntentFilter.addAction("lorent.lccUtil.hangup");
-				mIntentFilter.addAction("lorent.lccUtil.connected");
-				registerReceiver(video_msg,mIntentFilter);
-				
-			}}).start();
+//		new Thread(new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+////				mc = ManageCenter.getInstance();
+//
+//				
+//			}}).start();
+		IntentFilter mIntentFilter = new IntentFilter();
+		mIntentFilter.addAction("lorent.lccUtil.hangup");
+		mIntentFilter.addAction("lorent.lccUtil.connected");
+		mIntentFilter.addAction("lorent.lccUtil.callerror");
+		registerReceiver(video_msg,mIntentFilter);
 		init();
-		new Thread(new Runnable(){
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				isRefuse = false;
-				insertHistory(DBProvider.CALL_IN, callingNum, UNRECIEVE);
-				PlayAudio.play(VideoScreen.this);
-			}}).start();
+		isRefuse = false;
+		insertHistory(DBProvider.CALL_IN, callingNum, UNRECIEVE);
+		PlayAudio.play(VideoScreen.this);
+//		new Thread(new Runnable(){
+//			
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//
+//			}}).start();
 
 		hangupBtn.requestFocus();
 		phoneCommandReceiver = new PhoneCommandReceiver();
@@ -154,6 +160,10 @@ public class VideoScreen extends Activity{
 //				return false;
 //			}
 //		});
+		this.otherSurface = (SurfaceView)findViewById(R.id.otherVideo);
+		otherSurface.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		
+		LntCamera.setSv(otherSurface);
 		mSurfaceView = (SurfaceView)findViewById(R.id.myVideo);
 		LCCUtil.lccUtil.setSurfaceView(mSurfaceView);
 //		
@@ -225,12 +235,12 @@ public class VideoScreen extends Activity{
 	    isRefuse = true;
 	    isCall = false;
 		LCCUtil.lccUtil.hangup();
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			Log.e(TAG, "hangupClick", e);
-		}
-		this.finish();
+//		try {
+//			Thread.sleep(300);
+//		} catch (InterruptedException e) {
+//			Log.e(TAG, "hangupClick", e);
+//		}
+//		this.finish();
 	}
 	
 	// 通话计时
@@ -429,13 +439,13 @@ public class VideoScreen extends Activity{
     	System.out.println("counttime = "+counttime);
     	if(counttime != 0)
     	{
-    		new Thread(new Runnable(){
-
-				@Override
-				public void run() {
+//    		new Thread(new Runnable(){
+//
+//				@Override
+//				public void run() {
 					// TODO Auto-generated method stub
 					setCallTime();
-				}}).start();
+//				}}).start();
     	}
     }
     
@@ -473,9 +483,9 @@ public class VideoScreen extends Activity{
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			String action = intent.getAction();
-			if(action.equals("lorent.lccUtil.hangup"))
+			if(action.equals("lorent.lccUtil.hangup") || action.equals("lorent.lccUtil.callerror"))
 			{
-				System.out.println("videoscreen: hangup");
+				System.out.println("videoscreen: hangup or callerror");
 				PlayAudio.stop();
 				isCall = false;
 				countCallTime();
