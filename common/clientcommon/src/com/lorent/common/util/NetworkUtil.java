@@ -16,7 +16,7 @@ public class NetworkUtil {
 	/**
 	 * 获取本机所有IP
 	 */
-	private static String[] getAllLocalHostIP() {
+	public static String[] getAllLocalHostIP() {
 		List<String> res = new ArrayList<String>();
 		Enumeration netInterfaces;
 		try {
@@ -24,14 +24,25 @@ public class NetworkUtil {
 			InetAddress ip = null;
 			while (netInterfaces.hasMoreElements()) {
 				NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
-				System.out.println("---Name---:" + ni.getName());
+				
 				
 				Enumeration nii = ni.getInetAddresses();
+				if (nii.hasMoreElements()) {
+					System.out.println("NetworkInterface: " + ni);
+				}
+				
 				while (nii.hasMoreElements()) {
 					ip = (InetAddress) nii.nextElement();
+					System.out.println("------------------InetAddress: "+ip);
 					if (ip.getHostAddress().indexOf(":") == -1) {
-						res.add(ip.getHostAddress());
-						System.out.println("本机的ip=" + ip.getHostAddress());
+						if (ni.getDisplayName().toLowerCase().indexOf("realtek") != -1) {
+							res.add(0, ip.getHostAddress());
+						}
+						else{
+							res.add(ip.getHostAddress());
+						}
+						
+						System.out.println("---------------------------ip: " + ip.getHostAddress());
 					}
 				}
 			}
@@ -168,7 +179,7 @@ public class NetworkUtil {
 		for (String string : allLocalHostIP) {
 			System.out.println(string);
 		}
-		System.out.println(getSimpleIP());
+//		System.out.println(getSimpleIP());
 //		System.out.println("LocalIP:" + NetworkUtil.getLocalIP());
 //		System.out.println("getWinLocalIP:" + NetworkUtil.getWinLocalIP());
 //		System.out.println(NetworkUtil.getMacAddress());

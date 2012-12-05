@@ -1,0 +1,47 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="activity_main_GridView">  
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:horizontalSpacing">@dimen/gridview_horizontalSpacing</item>
+        <item name="android:columnWidth">@dimen/gridview_columnWidth</item>
+        <item name="android:scrollbarSize">30dp</item>
+        <item name="android:verticalSpacing">30dp</item>
+    </style>
+    <style name="activity_main_toolbar">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="activity_main_toolbar_LinearLayout">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <style name="activity_main_toolbar_LinearLayout_ImageView">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+    </style>
+    <style name="activity_main_toolbar_LinearLayout_TextView">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/category_text_color</item>
+    </style>
+    <style name="video_item_ImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">315dp</item>
+    </style>
+    <style name="video_item_TextView">
+        <item name="android:layout_width">220dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+    </style>
+    <style name="setup_dialog_TextView">
+        <item name="android:layout_width">500dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>        
+</resources>

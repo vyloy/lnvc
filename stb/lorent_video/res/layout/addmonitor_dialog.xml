@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <TextView
+        android:text="@string/monitor_title"
+        style="@style/addmonitor_dialog_TextView"
+         />
+
+    <EditText
+        android:id="@+id/monitorTitleE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="@string/monitor_url"
+        style="@style/addmonitor_dialog_TextView" />
+
+    <EditText
+        android:id="@+id/monitorUrlE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/addOkBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saveMonitorInfo"
+            android:text="@string/oktext" />
+
+        <Button
+            android:id="@+id/addCancelBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saveMonitorInfo"
+            android:text="@string/canceltext" />
+    </LinearLayout>
+
+</LinearLayout>

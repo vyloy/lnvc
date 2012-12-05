@@ -5,9 +5,9 @@
     android:layout_height="480px"
     android:background="@drawable/lvd1610_monitor_back"
     >
- <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="right">
- <TextView android:id="@+id/network_show"  android:layout_width="120dip" android:layout_height="wrap_content"/>
- <TextView android:id="@+id/register_show" android:layout_width="120dip" android:layout_height="wrap_content"/>
+ <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="left" android:layout_marginLeft="20dp" android:layout_marginTop="20dp">
+ <TextView android:id="@+id/network_show"  android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+ <TextView android:id="@+id/register_show" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
  </LinearLayout>   
 <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="80dip" android:layout_marginTop="80dip" android:gravity="center">
 

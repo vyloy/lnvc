@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <TextView
+        android:text="@string/serverip"
+        android:textColor="#ffffff"
+        style="@style/setup_dialog_TextView"
+         />
+
+    <EditText
+        android:id="@+id/serverip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/serverport"
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:id="@+id/serverport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numeric="integer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/setupOkBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saveServerInfo"
+            android:text="@string/oktext" />
+
+        <Button
+            android:id="@+id/setupCancelBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saveServerInfo"
+            android:text="@string/canceltext" />
+    </LinearLayout>
+
+</LinearLayout>

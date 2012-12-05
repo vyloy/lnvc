@@ -681,7 +681,11 @@ public class LCCUtil {
     		Device dev = new Device();
     		dev.index = Integer.parseInt(objs[i]);
     		dev.name = objs[i + 1];
+    		if(dev.name.contains("CamLCC")){
+    			continue;
+    		}
     		devs.add(dev);
+    		log.info("getLocalCameraList index = " + dev.index + " & name = " + dev.name);
     	}
     	return devs;
     }

@@ -454,6 +454,13 @@ public class VideoClipController extends BaseController {
 				JOptionPane.showMessageDialog(null, "文件名有不符合的字符。");
 				return;
 			}
+			//检查文件大小，不能超过4G
+			long filelength = thefile.length();
+			if (filelength >= Constants.MAXVIDEOFILESIZE) {
+				JOptionPane.showMessageDialog(null, "文件大小超出限制。");
+				return;
+			}
+			
 			//检测文件
 			LinkedHashMap<String, String> videoPrifilesMap = getVideoPrifilesMap(thefile.getAbsolutePath());
 			boolean checkVideoFile = checkVideoFile(videoPrifilesMap,definitaion);
@@ -599,7 +606,7 @@ public class VideoClipController extends BaseController {
 			synchronized (dialog.uploading) {
 				dialog.uploading = false;
 			}
-			Vovo.exeC("sharefile", "stopTransferAtFtpServer");
+			Vovo.exeC("sharefile", "stopTransferAtFtpServer",dialog.getCurrentTime());
 			dialog.getCancelButton().setEnabled(false);
 			Thread.sleep(1000);
 			
@@ -802,8 +809,10 @@ public class VideoClipController extends BaseController {
 		final File thumbailfile = new File(dialog.getThumbnailImageFilePath());
 		final long thumbailfilesize = thumbailfile.length();
 		final String uiString1 = "步骤2: "+ thumbailfile.getName() + "  {0} %";
+		final String thumbailsessionID = dialog.getCurrentTime()+"_thumbail";
 		final FTPDataTransferListener thumbnailDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
+			private String sessionID = thumbailsessionID;
 			@Override
 			public void transferred(int transferedLength) {
 				curentLength = curentLength + transferedLength;
@@ -813,15 +822,22 @@ public class VideoClipController extends BaseController {
 		        dialog.getResultProgressBar().setValue(n);
 		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString1, n));
 			}
+			@Override
+			public void completed() {
+				Vovo.exeC("sharefile", "removeFtpTransferStatus", sessionID);
+			}
+			
 		};
 		//高清文件
 		final File fileHigh = new File(dialog.getSelectedHighVideoFilePath());
 		final String newFileNameHigh = dialog.getCurrentTime()+"_720P.mp4";//+ fileHigh.getName();
 		final long filesize = fileHigh.length();
 		final String uiString2 = "步骤1: "+fileHigh.getName() +"  {0} %";
+		final String fileHighsessionID = dialog.getCurrentTime()+"_fileHigh";
 		dialog.setNewHighVideoFileName(newFileNameHigh);
 		final FTPDataTransferListener ftpDataTransferListener = new FTPDataTransferAdater(){
 			private long curentLength = 0;
+			private String sessionID = fileHighsessionID;
 			@Override
 			public void transferred(int transferedLength) {
 				curentLength = curentLength + transferedLength;
@@ -831,16 +847,21 @@ public class VideoClipController extends BaseController {
 		        dialog.getResultProgressBar().setValue(n);
 		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString2, n));
 			}
-			
+			@Override
+			public void completed() {
+				Vovo.exeC("sharefile", "removeFtpTransferStatus", sessionID);
+			}
 		};
 		//标清文件
 		final File fileStandard = new File(dialog.getSelectedStandardVideoFilePath());
 		final String newFileNameStandard =dialog.getCurrentTime()+"_480P.mp4";//+ fileStandard.getName();
 		final long filesize1 = fileStandard.length();
 		final String uiString3 = "步骤3: "+fileStandard.getName() +"  {0} %";
+		final String fileStandardsessionID = dialog.getCurrentTime()+"_fileStandard";
 		dialog.setNewStandardVideoFileName(newFileNameStandard);
 		final FTPDataTransferListener ftpDataTransferListener1 = new FTPDataTransferAdater(){
 			private long curentLength = 0;
+			private String sessionID = fileStandardsessionID;
 			@Override
 			public void transferred(int transferedLength) {
 				curentLength = curentLength + transferedLength;
@@ -850,16 +871,21 @@ public class VideoClipController extends BaseController {
 		        dialog.getResultProgressBar().setValue(n);
 		        dialog.getResultProgressBar().setString(MessageFormat.format(uiString3, n));
 			}
-			
+			@Override
+			public void completed() {
+				Vovo.exeC("sharefile", "removeFtpTransferStatus", sessionID);
+			}
 		};
 		//超清文件
 		final File fileHyper = new File(dialog.getHyperFilePathTextField().getText());
 		final String newFileNameHyper =  dialog.getCurrentTime()+"_1080P.mp4";//+fileHyper.getName();
 		final long filesizeHyper = fileHyper.length();
 		final String uiStrHyper = "步骤0: "+fileHyper.getName() +"  {0} %";
+		final String fileHypersessionID = dialog.getCurrentTime()+"_fileHyper";
 		dialog.setNewHyperVideoFileName(newFileNameHyper);
 		final FTPDataTransferListener ftpDataTransListenerHyper = new FTPDataTransferAdater(){
 			private long curentLength = 0;
+			private String sessionID = fileHypersessionID;
 			@Override
 			public void transferred(int transferedLength) {
 				curentLength = curentLength + transferedLength;
@@ -868,6 +894,10 @@ public class VideoClipController extends BaseController {
 		        int  n = (int) d;
 		        dialog.getResultProgressBar().setValue(n);
 		        dialog.getResultProgressBar().setString(MessageFormat.format(uiStrHyper, n));
+			}
+			@Override
+			public void completed() {
+				Vovo.exeC("sharefile", "removeFtpTransferStatus", sessionID);
 			}
 		};
 		
@@ -946,25 +976,25 @@ public class VideoClipController extends BaseController {
         				return new Object();
 					}
         		}
-        		Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
+        		Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailsessionID,thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
+        		synchronized (dialog.uploading) {
+        			if (dialog.uploading == false) {
+        				return new Object();
+        			}
+        		}
+        		Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHypersessionID,fileHyper,ftpDataTransListenerHyper,"/VideoClips",newFileNameHyper);
             	synchronized (dialog.uploading) {
             		if (dialog.uploading == false) {
         				return new Object();
 					}
         		}
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileHighsessionID,fileHigh,ftpDataTransferListener,"/VideoClips",newFileNameHigh);
             	synchronized (dialog.uploading) {
             		if (dialog.uploading == false) {
         				return new Object();
 					}
         		}
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", thumbailfile,thumbnailDataTransferListener,"/VideoClips","");
-            	synchronized (dialog.uploading) {
-            		if (dialog.uploading == false) {
-        				return new Object();
-					}
-        		}
-            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileStandard,ftpDataTransferListener1,"/VideoClips",newFileNameStandard);
+            	Vovo.exeC("sharefile", "upLoadFileToFtpServer", fileStandardsessionID,fileStandard,ftpDataTransferListener1,"/VideoClips",newFileNameStandard);
             	synchronized (dialog.uploading) {
             		if (dialog.uploading == false) {
         				return new Object();

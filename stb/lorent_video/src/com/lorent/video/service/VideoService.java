@@ -16,6 +16,7 @@ import com.lorent.video.MainActivity;
 import com.lorent.video.R;
 import com.lorent.video.bean.VideoInfo;
 import com.lorent.video.util.MeasureUtil;
+import com.lorent.video.util.MyXMLRPCClient;
 
 public class VideoService {
 
@@ -29,7 +30,7 @@ public class VideoService {
 	
 	public VideoService(MainActivity activity) {
 		this.activity = activity;
-		pageSize = Integer.parseInt(activity.getResources().getText(R.string.pageSize)+"");//MeasureUtil.getPageSize(activity);//Integer.parseInt(activity.getResources().getText(R.string.pageSize)+"");
+		pageSize = MeasureUtil.getPageSize(activity);//MeasureUtil.getPageSize(activity);//Integer.parseInt(activity.getResources().getText(R.string.pageSize)+"");
 		Log.i("pageSize", pageSize + "");
 	}
 
@@ -57,5 +58,39 @@ public class VideoService {
 //    	}
     	return list;
     }
+	
+	public List<LCMVideoClip> getVideoInfo(int currentPage,String category) throws Exception{
+//    	int startP = (currentPage-1) * pageSize;
+//    	int endP = currentPage * pageSize;
+    	List<LCMVideoClip> list = new ArrayList<LCMVideoClip>();
+    	client = new XMLRPCClient("http://"+activity.ip+":6090/lcm/lcmRpc");
+    	Object result = client.callEx("lcmVideo.getVideoClipList",new Object[]{(currentPage-1),pageSize,category});
+    	if(result!=null){
+    		Object[] lcmVideoClipbjects = (Object[]) result;
+    		if(lcmVideoClipbjects.length>0){
+    			for(int i=0;i<lcmVideoClipbjects.length;i++){
+    				Log.i("picture", ((LCMVideoClip)lcmVideoClipbjects[i]).getThumbnailUrl());
+    				list.add((LCMVideoClip)lcmVideoClipbjects[i]);
+    			}
+    		}
+    	}
+    	return list;
+    }
+	
+	public List<LCMVideoClip> getVideoInfo(MyXMLRPCClient client) throws Exception{
+		List<LCMVideoClip> list = new ArrayList<LCMVideoClip>();
+    	Object result = client.getResult();
+    	if(result!=null){
+    		Object[] lcmVideoClipbjects = (Object[]) result;
+    		if(lcmVideoClipbjects.length>0){
+    			for(int i=0;i<lcmVideoClipbjects.length;i++){
+    				Log.i("picture", ((LCMVideoClip)lcmVideoClipbjects[i]).getThumbnailUrl());
+    				list.add((LCMVideoClip)lcmVideoClipbjects[i]);
+    			}
+    		}
+    	}
+    	return list;
+	}
+	
 	
 }
