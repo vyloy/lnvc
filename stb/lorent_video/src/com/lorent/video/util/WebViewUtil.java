@@ -1,5 +1,8 @@
 package com.lorent.video.util;
 
+import com.lorent.video.InredisChromeClient;
+import com.lorent.video.WebVideoActivity;
+
 import android.graphics.Color;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.PluginState;
@@ -8,7 +11,7 @@ import android.webkit.WebViewClient;
 
 public class WebViewUtil {
 
-	public static void initWebView(WebView webView,WebViewClient webViewClient,String url){
+	public static void initWebView(WebView webView,WebViewClient webViewClient,WebChromeClient chromeClient,String url){
 		webView.setWebViewClient(webViewClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
@@ -16,6 +19,7 @@ public class WebViewUtil {
         webView.getSettings().setPluginState(PluginState.ON);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setAllowFileAccess(true);
+        webView.setWebChromeClient(chromeClient);
 //        webView.getSettings().setDefaultTextEncodingName("GBK");
         
         

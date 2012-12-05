@@ -44,9 +44,34 @@
              >
         </activity>
         <activity
+            android:name="com.lorent.video.MonitorActivity"
+            android:label="@string/monitor"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask" >
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+        <activity
+            android:name="com.lorent.video.MonitorShowActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape"
+            android:theme="@style/Transparent">
+            
+        </activity>
+        <activity
+            android:name="com.lorent.video.MonitorShowSZActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape"
+            android:theme="@style/Transparent">
+            
+        </activity>
+        <activity
             android:name="com.lorent.video.MainActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -56,7 +81,6 @@
             android:name="io.vov.vitamio.demo.VideoViewDemo"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            
              >
            
         </activity>

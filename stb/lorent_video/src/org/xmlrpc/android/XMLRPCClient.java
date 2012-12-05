@@ -84,7 +84,7 @@ public class XMLRPCClient extends XMLRPCCommon {
 	public XMLRPCClient(URI uri) {
 		postMethod = new HttpPost(uri);
 		postMethod.addHeader("Content-Type", "text/xml");
-		
+
 		// WARNING
 		// I had to disable "Expect: 100-Continue" header since I had 
 		// two second delay between sending http POST request and POST body 

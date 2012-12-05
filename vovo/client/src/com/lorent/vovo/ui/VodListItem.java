@@ -151,12 +151,12 @@ public class VodListItem extends javax.swing.JPanel {
 
 	private void videoTitleLabelMouseClicked(java.awt.event.MouseEvent evt) {
 		VovoVod.exeC("videoclip", "playVideoClip", getLcmVideoClip()
-				.getHttpVideoUrlHyper());
+				.getHttpVideoUrlHigh());
 	}
 
 	private void videoPictureXPanelMouseClicked(java.awt.event.MouseEvent evt) {
 		VovoVod.exeC("videoclip", "playVideoClip", getLcmVideoClip()
-				.getHttpVideoUrlHyper());
+				.getHttpVideoUrlHigh());
 	}
 
 	private void videoTitleLabelMouseExited(java.awt.event.MouseEvent evt) {

@@ -23,11 +23,62 @@ import com.lorent.vovo.util.VovoStringUtil;
  */
 public class UploadVideoClipDialog extends javax.swing.JDialog {
 
+	public Boolean uploading = false;
+	
+	public void setUIEnable(){
+		this.getTitleTextField().setEnabled(true);
+		this.getDescriptionTextArea().setEnabled(true);
+		this.getSelectFileHighButton().setEnabled(true);
+		this.getSelectFileStandardButton().setEnabled(true);
+		this.getUploadButton().setEnabled(true);
+		this.getSelectFileHyperButton().setEnabled(true);
+		this.getCategoryComboBox().setEnabled(true);
+	}
+	
+	public void setUIDisable(){
+		this.getTitleTextField().setEnabled(false);
+		this.getDescriptionTextArea().setEnabled(false);
+		this.getSelectFileHighButton().setEnabled(false);
+		this.getSelectFileStandardButton().setEnabled(false);
+		this.getUploadButton().setEnabled(false);
+		this.getSelectFileHyperButton().setEnabled(false);
+		this.getCategoryComboBox().setEnabled(false);
+	}
+	
 	private String thumbnailImageFilePath;
 	private String selectedHighVideoFilePath;
 	private String selectedStandardVideoFilePath;
+	private String selectedHyperVideoFilePath;
 	private String currentTime;
 	private String duration;
+
+	private String newHyperVideoFileName;
+	private String newHighVideoFileName;
+	private String newStandardVideoFileName;
+	
+	public String getNewHyperVideoFileName() {
+		return newHyperVideoFileName;
+	}
+
+	public void setNewHyperVideoFileName(String newHyperVideoFileName) {
+		this.newHyperVideoFileName = newHyperVideoFileName;
+	}
+
+	public String getNewHighVideoFileName() {
+		return newHighVideoFileName;
+	}
+
+	public void setNewHighVideoFileName(String newHighVideoFileName) {
+		this.newHighVideoFileName = newHighVideoFileName;
+	}
+
+	public String getNewStandardVideoFileName() {
+		return newStandardVideoFileName;
+	}
+
+	public void setNewStandardVideoFileName(String newStandardVideoFileName) {
+		this.newStandardVideoFileName = newStandardVideoFileName;
+	}
 
 	public String getDuration() {
 		return duration;
@@ -70,6 +121,14 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	public void setSelectedHighVideoFilePath(String selectedHighVideoFilePath) {
 		this.selectedHighVideoFilePath = selectedHighVideoFilePath;
+	}
+
+	public String getSelectedHyperVideoFilePath() {
+		return selectedHyperVideoFilePath;
+	}
+
+	public void setSelectedHyperVideoFilePath(String selectedHyperVideoFilePath) {
+		this.selectedHyperVideoFilePath = selectedHyperVideoFilePath;
 	}
 
 	public String getThumbnailImageFilePath() {
@@ -565,7 +624,8 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		this.dispose();
+		Vovo.exeC("videoclip", "cancelUpLoadVideoClip", this);
+//		this.dispose();
 	}
 
 	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -670,6 +730,10 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	public javax.swing.JLabel getDurationLabel() {
 		return durationLabel;
+	}
+
+	public javax.swing.JButton getCancelButton() {
+		return cancelButton;
 	}
 
 }

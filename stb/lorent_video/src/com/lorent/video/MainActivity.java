@@ -6,14 +6,20 @@ import io.vov.vitamio.activity.InitActivity;
 import io.vov.vitamio.demo.VideoViewDemo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,21 +31,32 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.lorent.common.dto.LCMVideoClip;
 import com.lorent.video.bean.VideoInfo;
 import com.lorent.video.service.VideoService;
 import com.lorent.video.util.AsyncImageLoader;
+import com.lorent.video.util.DBAdapterImpl;
+import com.lorent.video.util.ImageUtil;
+import com.lorent.video.util.MeasureUtil;
+import com.lorent.video.util.MyXMLRPCClient;
+import com.lorent.video.util.NetWorkUtil;
 import com.lorent.video.util.ShareAppUtil;
+import com.lorent.video.util.StringUtil;
 
 public class MainActivity extends Activity {
 
-	private GridView gridView;
+	public GridView gridView;
 	VideoInfoAdapter adapter;
 	private static final int DIALOG_PROGRESS = 0;
 	List<LCMVideoClip> datas;
@@ -49,30 +66,88 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	private DeviceType device = DeviceType.STB;
+	public final static DeviceType device = DeviceType.STB;
+	private String selectedType = "电影";
+	private LinearLayout setupLayout;
+	private LinearLayout movLayout;
+	private Map<String,LinearLayout> categoryMap = new HashMap<String,LinearLayout>();
+	private LinearLayout toolbar;
+	private int pageSize;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        int memorySize = activityManager.getMemoryClass();
+        Log.i("memory", ""+memorySize);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        RelativeLayout container = (RelativeLayout)findViewById(R.id.content);
+//        int cw = container.getWidth();
+//        int ch = container.getHeight();
+//        Log.i("container", cw + ":" + ch);
         Display display = getWindowManager().getDefaultDisplay();
-        videoService = new VideoService(this);
+        container.setBackgroundDrawable(new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight())));
+        setupLayout = (LinearLayout)findViewById(R.id.setupLayout);
+        getSeverInfoPreferences();
+//        videoService = new VideoService(this);
+        videoService = new VideoService();
         if(this.findViewById(R.id.gridview) instanceof GridView){
         	gridView = (GridView)this.findViewById(R.id.gridview);
         }
+        new Thread(){
+        	public void run(){
+        		NetWorkUtil.setSessionId(ip);
+        	}
+        }.start();
+        
+        //设置频道分类
+        movLayout = (LinearLayout)findViewById(R.id.movLayout);
+        movLayout.setFocusable(false);
+        movLayout.setClickable(false);
+        movLayout.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
+        selectedType = (String)movLayout.getTag();
+        categoryMap.put(selectedType,movLayout);
+        LinearLayout tvLayout = (LinearLayout)findViewById(R.id.tvLayout);
+        categoryMap.put((String)tvLayout.getTag(),tvLayout);
+        LinearLayout newsLayout = (LinearLayout)findViewById(R.id.newsLayout);
+        categoryMap.put((String)newsLayout.getTag(),newsLayout);
+        LinearLayout gameLayout = (LinearLayout)findViewById(R.id.gameLayout);
+        categoryMap.put((String)gameLayout.getTag(),gameLayout);
+        LinearLayout dongmLayout = (LinearLayout)findViewById(R.id.dongmLayout);
+        categoryMap.put((String)dongmLayout.getTag(),dongmLayout);
+        LinearLayout otherLayout = (LinearLayout)findViewById(R.id.otherLayout);
+        categoryMap.put((String)otherLayout.getTag(),otherLayout);
+        
+        toolbar = (LinearLayout)findViewById(R.id.toolbar);
         mProgressDialog = new ProgressDialog(MainActivity.this);  
         mProgressDialog.setMessage("正在获取数据");  
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
         datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
+        DBAdapterImpl.init(this);
+        pageSize = MeasureUtil.getPageSize(MainActivity.this);
         new LoadInfoThread().start();
 //        show();
         
     }
     
+    private boolean initialFlag = false;
+    @Override
+	public void onWindowFocusChanged(boolean hasFocus){
+    	if(hasFocus && !initialFlag){
+			initialFlag = true;
+//			new LoadInfoThread().start();
+    	}
+    }
+    
     private void show(){
     	if(adapter==null){
-    		adapter = new VideoInfoAdapter(this,datas,R.layout.video_item,gridView);
+    		if(device==DeviceType.PHONE){
+    			adapter = new VideoInfoAdapter(this,datas,R.layout.video_item_phone,gridView);
+    		}else{
+    			adapter = new VideoInfoAdapter(this,datas,R.layout.video_item,gridView);
+    		}
         	gridView.setAdapter(adapter);
     	}
     }
@@ -87,7 +162,9 @@ public class MainActivity extends Activity {
     	public void run(){
     		List<LCMVideoClip> result;
 			try {
-				result = videoService.getVideoInfo(currentPage);
+//				result = videoService.getVideoInfo(currentPage);
+				MyXMLRPCClient client = new MyXMLRPCClient(ip,currentPage,pageSize,selectedType);
+				result = videoService.getVideoInfo(client);
 				mProgressDialog.dismiss();
 	    		datasHandler.sendMessage(datasHandler.obtainMessage(100, result));
 			} catch (Exception e) {
@@ -113,7 +190,7 @@ public class MainActivity extends Activity {
         		Toast errorToast = Toast.makeText(MainActivity.this, R.string.connect_server_timeout, 3000);
         		errorToast.setGravity(Gravity.CENTER,0,0);
         		errorToast.show();
-        		finish();
+//        		finish();
         		break;
         	case 100:
 	        	List<LCMVideoClip> result = (List<LCMVideoClip>)message.obj;
@@ -137,10 +214,9 @@ public class MainActivity extends Activity {
 		        		adapter.notifyDataSetChanged();//通知ui界面更新  
 		        	}
 	    		}
-	        	loadDataFinish = true;
 	        	break;
         	}
-        	
+        	loadDataFinish = true;
         }  
     };  
       
@@ -195,14 +271,15 @@ public class MainActivity extends Activity {
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
 			if(device==DeviceType.PHONE){
 				//手机播放视频
+				Log.i("videoUrlp", StringUtil.encodeUrl(item.getHttpVideoUrlStandard()));
 				Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 				intent.putExtra("fileName", item.getTitle());
-				intent.putExtra("videoUrl", item.getHttpVideoUrlStandard());
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlStandard()));
 				startActivity(intent);
 			}else if(device==DeviceType.STB){
 				//机顶盒播放视频
 				Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
-				intent.putExtra("videoUrl", item.getHttpVideoUrlHigh());
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlHigh()));
 //				intent.putExtra("videoUrl", "http://10.168.250.12:8800/");
 				intent.putExtra("fileName", item.getTitle());
 				startActivity(intent);
@@ -221,8 +298,10 @@ public class MainActivity extends Activity {
 //				startActivity(it);
 				
 				Intent intent = new Intent(MainActivity.this,HTML5Activity.class);
-				intent.putExtra("videoUrl", item.getHttpVideoUrlHyper());
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlHyper()));
 				intent.putExtra("fileName", item.getTitle());
+				intent.putExtra("ip", MainActivity.this.ip);
+				intent.putExtra("port", MainActivity.this.port);
 				startActivity(intent);
 			}
 		}
@@ -245,7 +324,7 @@ public class MainActivity extends Activity {
     	}else{
     		loadDataFinish = false;
     	}
-    	if(v.getId()==R.id.previousbutton){
+    	if(v.getId()==R.id.previousLayout){
     		currentPage--;
     	}else{
     		currentPage++;
@@ -261,6 +340,14 @@ public class MainActivity extends Activity {
     	Log.i("keyvalue", event.getKeyCode()+"");
     	int nextPageKey = Integer.parseInt(this.getResources().getString(R.string.NEXT_PAGE_KEY));
     	int prePageKey = Integer.parseInt(this.getResources().getString(R.string.PREVIOUS_PAGE_KEY));
+    	if(device==DeviceType.CLOUDTV){
+    		nextPageKey = 167;
+    		prePageKey = 166;
+    	}
+    	if(event.getKeyCode()== KeyEvent.KEYCODE_1){
+    		setupLayout.requestFocus();
+    		return true;
+    	}
     	if(event.getAction()==KeyEvent.ACTION_UP && (event.getKeyCode()==nextPageKey||event.getKeyCode()==prePageKey)){
     		if(!loadDataFinish){
     			return super.dispatchKeyEvent(event);
@@ -277,29 +364,138 @@ public class MainActivity extends Activity {
     	return super.dispatchKeyEvent(event);
     }
     
-    private enum DeviceType{
+    static public enum DeviceType{
     	PHONE,
     	STB,
     	CLOUDTV
     }
     
     AlertDialog.Builder builder;  
-    AlertDialog alertDialog; 
+    AlertDialog alertDialog;
+    public String ip = null;
+    public String port = null;
+    EditText ipComponent;
+    EditText portComponent;
+    
     public void openSetupDialog(View v){
     	LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);  
         View layout = inflater.inflate(R.layout.setup_dialog,null);  
-        EditText ipComponent = (EditText)layout.findViewById(R.id.serverip);
-        EditText portComponent = (EditText)layout.findViewById(R.id.serverport);
-        String ip = ipComponent.getText().toString();
-        String portComponet = portComponent.getText().toString();
+        ipComponent = (EditText)layout.findViewById(R.id.serverip);
+        portComponent = (EditText)layout.findViewById(R.id.serverport);
+        ipComponent.setText(ip);
+        portComponent.setText(port);
         builder = new AlertDialog.Builder(this);
         builder.setTitle("设置");
-        builder.setView(layout);  
-        alertDialog = builder.create();  
-        alertDialog.show();  
+        builder.setView(layout);
+        
+        alertDialog = builder.create();
+        alertDialog.show(); 
+       /* WindowManager m = getWindowManager(); 
+        Display d = m.getDefaultDisplay(); //为获取屏幕宽、高 
+
+        WindowManager.LayoutParams p = getWindow().getAttributes(); 
+        //获取对话框当前的参数值 
+        p.x = 0; //设置位置 默认为居中
+        p.y = 0; //设置位置 默认为居中
+        p.height = LayoutParams.WRAP_CONTENT; //高度设置为屏幕的0.6 
+        p.width = (int) (d.getWidth() * 0.4); //宽度设置为屏幕的0.4 
+        alertDialog.getWindow().setAttributes((android.view.WindowManager.LayoutParams) p);*/
+//        alertDialog.getWindow().setLayout(Integer.parseInt(this.getResources().getString(R.string.setupdialog_width)), Integer.parseInt(this.getResources().getString(R.string.setupdialog_height)));
+//        alertDialog.getWindow().setAttributes(p);
+         
+    }
+    
+    private void clearVideoList(){
+    	if(datas!=null){
+			datas.clear();
+		}
+		if(adapter!=null){
+			adapter.notifyDataSetChanged();
+		}
     }
     
     public void saveServerInfo(View v){
-    	
+    	if(v.getId()==R.id.setupOkBtn){
+    		alertDialog.dismiss();
+    		if(!(ip.equals(ipComponent.getText().toString().trim()))){
+    			clearVideoList();
+	    		final String oldIp = new String(ip);
+	    		new Thread(){
+	    			public void run(){
+	    				NetWorkUtil.clearSessionId(oldIp);
+	    			}
+	    		}.start();
+	    		ip = ipComponent.getText().toString();
+	            port = portComponent.getText().toString();
+	            setSeverInfoPreferences(ip,port);
+	            currentPage = 1;
+	            new Thread(){
+	    			public void run(){
+	    				NetWorkUtil.setSessionId(ip);
+	    			}
+	    		}.start();
+	            new LoadInfoThread().start();
+    		}
+    	}else{
+    		alertDialog.dismiss();
+    	}
     }
+    
+    public static final String PREFS_NAME = "PreferencesFile";
+    private void setSeverInfoPreferences(String ip,String port){
+        // set preference
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString("preferences", mPreferences);
+        editor.putString("serverip", ip);
+        editor.putString("serverport", port);
+        editor.commit();
+    }
+    
+    private void getSeverInfoPreferences() {
+        
+        // get preference
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        ip = settings.getString("serverip", "10.168.250.12");
+        port = settings.getString("serverport", "8800");
+    }
+
+	
+
+	@Override
+	protected void onDestroy() {
+		Log.i("livemethod", "onDestroy:"+ip);
+		AsyncImageLoader.clearCache();
+		VideoInfoAdapter.clearCacheView();
+		new Thread(){
+			public void run(){
+				NetWorkUtil.clearSessionId(ip);
+			}
+		}.start();
+		super.onDestroy();
+	}
+    
+    public void startMonitorActivity(View v){
+    	Intent intent = new Intent(MainActivity.this,MonitorActivity.class);
+//    	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+    }
+    
+    public void getVideoList(View v){
+    	if(!v.getTag().equals(selectedType)){
+    		clearVideoList();
+    		LinearLayout preSelectedLayout = categoryMap.get(selectedType);
+    		preSelectedLayout.setClickable(true);
+    		preSelectedLayout.setFocusable(true);
+    		preSelectedLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.category_layout_bg));
+    		selectedType = (String)v.getTag();
+    		v.setClickable(false);
+    		v.setFocusable(false);
+    		v.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
+    		currentPage = 1;
+    		new LoadInfoThread().start();
+    		toolbar.requestFocus();
+    	}
+    }
+	
 }

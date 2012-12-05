@@ -1,4 +1,16 @@
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Light" />
+    <style name="setup_dialog">  
+        <item name="android:layout_width">fill_parent</item> 
+    </style>
+    <style name="categoryTextSize">  
+        <item name="android:textSize">10dp</item>
+    </style>
+    <style name="Transparent">  
+    <item name="android:windowBackground">@color/transparent_background</item>  
+    <item name="android:windowNoTitle">true</item>  
+    <item name="android:windowIsTranslucent">true</item>    
+    <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>  
+  </style>  
 </resources>

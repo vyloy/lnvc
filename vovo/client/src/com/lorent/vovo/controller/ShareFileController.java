@@ -43,6 +43,8 @@ public class ShareFileController extends BaseController {
 	
 	private static Map<String, FTPClient> ftpClientsMap = new HashMap<String, FTPClient>();
 	
+	private static Map<String, FTPClient> transferFtpClientsMap = new HashMap<String, FTPClient>();
+	
 	private String ftpAddr = "";
 	private int ftpPort;
 //	private String ftpGroupChatPath = "GroupChatFilePath";
@@ -552,57 +554,121 @@ public class ShareFileController extends BaseController {
 		ftpClient.abortCurrentDataTransfer(true);
 	}
 	
-	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
-		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
-		if (!ftpClient.isConnected() ) {
-			ftpClient.setAutoNoopTimeout(3000);
-			ftpClient.connect(ftpAddr, ftpPort);
-		}
-		if (!ftpClient.isAuthenticated()) {
-			ftpClient.login(ftpUser, ftpPsw);
-		}
-		ftpClient.changeDirectory(targetDirectory);
-		if (fileName != null && !fileName.equals("")) {
-			ftpClient.deleteFile(fileName);
-		}
-		ftpClient.logout();
+	public void removeFtpTransferStatus(String sessionID) throws Exception{
+		transferFtpClientsMap.remove(sessionID);
 	}
 	
-	public void upLoadFileToFtpServer(File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
-		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+	public void stopTransferAtFtpServer(String dialogSessionID) throws Exception{
+		FTPClient ftpClientHigh = transferFtpClientsMap.get(dialogSessionID+"_fileHigh");
+		FTPClient ftpClientStandard = transferFtpClientsMap.get(dialogSessionID+"_fileStandard");
+		FTPClient ftpClientHyper = transferFtpClientsMap.get(dialogSessionID+"_fileHyper");
+		FTPClient ftpClientThumbail = transferFtpClientsMap.get(dialogSessionID+"_thumbail");
+		try {
+			if (ftpClientHigh != null) {
+				ftpClientHigh.abortCurrentDataTransfer(false);
+			}
+		} catch (Exception e) {
+			log.error("stopTransferAtFtpServer", e);
+		}
+		try {
+			if (ftpClientStandard != null) {
+				ftpClientStandard.abortCurrentDataTransfer(false);
+			}
+		} catch (Exception e) {
+			log.error("stopTransferAtFtpServer", e);
+		}
+		try {
+			if (ftpClientHyper != null) {
+				ftpClientHyper.abortCurrentDataTransfer(false);
+			}
+		} catch (Exception e) {
+			log.error("stopTransferAtFtpServer", e);
+		}
+		try {
+			if (ftpClientThumbail != null) {
+				ftpClientThumbail.abortCurrentDataTransfer(false);
+			}
+		} catch (Exception e) {
+			log.error("stopTransferAtFtpServer", e);
+		}
+		transferFtpClientsMap.remove(dialogSessionID+"_fileHigh");
+		transferFtpClientsMap.remove(dialogSessionID+"_fileStandard");
+		transferFtpClientsMap.remove(dialogSessionID+"_fileHyper");
+		transferFtpClientsMap.remove(dialogSessionID+"_thumbail");
+	}
+	
+	public void deleteFileAtFtpServer(String targetDirectory,String fileName) throws Exception{
+		FTPClient ftpClient = new FTPClient();//getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		/*
+		try {
+			ftpClient.logout();
+			ftpClient.disconnect(true);
+		} catch (Exception e) {
+			log.error("deleteFileAtFtpServer", e);
+		}
+		*/
+		if (!ftpClient.isConnected()) {
+			ftpClient.connect(ftpAddr, ftpPort);
+			ftpClient.login(ftpUser, ftpPsw);
+		}
+		if (ftpClient.isConnected()) {
+			try {
+				ftpClient.changeDirectory(targetDirectory);
+				if (fileName != null && !fileName.equals("")) {
+					ftpClient.deleteFile(fileName);
+				}
+			} catch (Exception e) {
+				log.error("deleteFileAtFtpServer",e);
+			}
+		}
+	}
+	
+	public void upLoadFileToFtpServer(String sessionID,File file,FTPDataTransferListener listener,String targetDirectory,String newFileName) throws Exception{
+		FTPClient ftpClient = new FTPClient();//getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		transferFtpClientsMap.put(sessionID, ftpClient);
 		if (!ftpClient.isConnected()) {
 			ftpClient.setAutoNoopTimeout(3000);
 			ftpClient.connect(ftpAddr, ftpPort);
-		}
-		if (!ftpClient.isAuthenticated()) {
 			ftpClient.login(ftpUser, ftpPsw);
 		}
-		ftpClient.changeDirectory(targetDirectory);
-		ftpClient.upload(file,listener);
-		if (newFileName != null && !newFileName.equals("")) {
-			ftpClient.rename(file.getName(), newFileName);
+		if (ftpClient.isConnected()) {
+			try {
+				ftpClient.setType(FTPClient.TYPE_BINARY);
+				ftpClient.changeDirectory(targetDirectory);
+				ftpClient.upload(file,listener);
+				if (newFileName != null && !newFileName.equals("")) {
+					ftpClient.rename(file.getName(), newFileName);
+				}
+			} catch (Exception e) {
+				log.error("upLoadFileToFtpServer", e);
+			}
 		}
-		ftpClient.logout();
 	}
 	
 	public boolean checkFileExistInFtpServer(String targetDirectory,String filename) throws Exception{
-		FTPClient ftpClient = getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
-		if (!ftpClient.isConnected()) {
-			ftpClient.setAutoNoopTimeout(3000);
-			ftpClient.connect(ftpAddr, ftpPort);
+		FTPClient ftpClient = new FTPClient();//getFtpClient(Constants.TEMPFTPCLIENTSESSIONID);
+		/*
+		try {
+			ftpClient.logout();
+			ftpClient.disconnect(true);
+		} catch (Exception e) {
+			log.error("checkFileExistInFtpServer", e);
 		}
-		if (!ftpClient.isAuthenticated()) {
+		*/
+		if (!ftpClient.isConnected()) {
+//			ftpClient.setAutoNoopTimeout(30000);
+			ftpClient.connect(ftpAddr, ftpPort);
 			ftpClient.login(ftpUser, ftpPsw);
 		}
-		ftpClient.changeDirectory(targetDirectory);
-		String[] listNames = ftpClient.listNames();
-		for (String name : listNames) {
-			if (name.equals(filename)) {
-				ftpClient.logout();
-				return true;
+		if (ftpClient.isConnected()) {
+			ftpClient.changeDirectory(targetDirectory);
+			String[] listNames = ftpClient.listNames();
+			for (String name : listNames) {
+				if (name.equals(filename)) {
+					return true;
+				}
 			}
 		}
-		ftpClient.logout();
 		return false;
 	}
 	

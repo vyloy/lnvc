@@ -26,7 +26,7 @@ import com.lorent.vovo.ui.MessageFrame;
 import com.lorent.vovo.ui.PhoneFrame;
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
-import com.lorent.vovo.util.MyPlayer;
+import com.lorent.common.util.MyPlayer;
 import com.lorent.vovo.util.CallHistory;
 import com.lorent.vovo.util.CallHistory.CallHistoryItem;
 import com.lorent.vovo.util.CallHistory.CallInfo;

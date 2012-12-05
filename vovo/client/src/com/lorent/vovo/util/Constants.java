@@ -139,7 +139,8 @@ public interface Constants {
     public enum VideoDefinition{
     	High,
     	Standard,
-    	Hyper
+    	Hyper,
+    	Other
     }
     
     public final String SUPPER_USER = "admin";
@@ -191,6 +192,8 @@ public interface Constants {
     
     //传输文件超过指定时间就取消传输
     int SEND_FILE_TIMEOUT = 10 * (60 * 1000);
+    
+    final static long MAXVIDEOFILESIZE = 2110000000l;
     
     final static String TEMPFTPCLIENTSESSIONID = "TempFtpClientSessionID";
     

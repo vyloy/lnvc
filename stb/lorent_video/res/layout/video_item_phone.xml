@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/ItemImage"
+        android:src="@drawable/video_no_pic"
+        style="@style/video_item_ImageView"
+         >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/ItemText"
+        android:lines="3"
+        android:textColor="@color/white"
+        style="@style/video_item_TextView"
+         />
+
+</LinearLayout>

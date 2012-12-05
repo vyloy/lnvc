@@ -18,6 +18,7 @@ public class DialogUtil {
 	
 	public static void dismissDialog(Dialog dialog){
 		if(dialog!=null && dialog.isShowing()){
+			dialog.hide();
 			dialog.dismiss();
 		}
 	}

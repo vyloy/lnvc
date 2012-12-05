@@ -32,10 +32,8 @@ import android.widget.LinearLayout;
 
 public class VideoViewDemo extends Activity {
 
-	private String path = "rtsp://10.168.250.12:554/z.mp4";//"http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8";
 	private VideoView mVideoView;
-	private Display currentDisplay = null;
-	
+	private io.vov.vitamio.widget.VideoView.ActivitySizeType type = io.vov.vitamio.widget.VideoView.ActivitySizeType.VIDEO;
 
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -43,16 +41,37 @@ public class VideoViewDemo extends Activity {
 		if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
 			return;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.videoview);
+		
 		Intent intent = this.getIntent();
 		String videoUrl = intent.getExtras().getString("videoUrl");
 		String title = intent.getExtras().getString("fileName");
 		Log.i("videoUrl", videoUrl);
-		currentDisplay = getWindowManager().getDefaultDisplay();
+		Log.i("title", title+"");
+//		currentDisplay = getWindowManager().getDefaultDisplay();
+//		mVideoView = (VideoView) findViewById(R.id.surface_view);
+//		mVideoView.setTitle(title);
+//		mVideoView.setCurrentDisplay(currentDisplay);
+//		mVideoView.setVideoPath(videoUrl);
+//		mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+//		mVideoView.setMediaController(new MediaController(this));
+//		mVideoView.setOnCompletionListener(new OnCompletionListener(){
+//			@Override
+//			public void onCompletion(MediaPlayer arg0) {
+//				finish();
+//			}
+//			
+//		});
+		init(videoUrl,title);
+	}
+	
+	public void init(String videoUrl,String title){
+		setContentView(R.layout.videoview);
+//		Display currentDisplay = getWindowManager().getDefaultDisplay();
 //		LinearLayout layout = (LinearLayout)findViewById(R.id.LinearLayout1);
 		mVideoView = (VideoView) findViewById(R.id.surface_view);
+		mVideoView.setActivitySizeType(getActivitySizeType());
 		mVideoView.setTitle(title);
-		mVideoView.setCurrentDisplay(currentDisplay);
+//		mVideoView.setCurrentDisplay(currentDisplay);
 		mVideoView.setVideoPath(videoUrl);
 		mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
 		mVideoView.setMediaController(new MediaController(this));
@@ -63,6 +82,10 @@ public class VideoViewDemo extends Activity {
 			}
 			
 		});
+	}
+	
+	public io.vov.vitamio.widget.VideoView.ActivitySizeType getActivitySizeType(){
+		return io.vov.vitamio.widget.VideoView.ActivitySizeType.VIDEO;
 	}
 
 	@Override

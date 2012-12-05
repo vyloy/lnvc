@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.lorent.video.R;
   
 import android.R.drawable;  
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;  
 import android.graphics.BitmapFactory;  
@@ -21,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Handler;  
 import android.os.Message;  
 import android.util.Log;  
-import android.widget.ImageView;  
   
 public class AsyncImageLoader {  
   
@@ -43,7 +43,7 @@ public class AsyncImageLoader {
     	 }
      }
      
-     public AsyncImageLoader(Context context) {  
+     public AsyncImageLoader(Context context) {
          imageCache = new ConcurrentHashMap<String, SoftReference<Drawable>>();
          recordIdThreads = new ConcurrentHashMap<Integer,Object>();
          this.context = context;
@@ -157,12 +157,16 @@ public class AsyncImageLoader {
             Drawable d = null;
             try {
             	Log.e("loading", url);
-                m = new URL(url);  
+//            	int sidx = url.lastIndexOf("/");
+//            	int eidx = url.lastIndexOf(".");
+//            	String picName = url.substring(sidx + "/".length(),eidx);
+//            	String encodeName = java.net.URLEncoder.encode(picName,"utf-8");
+//            	String encodeUrl = url.replaceFirst(picName, encodeName);
+                m = new URL(StringUtil.encodeUrl(url));  
                 i = (InputStream) m.getContent();
                 d = Drawable.createFromStream(i, "src");
             } catch (Exception e) {
-            	Log.e("loadimage", e.getMessage());
-                e.printStackTrace(); 
+            	e.printStackTrace(); 
             }finally{
             	try {
             		if(i!=null){

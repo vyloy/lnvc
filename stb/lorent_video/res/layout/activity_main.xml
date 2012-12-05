@@ -3,62 +3,257 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lvd1610_monitor_back"
     android:gravity="center" >
 
     <GridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:layout_above="@+id/toolbar"
-        android:horizontalSpacing="10dp"
-        android:columnWidth="70dp"
         android:numColumns="auto_fit"
-        android:scrollbarSize="30dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" 
         android:gravity="center"
+        style="@style/activity_main_GridView"
         />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom|center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/previousbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:onClick="loadData"
-            android:text="@string/previouspage" />
-
-        <Button
-            android:id="@+id/nextbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:onClick="loadData"
-            android:text="@string/nextpage"
-             />
+        android:orientation="horizontal" 
+        android:gravity="top|center"
+        android:background="@color/black"
+        style="@style/activity_main_toolbar"
+        >
         
-        <!-- <Button
-            android:id="@+id/setupbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="0dip"
-            android:onClick="openSetupDialog"
-            android:background="@drawable/setup_button" /> -->
-
+        <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/movLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/movie"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/mov"
+            	android:id="@+id/movImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/movTextV"
+            	android:text="@string/movie"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+        <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/tvLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/tvset"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/tv"
+            	android:id="@+id/tvImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/tvTextV"
+            	android:text="@string/tvset"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/newsLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/news"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/news"
+            	android:id="@+id/newsImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/newsTextV"
+            	android:text="@string/news"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/gameLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/game"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/game"
+            	android:id="@+id/gameImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/gameTextV"
+            	android:text="@string/game"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/dongmLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/dongm"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/dongm"
+            	android:id="@+id/dongmImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/dongmTextV"
+            	android:text="@string/dongm"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/otherLayout"
+        	android:onClick="getVideoList"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/other"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/other"
+            	android:id="@+id/otherImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/otherTextV"
+            	android:text="@string/other"
+            	android:textColor="@color/category_text_color"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+          
+         
+         
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/monitorOptionLayout"
+        	android:onClick="startMonitorActivity"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/monitor"
+            	android:id="@+id/monitorImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/monitorTextV"
+            	android:text="@string/monitor"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/setupLayout"
+        	android:onClick="openSetupDialog"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/setup"
+            	android:id="@+id/setupImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/setupTextV"
+            	android:text="@string/setup_text"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/previousLayout"
+        	android:onClick="loadData"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/prv"
+            	android:id="@+id/previousImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/previousTextV"
+            	android:text="@string/previouspage"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>
+         <LinearLayout
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:id="@+id/nextLayout"
+        	android:onClick="loadData"
+        	android:background="@drawable/category_layout_bg"
+        	style="@style/activity_main_toolbar_LinearLayout"
+            >
+            <ImageView
+            	android:gravity="top|center"
+            	android:src="@drawable/next"
+            	android:id="@+id/nextImageV"
+            	style="@style/activity_main_toolbar_LinearLayout_ImageView"
+                />
+            <TextView
+            	android:gravity="top|center"
+            	android:id="@+id/nextTextV"
+            	android:text="@string/nextpage"
+            	style="@style/activity_main_toolbar_LinearLayout_TextView"
+                />
+         </LinearLayout>  
+		
     </LinearLayout>
    
 </RelativeLayout>

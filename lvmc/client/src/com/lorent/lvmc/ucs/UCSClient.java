@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
+import com.lorent.common.util.MyPlayer;
+
 public class UCSClient {
 	
 	private static XmlRpcClient client;
@@ -61,21 +63,25 @@ public class UCSClient {
 		log.info("sendIncoming : username = " + username);
 		Start.calling = username;
 		sendCommand("ucscb.incoming", username);
+		MyPlayer.play(MyPlayer.TYPE_RING_IN);
 	}
 	
 	public static void sendConnected(String username){
 		log.info("sendConnected : username = " + username);
 		sendCommand("ucscb.connected", username);
+		MyPlayer.stop();
 	}
 	
 	public static void sendHangup(String username){
 		log.info("sendHangup : username = " + username);
 		sendCommand("ucscb.hangup", username);
+		MyPlayer.stop();
 	}
 	
 	public static void sendOtherHangup(String username){
 		log.info("sendOtherHangup : username = " + username);
 		sendCommand("ucscb.peerhangup", username);
+		MyPlayer.stop();
 	}
 	
 	public static void sendDataMessage(String msg, String username, int type, int status){
@@ -86,10 +92,12 @@ public class UCSClient {
 	public static void sendOutgoing(String username){
 		log.info("sendOutgoing username = " + username);
 		sendCommand("ucscb.outgoing", username);
+		MyPlayer.play(MyPlayer.TYPE_RING_OUT);
 	}
 	
 	public static void sendCallError(String username){
 		log.info("sendCallError username = " + username);
 		sendCommand("ucscb.callerror", username);
+		MyPlayer.play(MyPlayer.TYPE_CALL_ERROR);
 	}
 }

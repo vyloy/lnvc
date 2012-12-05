@@ -1,0 +1,64 @@
+<resources>
+	<style name="monitor_main_monitortoolbar">  
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">fill_parent</item>
+    </style>
+    <style name="monitor_main_monitortoolbar_LinearLayout">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">65dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <style name="monitor_main_monitortoolbar_LinearLayout_ImageView">  
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">35dp</item>
+    </style>
+    <style name="monitor_main_monitortoolbar_LinearLayout_TextView">  
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/category_text_color</item>
+    </style>
+    <style name="monitor_item" >
+        <item name="android:layout_height">60dp</item>
+    </style>
+    <style name="monitor_item_ImageView" parent="monitor_item">
+        <item name="android:layout_width">60dp</item>
+    </style>
+    <style name="monitor_item_TextView">  
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="monitor_item_Button">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="monitor_loading">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+    </style>
+    <style name="monitor_loading_ProgressBar">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <style name="monitor_loading_TextView">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <style name="addmonitor_dialog_TextView">  
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="monitorshow_dialog_CenterLayout">  
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">160dp</item>
+    </style>
+    <style name="monitorshow_dialog_TextView">  
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+</resources>
