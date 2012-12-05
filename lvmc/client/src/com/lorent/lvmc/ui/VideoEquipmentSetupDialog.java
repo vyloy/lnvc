@@ -37,7 +37,6 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 					.toString(), 0) == camera.getIndex()) {
 				this.CameraComboBox.setSelectedItem(camera);
 			}
-			break;
 		}
 		this.jPanel4.setVisible(false);
 		this.jPanel5.setVisible(false);
