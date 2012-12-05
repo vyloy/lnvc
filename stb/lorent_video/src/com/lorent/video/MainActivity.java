@@ -6,7 +6,9 @@ import io.vov.vitamio.activity.InitActivity;
 import io.vov.vitamio.demo.VideoViewDemo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -46,6 +48,8 @@ import com.lorent.video.service.VideoService;
 import com.lorent.video.util.AsyncImageLoader;
 import com.lorent.video.util.DBAdapterImpl;
 import com.lorent.video.util.ImageUtil;
+import com.lorent.video.util.MeasureUtil;
+import com.lorent.video.util.MyXMLRPCClient;
 import com.lorent.video.util.NetWorkUtil;
 import com.lorent.video.util.ShareAppUtil;
 import com.lorent.video.util.StringUtil;
@@ -62,9 +66,13 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	private DeviceType device = DeviceType.STB;
+	public final static DeviceType device = DeviceType.STB;
 	private String selectedType = "电影";
 	private LinearLayout setupLayout;
+	private LinearLayout movLayout;
+	private Map<String,LinearLayout> categoryMap = new HashMap<String,LinearLayout>();
+	private LinearLayout toolbar;
+	private int pageSize;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,8 @@ public class MainActivity extends Activity {
         container.setBackgroundDrawable(new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight())));
         setupLayout = (LinearLayout)findViewById(R.id.setupLayout);
         getSeverInfoPreferences();
-        videoService = new VideoService(this);
+//        videoService = new VideoService(this);
+        videoService = new VideoService();
         if(this.findViewById(R.id.gridview) instanceof GridView){
         	gridView = (GridView)this.findViewById(R.id.gridview);
         }
@@ -91,15 +100,45 @@ public class MainActivity extends Activity {
         		NetWorkUtil.setSessionId(ip);
         	}
         }.start();
+        
+        //设置频道分类
+        movLayout = (LinearLayout)findViewById(R.id.movLayout);
+        movLayout.setFocusable(false);
+        movLayout.setClickable(false);
+        movLayout.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
+        selectedType = (String)movLayout.getTag();
+        categoryMap.put(selectedType,movLayout);
+        LinearLayout tvLayout = (LinearLayout)findViewById(R.id.tvLayout);
+        categoryMap.put((String)tvLayout.getTag(),tvLayout);
+        LinearLayout newsLayout = (LinearLayout)findViewById(R.id.newsLayout);
+        categoryMap.put((String)newsLayout.getTag(),newsLayout);
+        LinearLayout gameLayout = (LinearLayout)findViewById(R.id.gameLayout);
+        categoryMap.put((String)gameLayout.getTag(),gameLayout);
+        LinearLayout dongmLayout = (LinearLayout)findViewById(R.id.dongmLayout);
+        categoryMap.put((String)dongmLayout.getTag(),dongmLayout);
+        LinearLayout otherLayout = (LinearLayout)findViewById(R.id.otherLayout);
+        categoryMap.put((String)otherLayout.getTag(),otherLayout);
+        
+        toolbar = (LinearLayout)findViewById(R.id.toolbar);
         mProgressDialog = new ProgressDialog(MainActivity.this);  
         mProgressDialog.setMessage("正在获取数据");  
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); 
         datas = new ArrayList<LCMVideoClip>();
         gridView.setOnItemClickListener(new GridViewClickListener());
         DBAdapterImpl.init(this);
+        pageSize = MeasureUtil.getPageSize(MainActivity.this);
         new LoadInfoThread().start();
 //        show();
         
+    }
+    
+    private boolean initialFlag = false;
+    @Override
+	public void onWindowFocusChanged(boolean hasFocus){
+    	if(hasFocus && !initialFlag){
+			initialFlag = true;
+//			new LoadInfoThread().start();
+    	}
     }
     
     private void show(){
@@ -123,7 +162,9 @@ public class MainActivity extends Activity {
     	public void run(){
     		List<LCMVideoClip> result;
 			try {
-				result = videoService.getVideoInfo(currentPage);
+//				result = videoService.getVideoInfo(currentPage);
+				MyXMLRPCClient client = new MyXMLRPCClient(ip,currentPage,pageSize,selectedType);
+				result = videoService.getVideoInfo(client);
 				mProgressDialog.dismiss();
 	    		datasHandler.sendMessage(datasHandler.obtainMessage(100, result));
 			} catch (Exception e) {
@@ -323,7 +364,7 @@ public class MainActivity extends Activity {
     	return super.dispatchKeyEvent(event);
     }
     
-    private enum DeviceType{
+    static public enum DeviceType{
     	PHONE,
     	STB,
     	CLOUDTV
@@ -364,16 +405,20 @@ public class MainActivity extends Activity {
          
     }
     
+    private void clearVideoList(){
+    	if(datas!=null){
+			datas.clear();
+		}
+		if(adapter!=null){
+			adapter.notifyDataSetChanged();
+		}
+    }
+    
     public void saveServerInfo(View v){
     	if(v.getId()==R.id.setupOkBtn){
     		alertDialog.dismiss();
     		if(!(ip.equals(ipComponent.getText().toString().trim()))){
-    			if(datas!=null){
-    				datas.clear();
-    			}
-    			if(adapter!=null){
-    				adapter.notifyDataSetChanged();
-    			}
+    			clearVideoList();
 	    		final String oldIp = new String(ip);
 	    		new Thread(){
 	    			public void run(){
@@ -434,6 +479,23 @@ public class MainActivity extends Activity {
     	Intent intent = new Intent(MainActivity.this,MonitorActivity.class);
 //    	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
+    }
+    
+    public void getVideoList(View v){
+    	if(!v.getTag().equals(selectedType)){
+    		clearVideoList();
+    		LinearLayout preSelectedLayout = categoryMap.get(selectedType);
+    		preSelectedLayout.setClickable(true);
+    		preSelectedLayout.setFocusable(true);
+    		preSelectedLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.category_layout_bg));
+    		selectedType = (String)v.getTag();
+    		v.setClickable(false);
+    		v.setFocusable(false);
+    		v.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
+    		currentPage = 1;
+    		new LoadInfoThread().start();
+    		toolbar.requestFocus();
+    	}
     }
 	
 }

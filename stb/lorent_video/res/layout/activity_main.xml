@@ -8,6 +8,9 @@
     <GridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:layout_above="@+id/toolbar"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
@@ -20,49 +23,51 @@
         android:id="@+id/toolbar"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" 
-        android:gravity="center"
+        android:gravity="top|center"
         android:background="@color/black"
         style="@style/activity_main_toolbar"
         >
-        <!-- 
+        
         <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/movLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/movie"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/mov"
             	android:id="@+id/movImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
-            	android:id="@+id/tvTextV"
-            	android:text="@string/tvset"
+            	android:gravity="top|center"
+            	android:id="@+id/movTextV"
+            	android:text="@string/movie"
             	android:textColor="@color/category_text_color"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>
         <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/tvLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/tvset"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/tv"
             	android:id="@+id/tvImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/tvTextV"
             	android:text="@string/tvset"
             	android:textColor="@color/category_text_color"
@@ -70,21 +75,22 @@
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/newsLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/news"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/news"
             	android:id="@+id/newsImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/newsTextV"
             	android:text="@string/news"
             	android:textColor="@color/category_text_color"
@@ -92,21 +98,22 @@
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/gameLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/game"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/game"
             	android:id="@+id/gameImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/gameTextV"
             	android:text="@string/game"
             	android:textColor="@color/category_text_color"
@@ -114,21 +121,22 @@
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/dongmLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/dongm"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/dongm"
             	android:id="@+id/dongmImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/dongmTextV"
             	android:text="@string/dongm"
             	android:textColor="@color/category_text_color"
@@ -136,30 +144,33 @@
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/otherLayout"
         	android:onClick="getVideoList"
         	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
+        	android:tag="@string/other"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/other"
             	android:id="@+id/otherImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/otherTextV"
             	android:text="@string/other"
             	android:textColor="@color/category_text_color"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>
-          -->
+          
+         
+         
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/monitorOptionLayout"
         	android:onClick="startMonitorActivity"
@@ -167,20 +178,20 @@
         	style="@style/activity_main_toolbar_LinearLayout"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/monitor"
             	android:id="@+id/monitorImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/monitorTextV"
             	android:text="@string/monitor"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/setupLayout"
         	android:onClick="openSetupDialog"
@@ -188,20 +199,20 @@
         	style="@style/activity_main_toolbar_LinearLayout"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/setup"
             	android:id="@+id/setupImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/setupTextV"
             	android:text="@string/setup_text"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/previousLayout"
         	android:onClick="loadData"
@@ -209,114 +220,40 @@
         	style="@style/activity_main_toolbar_LinearLayout"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/prv"
             	android:id="@+id/previousImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/previousTextV"
             	android:text="@string/previouspage"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>
          <LinearLayout
-            android:gravity="center"
+            android:gravity="top|center"
             android:orientation="vertical"
             android:id="@+id/nextLayout"
         	android:onClick="loadData"
+        	android:background="@drawable/category_layout_bg"
         	style="@style/activity_main_toolbar_LinearLayout"
             >
             <ImageView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:src="@drawable/next"
             	android:id="@+id/nextImageV"
             	style="@style/activity_main_toolbar_LinearLayout_ImageView"
                 />
             <TextView
-            	android:gravity="center"
+            	android:gravity="top|center"
             	android:id="@+id/nextTextV"
             	android:text="@string/nextpage"
             	style="@style/activity_main_toolbar_LinearLayout_TextView"
                 />
          </LinearLayout>  
-		<!-- <Button
-            android:id="@+id/movbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/mov"
-            />
-		<Button
-            android:id="@+id/tvbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/tv"
-            />
-		<Button
-            android:id="@+id/newsbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/news"
-            />
-		<Button
-            android:id="@+id/gamebutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/game"
-            />
-		<Button
-            android:id="@+id/dongmbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/dongm"
-            />
-		<Button
-            android:id="@+id/otherbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:background="@drawable/other"
-            />
-        <Button
-            android:id="@+id/previousbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
-            android:onClick="loadData"
-            android:background="@drawable/previous_button"
-            />
-        <Button
-            android:id="@+id/setupbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:onClick="openSetupDialog"
-            android:background="@drawable/setup_button"
-             />
-        <Button
-            android:id="@+id/nextbutton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/next_button"
-            android:gravity="center"
-            android:layout_gravity="right"
-            android:onClick="loadData" />
-             -->
+		
     </LinearLayout>
    
 </RelativeLayout>
