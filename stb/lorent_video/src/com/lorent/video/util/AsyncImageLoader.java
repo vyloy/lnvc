@@ -66,7 +66,7 @@ public class AsyncImageLoader {
       				Message message = handler.obtainMessage(0, drawable);
       				handler.sendMessage(message);
       			}else{
-      				Log.i("imageCache", "get image from server");
+      				Log.i("imageCache", "get image from server not in cache");
       				recordIdThreads.put(id, id);
   					new ImageLoadAsyncTask(imageUrl,imageCallback).execute(imageUrl);
 //      				new ImageLoadThread(imageUrl,imageCallback).start();

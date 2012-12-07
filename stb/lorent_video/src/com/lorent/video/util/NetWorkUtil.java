@@ -16,12 +16,12 @@ public class NetWorkUtil {
 	
 	public static void setSessionId(String ip){
 		sessionId = getInternetContent("http://"+ip+":6090/videoserver/video.jsp");
-		Log.i("livemethod", sessionId+"");
+//		Log.i("livemethod", sessionId+"");
 	}
 	
 	public static void clearSessionId(String ip){
 		getInternetContent("http://"+ip+":6090/videoserver/logout.jsp?jsessionid="+String.valueOf(sessionId));
-		Log.i("livemethod", "jsessionid="+String.valueOf(sessionId+""));
+//		Log.i("livemethod", "jsessionid="+String.valueOf(sessionId+""));
 	}
 
 	public static String getInternetContent(String urlStr){

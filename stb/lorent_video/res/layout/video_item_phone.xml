@@ -16,7 +16,7 @@
         android:id="@+id/ItemText"
         android:lines="3"
         android:textColor="@color/white"
-        style="@style/video_item_TextView"
+        style="@style/video_item_TextView_phone"
          />
 
 </LinearLayout>

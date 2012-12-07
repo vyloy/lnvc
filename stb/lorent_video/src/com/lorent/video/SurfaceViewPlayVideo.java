@@ -109,10 +109,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.videosurfaceview);
 		frameLayout = (FrameLayout)findViewById(R.id.FrameLayout1);
+		frameLayout.setPadding(MainActivity.left, MainActivity.top, MainActivity.right, MainActivity.bottom);
 		// SurfaceView设置
 		surfaceView = (SurfaceView) findViewById(R.id.videoSurfaceView);
 		surfaceHoler = surfaceView.getHolder();

@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 public class VideoViewDemo extends Activity {
@@ -40,8 +41,8 @@ public class VideoViewDemo extends Activity {
 		super.onCreate(icicle);
 		if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
 			return;
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Intent intent = this.getIntent();
 		String videoUrl = intent.getExtras().getString("videoUrl");
 		String title = intent.getExtras().getString("fileName");

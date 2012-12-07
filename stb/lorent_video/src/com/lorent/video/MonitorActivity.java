@@ -68,14 +68,16 @@ public class MonitorActivity  extends ListActivity  {
 	@Override
     public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.monitor_main);
         FrameLayout container = (FrameLayout)findViewById(R.id.monitormain);
+        container.setPadding(MainActivity.left, MainActivity.top, MainActivity.right, MainActivity.bottom);
 //      int cw = container.getWidth();
 //      int ch = container.getHeight();
 //      Log.i("container", cw + ":" + ch);
         Display display = getWindowManager().getDefaultDisplay();
-        container.setBackgroundDrawable(new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight())));
+        
+        container.setBackgroundDrawable(MainActivity.getDgDrawable());
 //        mVideoView = (io.vov.vitamio.widget.VideoView) findViewById(R.id.monitor_surface_view);
 //        Log.i("mVideoView", mVideoView + "");
 //        surfaceContainer = (LinearLayout)findViewById(R.id.monitor_surface_container);
