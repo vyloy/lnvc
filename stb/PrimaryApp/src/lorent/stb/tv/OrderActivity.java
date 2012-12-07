@@ -182,7 +182,7 @@ public class OrderActivity extends Activity implements Callback {
 				public void run(){
 					while(true){
 					  
-				        SimpleDateFormat df1 = new SimpleDateFormat("yyyy��MM��dd��EEE HH:mm");
+				        SimpleDateFormat df1 = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
 				        String minTime=df1.format(new Date());
 				        SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");		      
 				        String sFull = df2.format(new Date());

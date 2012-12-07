@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SurfaceView
+        android:id="@+id/myVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <!-- call out -->
+
+    <LinearLayout
+        android:id="@+id/out_calling_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="400dip"
+            android:layout_height="67dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="260dip"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="133dip"
+                android:layout_height="67dip"
+                android:background="@drawable/lvd1600_sip_lock_valid" />
+
+            <FrameLayout
+                android:layout_width="133dip"
+                android:layout_height="67dip" >
+
+                <Button
+                    android:id="@+id/out_calling"
+                    android:layout_width="133dip"
+                    android:layout_height="67dip"
+                    android:background="@drawable/lvd1600_sip_callout" />
+
+                <TextView
+                    android:id="@+id/out_calling_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:textColor="#FFFF00"
+                    android:textSize="14dip" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/out_calling_handoff"
+                android:layout_width="133dip"
+                android:layout_height="67dip"
+                android:background="@drawable/handoff_selector"
+                android:onClick="hangupClick" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- call out receiver -->
+
+    <LinearLayout
+        android:id="@+id/notice_callout_linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="400dip"
+            android:layout_height="67dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="260dip"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/out_open_lock"
+                android:layout_width="133dip"
+                android:layout_height="fill_parent"
+                android:background="@drawable/lvd1600_sip_lock_valid" />
+
+            <Button
+                android:id="@+id/out_connetion_state"
+                android:layout_width="133dip"
+                android:layout_height="fill_parent"
+                android:background="@drawable/lvd1600_sip_calling"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/out_handoff"
+                android:layout_width="133dip"
+                android:layout_height="fill_parent"
+                android:background="@drawable/handoff_selector"
+                android:onClick="hangupClick" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- ui part -->
+
+    <RelativeLayout
+        android:id="@+id/mainlayout_right"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/lvd1600_sip_back"
+        android:gravity="center"
+        android:visibility="visible" >
+
+
+            <FrameLayout
+                android:id="@+id/operateFramelayout"
+                android:layout_above="@+id/menuLayout"
+                android:layout_alignParentTop="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <!-- diaLayout -->
+
+                <LinearLayout
+                    android:id="@+id/dialLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="235dip"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dip"
+                    android:orientation="vertical"
+                    android:visibility="visible" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="47dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="241dip"
+                            android:layout_height="47dip" >
+
+                            <EditText
+                                android:id="@+id/callEdit"
+                                android:layout_width="241dip"
+                                android:layout_height="47dip"
+                                android:background="#00000000"
+                                android:focusable="false"
+                                android:maxLength="15"
+                                android:paddingLeft="20dip"
+                                android:singleLine="true"
+                                android:textColor="#ffffff"
+                                android:textColorHint="#ffffff" />
+
+                            <Button
+                                android:id="@+id/del_number"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/del_selector"
+                                android:onClick="dialNumClick" />
+                        </FrameLayout>
+
+                        <ImageButton
+                            android:id="@+id/callBtn"
+                            android:layout_width="120dip"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/call_selector"
+                            android:onClick="dialNumClick"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                    <!-- key -->
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="47dip"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/no1Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num1_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no2Btn"
+                                android:layout_width="121dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num2_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no3Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num3_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="47dip"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/no4Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num4_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no5Btn"
+                                android:layout_width="121dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num5_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no6Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num6_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="47dip"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/no7Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num7_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no8Btn"
+                                android:layout_width="121dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num8_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no9Btn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num9_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="47dip"
+                            android:gravity="center"
+                            android:orientation="horizontal" >
+
+                            <Button
+                                android:id="@+id/nostarBtn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num_star_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/no0Btn"
+                                android:layout_width="121dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num0_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+
+                            <Button
+                                android:id="@+id/noshotBtn"
+                                android:layout_width="120dip"
+                                android:layout_height="fill_parent"
+                                android:background="@drawable/num_bg_selector"
+                                android:onClick="dialNumClick" >
+                            </Button>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/historyListLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/lcc_bg_shape"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dip"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/history_back_selector"
+                            android:onClick="historyListBackClick" />
+
+                        <TextView
+                            style="@style/menu_title"
+                            android:layout_width="100dip"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="历史记录" />
+
+                        <TextView
+                            android:id="@+id/name_and_num"
+                            android:layout_width="170dip"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="16dp" />
+
+                        <Button
+                            android:layout_width="90dip"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/sys_btn_selector"
+                            android:onClick="call_click"
+                            android:text="呼叫" />
+
+                        <Button
+                            android:layout_width="90dip"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/sys_btn_selector"
+                            android:onClick="clearClick"
+                            android:text="清除记录" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <ListView
+                        android:id="@+id/historyListLv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#dbe8f3"
+                        android:dividerHeight="1px"
+                        android:fadingEdge="none"
+                        android:focusable="false" />
+                </LinearLayout>
+                <!-- historyLayout -->
+
+                <LinearLayout
+                    android:id="@+id/historyLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/lcc_bg_shape"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/menu_title"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="通话记录" />
+
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dip"
+                            android:layout_marginTop="3dip"
+                            android:layout_weight="2"
+                            android:background="@drawable/sys_btn_selector"
+                            android:onClick="clearRecordClick"
+                            android:text="清除通话记录" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <ListView
+                        android:id="@+id/recordLv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#dbe8f3"
+                        android:dividerHeight="1px"
+                        android:fadingEdge="none"/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/state_page_record"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+
+                        <Button
+                            android:id="@+id/history_page_prv_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:background="@drawable/pre_page_selector"
+                            android:onClick="record_backwardClick" />
+
+                        <Button
+                            android:id="@+id/history_page_next_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:background="@drawable/next_page_selector"
+                            android:onClick="record_forwardClick" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- friendLayout -->
+
+                <LinearLayout
+                    android:id="@+id/friendLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/lcc_bg_shape"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/menu_title"
+                            android:layout_width="183dip"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="联系人" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="3dip"
+                            android:background="@drawable/add_selector"
+                            android:onClick="add_friend_click" />
+
+                        <EditText
+                            android:id="@+id/search_txt"
+                            android:layout_width="193dip"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginTop="3dip"
+                            android:maxLength="11"
+                            android:singleLine="true" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginTop="3dip"
+                            android:background="@drawable/search_selector"
+                            android:onClick="searchClick" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <ListView
+                        android:id="@+id/friendLv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="170dip"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#dbe8f3"
+                        android:dividerHeight="1px"
+                        android:fadingEdge="none"
+                        android:focusable="false" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/state_page"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+
+                        <Button
+                            android:id="@+id/friend_page_prv_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:focusable="true"
+                            android:background="@drawable/pre_page_selector"
+                            android:onClick="backwardClick" />
+
+                        <Button
+                            android:id="@+id/friend_page_next_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:focusable="true"
+                            android:background="@drawable/next_page_selector"
+                            android:onClick="forwardClick" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- history list -->
+
+
+                <!-- blackLayout -->
+
+                <LinearLayout
+                    android:id="@+id/blackLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/lcc_bg_shape"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dip"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/menu_title"
+                            android:layout_width="183dip"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingTop="3dip"
+                            android:text="@string/black" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="3dip"
+                            android:background="@drawable/add_selector"
+                            android:onClick="add_black_click" />
+
+                        <EditText
+                            android:id="@+id/search_black_txt"
+                            android:layout_width="193dip"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginTop="3dip"
+                            android:maxLength="11"
+                            android:singleLine="true" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginTop="3dip"
+                            android:background="@drawable/search_selector"
+                            android:onClick="searchBlackClick" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <ListView
+                        android:id="@+id/blackLv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="170dip"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#dbe8f3"
+                        android:dividerHeight="1px"
+                        android:fadingEdge="none"
+                        android:focusable="false" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="#dbe8f3" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/state_page_black"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+
+                        <Button
+                            android:id="@+id/black_page_prv_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:background="@drawable/pre_page_selector"
+                            android:focusable="true"
+                            android:onClick="black_backwardClick" />
+
+                        <Button
+                            android:id="@+id/black_page_next_btn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_marginTop="2dip"
+                            android:layout_weight="2"
+                            android:focusable="true"
+                            android:background="@drawable/next_page_selector"
+                            android:onClick="black_forwardClick" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- registerLayout -->
+
+                <ScrollView
+                    android:id="@+id/registerLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lcc_bg_shape"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/set_title"
+                            style="@style/menu_title"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dip"
+                            android:gravity="center"
+                            android:text="@string/setup" />
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dip"
+                            android:background="#dbe8f3" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/username" />
+
+                                <EditText
+                                    android:id="@+id/username"
+                                    style="@style/menu_content"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/password" />
+
+                                <EditText
+                                    android:id="@+id/password"
+                                    style="@style/menu_content"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/serverip" />
+
+                                <EditText
+                                    android:id="@+id/serverip"
+                                    style="@style/menu_content"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="text" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/port" />
+
+                                <EditText
+                                    android:id="@+id/port"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!--
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dip"
+                            android:orientation="horizontal"
+                            android:visibility="gone" >
+
+                            <TextView
+                                style="@style/menu_content"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@string/dev_state" />
+
+                            <TextView
+                                android:id="@+id/dev_state"
+                                style="@style/menu_content"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                         <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/menu_content"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@string/account_state" />
+
+                            <TextView
+                                android:id="@+id/account_state"
+                                style="@style/menu_content"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+                        -->
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="visible" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/width" />
+
+                                <EditText
+                                    android:id="@+id/videowidth"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/height" />
+
+                                <EditText
+                                    android:id="@+id/videoheight"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:visibility="visible" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/inputLabel"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:text="@string/bitrate" />
+
+                                <EditText
+                                    android:id="@+id/bitrate"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:inputType="number" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal" >
+
+                                <Button
+                                    style="@style/menu_content"
+                                    android:layout_width="180dip"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="6dip"
+                                    android:background="@drawable/sys_btn_selector"
+                                    android:gravity="center"
+                                    android:includeFontPadding="false"
+                                    android:onClick="setClick"
+                                    android:text="@string/register" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!--
+            <LinearLayout android:orientation="horizontal" android:layout_width="400dip" android:layout_height="wrap_content" android:layout_marginTop="80dip">
+                 <Button android:textColor="#333093" android:textSize="16dp" android:onClick="setClick" android:layout_width="fill_parent"  android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/register"/>
+                 <Button android:textColor="#333093" android:textSize="16dp" android:onClick="cancelClick" android:layout_width="fill_parent" android:layout_weight="1"  android:layout_height="wrap_content" android:text="@string/cancel"/>
+            </LinearLayout>
+                        -->
+                    </LinearLayout>
+                </ScrollView>
+
+                <!-- logo -->
+
+                <LinearLayout
+                    android:id="@+id/lvd_logo_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <ImageView
+                        android:layout_width="663dip"
+                        android:layout_height="165dip"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="50dip"
+                        android:src="@drawable/lvd1600_sip_logo" />
+                </LinearLayout>
+            </FrameLayout>
+
+        <!-- menu button -->
+
+        <LinearLayout
+            android:id="@+id/menuLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/register_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/lvd1600_sip_key" />
+
+                <TextView
+                    android:id="@+id/register_info_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/dialBtn_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_dial"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/dialBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/dial_menu_selector"
+                    android:nextFocusRight="@+id/historyBtn"
+                    android:onClick="menuClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/historyBtn_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_history"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/historyBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/history_menu_selector"
+                    android:nextFocusLeft="@+id/dialBtn"
+                    android:nextFocusRight="@+id/friendBtn"
+                    android:onClick="menuClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/friendBtn_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_friend"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/friendBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/contact_menu_selector"
+                    android:nextFocusLeft="@+id/historyBtn"
+                    android:nextFocusRight="@+id/blackList"
+                    android:onClick="menuClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/blackList_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_black"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/blackList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/blacklist_menu_selector"
+                    android:nextFocusLeft="@+id/friendBtn"
+                    android:nextFocusRight="@+id/sipSet"
+                    android:onClick="menuClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/sipSet_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_sipset"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/sipSet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/setup_menu_selector"
+                    android:nextFocusLeft="@+id/blackList"
+                    android:nextFocusRight="@+id/backBtn"
+                    android:onClick="menuClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="40dip"
+                    android:text="@string/lvd1610_back_menu"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/backBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/back_menu_selector"
+                    android:nextFocusLeft="@+id/sipSet"
+                    android:onClick="backClick" />
+            </FrameLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</merge>

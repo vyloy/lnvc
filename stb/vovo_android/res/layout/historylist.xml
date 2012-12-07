@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="45dip"
+    android:minHeight="45dip"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/historyicon"
+        android:layout_width="60dip"
+        android:layout_height="46dip"
+        android:layout_gravity="center_vertical"
+        android:focusable="true"
+        android:background="@drawable/show_history_selector" />
+
+    <TextView
+        android:id="@+id/historyname"
+        style="@style/menu_content"
+        android:layout_width="80dip"
+        android:layout_height="46dip"
+        android:gravity="center_vertical" />
+
+    <ImageView
+        android:id="@+id/historytype"
+        android:layout_width="50dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/historynum"
+        style="@style/menu_content"
+        android:layout_width="115dip"
+        android:layout_height="46dip"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/historytime"
+        style="@style/menu_content"
+        android:layout_width="50dip"
+        android:layout_height="46dip"
+        android:gravity="center_vertical" />
+
+    <Button
+        android:id="@+id/historydocall"
+        android:layout_width="50dip"
+        android:layout_height="46dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/make_call_selector" />
+
+    <Button
+        android:id="@+id/historyaddfriend"
+        android:layout_width="50dip"
+        android:layout_height="46dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/add_friend_selector" />
+
+    <Button
+        android:id="@+id/historydel"
+        android:layout_width="50dip"
+        android:layout_height="46dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/delete_selector" />
+
+</LinearLayout>
