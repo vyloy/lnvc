@@ -76,6 +76,8 @@ public class MemberListItem extends javax.swing.JPanel {
 			}
 			roleText.append(")");
 			memberRole.setText(roleText.toString());
+		}else{
+			memberRole.setVisible(false);
 		}
 		showPermission = true;//TODO暂时所有人都可以看到
 		if (showPermission) {
