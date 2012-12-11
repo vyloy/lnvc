@@ -27,10 +27,12 @@ public class AuthorityController extends BaseController {
 	public void grantOrRevokeConfAuthority(MemberListItem item,int flag,String roleName) throws Exception{
 		String lccno = item.getData().getName();
 		LoginInfo loginInfo = DataUtil.getLoginInfo();
-		System.out.println("grantOrRevokeConfAuthority============" + lccno + "====" + loginInfo.getConfno());
+		
 		if(Constants.REVOKE_AUTHORITY == flag){
+			System.out.println("Constants.REVOKE_AUTHORITY============" + lccno + "====" + loginInfo.getConfno() + "flag" + flag);
 			LCMUtil.newInstance(getXmlrpcUrl()).revokeConfAuthority(loginInfo.getConfno(), lccno, roleName);
 		}else{
+			System.out.println("Constants.GRANT_AUTHORITY============" + lccno + "====" + loginInfo.getConfno() + "flag" + flag);
 			LCMUtil.newInstance(getXmlrpcUrl()).grantConfAuthority(loginInfo.getConfno(), lccno, roleName);
 		}
 	}
