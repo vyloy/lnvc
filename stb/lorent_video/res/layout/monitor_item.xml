@@ -11,7 +11,6 @@
         android:id="@+id/ItemImage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
         android:focusable="true"
         android:src="@drawable/monitor"
         style="@style/monitor_item_ImageView"
@@ -34,7 +33,6 @@
         style="@style/monitor_item_TextView" />
 	<LinearLayout
 	    android:layout_alignParentRight="true"
-	    android:layout_marginRight="10dp"
 	    android:layout_width="wrap_content"
 	    android:orientation="vertical"
 	    android:gravity="center"

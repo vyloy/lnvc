@@ -109,10 +109,11 @@ public class SurfaceViewPlayVideo extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.videosurfaceview);
 		frameLayout = (FrameLayout)findViewById(R.id.FrameLayout1);
+		frameLayout.setPadding(MainActivity.left, MainActivity.top, MainActivity.right, MainActivity.bottom);
 		// SurfaceView设置
 		surfaceView = (SurfaceView) findViewById(R.id.videoSurfaceView);
 		surfaceHoler = surfaceView.getHolder();
@@ -301,7 +302,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	
 	private class PlayHandler extends Handler{
 		public void handleMessage(Message message) {
-			if(isDragSeekBar ||mPlayer==null||!mPlayer.isPlaying())
+			if(isDragSeekBar ||mPlayer==null ||!mPlayer.isPlaying())
 				return;
 			int position = mPlayer.getCurrentPosition();
 			long duration = mPlayer.getDuration();
@@ -398,7 +399,12 @@ public class SurfaceViewPlayVideo extends Activity implements
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		
+		if(mPlayer!=null){
+			
+			currentP = mPlayer.getCurrentPosition();
+			mPlayer.pause();
+//		mPlayer.release();
+		}
 	}
 
 	@Override
@@ -494,12 +500,12 @@ public class SurfaceViewPlayVideo extends Activity implements
 		} else if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN) {
 			Log.v(TAG, "Media Error,Error Unknown" + extra);
 		}
-		releaseRes();
+//		releaseRes();
 		DialogUtil.dismissDialog(dialog);
 		Toast toast = Toast.makeText(this, R.string.playvideofail, 5000);
 		toast.setGravity(Gravity.CENTER,0,0);
 		toast.show();
-		return false;
+		return true;
 	}
 
 	// 播放完毕后,finish
@@ -519,6 +525,7 @@ public class SurfaceViewPlayVideo extends Activity implements
 	// Activty销毁释放资源
 	@Override
 	protected void onDestroy() {
+		Log.i("surfaceview", "onDestroy");
 		releaseRes();
 		super.onDestroy();
 		

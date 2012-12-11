@@ -12,17 +12,23 @@ import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 public class MonitorShowSZActivity extends Activity {
 	private SurfaceView mSurfaceView;
 	private Boolean  isStart = false;
 	private String mUrl;// = "10.168.130.223";
-	private int videoId = 0;		
+	private int videoId = 0;
+	private LinearLayout monitorShowContainer;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.monitorshow_sz);
+        monitorShowContainer = (LinearLayout)findViewById(R.id.monitorShowContainer);
         Intent intent = this.getIntent();
 		String videoUrl = intent.getExtras().getString("videoUrl");
 		String title = intent.getExtras().getString("fileName");
@@ -55,7 +61,7 @@ public class MonitorShowSZActivity extends Activity {
 //        mSurfaceView.getHolder().setFixedSize(width, height);
         
         mSurfaceView.getHolder().addCallback(new MonitorSurfaceCallBack());
-        
+        monitorShowContainer.setPadding(MainActivity.left, MainActivity.top, MainActivity.right, MainActivity.bottom);
         
     }
     

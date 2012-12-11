@@ -19,4 +19,14 @@ public class StringUtil {
     	return encodeUrl;
 	}
 	
+	public static int convertCharToInt(String text){
+		int result = 0;
+		try{
+			result = Integer.parseInt(text);
+		}catch(Exception ex){
+			
+		}
+		return result;
+	}
+	
 }

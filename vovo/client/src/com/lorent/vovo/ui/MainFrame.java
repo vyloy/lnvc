@@ -63,8 +63,21 @@ public class MainFrame extends javax.swing.JFrame {
 		nameLbl = new javax.swing.JLabel();
 		signlbl = new javax.swing.JLabel();
 		statusCombobox = new com.lorent.vovo.ui.StatusCombobox();
+		phoneButton = new javax.swing.JButton();
+		phoneButton.setContentAreaFilled(false);
+		phoneButton.setBorderPainted(false);
+		phoneButton.setFocusable(false);
+		phoneButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		    	PhoneFrame f = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.PhoneFrame.toString());
+					f.setVisible(true);
+				}
+			});
+		phoneButton.setPreferredSize(new Dimension(16, 16));
+		phoneButton.setMinimumSize(new Dimension(16, 16));
+		phoneButton.setMaximumSize(new Dimension(16, 16));
 		toolPanel = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
+		//jLabel1 = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
 		mainTab = new javax.swing.JTabbedPane();
 
@@ -140,7 +153,10 @@ public class MainFrame extends javax.swing.JFrame {
 		toolPanel.setOpaque(false);
 		toolPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT,
 				5, 1));
-		toolPanel.add(jLabel1);
+		phoneButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/vovo/resource/images/phone.png"))); // NOI18N
+		toolPanel.add(phoneButton);
+		//toolPanel.add(jLabel1);
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 1;
@@ -225,7 +241,7 @@ public class MainFrame extends javax.swing.JFrame {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private org.jdesktop.swingx.JXPanel bgPanel;
-	private javax.swing.JLabel jLabel1;
+	private javax.swing.JButton phoneButton;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JTabbedPane mainTab;

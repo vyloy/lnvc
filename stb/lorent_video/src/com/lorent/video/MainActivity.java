@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,21 +74,31 @@ public class MainActivity extends Activity {
 	private Map<String,LinearLayout> categoryMap = new HashMap<String,LinearLayout>();
 	private LinearLayout toolbar;
 	private int pageSize;
+	RelativeLayout container;
+	private static Drawable bgDrawable;
+	
+	public static Drawable getDgDrawable(){
+		return bgDrawable;
+	}
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	Log.i("livemethod", "onCreate");
         super.onCreate(savedInstanceState);
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         int memorySize = activityManager.getMemoryClass();
         Log.i("memory", ""+memorySize);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        RelativeLayout container = (RelativeLayout)findViewById(R.id.content);
+        container = (RelativeLayout)findViewById(R.id.content);
 //        int cw = container.getWidth();
 //        int ch = container.getHeight();
 //        Log.i("container", cw + ":" + ch);
         Display display = getWindowManager().getDefaultDisplay();
-        container.setBackgroundDrawable(new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight())));
+        if(bgDrawable==null){
+        	bgDrawable = new BitmapDrawable(ImageUtil.decodeSampledBitmapFromResource(this.getResources(), R.drawable.main_bg, display.getWidth(), display.getHeight()));
+        }
+        container.setBackgroundDrawable(bgDrawable);
         setupLayout = (LinearLayout)findViewById(R.id.setupLayout);
         getSeverInfoPreferences();
 //        videoService = new VideoService(this);
@@ -103,8 +114,8 @@ public class MainActivity extends Activity {
         
         //设置频道分类
         movLayout = (LinearLayout)findViewById(R.id.movLayout);
-        movLayout.setFocusable(false);
-        movLayout.setClickable(false);
+//        movLayout.setFocusable(false);
+//        movLayout.setClickable(false);
         movLayout.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
         selectedType = (String)movLayout.getTag();
         categoryMap.put(selectedType,movLayout);
@@ -127,6 +138,7 @@ public class MainActivity extends Activity {
         gridView.setOnItemClickListener(new GridViewClickListener());
         DBAdapterImpl.init(this);
         pageSize = MeasureUtil.getPageSize(MainActivity.this);
+        container.setPadding(left, top, right, bottom);
         new LoadInfoThread().start();
 //        show();
         
@@ -152,11 +164,27 @@ public class MainActivity extends Activity {
     	}
     }
     
-    private class LoadInfoThread extends Thread{
+    
+    
+    @Override
+	protected void onPause() {
+    	Log.i("livemethod", "onPause");
+//    	AsyncImageLoader.clearCache();
+//		VideoInfoAdapter.clearCacheView();
+		super.onPause();
+	}
+
+
+
+	private class LoadInfoThread extends Thread{
     	
     	public LoadInfoThread(){
 //    		showDialog(DIALOG_PROGRESS);//打开等待对话框  
-    		mProgressDialog.show();
+    		try{
+    			mProgressDialog.show();
+    		}catch(Exception ex){
+    			
+    		}
     	}
     	
     	public void run(){
@@ -182,7 +210,28 @@ public class MainActivity extends Activity {
     
     
     
-    private Handler datasHandler = new Handler() {  
+    @Override
+	protected void onRestart() {
+    	Log.i("livemethod", "onRestart");
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		Log.i("livemethod", "onResume");
+		super.onResume();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.i("livemethod", "onStop");
+		if(mProgressDialog!=null){
+			mProgressDialog.dismiss();
+		}
+		super.onStop();
+	}
+
+	private Handler datasHandler = new Handler() {  
         public void handleMessage(Message message) {
         	int code = message.what;
         	switch (code){
@@ -376,12 +425,29 @@ public class MainActivity extends Activity {
     public String port = null;
     EditText ipComponent;
     EditText portComponent;
+    LinearLayout paddingLayout;
+    EditText leftPadding;
+    EditText topPadding;
+    EditText rightPadding;
+    EditText bottomPadding;
     
     public void openSetupDialog(View v){
     	LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);  
         View layout = inflater.inflate(R.layout.setup_dialog,null);  
         ipComponent = (EditText)layout.findViewById(R.id.serverip);
         portComponent = (EditText)layout.findViewById(R.id.serverport);
+        paddingLayout = (LinearLayout)layout.findViewById(R.id.paddingLayout);
+        if(device==DeviceType.STB){
+        	paddingLayout.setVisibility(View.VISIBLE);
+        	leftPadding = (EditText)layout.findViewById(R.id.leftPadding);
+        	topPadding = (EditText)layout.findViewById(R.id.topPadding);
+        	rightPadding = (EditText)layout.findViewById(R.id.rightPadding);
+        	bottomPadding = (EditText)layout.findViewById(R.id.bottomPadding);
+        	leftPadding.setText(String.valueOf(left));
+        	topPadding.setText(String.valueOf(top));
+        	rightPadding.setText(String.valueOf(right));
+        	bottomPadding.setText(String.valueOf(bottom));
+        }
         ipComponent.setText(ip);
         portComponent.setText(port);
         builder = new AlertDialog.Builder(this);
@@ -417,6 +483,9 @@ public class MainActivity extends Activity {
     public void saveServerInfo(View v){
     	if(v.getId()==R.id.setupOkBtn){
     		alertDialog.dismiss();
+    		if(device==DeviceType.STB){
+            	setPaddingInfoPreferences(leftPadding.getText().toString(),topPadding.getText().toString(),rightPadding.getText().toString(),bottomPadding.getText().toString());
+            }
     		if(!(ip.equals(ipComponent.getText().toString().trim()))){
     			clearVideoList();
 	    		final String oldIp = new String(ip);
@@ -452,19 +521,47 @@ public class MainActivity extends Activity {
         editor.commit();
     }
     
+    private void setPaddingInfoPreferences(String padingleft,String padingtop,String padingright,String padingbottom){
+    	
+        
+    	left = StringUtil.convertCharToInt(padingleft);
+        top = StringUtil.convertCharToInt(padingtop);
+        right = StringUtil.convertCharToInt(padingright);
+        bottom = StringUtil.convertCharToInt(padingbottom);
+        
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("padingtop", top);
+        editor.putInt("padingleft", left);
+        editor.putInt("padingright", right);
+        editor.putInt("padingbottom", bottom);
+        editor.commit();
+        container.setPadding(left, top, right, bottom);
+    }
+    
+    public static int top = 0;
+    public static int left = 0;
+    public static int right = 0;
+    public static int bottom = 0;
     private void getSeverInfoPreferences() {
         
         // get preference
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         ip = settings.getString("serverip", "10.168.250.12");
         port = settings.getString("serverport", "8800");
+        if(device==DeviceType.STB){
+        	top = settings.getInt("padingtop", 10);
+        	left = settings.getInt("padingleft", 10);
+        	right = settings.getInt("padingright", 10);
+        	bottom = settings.getInt("padingbottom", 10);
+        }
     }
 
 	
 
 	@Override
 	protected void onDestroy() {
-		Log.i("livemethod", "onDestroy:"+ip);
+		Log.i("livemethod", "onDestroy");
 		AsyncImageLoader.clearCache();
 		VideoInfoAdapter.clearCacheView();
 		new Thread(){
@@ -485,16 +582,16 @@ public class MainActivity extends Activity {
     	if(!v.getTag().equals(selectedType)){
     		clearVideoList();
     		LinearLayout preSelectedLayout = categoryMap.get(selectedType);
-    		preSelectedLayout.setClickable(true);
-    		preSelectedLayout.setFocusable(true);
+//    		preSelectedLayout.setClickable(true);
+//    		preSelectedLayout.setFocusable(true);
     		preSelectedLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.category_layout_bg));
     		selectedType = (String)v.getTag();
-    		v.setClickable(false);
-    		v.setFocusable(false);
+//    		v.setClickable(false);
+//    		v.setFocusable(false);
     		v.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
     		currentPage = 1;
     		new LoadInfoThread().start();
-    		toolbar.requestFocus();
+//    		toolbar.requestFocus();
     	}
     }
 	

@@ -9,7 +9,7 @@
     </style>
     <style name="activity_main_toolbar">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_height">50dp</item>
     </style>
     <style name="activity_main_toolbar_LinearLayout">
         <item name="android:layout_width">50dp</item>
@@ -37,6 +37,11 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:marqueeRepeatLimit">marquee_forever</item>
+    </style>
+    <style name="video_item_TextView_phone">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">3</item>
     </style>
     <style name="setup_dialog_TextView">
         <item name="android:layout_width">match_parent</item>

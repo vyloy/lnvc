@@ -1,56 +1,118 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp" >
-
-    <TextView
-        android:text="@string/serverip"
-        android:textColor="#ffffff"
-        style="@style/setup_dialog_TextView"
-         />
-
-    <EditText
-        android:id="@+id/serverip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/serverport"
-        android:textColor="#ffffff" />
-
-    <EditText
-        android:id="@+id/serverport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numeric="integer" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-        <Button
-            android:id="@+id/setupOkBtn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="saveServerInfo"
-            android:text="@string/oktext" />
+        <TextView
+            style="@style/setup_dialog_TextView"
+            android:text="@string/serverip"
+            android:textColor="#ffffff" />
 
-        <Button
-            android:id="@+id/setupCancelBtn"
-            android:layout_width="fill_parent"
+        <EditText
+            android:id="@+id/serverip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="saveServerInfo"
-            android:text="@string/canceltext" />
+            android:text="@string/serverport"
+            android:textColor="#ffffff" />
+
+        <EditText
+            android:id="@+id/serverport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/paddingLayout"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/left_padding_text"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/leftPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/top_padding_text"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/topPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/right_padding_text"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/rightPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bottom_padding_text"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/bottomPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/setupOkBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="saveServerInfo"
+                android:text="@string/oktext" />
+
+            <Button
+                android:id="@+id/setupCancelBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="saveServerInfo"
+                android:text="@string/canceltext" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

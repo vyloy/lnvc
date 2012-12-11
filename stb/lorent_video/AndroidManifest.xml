@@ -16,7 +16,7 @@
     <application
         android:icon="@drawable/vovo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
             android:name=".WebVideoActivity"
             android:label="@string/title_activity_showvideo"
@@ -47,7 +47,7 @@
             android:name="com.lorent.video.MonitorActivity"
             android:label="@string/monitor"
             android:screenOrientation="landscape"
-            android:launchMode="singleTask" >
+            android:launchMode="standard" >
             <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -64,7 +64,7 @@
             android:name="com.lorent.video.MonitorShowSZActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="landscape"
-            android:theme="@style/Transparent">
+            >
             
         </activity>
         <activity
