@@ -571,6 +571,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 				mMediaController.hide();
 			if (mCurrentState != STATE_SUSPEND)
 				release(true);
+//			suspend();
 		}
 	};
 

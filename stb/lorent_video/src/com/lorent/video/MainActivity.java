@@ -114,8 +114,8 @@ public class MainActivity extends Activity {
         
         //设置频道分类
         movLayout = (LinearLayout)findViewById(R.id.movLayout);
-        movLayout.setFocusable(false);
-        movLayout.setClickable(false);
+//        movLayout.setFocusable(false);
+//        movLayout.setClickable(false);
         movLayout.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
         selectedType = (String)movLayout.getTag();
         categoryMap.put(selectedType,movLayout);
@@ -582,16 +582,16 @@ public class MainActivity extends Activity {
     	if(!v.getTag().equals(selectedType)){
     		clearVideoList();
     		LinearLayout preSelectedLayout = categoryMap.get(selectedType);
-    		preSelectedLayout.setClickable(true);
-    		preSelectedLayout.setFocusable(true);
+//    		preSelectedLayout.setClickable(true);
+//    		preSelectedLayout.setFocusable(true);
     		preSelectedLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.category_layout_bg));
     		selectedType = (String)v.getTag();
-    		v.setClickable(false);
-    		v.setFocusable(false);
+//    		v.setClickable(false);
+//    		v.setFocusable(false);
     		v.setBackgroundColor(getResources().getColor(R.color.category_selected_color));
     		currentPage = 1;
     		new LoadInfoThread().start();
-    		toolbar.requestFocus();
+//    		toolbar.requestFocus();
     	}
     }
 	
