@@ -93,7 +93,13 @@ public class VodFrame extends javax.swing.JFrame {
 				java.awt.FlowLayout.CENTER, 30, 5));
 
 		buttonGroup1.add(jToggleButton1);
+		jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass()
+				.getResource("/com/lorent/vovo/resource/images/vod/mov.png"))); // NOI18N
 		jToggleButton1.setText("\u7535\u5f71");
+		jToggleButton1
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton1
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton1ActionPerformed(evt);
@@ -102,7 +108,13 @@ public class VodFrame extends javax.swing.JFrame {
 		categoryPanel.add(jToggleButton1);
 
 		buttonGroup1.add(jToggleButton2);
+		jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass()
+				.getResource("/com/lorent/vovo/resource/images/vod/tv.png"))); // NOI18N
 		jToggleButton2.setText("\u7535\u89c6");
+		jToggleButton2
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton2
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton2ActionPerformed(evt);
@@ -111,7 +123,13 @@ public class VodFrame extends javax.swing.JFrame {
 		categoryPanel.add(jToggleButton2);
 
 		buttonGroup1.add(jToggleButton3);
+		jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass()
+				.getResource("/com/lorent/vovo/resource/images/vod/news.png"))); // NOI18N
 		jToggleButton3.setText("\u8d44\u8baf");
+		jToggleButton3
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton3
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton3ActionPerformed(evt);
@@ -120,7 +138,13 @@ public class VodFrame extends javax.swing.JFrame {
 		categoryPanel.add(jToggleButton3);
 
 		buttonGroup1.add(jToggleButton4);
+		jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass()
+				.getResource("/com/lorent/vovo/resource/images/vod/game.png"))); // NOI18N
 		jToggleButton4.setText("\u6e38\u620f");
+		jToggleButton4
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton4
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton4ActionPerformed(evt);
@@ -129,7 +153,14 @@ public class VodFrame extends javax.swing.JFrame {
 		categoryPanel.add(jToggleButton4);
 
 		buttonGroup1.add(jToggleButton5);
+		jToggleButton5
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+						"/com/lorent/vovo/resource/images/vod/dongm.png"))); // NOI18N
 		jToggleButton5.setText("\u52a8\u6f2b");
+		jToggleButton5
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton5
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton5ActionPerformed(evt);
@@ -138,7 +169,14 @@ public class VodFrame extends javax.swing.JFrame {
 		categoryPanel.add(jToggleButton5);
 
 		buttonGroup1.add(jToggleButton6);
+		jToggleButton6
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+						"/com/lorent/vovo/resource/images/vod/other.png"))); // NOI18N
 		jToggleButton6.setText("\u5176\u4ed6");
+		jToggleButton6
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jToggleButton6
+				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jToggleButton6.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleButton6ActionPerformed(evt);

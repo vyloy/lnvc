@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -66,7 +67,7 @@ public class VodController extends BaseController {
 		int maxPageCount = videoListLength / vodListColSize;
 		vodListPanel.setMaxPageIndex(maxPageCount);
 		vodListPanel.setPageIndex(index);
-		LCMVideoClip[] videoClipList = VovoVod.getLcmUtil().getVideoClipList(index, vodListColSize,vodListPanel.getCategory());
+		final LCMVideoClip[] videoClipList = VovoVod.getLcmUtil().getVideoClipList(index, vodListColSize,vodListPanel.getCategory());
 		vodListPane.removeAll();
 		if (videoClipList != null) {
 			
@@ -78,19 +79,34 @@ public class VodController extends BaseController {
 	            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 	            gridBagConstraints.weightx = 1;
 	            gridBagConstraints.weighty = 1;
+	            final int nindex = i;
 				if (i < videoClipList.length) {
-		            VodListItem vodListItem = new VodListItem();
-		            ImagePainter imagePainter = null;
-		            try {
-		            	Image image = Toolkit.getDefaultToolkit().getImage(videoClipList[i].getThumbnailUrl());
-						imagePainter = new ImagePainter(new URL(videoClipList[i].getThumbnailUrl()));
-					} catch (Exception e) {
-						imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));//video_no_pic.png
-						log.error("", e);
-					}
+		            final VodListItem vodListItem = new VodListItem();
 		            
-		            imagePainter.setScaleType(ScaleType.Distort);
-		            vodListItem.getVideoPictureXPanel().setBackgroundPainter(imagePainter);
+		            new Thread(){
+
+						@Override
+						public void run() {
+							ImagePainter imagePainter = null;
+				            try {
+				            	Image image = Toolkit.getDefaultToolkit().getImage(videoClipList[nindex].getThumbnailUrl());
+								imagePainter = new ImagePainter(new URL(videoClipList[nindex].getThumbnailUrl()));
+							} catch (Exception e) {
+								try {
+									imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));
+								} catch (IOException e1) {
+									e1.printStackTrace();
+									log.error("reflashVodList", e1);
+								}
+								log.error("reflashVodList", e);
+							}
+				            
+				            imagePainter.setScaleType(ScaleType.Distort);
+				            vodListItem.getVideoPictureXPanel().setBackgroundPainter(imagePainter);
+						}
+		            	
+		            }.start();
+		            
 		            String title = videoClipList[i].getTitle();
 		            if (title.length() > 17) {
 						title = title.substring(0, 17)+"...";
