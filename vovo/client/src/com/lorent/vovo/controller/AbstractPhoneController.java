@@ -287,8 +287,8 @@ public abstract class AbstractPhoneController extends BaseController {
 				FriendChatPanel fcp = (FriendChatPanel) context
 						.getExecuteManager().executeController("chat",
 								"getFriendChatPanel", memberBean);
-//				makeCallInvite(sip_lccnostr, fcp, soundOnly);////???????????????
-				makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
+				makeCallInvite(sip_lccnostr, fcp, soundOnly);////???????????????
+//				makeCallInviteDetail(sip_lccnostr,lccno,panel,soundOnly);
 				_frame.setVisible(true);
 				frame.setVisible(false);
 				return;
