@@ -33,33 +33,37 @@ public class OpenfireUtil {
     public static OpenfireUtil getInstance() {
         return instance;
     }
+    
+    private static final Object lock = new Object();
 	
-	public synchronized static XMPPConnection initXMPPConnection() throws XMPPException {
-        ConnectionConfiguration config = new ConnectionConfiguration(PropertiesUtil.getConstant("openfire.serverIP"), Integer.parseInt(PropertiesUtil.getConstant("openfire.serverPort")));
-        config.setSASLAuthenticationEnabled(false);
-//        config.setCompressionEnabled(true);
-        config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-        SmackConfiguration.setPacketReplyTimeout(Integer.valueOf(PropertiesUtil.getConstant("openfire.timeout")));
-        XMPPConnection conn = null;
-        if (conn == null) {
-            conn = new XMPPConnection(config);
-        }
-        try {
-            if (!conn.isConnected()) {
-                conn.connect();
+	public static XMPPConnection initXMPPConnection() throws XMPPException {
+        synchronized(lock){
+        	ConnectionConfiguration config = new ConnectionConfiguration(PropertiesUtil.getConstant("openfire.serverIP"), Integer.parseInt(PropertiesUtil.getConstant("openfire.serverPort")));
+            config.setSASLAuthenticationEnabled(false);
+//            config.setCompressionEnabled(true);
+            config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+            SmackConfiguration.setPacketReplyTimeout(Integer.valueOf(PropertiesUtil.getConstant("openfire.timeout")));
+            XMPPConnection conn = null;
+            if (conn == null) {
+                conn = new XMPPConnection(config);
             }
-        } catch (XMPPException ex) {
-            conn = null;//连接不到服务器时，conn设置为空，
-            throw ex;
-            //Logger.getLogger(OpenfireUtil.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                if (!conn.isConnected()) {
+                    conn.connect();
+                }
+            } catch (XMPPException ex) {
+                conn = null;//连接不到服务器时，conn设置为空，
+                throw ex;
+                //Logger.getLogger(OpenfireUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            //DataUtil.setValue("serverIP", serverIP);
+            return conn;
         }
-        
-        //DataUtil.setValue("serverIP", serverIP);
-        return conn;
     }
 	
 	
-	public void login(String username, String passwd) throws Exception {
+	public synchronized void login(String username, String passwd) throws Exception {
         XMPPConnection conn = initXMPPConnection();
         conn.login(username, passwd);
     }
@@ -93,7 +97,7 @@ public class OpenfireUtil {
         return roomJid;
     }
 	
-	public void removeConferenceRoom(List<String> confNos) throws Exception{
+	public synchronized void removeConferenceRoom(List<String> confNos) throws Exception{
 		XMPPConnection conn = null;
 		String roomJid = null;
 		MultiUserChat multiUserChat = null;
@@ -123,7 +127,7 @@ public class OpenfireUtil {
 		}
 	}
 	
-	public void updateConferenceRoom(ConferenceNewBean conferenceNew, List<String> members,UserBean user,List<UserBean> oldUsers) throws Exception{
+	public synchronized void updateConferenceRoom(ConferenceNewBean conferenceNew, List<String> members,UserBean user,List<UserBean> oldUsers) throws Exception{
 		XMPPConnection conn = null;
 		try{
 			conn = initXMPPConnection();
@@ -183,7 +187,7 @@ public class OpenfireUtil {
 		
 	}
 	
-	public String createConferenceRoom(ConferenceNewBean conferenceNew, List<String> members,boolean invitation,UserBean user) throws Exception {
+	public synchronized String createConferenceRoom(ConferenceNewBean conferenceNew, List<String> members,boolean invitation,UserBean user) throws Exception {
 		XMPPConnection conn = null;
 		try{
 			conn = initXMPPConnection();
@@ -323,7 +327,7 @@ public class OpenfireUtil {
 		return msg;
 	}
 	
-	public void sendGroupBroadcast(String operate, Object obj)throws Exception{
+	public synchronized void sendGroupBroadcast(String operate, Object obj)throws Exception{
 		XMPPConnection conn = initXMPPConnection();
 		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
 		Message msg = getAdminGroupMsg(conn);
@@ -340,7 +344,7 @@ public class OpenfireUtil {
 		return msg;
 	}
 	
-	public void sendMsgToDeletedUser(String operate, Object obj)throws Exception{
+	public synchronized void sendMsgToDeletedUser(String operate, Object obj)throws Exception{
 		XMPPConnection conn = initXMPPConnection();
 		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
 		Message msg = getDeletedUserMsg(conn,(MemberBean)obj);
@@ -352,7 +356,7 @@ public class OpenfireUtil {
 	
 	
 	
-	public void sendConfNotice(String confNo,String[] members,String msgText) throws Exception{
+	public synchronized void sendConfNotice(String confNo,String[] members,String msgText) throws Exception{
 		XMPPConnection conn = initXMPPConnection();
 		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
 		Message msg = getAdminGroupMsg(conn);
@@ -366,7 +370,7 @@ public class OpenfireUtil {
 		conn.disconnect();
 	}
 
-	public void sendConfAuthorityUpdateBroadcast(String bodyContent,
+	public synchronized void sendConfAuthorityUpdateBroadcast(String bodyContent,
 			String confNo, String lccno, List<AuthorityBean> authorityList,String roleName) throws Exception{
 		XMPPConnection conn = initXMPPConnection();
 		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
@@ -379,8 +383,10 @@ public class OpenfireUtil {
 		if(authorityList!=null && authorityList.size()>0){
 			for(AuthorityBean authorityBean:authorityList){
 				msg.setProperty(authorityBean.getMark(), authorityBean.getAuthorityName());
+				log.info(authorityBean.getMark()+":"+authorityBean.getAuthorityName());
 			}
 		}
+		log.info("sendConfAuthorityUpdateBroadcast:lccno="+lccno+";roleName="+roleName+";bodyContent="+bodyContent);
 		muc.sendMessage(msg);
 		conn.disconnect();
 	}
