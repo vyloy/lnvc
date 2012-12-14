@@ -26,6 +26,9 @@ public class FileConvertors {
 		convertors.put(".ppt", officeConvertor);
 		convertors.put(".doc", officeConvertor);
 		convertors.put(".xls", officeConvertor);
+		convertors.put(".pptx", officeConvertor);
+		convertors.put(".xlsx", officeConvertor);
+		convertors.put(".docx", officeConvertor);
 	}
 	
 	public static void convert(File file,final String meetingId,final IoSession session) throws IOException{
