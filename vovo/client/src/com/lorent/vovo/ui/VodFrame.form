@@ -97,7 +97,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/lorent/vovo/resource/images/vod/tv.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="&#x7535;&#x89c6;"/>
+                    <Property name="text" type="java.lang.String" value="&#x5267;&#x96c6;"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
