@@ -60,7 +60,7 @@ public class VovoVod extends BaseApplication {
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DATE);
-		if (year >= 2013 && month >= 1) {
+		if (year >= 2013 && month >= 2) {
 			JOptionPane.showMessageDialog(null, "超过期限");
 			System.exit(0);
 		}

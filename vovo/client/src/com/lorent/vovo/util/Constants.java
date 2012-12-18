@@ -201,6 +201,6 @@ public interface Constants {
     final static double MAXBITRATE_VIDEOHIGH = 1600;//Kbps
     final static double MAXBITRATE_VIDEOHYPER = 5000;//kbps
     
-    public static String[] VIDEO_CATEGORY=new String[]{"电影","电视","资讯","游戏","动漫","其他"}; 
+    public static String[] VIDEO_CATEGORY=new String[]{"电影","剧集","资讯","游戏","动漫","其他"}; 
     
 }
