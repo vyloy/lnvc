@@ -220,7 +220,7 @@ public class OrgTree extends DepartmentTreeUI{
 				if(isFocus){
 					if(memberInfoMenu.isVisible()){
 						memberInfoMenu.setVisible(false);	
-					}			
+					}
 				}
 			}else{
 				MemberBean bean = info.getMember();

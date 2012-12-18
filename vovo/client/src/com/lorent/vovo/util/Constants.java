@@ -120,7 +120,8 @@ public interface Constants {
     	UPLOADVIDEOCLIPDIALOG,
     	VIDEOCLIPPANEL,
     	PLAYMONITORFRAME,
-    	VODFRAME
+    	VODFRAME,
+    	RECENTCONTACTLISTPANEL
     }
     
     public enum ConfigKey{
