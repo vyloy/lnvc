@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import com.lorent.common.tree.DepartmentBean;
 import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.bean.DepartmentTreeNode;
+import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.TreeUtil;
 
 public class TreeManager {
@@ -150,6 +151,7 @@ public class TreeManager {
 	
 	public static void removeMember(MemberBean bean)throws Exception{
 		TreeUtil.deleteUserNode(bean);
+		RecentContactManager.getInstance().removeFriendChat(bean.getLccAccount());
 		for(DepartmentTreeUI ui: map.values()){
 			ui.removeMember(bean);
 		}
