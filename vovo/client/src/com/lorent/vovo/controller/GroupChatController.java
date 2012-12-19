@@ -52,6 +52,7 @@ import com.lorent.vovo.ui.MessageFrame;
 import com.lorent.vovo.ui.MessageTabPanel;
 import com.lorent.vovo.ui.MsgRecordPanel;
 import com.lorent.vovo.ui.MyTrayIcon;
+import com.lorent.vovo.ui.RecentContactListPanel;
 import com.lorent.vovo.ui.RecieveGroupChatApplyInDialog;
 import com.lorent.vovo.ui.RecieveGroupChatInviteDialog;
 import com.lorent.vovo.ui.RightCornerMessageDialog;
@@ -260,6 +261,8 @@ public class GroupChatController extends BaseController{
 						log.info("初始化群组 结束。。。。。。。。。。。。。。。。。。。。。。");
 					}
 					MyOpenfireUtil.addGroupChatListener();
+					RecentContactListPanel rclp = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.RECENTCONTACTLISTPANEL.toString());
+					rclp.init();
 				}catch(Exception ex){
 					ex.printStackTrace();
 					log.error(ex.getMessage(),ex);				
