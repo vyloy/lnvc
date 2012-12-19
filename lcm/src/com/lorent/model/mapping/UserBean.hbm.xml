@@ -40,5 +40,7 @@
 		<property name="code" column="code" />
 		<property name="sign" column="sign" />
 		<property name="myPic" column="mypicture" />
+		<property name="isCustomPic" column="iscustompic" />
+		<property name="customPic" column="custompic" />
 	</class>
 </hibernate-mapping>

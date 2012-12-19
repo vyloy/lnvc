@@ -64,20 +64,8 @@ public class UserSettingDialog extends javax.swing.JDialog {
 		signTextArea.setText(bean.getSign());
 		int sexindex = bean.getGender().equals("male") ? 0 : 1;
 		sexComboBox.setSelectedIndex(sexindex);
-		if (bean.getDefaultImg() != null) {
-			try {
-				//				ImageIcon image = new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + bean.getDefaultImg()));
-				//				Image temp = image.getImage().getScaledInstance(this.iconLabel.getMaximumSize().width, this.iconLabel.getMaximumSize().height,
-				//						image.getImage().SCALE_DEFAULT);
-				//				image = new ImageIcon(temp);
-				//				this.iconLabel.setIcon(image);
-				ImageUtil.adjustLabelIcon(iconLabel,
-						Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
-								+ bean.getDefaultImg());
-			} catch (Exception ex) {
-
-			}
-		}
+		ImageUtil.adjustLabelIcon(iconLabel,bean);
+		
 	}
 
 	/** This method is called from within the constructor to
@@ -135,7 +123,6 @@ public class UserSettingDialog extends javax.swing.JDialog {
 		cancelButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setAlwaysOnTop(true);
 		setResizable(false);
 
 		backgroundXPanel.setLayout(new java.awt.BorderLayout());
@@ -756,7 +743,7 @@ public class UserSettingDialog extends javax.swing.JDialog {
 	//GEN-END:initComponents
 
 	private void changeLogoButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		Vovo.exeC("main", "showChangeHeadImgDialog",this);
+		Vovo.exeC("main", "showChangeHeadImgDialog", this);
 	}
 
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -880,9 +867,15 @@ public class UserSettingDialog extends javax.swing.JDialog {
 	public javax.swing.JTextArea getSignTextArea() {
 		return signTextArea;
 	}
+
+	public void setIconLabelForChange(String imgName) {
+		ImageUtil.adjustLabelIcon(this.iconLabel,
+				Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + imgName);
+		this.repaint();
+	}
 	
-	public void setIconLabelForChange(String imgName){
-		ImageUtil.adjustLabelIcon(this.iconLabel, Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + imgName);
+	public void setIconLabelForChange(BufferedImage resultImage) {
+		ImageUtil.adjustLabelIcon(this.iconLabel, resultImage);
 		this.repaint();
 	}
 }

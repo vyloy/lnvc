@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	public final static DeviceType device = DeviceType.STB;
+	public final static DeviceType device = DeviceType.PHONE;
 	private String selectedType = "电影";
 	private LinearLayout setupLayout;
 	private LinearLayout movLayout;
@@ -262,6 +262,7 @@ public class MainActivity extends Activity {
 		        	}else{
 		        		adapter.notifyDataSetChanged();//通知ui界面更新  
 		        	}
+//	    			gridView.invalidate();
 	    		}
 	        	break;
         	}
@@ -320,15 +321,15 @@ public class MainActivity extends Activity {
 			LCMVideoClip item = (LCMVideoClip) arg0.getItemAtPosition(arg2);
 			if(device==DeviceType.PHONE){
 				//手机播放视频
-				Log.i("videoUrlp", StringUtil.encodeUrl(item.getHttpVideoUrlStandard()));
+				Log.i("videoUrlp", StringUtil.encodeUrl(StringUtil.changeIPForUrl(item.getHttpVideoUrlStandard(),ip)));
 				Intent intent = new Intent(MainActivity.this,VideoViewDemo.class);
 				intent.putExtra("fileName", item.getTitle());
-				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlStandard()));
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(StringUtil.changeIPForUrl(item.getHttpVideoUrlStandard(),ip)));
 				startActivity(intent);
 			}else if(device==DeviceType.STB){
 				//机顶盒播放视频
 				Intent intent = new Intent(MainActivity.this,SurfaceViewPlayVideo.class);
-				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlHigh()));
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(StringUtil.changeIPForUrl(item.getHttpVideoUrlHigh(),ip)));
 //				intent.putExtra("videoUrl", "http://10.168.250.12:8800/");
 				intent.putExtra("fileName", item.getTitle());
 				startActivity(intent);
@@ -347,7 +348,7 @@ public class MainActivity extends Activity {
 //				startActivity(it);
 				
 				Intent intent = new Intent(MainActivity.this,HTML5Activity.class);
-				intent.putExtra("videoUrl", StringUtil.encodeUrl(item.getHttpVideoUrlHyper()));
+				intent.putExtra("videoUrl", StringUtil.encodeUrl(StringUtil.changeIPForUrl(item.getHttpVideoUrlHyper(),ip)));
 				intent.putExtra("fileName", item.getTitle());
 				intent.putExtra("ip", MainActivity.this.ip);
 				intent.putExtra("port", MainActivity.this.port);
@@ -421,8 +422,8 @@ public class MainActivity extends Activity {
     
     AlertDialog.Builder builder;  
     AlertDialog alertDialog;
-    public String ip = null;
-    public String port = null;
+    public static String ip = null;
+    public static String port = null;
     EditText ipComponent;
     EditText portComponent;
     LinearLayout paddingLayout;
@@ -547,7 +548,7 @@ public class MainActivity extends Activity {
         
         // get preference
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        ip = settings.getString("serverip", "10.168.250.12");
+        ip = settings.getString("serverip", "10.168.130.20");
         port = settings.getString("serverport", "8800");
         if(device==DeviceType.STB){
         	top = settings.getInt("padingtop", 10);

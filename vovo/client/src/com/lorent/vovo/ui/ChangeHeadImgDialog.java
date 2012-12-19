@@ -7,23 +7,24 @@
 package com.lorent.vovo.ui;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 import org.jdesktop.swingx.painter.ImagePainter;
 import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 
 import com.lorent.common.dto.VovoMyInfo;
 import com.lorent.vovo.Vovo;
+import com.lorent.vovo.ui.CustomHeadOperatePanel.MouseReleaseListener;
+import com.lorent.vovo.ui.HeadSampleImgPanel.HeadSampleImgPanelMouseClickListener;
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.ImageUtil;
+import com.lorent.vovo.util.PicScale;
 
 /**
  *
@@ -32,6 +33,7 @@ import com.lorent.vovo.util.ImageUtil;
 public class ChangeHeadImgDialog extends javax.swing.JDialog {
 
 	private UserSettingDialog settingDialog;
+	private BufferedImage resultImage;
 
 	/** Creates new form ChangeHeadImgDialog */
 	public ChangeHeadImgDialog(java.awt.Frame parent, boolean modal) {
@@ -59,26 +61,26 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		//		Map<String, ImageIcon> map = loadSystemHeadImg();
 		//		Set<String> keys = map.keySet();
 		List<String> list = loadSystemHeadImg();
+		HeadSampleImgPanelMouseClickListener listener = new HeadSampleImgPanelMouseClickListener() {
+			@Override
+			public void doAction(String fileName) {
+				setPreviewLabelImg(fileName);
+			}
+
+		};
 		for (String key : list) {
 			i++;
 			if (i % 4 == 1) {
 				rawPanel = new HeadImgRawPanel();
 				imgListPanel.add(rawPanel);
 			}
-			HeadSampleImgPanel imgPanel = new HeadSampleImgPanel(key, this);
+			HeadSampleImgPanel imgPanel = new HeadSampleImgPanel(key);
+			imgPanel.setMouseClickListener(listener);
 			rawPanel.addHeadSampleImgPanel(imgPanel);
 		}
 
 		VovoMyInfo vovoMyInfo = DataUtil.getMyInfo();
-		if (vovoMyInfo.getDefaultImg() != null) {
-			try {
-				ImageUtil.adjustLabelIcon(this.previewLabel,
-						Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
-								+ vovoMyInfo.getDefaultImg());
-			} catch (Exception ex) {
-
-			}
-		}
+		ImageUtil.adjustLabelIcon(this.previewLabel, vovoMyInfo);
 
 	}
 
@@ -134,18 +136,23 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		jPanel1 = new javax.swing.JPanel();
 		jLabel2 = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
-		jPanel4 = new javax.swing.JPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		imgListPanel = new javax.swing.JPanel();
-		jPanel7 = new javax.swing.JPanel();
-		jPanel8 = new javax.swing.JPanel();
-		jPanel9 = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel11 = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
 		jPanel12 = new javax.swing.JPanel();
 		previewLabel = new javax.swing.JLabel();
 		jPanel13 = new javax.swing.JPanel();
+		jTabbedPane1 = new javax.swing.JTabbedPane();
+		jPanel4 = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		imgListPanel = new javax.swing.JPanel();
+		jPanel7 = new javax.swing.JPanel();
+		jPanel8 = new javax.swing.JPanel();
+		jPanel9 = new javax.swing.JPanel();
+		jPanel6 = new javax.swing.JPanel();
+		jPanel10 = new javax.swing.JPanel();
+		jButton3 = new javax.swing.JButton();
+		customerImgPanel = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
 		jButton2 = new javax.swing.JButton();
@@ -154,20 +161,29 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		setTitle(Vovo.getMyContext().getViewManager().getUIString(
 				"UserSettingDialog.changeUserLogo"));
 		setResizable(false);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				formWindowClosing(evt);
+			}
+		});
 
 		jXPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 430));
+		jXPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
 		jXPanel1.setOpaque(false);
+		jXPanel1.setPreferredSize(new java.awt.Dimension(450, 370));
 		jXPanel1.setLayout(new java.awt.BorderLayout());
 
 		backgroundXPanel
 				.setMaximumSize(new java.awt.Dimension(2147483647, 430));
+		backgroundXPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 		backgroundXPanel.setOpaque(false);
+		backgroundXPanel.setPreferredSize(new java.awt.Dimension(450, 370));
 		backgroundXPanel.setLayout(new java.awt.GridBagLayout());
 
 		jPanel1.setMaximumSize(new java.awt.Dimension(32767, 20));
-		jPanel1.setMinimumSize(new java.awt.Dimension(0, 20));
+		jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
 		jPanel1.setOpaque(false);
-		jPanel1.setPreferredSize(new java.awt.Dimension(100, 20));
+		jPanel1.setPreferredSize(new java.awt.Dimension(100, 0));
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2,
 				2));
 
@@ -183,75 +199,10 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		backgroundXPanel.add(jPanel1, gridBagConstraints);
 
 		jPanel2.setMaximumSize(new java.awt.Dimension(2147483647, 380));
+		jPanel2.setMinimumSize(new java.awt.Dimension(0, 0));
 		jPanel2.setOpaque(false);
+		jPanel2.setPreferredSize(new java.awt.Dimension(450, 340));
 		jPanel2.setLayout(new java.awt.BorderLayout());
-
-		jPanel4.setMaximumSize(new java.awt.Dimension(2147483647, 380));
-		jPanel4.setOpaque(false);
-		jPanel4.setLayout(new java.awt.BorderLayout());
-
-		jScrollPane1
-				.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		jScrollPane1.setMaximumSize(new java.awt.Dimension(32767, 380));
-		jScrollPane1.setOpaque(false);
-
-		imgListPanel.setMaximumSize(new java.awt.Dimension(280, 330));
-		imgListPanel.setMinimumSize(new java.awt.Dimension(280, 0));
-		imgListPanel.setOpaque(false);
-		imgListPanel.setPreferredSize(new java.awt.Dimension(280, 0));
-		imgListPanel.setLayout(new javax.swing.BoxLayout(imgListPanel,
-				javax.swing.BoxLayout.Y_AXIS));
-
-		jPanel7.setMaximumSize(new java.awt.Dimension(32767, 14));
-		jPanel7.setPreferredSize(new java.awt.Dimension(14, 14));
-
-		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(
-				jPanel7);
-		jPanel7.setLayout(jPanel7Layout);
-		jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 333,
-				Short.MAX_VALUE));
-		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
-				Short.MAX_VALUE));
-
-		imgListPanel.add(jPanel7);
-
-		jPanel8.setMaximumSize(new java.awt.Dimension(32767, 14));
-		jPanel8.setPreferredSize(new java.awt.Dimension(100, 14));
-
-		javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(
-				jPanel8);
-		jPanel8.setLayout(jPanel8Layout);
-		jPanel8Layout.setHorizontalGroup(jPanel8Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 333,
-				Short.MAX_VALUE));
-		jPanel8Layout.setVerticalGroup(jPanel8Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
-				Short.MAX_VALUE));
-
-		imgListPanel.add(jPanel8);
-
-		jPanel9.setMaximumSize(new java.awt.Dimension(32767, 14));
-		jPanel9.setPreferredSize(new java.awt.Dimension(100, 14));
-
-		javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(
-				jPanel9);
-		jPanel9.setLayout(jPanel9Layout);
-		jPanel9Layout.setHorizontalGroup(jPanel9Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 333,
-				Short.MAX_VALUE));
-		jPanel9Layout.setVerticalGroup(jPanel9Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
-				Short.MAX_VALUE));
-
-		imgListPanel.add(jPanel9);
-
-		jScrollPane1.setViewportView(imgListPanel);
-
-		jPanel4.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-		jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
 
 		jPanel5.setMaximumSize(new java.awt.Dimension(2147483647, 380));
 		jPanel5.setOpaque(false);
@@ -329,7 +280,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 115,
 				Short.MAX_VALUE));
 		jPanel13Layout.setVerticalGroup(jPanel13Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 174,
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 200,
 				Short.MAX_VALUE));
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -341,6 +292,104 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		jPanel5.add(jPanel13, gridBagConstraints);
 
 		jPanel2.add(jPanel5, java.awt.BorderLayout.EAST);
+
+		jTabbedPane1.setPreferredSize(new java.awt.Dimension(0, 0));
+
+		jPanel4.setMaximumSize(new java.awt.Dimension(2147483647, 380));
+		jPanel4.setOpaque(false);
+		jPanel4.setLayout(new java.awt.BorderLayout());
+
+		jScrollPane1.setBorder(null);
+		jScrollPane1
+				.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		jScrollPane1.setMaximumSize(new java.awt.Dimension(32767, 380));
+		jScrollPane1.setOpaque(false);
+
+		imgListPanel.setMaximumSize(new java.awt.Dimension(280, 330));
+		imgListPanel.setMinimumSize(new java.awt.Dimension(280, 0));
+		imgListPanel.setOpaque(false);
+		imgListPanel.setPreferredSize(new java.awt.Dimension(280, 0));
+		imgListPanel.setLayout(new javax.swing.BoxLayout(imgListPanel,
+				javax.swing.BoxLayout.Y_AXIS));
+
+		jPanel7.setMaximumSize(new java.awt.Dimension(32767, 14));
+		jPanel7.setPreferredSize(new java.awt.Dimension(14, 14));
+
+		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(
+				jPanel7);
+		jPanel7.setLayout(jPanel7Layout);
+		jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 386,
+				Short.MAX_VALUE));
+		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
+				Short.MAX_VALUE));
+
+		imgListPanel.add(jPanel7);
+
+		jPanel8.setMaximumSize(new java.awt.Dimension(32767, 14));
+		jPanel8.setPreferredSize(new java.awt.Dimension(100, 14));
+
+		javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(
+				jPanel8);
+		jPanel8.setLayout(jPanel8Layout);
+		jPanel8Layout.setHorizontalGroup(jPanel8Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 386,
+				Short.MAX_VALUE));
+		jPanel8Layout.setVerticalGroup(jPanel8Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
+				Short.MAX_VALUE));
+
+		imgListPanel.add(jPanel8);
+
+		jPanel9.setMaximumSize(new java.awt.Dimension(32767, 14));
+		jPanel9.setPreferredSize(new java.awt.Dimension(100, 14));
+
+		javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(
+				jPanel9);
+		jPanel9.setLayout(jPanel9Layout);
+		jPanel9Layout.setHorizontalGroup(jPanel9Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 386,
+				Short.MAX_VALUE));
+		jPanel9Layout.setVerticalGroup(jPanel9Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 14,
+				Short.MAX_VALUE));
+
+		imgListPanel.add(jPanel9);
+
+		jScrollPane1.setViewportView(imgListPanel);
+
+		jPanel4.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+		jTabbedPane1.addTab(Vovo.getMyContext().getViewManager().getUIString(
+				"ChangeHeadImgDialog.local.image"), jPanel4);
+
+		jPanel6.setOpaque(false);
+		jPanel6.setLayout(new java.awt.BorderLayout());
+
+		jPanel10.setOpaque(false);
+		jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+		jButton3.setText(Vovo.getMyContext().getViewManager().getUIString(
+				"ChangeHeadImgDialog.local.image"));
+		jButton3.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton3ActionPerformed(evt);
+			}
+		});
+		jPanel10.add(jButton3);
+
+		jPanel6.add(jPanel10, java.awt.BorderLayout.NORTH);
+
+		customerImgPanel.setMinimumSize(new java.awt.Dimension(300, 250));
+		customerImgPanel.setPreferredSize(new java.awt.Dimension(300, 250));
+		customerImgPanel.setLayout(new java.awt.BorderLayout());
+		jPanel6.add(customerImgPanel, java.awt.BorderLayout.CENTER);
+
+		jTabbedPane1.addTab(Vovo.getMyContext().getViewManager().getUIString(
+				"ChangeHeadImgDialog.customer.headimg"), jPanel6);
+
+		jPanel2.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
@@ -390,11 +439,73 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+		isChageFlag = false;
+	}
+
+	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+			public boolean accept(File f) {
+				String suffix = f.getName().toLowerCase();
+				return suffix.endsWith(".png") || suffix.endsWith(".gif")
+						|| suffix.endsWith(".jpg") || suffix.endsWith(".bmp")
+						|| f.isDirectory();
+			}
+
+			public String getDescription() {
+				return ".png,.gif,.jpg,.bmp";
+			}
+		});
+		int showOpenDialog = chooser.showOpenDialog(null);
+		if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
+			File f = chooser.getSelectedFile();
+			String suffix = f.getName().toLowerCase();
+			if (suffix.endsWith(".png") || suffix.endsWith(".gif")
+					|| suffix.endsWith(".jpg") || suffix.endsWith(".bmp")) {
+				this.customerImgPanel.removeAll();
+				this.jTabbedPane1.revalidate();
+				this.jTabbedPane1.repaint();
+				final CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
+						f.getAbsolutePath(),
+						this.customerImgPanel.getSize().width,
+						this.customerImgPanel.getSize().height);
+				customHeadOperatePanel
+						.addMouseRelease(new MouseReleaseListener() {
+
+							@Override
+							public void doAction() {
+								isChageFlag = true;
+								resultImage = customHeadOperatePanel
+										.getResultImage();
+								ImageUtil.adjustLabelIcon(previewLabel,
+										resultImage);
+								previewLabel.revalidate();
+								previewLabel.repaint();
+								imgName = null;
+							}
+						});
+				this.customerImgPanel.add(customHeadOperatePanel);
+				this.jTabbedPane1.revalidate();
+				this.jTabbedPane1.repaint();
+				this.validate();
+				this.repaint();
+			}
+		}
+	}
+
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		if (this.imgName != null && this.imgName.trim().length() > 3) {
-			Vovo.exeC("main", "changeHeadImg", imgName);
+			Vovo.exeC("main", "changeHeadImg", imgName, 0, null);
 			if (this.settingDialog != null) {
 				this.settingDialog.setIconLabelForChange(imgName);
+			}
+		} else {
+			Vovo.exeC("main", "changeHeadImg", null, 1, ImageUtil
+					.convertBufferedImage2ByteArray(PicScale.getInstance()
+							.resizeImage(resultImage, 100, 100)));
+			if (this.settingDialog != null) {
+				this.settingDialog.setIconLabelForChange(resultImage);
 			}
 		}
 		this.dispose();
@@ -425,12 +536,15 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private org.jdesktop.swingx.JXPanel backgroundXPanel;
+	private javax.swing.JPanel customerImgPanel;
 	private javax.swing.JPanel imgListPanel;
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
+	private javax.swing.JButton jButton3;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel10;
 	private javax.swing.JPanel jPanel11;
 	private javax.swing.JPanel jPanel12;
 	private javax.swing.JPanel jPanel13;
@@ -438,17 +552,21 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
+	private javax.swing.JPanel jPanel6;
 	private javax.swing.JPanel jPanel7;
 	private javax.swing.JPanel jPanel8;
 	private javax.swing.JPanel jPanel9;
 	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JTabbedPane jTabbedPane1;
 	private org.jdesktop.swingx.JXPanel jXPanel1;
 	private javax.swing.JLabel previewLabel;
 	// End of variables declaration//GEN-END:variables
 
 	private String imgName;
+	private boolean isChageFlag = false;
 
 	public void setPreviewLabelImg(String imgName) {
+		isChageFlag = true;
 		this.imgName = imgName;
 		ImageUtil.adjustLabelIcon(previewLabel,
 				Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + imgName);

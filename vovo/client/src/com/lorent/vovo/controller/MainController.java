@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
 
@@ -261,6 +262,7 @@ public class MainController extends BaseController {
 		userSettingDialog.setInfo(vovoMyInfo);
 		userSettingDialog.setTitle(Vovo.getMyContext().getViewManager().getUIString("UserSettingDialog.title"));
 		userSettingDialog.setVisible(true);
+		userSettingDialog.requestFocusInWindow();
 	}
 	
 	public void doEditUserSetting(UserSettingDialog dialog) throws Exception{
@@ -429,15 +431,20 @@ public class MainController extends BaseController {
 		} catch (Exception e) {
 			
 		}
-		dialog.setAlwaysOnTop(true);
 		dialog.setVisible(true);
+		dialog.requestFocusInWindow();
 	}
 	
-	public void changeHeadImg(String imgName) throws Exception{
+	public void changeHeadImg(String imgName,int isCustomPic,byte[] b) throws Exception{
 		VovoMyInfo vovoMyInfo = Vovo.getLcmUtil().getVovoMyInfo(DataUtil.getUserName());
 		vovoMyInfo.setDefaultImg(imgName);
+		vovoMyInfo.setIsCustomPic(isCustomPic);
+		if(b!=null){
+			vovoMyInfo.setCustomPic(b);
+		}
 		Vovo.getLcmUtil().setVovoMyInfo(vovoMyInfo);
 	}
+	
 	
 	public void serverDisconnect(){
 //		JOptionPane.showMessageDialog(null, "serverDisconnect");

@@ -31,10 +31,10 @@ public class HeadImgRawPanel extends javax.swing.JPanel {
 		jPanel3 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
 
-		setMaximumSize(new java.awt.Dimension(32767, 65));
-		setMinimumSize(new java.awt.Dimension(0, 65));
+		setMaximumSize(new java.awt.Dimension(32767, 80));
+		setMinimumSize(new java.awt.Dimension(0, 80));
 		setOpaque(false);
-		setPreferredSize(new java.awt.Dimension(0, 65));
+		setPreferredSize(new java.awt.Dimension(0, 80));
 		setLayout(new java.awt.GridLayout(1, 4));
 
 		jPanel1.setOpaque(false);

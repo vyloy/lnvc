@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.bean.TreeNodeInfo;
 import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.ImageUtil;
 import com.lorent.vovo.util.UserInfoUtil;
 
 /**
@@ -187,8 +188,14 @@ public class DepartmentTreeNodePanel extends TreeNodeInfoPanel {
 				this.jLabel2.setIcon(image);
 			}*/
 			this.userPanel.removeAll();
-			this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
-					.getState(), 20, 20), java.awt.BorderLayout.CENTER);
+			this.userPanel.add(ImageUtil.generateHeadImagePanel(bean, 20, 20), java.awt.BorderLayout.CENTER);
+//			if(bean.getIsCustomPic()==0){
+//				this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//						.getState(), 20, 20), java.awt.BorderLayout.CENTER);
+//			}else{
+//				this.userPanel.add(new HeadImagePanel(bean.getCustomPic(), bean
+//						.getState(), 20, 20), java.awt.BorderLayout.CENTER);
+//			}
 		}
 	}
 

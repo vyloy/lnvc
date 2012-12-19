@@ -550,8 +550,9 @@ public class FriendChatPanel extends javax.swing.JPanel {
 		this.bean = bean;
 		this.nameLbl.setText(bean.getRealName());
 		this.jPanel7.removeAll();
-		this.jPanel7.add(new HeadImagePanel(bean.getDefaultImg(), bean
-				.getState(), 60, 60), java.awt.BorderLayout.CENTER);
+		this.jPanel7.add(ImageUtil.generateHeadImagePanel(bean, 60, 60), java.awt.BorderLayout.CENTER);
+//		this.jPanel7.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//				.getState(), 60, 60), java.awt.BorderLayout.CENTER);
 		//		this.msgRecordPanel.setMemberId(bean.getId());
 	}
 

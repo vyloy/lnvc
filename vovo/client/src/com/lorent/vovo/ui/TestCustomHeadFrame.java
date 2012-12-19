@@ -19,7 +19,7 @@ public class TestCustomHeadFrame extends javax.swing.JFrame {
 	public TestCustomHeadFrame() {
 		initComponents();
 		CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
-				"C://Documents and Settings//test//桌面//QQ截图20120910145040.jpg");
+				"C://Documents and Settings//test//桌面//20121123140058_337_PSY_1080P_4800K_mp4.jpg");
 //		截图.png
 //		CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
 //		"C://Documents and Settings//test//桌面//head_1.jpg");

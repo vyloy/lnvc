@@ -126,6 +126,7 @@ public class VideoInfoAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ImageView imageView = null;
 		TextView textView = null;
+		final LCMVideoClip info = datas.get(position);
 		if (lstPosition.contains(position) == false) {  
             if(lstPosition.size()>75)//这里设置缓存的Item数量  
             {  
@@ -140,10 +141,12 @@ public class VideoInfoAdapter extends BaseAdapter {
             lstView.add(convertView);//添加最新项  
         } else  
         {  
-            convertView = lstView.get(lstPosition.indexOf(position)); 
+            convertView = lstView.get(lstPosition.indexOf(position));
+//            textView = (TextView) convertView.findViewById(R.id.ItemText);  
+//            textView.setText(info.getTitle());
+//            Log.i(TAG, info.getTitle()+"bbb");
             return convertView;
         }
-		final LCMVideoClip info = datas.get(position);
 		Log.i("reflashimage", "clear:"+info.getId()+"");
 		final ImageView imageView1 = imageView;
 		Log.i("LCMVideoClip", info.getThumbnailUrl());
@@ -159,7 +162,8 @@ public class VideoInfoAdapter extends BaseAdapter {
               }
                 
             }  
-        });  
+        });
+		Log.i(TAG, info.getTitle()+"aaaa");
 //		imageView.setImageResource(R.drawable.ic_launcher);
 		textView.setText(info.getTitle());
 //		textView.setText("的发的的发佛IAD风");

@@ -5,7 +5,7 @@
         <item name="android:horizontalSpacing">@dimen/gridview_horizontalSpacing</item>
         <item name="android:columnWidth">@dimen/gridview_columnWidth</item>
         <item name="android:scrollbarSize">30dp</item>
-        <item name="android:verticalSpacing">20dp</item>
+        <item name="android:verticalSpacing">5dp</item>
     </style>
     <style name="activity_main_toolbar">
         <item name="android:layout_width">fill_parent</item>
@@ -32,16 +32,17 @@
         <item name="android:layout_height">96dp</item>
     </style>
     <style name="video_item_TextView">
-        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:lines">2</item>
+        <!-- <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
-        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item> -->
     </style>
     <style name="video_item_TextView_phone">
-        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:lines">3</item>
+        <item name="android:lines">2</item>
     </style>
     <style name="setup_dialog_TextView">
         <item name="android:layout_width">match_parent</item>

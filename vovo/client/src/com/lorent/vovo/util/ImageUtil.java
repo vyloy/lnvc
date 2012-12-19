@@ -4,12 +4,17 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
+import com.lorent.common.tree.MemberBean;
+import com.lorent.vovo.ui.HeadImagePanel;
 
 public class ImageUtil {
 	public static final String IMAGE_ROOT = "/com/lorent/vovo/resource/images/";
@@ -63,6 +68,12 @@ public class ImageUtil {
 		label.setIcon(icon1);
 	}
 	
+	public static void adjustLabelIcon(javax.swing.JLabel label,BufferedImage resultImage){
+		BufferedImage bufferedImage = PicScale.getInstance().resizeImage(resultImage, label.getMaximumSize().width,
+				label.getMaximumSize().height);
+		setLabelIcon(label,bufferedImage);
+	}
+	
 	public static void adjustLabelIcon(javax.swing.JLabel label,String imgPath){
 		BufferedImage bufferedImage = null;
 		try {
@@ -78,5 +89,67 @@ public class ImageUtil {
 		bufferedImage = PicScale.getInstance().resizeImage(ImageUtil.bufferImage(bufferedImage, BufferedImage.TYPE_INT_RGB), label.getMaximumSize().width,
 				label.getMaximumSize().height);
 		setLabelIcon(label,bufferedImage);
+	}
+	
+	public static void adjustLabelIcon(javax.swing.JLabel label,MemberBean bean){
+		if(bean.getIsCustomPic()==0){
+			if (bean.getDefaultImg() != null) {
+				try {
+//					ImageIcon image = new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + bean.getDefaultImg()));
+					//				Image temp = image.getImage().getScaledInstance(this.iconLabel.getMaximumSize().width, this.iconLabel.getMaximumSize().height,
+					//						image.getImage().SCALE_DEFAULT);
+					//				image = new ImageIcon(temp);
+					//				this.iconLabel.setIcon(image);
+					ImageUtil.adjustLabelIcon(label,
+							Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
+									+ bean.getDefaultImg());
+				} catch (Exception ex) {
+
+				}
+			}
+		}else{
+			try {
+				ImageUtil.adjustLabelIcon(label,
+						ImageUtil.convertByteArray2BufferedImage(bean.getCustomPic()));
+			} catch (Exception ex) {
+
+			}
+		}
+	}
+	
+	public static HeadImagePanel generateHeadImagePanel(MemberBean bean, int w, int h){
+		HeadImagePanel panel = null;
+		if(bean.getIsCustomPic()==0){
+			panel = new HeadImagePanel(bean.getDefaultImg(), bean
+					.getState(), w, h);
+		}else{
+			panel = new HeadImagePanel(bean.getCustomPic(), bean
+					.getState(), w, h);
+		}
+		return panel;
+	} 
+	
+	public static byte[] convertBufferedImage2ByteArray(BufferedImage image){
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		byte[] b = null;
+        try {
+			boolean flag = ImageIO.write(image, "jpg", out);
+			b = out.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        return b;
+	}
+	
+	public static BufferedImage convertByteArray2BufferedImage(byte[] b) throws Exception{
+		ByteArrayInputStream in = new ByteArrayInputStream(b);    //将b作为输入流；
+		BufferedImage image = ImageIO.read(in);//将in作为输入流，读取图片存入image中，而这里in可以为ByteArrayInputStream();
+		return image;
 	}
 }

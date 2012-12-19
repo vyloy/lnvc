@@ -25,6 +25,8 @@ public class MemberBean implements Serializable{
 	private String gender;
 	private String deptName;
 	private String ip;//登录的ip
+	private Integer isCustomPic;
+	private byte[] customPic;
 	
 	public MemberBean(){
 		
@@ -49,6 +51,8 @@ public class MemberBean implements Serializable{
 		this.setSign(bean.getSign());
 		this.setUsername(bean.getUsername());
 		this.setIp(bean.getIp());
+		this.setIsCustomPic(bean.getIsCustomPic());
+		this.setCustomPic(bean.getCustomPic());
 	}
 	
 	public MemberBean(int id,String jid,String desc,int state,String post,String lccAccount,String defaultImg,ImageIcon icon,String realName){
@@ -65,6 +69,22 @@ public class MemberBean implements Serializable{
 	
 	
 	
+	public Integer getIsCustomPic() {
+		return isCustomPic;
+	}
+
+	public void setIsCustomPic(Integer isCustomPic) {
+		this.isCustomPic = isCustomPic;
+	}
+
+	public byte[] getCustomPic() {
+		return customPic;
+	}
+
+	public void setCustomPic(byte[] customPic) {
+		this.customPic = customPic;
+	}
+
 	public List<Integer> getDepartments() {
 		return departments;
 	}

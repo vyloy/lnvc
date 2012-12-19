@@ -12,7 +12,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -40,6 +42,19 @@ public class HeadImagePanel extends javax.swing.JPanel {
 	/** Creates new form HeadImagePanel */
 	public HeadImagePanel() {
 		initComponents();
+	}
+	
+	public HeadImagePanel(byte[] b,int state, int w, int h){
+		try {
+//			ByteArrayInputStream in = new ByteArrayInputStream(b);    //将b作为输入流；
+//			BufferedImage image = ImageIO.read(in);
+//			ImageIcon icon = new ImageIcon(image);
+			init(ImageUtil.convertByteArray2BufferedImage(b), state, w, h);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}     
+
+		 
 	}
 
 	public HeadImagePanel(String imgUrl, int state, int w, int h) {

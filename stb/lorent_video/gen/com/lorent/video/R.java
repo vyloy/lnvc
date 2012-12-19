@@ -282,6 +282,10 @@ public final class R {
         public static final int setup_dialog=0x7f060011;
         public static final int setup_dialog_TextView=0x7f06001e;
         public static final int video_item_ImageView=0x7f06001b;
+        /**  <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item> 
+         */
         public static final int video_item_TextView=0x7f06001c;
         public static final int video_item_TextView_phone=0x7f06001d;
     }

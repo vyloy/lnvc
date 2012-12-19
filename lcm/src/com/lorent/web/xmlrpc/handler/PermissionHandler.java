@@ -74,6 +74,10 @@ public class PermissionHandler extends BaseHandler{
 		if(info.getDefaultImg()!=null && info.getDefaultImg().trim().length()>3){
 			userBean.setMyPic(info.getDefaultImg());
 		}
+		userBean.setIsCustomPic(info.getIsCustomPic());
+		if(info.getCustomPic()!=null && info.getCustomPic().length>0){
+			userBean.setCustomPic(info.getCustomPic());
+		}
 		return serviceFacade.getUserService().renewUser(userBean);
 	}
 	
