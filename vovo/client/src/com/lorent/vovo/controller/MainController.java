@@ -39,6 +39,7 @@ import com.lorent.vovo.ui.MessageTabPanel;
 import com.lorent.vovo.ui.MyTrayIcon;
 import com.lorent.vovo.ui.OrganListPanel;
 import com.lorent.vovo.ui.PhoneFrame;
+import com.lorent.vovo.ui.RecentContactListPanel;
 import com.lorent.vovo.ui.ShareFileListPanel;
 import com.lorent.vovo.ui.UserSettingDialog;
 import com.lorent.vovo.ui.VideoClipPanel;
@@ -48,6 +49,7 @@ import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.MyLoginSessionUtil;
 import com.lorent.vovo.util.MyOpenfireUtil;
 import com.lorent.vovo.util.PrivateDataUtil;
+import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.TreeUtil;
 import com.lorent.vovo.util.UserInfoUtil;
 import com.lorent.vovo.util.VovoStringUtil;
@@ -148,6 +150,8 @@ public class MainController extends BaseController {
 		mainframe.getMainTab().add(getUIString("mainTab.shareFileList"), shareFileListPanel);
 		VideoClipPanel videoClipPanel = Vovo.getMyContext().getViewManager().createView(VideoClipPanel.class, Constants.ViewKey.VIDEOCLIPPANEL.toString());
 		mainframe.getMainTab().add(getUIString("mainTab.videoclippanel"), videoClipPanel);
+		RecentContactListPanel rclp = Vovo.getMyContext().getViewManager().createView(RecentContactListPanel.class, Constants.ViewKey.RECENTCONTACTLISTPANEL.toString());
+		mainframe.getMainTab().add(getUIString("mainTab.recentpanel"), rclp);
 		//set my info
 		VovoMyInfo info = Vovo.getLcmUtil().getVovoMyInfo(lccno);
 		mainframe.setMyInfo(info);
