@@ -8,6 +8,10 @@ package com.lorent.vovo.ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Set;
@@ -18,6 +22,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.painter.ImagePainter;
 import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
@@ -28,9 +33,12 @@ import com.jidesoft.swing.JideLabel;
 import com.jtattoo.plaf.vovoglass.VoVoBasicListUI;
 import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.Vovo;
+import com.lorent.vovo.bean.TreeNodeInfo;
 import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.RecentContactManager.RecentContact;
+import com.lorent.vovo.util.RecentContactManager.RecentContactInfo;
 import com.lorent.vovo.util.TreeUtil;
 
 /**
@@ -108,6 +116,26 @@ public class RecentContactListPanel extends javax.swing.JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton()==MouseEvent.BUTTON1 && e.getClickCount()==2){
+					Point point = e.getPoint();
+			    	Rectangle cellBounds = list.getCellBounds(0, list.getLastVisibleIndex());
+			    	if(!cellBounds.contains(point)){
+			    		return;
+			    	}
+			    	int index = list.locationToIndex(point);
+			    	RecentContact c = (RecentContact)list.getModel().getElementAt(index);
+			    	if((c.getInfo()&RecentContactInfo.FRIEND.mask)!=0){
+			    		Vovo.exeC("chat", "showFriendChat", TreeUtil.getMemberBeanByLccno(c.getContact()));
+			    	}else if((c.getInfo()&RecentContactInfo.GROUP.mask)!=0){
+			    		
+			    	}
+				}
+			}
+			
+		});
 	}
 	
 	public void init(){
