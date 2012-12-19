@@ -10,12 +10,14 @@ import java.awt.Component;
 import java.awt.Panel;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Message;
@@ -29,6 +31,7 @@ import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.FontUtil;
 import com.lorent.vovo.util.ImageUtil;
+import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.VovoStringUtil;
 import com.lorent.vovo.util.Constants.DataKey;
 
@@ -55,6 +58,18 @@ public class FriendChatPanel extends javax.swing.JPanel {
 					Vovo.exeC("chat", "sendFriendMsg", msg, style, bean
 							.getLccAccount(), bean.getId(), imgs, time);
 					insertMyMsg(msg, style, new Date(time), imgs);
+					SwingUtilities.invokeLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								RecentContactManager.getInstance().insertFriendChat(bean
+										.getLccAccount());
+							} catch (IOException e) {
+								log.error("RecentContactManager.insertFriendChat", e);
+							}
+						}
+					});
 				} catch (Exception e) {
 					log.error("insert my msg error", e);
 					JOptionPane.showMessageDialog(FriendChatPanel.this,
