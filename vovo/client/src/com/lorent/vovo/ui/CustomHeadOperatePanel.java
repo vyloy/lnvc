@@ -8,6 +8,7 @@ package com.lorent.vovo.ui;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import com.lorent.vovo.bean.ResultImageInfo;
 import com.lorent.vovo.util.PicScale;
 
 /**
@@ -30,6 +32,21 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 	private BufferedImage bufferedImage;
 	private boolean flag = false;
 	private CustomHeadRectangular customHeadRectangular;
+	private ResultImageInfo resultImageInfo;
+	private BufferedImage resultImage;
+	
+	public BufferedImage getResultImage(){
+		int x = resultImageInfo.getX();
+		int y = resultImageInfo.getY();
+		int width = resultImageInfo.getWidth();
+		if(ratio>0){
+			x = (int)(x * ratio);
+			y = (int)(y * ratio);
+			width = (int)(width * ratio);
+		}
+		resultImage = bufferedImage.getSubimage(x, y, width, width);
+		return resultImage;
+	}
 
 	/** Creates new form CustomHeadOperatePanel */
 	public CustomHeadOperatePanel() {
@@ -51,6 +68,17 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 		this.bufferedImage = bufferedImage;
 		setImageLabel();
 	}
+	
+	public CustomHeadOperatePanel(String imgPath,int w,int h) {
+		this();
+		this.setPreferredSize(new java.awt.Dimension(w,h));
+		try {
+			bufferedImage = ImageIO.read(new File(imgPath));
+			setImageLabel();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -61,27 +89,8 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
-		setMinimumSize(new java.awt.Dimension(400, 300));
 		setOpaque(false);
-		setPreferredSize(new java.awt.Dimension(400, 300));
-		addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mousePressed(java.awt.event.MouseEvent evt) {
-				formMousePressed(evt);
-			}
-
-			public void mouseReleased(java.awt.event.MouseEvent evt) {
-				formMouseReleased(evt);
-			}
-		});
-		addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-			public void mouseDragged(java.awt.event.MouseEvent evt) {
-				formMouseDragged(evt);
-			}
-
-			public void mouseMoved(java.awt.event.MouseEvent evt) {
-				formMouseMoved(evt);
-			}
-		});
+		
 		setLayout(new java.awt.BorderLayout());
 	}// </editor-fold>
 	//GEN-END:initComponents
@@ -93,6 +102,10 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 
 	private void formMouseReleased(java.awt.event.MouseEvent evt) {
 		customHeadRectangular.mouseReleased(evt);
+		
+		for(MouseReleaseListener listener:mouseReleaseQueue){
+			listener.doAction();
+		}
 	}
 
 	private void formMouseDragged(java.awt.event.MouseEvent evt) {
@@ -103,15 +116,25 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 	private void formMouseMoved(java.awt.event.MouseEvent evt) {
 		customHeadRectangular.mouseMoved(evt);
 	}
+	
+	private java.util.concurrent.LinkedBlockingQueue<MouseReleaseListener> mouseReleaseQueue = new java.util.concurrent.LinkedBlockingQueue<MouseReleaseListener>();
+	
+	public interface MouseReleaseListener{
+		void doAction();
+	}
+	
+	public void addMouseRelease(MouseReleaseListener listener){
+		mouseReleaseQueue.offer(listener);
+	}
 
 	private int scaleImgX;
 	private int scaleImgY;
 	private BufferedImage scaleBufferedImage;
 	private int scaleImgWidth;
 	private int scaleImgHeigth;
-
+	double ratio = 0;
 	public void setImageLabel() {
-		double ratio = 0;
+		
 		double wRatio = 0;
 		double hRatio = 0;
 
@@ -148,6 +171,7 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 				+ this.getPreferredSize().width
 				+ ";this.getPreferredSize().height: "
 				+ this.getPreferredSize().height);
+		//计算图片左上角坐标
 		scaleImgX = (int) (this.getPreferredSize().width - scaleImgWidth) / 2;
 		scaleImgY = (int) (this.getPreferredSize().height - scaleImgHeigth) / 2;
 		System.out.println("scaleImgX: " + scaleImgX + ";scaleImgY: "
@@ -220,10 +244,12 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 		//画背景颜色
 		Graphics2D g2 = (Graphics2D) g;
 		Color color = g2.getColor();
+		Composite composite = g2.getComposite();
 		g2.setComposite(AlphaComposite.getInstance(3, 0.4F));
 		g2.setColor(Color.BLACK);
 		g2.fillRect(scaleImgX, scaleImgY, scaleImgWidth, scaleImgHeigth);
 		g2.setColor(color);
+		g2.setComposite(composite);
 		//	    g2.drawImage(scaleBufferedImage, scaleImgX, scaleImgY,scaleImgWidth,scaleImgHeigth, null);
 		//	    if(!flag){
 		//	    	
@@ -235,11 +261,36 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 		//	    }
 		//		System.out.println("paint scaleImgX: " + scaleImgX + ";scaleImgY: "
 		//				+ scaleImgY);
+		boolean isFirst = false;
 		if (customHeadRectangular == null) {
+			isFirst = true;
 			customHeadRectangular = new CustomHeadRectangular(this,
 					scaleBufferedImage, scaleImgX, scaleImgY);
+			addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent evt) {
+					formMousePressed(evt);
+				}
+
+				public void mouseReleased(java.awt.event.MouseEvent evt) {
+					formMouseReleased(evt);
+				}
+			});
+			addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+				public void mouseDragged(java.awt.event.MouseEvent evt) {
+					formMouseDragged(evt);
+				}
+
+				public void mouseMoved(java.awt.event.MouseEvent evt) {
+					formMouseMoved(evt);
+				}
+			});
 		}
-		customHeadRectangular.draw(g);
+		resultImageInfo = customHeadRectangular.draw(g);
+		if(isFirst){
+			for(MouseReleaseListener listener:mouseReleaseQueue){
+				listener.doAction();
+			}
+		}
 		/*BufferedImageMax bufferedImageMax;
 		//计算图片宽和高哪个值大
 		if(bufferedImage.getWidth()>bufferedImage.getHeight()){
@@ -282,6 +333,7 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 	}
 
 	private Image doubleBuffer;
+	
 
 	public void update(Graphics g) {
 		Dimension size = getSize();

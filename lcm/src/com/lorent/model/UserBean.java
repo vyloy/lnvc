@@ -39,7 +39,24 @@ public class UserBean extends BaseModel  implements AbstractAclModel, UserDetail
 	private String code;//员工编码
 	private String myPic;//用户头像
 	private String sign;//个性签名
-	
+	private Integer isCustomPic;
+	private byte[] customPic;
+
+	public Integer getIsCustomPic() {
+		return isCustomPic;
+	}
+
+	public void setIsCustomPic(Integer isCustomPic) {
+		this.isCustomPic = isCustomPic;
+	}
+
+	public byte[] getCustomPic() {
+		return customPic;
+	}
+
+	public void setCustomPic(byte[] customPic) {
+		this.customPic = customPic;
+	}
 
 	public String getPosition() {
 		return position;

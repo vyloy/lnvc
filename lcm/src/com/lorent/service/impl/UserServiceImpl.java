@@ -146,6 +146,8 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 		temp.setMobile(user.getMobile());
 		temp.setGender(user.getGender());
 		temp.setDefaultImg(user.getMyPic());
+		temp.setIsCustomPic(user.getIsCustomPic());
+		temp.setCustomPic(user.getCustomPic());
 		return temp;
 	}
 	

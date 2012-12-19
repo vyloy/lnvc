@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.ImageUtil;
 import com.lorent.vovo.util.UserInfoUtil;
 
 /**
@@ -78,8 +79,9 @@ public class GroupMemberListItem extends javax.swing.JPanel {
 			this.headImgLabel.setIcon(image);
 		}*/
 		this.userPanel.removeAll();
-		this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
-				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+		this.userPanel.add(ImageUtil.generateHeadImagePanel(bean, 40, 40), java.awt.BorderLayout.CENTER);
+//		this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
 	}
 
 	public MemberBean getMemberBean() {

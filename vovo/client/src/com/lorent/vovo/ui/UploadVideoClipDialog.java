@@ -24,8 +24,8 @@ import com.lorent.vovo.util.VovoStringUtil;
 public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	public Boolean uploading = false;
-
-	public void setUIEnable() {
+	
+	public void setUIEnable(){
 		this.getTitleTextField().setEnabled(true);
 		this.getDescriptionTextArea().setEnabled(true);
 		this.getSelectFileHighButton().setEnabled(true);
@@ -34,8 +34,8 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		this.getSelectFileHyperButton().setEnabled(true);
 		this.getCategoryComboBox().setEnabled(true);
 	}
-
-	public void setUIDisable() {
+	
+	public void setUIDisable(){
 		this.getTitleTextField().setEnabled(false);
 		this.getDescriptionTextArea().setEnabled(false);
 		this.getSelectFileHighButton().setEnabled(false);
@@ -44,7 +44,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		this.getSelectFileHyperButton().setEnabled(false);
 		this.getCategoryComboBox().setEnabled(false);
 	}
-
+	
 	private String thumbnailImageFilePath;
 	private String selectedHighVideoFilePath;
 	private String selectedStandardVideoFilePath;
@@ -55,7 +55,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 	private String newHyperVideoFileName;
 	private String newHighVideoFileName;
 	private String newStandardVideoFileName;
-
+	
 	public String getNewHyperVideoFileName() {
 		return newHyperVideoFileName;
 	}
@@ -175,7 +175,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 		uploadButton = new javax.swing.JButton();
 		cancelButton = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setResizable(false);
 
 		jPanel1.setLayout(new java.awt.BorderLayout());
@@ -625,7 +625,7 @@ public class UploadVideoClipDialog extends javax.swing.JDialog {
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		Vovo.exeC("videoclip", "cancelUpLoadVideoClip", this);
-		//		this.dispose();
+//		this.dispose();
 	}
 
 	private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {

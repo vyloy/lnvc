@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.util.Constants;
+import com.lorent.vovo.util.ImageUtil;
 
 /**
  *
@@ -132,8 +133,16 @@ public class MemberTreeNodePanel extends javax.swing.JPanel {
 		if (bean.getSign() != null) {
 			this.sign.setText(bean.getSign());
 		}
-		this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
-				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+//		System.out.println("bean is " + bean);
+		this.userPanel.add(ImageUtil.generateHeadImagePanel(bean, 40, 40), java.awt.BorderLayout.CENTER);
+//		if(bean.getIsCustomPic()==0){
+//			this.userPanel.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//					.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+//		}else if(bean.getIsCustomPic()==1){
+//			this.userPanel.add(new HeadImagePanel(bean.getCustomPic(), bean
+//					.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+//		}
+		
 		/*if (bean.getDefaultImg() == null || bean.getDefaultImg().equals("")) {
 			switch (bean.getState()) {
 			case Constants.STATUS_ONLINE:

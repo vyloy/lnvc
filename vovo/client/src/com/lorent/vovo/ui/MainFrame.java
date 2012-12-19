@@ -267,17 +267,18 @@ public class MainFrame extends javax.swing.JFrame {
 		if (info.getSign() != null) {
 			this.signlbl.setText(info.getSign());
 		}
-
-		if (info.getDefaultImg() != null) {
-			try {
-				//				this.myHead.setIcon(new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + info.getDefaultImg())));
-				ImageUtil.adjustLabelIcon(myHead,
-						Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
-								+ info.getDefaultImg());
-			} catch (Exception ex) {
-
-			}
-		}
+		ImageUtil.adjustLabelIcon(myHead,
+				info);
+//		if (info.getDefaultImg() != null) {
+//			try {
+//				//				this.myHead.setIcon(new ImageIcon(getClass().getResource("/com/lorent/vovo/resource/images/systemheads/sys/" + info.getDefaultImg())));
+//				ImageUtil.adjustLabelIcon(myHead,
+//						Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
+//								+ info.getDefaultImg());
+//			} catch (Exception ex) {
+//
+//			}
+//		}
 	}
 
 	public void setRealName(String realName) {

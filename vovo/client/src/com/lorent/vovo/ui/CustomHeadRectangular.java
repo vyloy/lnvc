@@ -1,11 +1,14 @@
 package com.lorent.vovo.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import com.lorent.vovo.bean.ResultImageInfo;
 
 public class CustomHeadRectangular {
 
@@ -32,6 +35,7 @@ public class CustomHeadRectangular {
 	private int imageOriginX;
 	private int imageOriginY;
 	private int imageMaxLen;
+	private ResultImageInfo resultImageInfo = new ResultImageInfo();
 	
 	public CustomHeadRectangular(Component c,BufferedImage bufferedImage,int px,int py){
 		this.bufferedImage = bufferedImage;
@@ -52,7 +56,7 @@ public class CustomHeadRectangular {
 		imageMaxLen = imageMaxW<=imageMaxH ? imageMaxW:imageMaxH;
 	}
 	
-	public void draw(Graphics g){
+	public ResultImageInfo draw(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 //		confirmArea();
 		int ox = px1<=px2?px1:px2;
@@ -62,11 +66,23 @@ public class CustomHeadRectangular {
 		imageY = oy - imageOriginY;
 //		System.out.println("imageX:"+imageX + "; imageY:"+imageY+"; ox:"+ox+"; oy:"+oy);
 		try{
-			g2.drawImage(bufferedImage.getSubimage(imageX, imageY, width, width), ox, oy, null);
+			Color color = g2.getColor();
+			Color color1 = new Color(0x138bee);
+			g2.setColor(color1);
+			g2.drawRect(ox-1, oy-1, width+1, width+1);
+			g2.setColor(color);
+			resultImageInfo.setResultImage(bufferedImage.getSubimage(imageX, imageY, width, width));
+			resultImageInfo.setX(imageX);
+			resultImageInfo.setY(imageY);
+			resultImageInfo.setWidth(width);
+			g2.drawImage(resultImageInfo.getResultImage(), ox, oy, null);
+			return resultImageInfo;
 		}catch(Exception ex){
 			System.out.println("图片无法获取");
+			g2.drawRect(ox, oy, width, width);
+			return null;
 		}
-		g2.drawRect(ox, oy, width, width);
+		
 	}
 
 	public void mouseMoved(MouseEvent evt) {

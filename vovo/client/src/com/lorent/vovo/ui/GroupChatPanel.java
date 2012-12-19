@@ -8,13 +8,11 @@ package com.lorent.vovo.ui;
 
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -22,11 +20,10 @@ import com.lorent.vovo.Vovo;
 import com.lorent.vovo.dto.FontStyle;
 import com.lorent.vovo.dto.GroupInfo;
 import com.lorent.vovo.ui.InputArea.EventListener;
-import com.lorent.vovo.util.Constants.DataKey;
 import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.FontUtil;
-import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.VovoStringUtil;
+import com.lorent.vovo.util.Constants.DataKey;
 
 /**
  *
@@ -49,18 +46,6 @@ public class GroupChatPanel extends javax.swing.JPanel {
 					Vovo.exeC("groupChat", "sendGroupChatMsg", msg, style, info
 							.getRoomJID(),imgs, time);
 					insertMyMsg(msg, style, new Date(time),imgs);
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							try {
-								RecentContactManager.getInstance().insertGroupChat(info
-										.getRoomJID());
-							} catch (IOException e) {
-								log.error("RecentContactManager.insertGroupChat", e);
-							}
-						}
-					});
 				} catch (Exception e) {
 					log.error("insert my msg error", e);
 					JOptionPane.showMessageDialog(GroupChatPanel.this,

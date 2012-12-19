@@ -28,7 +28,6 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 import com.jtattoo.plaf.vovoglass.VoVoBasicListUI;
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.util.Constants;
-import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.VovoStringUtil;
 
 /**
@@ -89,10 +88,6 @@ public class GroupListPanel extends javax.swing.JPanel {
 			}
 		}
 		targetItem = (GroupListItem) model.remove(i);
-		try {
-			RecentContactManager.getInstance().removeGroupChat(targetItem.getRoomJid());
-		} catch (IOException e1) {
-		}
 		this.repaint();
 		return targetItem;
 	}

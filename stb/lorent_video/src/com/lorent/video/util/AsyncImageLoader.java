@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;  
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lorent.video.MainActivity;
 import com.lorent.video.R;
   
 import android.R.drawable;  
@@ -162,7 +163,7 @@ public class AsyncImageLoader {
 //            	String picName = url.substring(sidx + "/".length(),eidx);
 //            	String encodeName = java.net.URLEncoder.encode(picName,"utf-8");
 //            	String encodeUrl = url.replaceFirst(picName, encodeName);
-                m = new URL(StringUtil.encodeUrl(url));  
+                m = new URL(StringUtil.encodeUrl(StringUtil.changeIPForUrl(url,MainActivity.ip)));  
                 i = (InputStream) m.getContent();
                 d = Drawable.createFromStream(i, "src");
             } catch (Exception e) {

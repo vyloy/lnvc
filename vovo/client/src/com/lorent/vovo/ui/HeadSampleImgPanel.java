@@ -6,13 +6,8 @@
 
 package com.lorent.vovo.ui;
 
-import java.awt.Color;
+
 import java.awt.Cursor;
-import java.awt.Image;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-
 import com.lorent.vovo.util.Constants;
 import com.lorent.vovo.util.ImageUtil;
 
@@ -22,23 +17,21 @@ import com.lorent.vovo.util.ImageUtil;
  */
 public class HeadSampleImgPanel extends javax.swing.JPanel {
 
-	private ChangeHeadImgDialog dialog;
 	private String fileName;
-	private ImageIcon icon;
 
 	/** Creates new form HeadSampleImgPanel */
 	public HeadSampleImgPanel() {
 		initComponents();
 	}
 
-	public HeadSampleImgPanel(String fileName, ChangeHeadImgDialog dialog) {
+	public HeadSampleImgPanel(String fileName) {
 		this();
-		this.dialog = dialog;
 		this.fileName = fileName;
-		ImageUtil.adjustLabelIcon(jLabel1, Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + this.fileName);
-//		Image temp = icon.getImage().getScaledInstance(60, 60,
-//				icon.getImage().SCALE_DEFAULT);
-//		this.jLabel1.setIcon(new ImageIcon(temp));
+		ImageUtil.adjustLabelIcon(jLabel1, Constants.SYSTEM_HEAD_IMAGE_PATH_SYS
+				+ this.fileName);
+		//		Image temp = icon.getImage().getScaledInstance(60, 60,
+		//				icon.getImage().SCALE_DEFAULT);
+		//		this.jLabel1.setIcon(new ImageIcon(temp));
 	}
 
 	/** This method is called from within the constructor to
@@ -51,8 +44,15 @@ public class HeadSampleImgPanel extends javax.swing.JPanel {
 	private void initComponents() {
 
 		jLabel1 = new javax.swing.JLabel();
+		jPanel1 = new javax.swing.JPanel();
+		jPanel2 = new javax.swing.JPanel();
+		jPanel3 = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
 
+		setMaximumSize(new java.awt.Dimension(63000, 63000));
+		setMinimumSize(new java.awt.Dimension(80, 80));
 		setOpaque(false);
+		setPreferredSize(new java.awt.Dimension(80, 80));
 		addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				formMouseClicked(evt);
@@ -61,6 +61,8 @@ public class HeadSampleImgPanel extends javax.swing.JPanel {
 		setLayout(new java.awt.BorderLayout());
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		jLabel1.setBorder(javax.swing.BorderFactory
+				.createLineBorder(new java.awt.Color(204, 204, 204)));
 		jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		jLabel1.setMaximumSize(new java.awt.Dimension(60, 60));
 		jLabel1.setMinimumSize(new java.awt.Dimension(60, 60));
@@ -79,24 +81,37 @@ public class HeadSampleImgPanel extends javax.swing.JPanel {
 			}
 		});
 		add(jLabel1, java.awt.BorderLayout.CENTER);
+
+		jPanel1.setOpaque(false);
+		add(jPanel1, java.awt.BorderLayout.NORTH);
+
+		jPanel2.setOpaque(false);
+		add(jPanel2, java.awt.BorderLayout.EAST);
+
+		jPanel3.setOpaque(false);
+		add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+		jPanel4.setOpaque(false);
+		add(jPanel4, java.awt.BorderLayout.WEST);
 	}// </editor-fold>
 	//GEN-END:initComponents
 
 	private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {
-//		jLabel1.setBorder(BorderFactory.createLineBorder(new Color(255, 255,
-//				255), 1));
-		
+		//		jLabel1.setBorder(BorderFactory.createLineBorder(new Color(255, 255,
+		//				255), 1));
+
 	}
 
 	private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {
 		jLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-//		jLabel1.setBorder(BorderFactory.createLineBorder(
-//				new Color(0, 127, 255), 1));
+		//		jLabel1.setBorder(BorderFactory.createLineBorder(
+		//				new Color(0, 127, 255), 1));
 	}
 
 	private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
 		if (evt.getClickCount() == 1 && evt.getButton() == evt.BUTTON1) {
-			this.dialog.setPreviewLabelImg(fileName);
+//			this.dialog.setPreviewLabelImg(fileName);
+			mouseClickListener.doAction(fileName);
 		}
 	}
 
@@ -105,10 +120,24 @@ public class HeadSampleImgPanel extends javax.swing.JPanel {
 
 		}
 	}
+	
+	private HeadSampleImgPanelMouseClickListener mouseClickListener;
+	
+	public void setMouseClickListener(HeadSampleImgPanelMouseClickListener listener){
+		mouseClickListener = listener;
+	}
+	
+	public interface HeadSampleImgPanelMouseClickListener{
+		public void doAction(String fileName);
+	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JLabel jLabel1;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel3;
+	private javax.swing.JPanel jPanel4;
 	// End of variables declaration//GEN-END:variables
 
 }

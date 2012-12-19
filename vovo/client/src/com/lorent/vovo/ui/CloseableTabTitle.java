@@ -57,8 +57,9 @@ public class CloseableTabTitle extends javax.swing.JPanel {
 			JTabbedPane tabbedPane) {
 		initComponents();
 		this.jPanel2.removeAll();
-		this.jPanel2.add(new HeadImagePanel(bean.getDefaultImg(), bean
-				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+		this.jPanel2.add(ImageUtil.generateHeadImagePanel(bean, 40, 40), java.awt.BorderLayout.CENTER);
+//		this.jPanel2.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
 		titleLbl.setText(title);
 		this.canClose = canClose;
 		closeBtn.setVisible(canClose);
@@ -167,7 +168,8 @@ public class CloseableTabTitle extends javax.swing.JPanel {
 	public void setMemberInfo(MemberBean bean) {
 		this.setTopic(bean.getRealName());
 		this.jPanel2.removeAll();
-		this.jPanel2.add(new HeadImagePanel(bean.getDefaultImg(), bean
-				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
+		this.jPanel2.add(ImageUtil.generateHeadImagePanel(bean, 40, 40), java.awt.BorderLayout.CENTER);
+//		this.jPanel2.add(new HeadImagePanel(bean.getDefaultImg(), bean
+//				.getState(), 40, 40), java.awt.BorderLayout.CENTER);
 	}
 }

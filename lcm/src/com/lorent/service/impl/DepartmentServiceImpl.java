@@ -198,7 +198,7 @@ public class DepartmentServiceImpl extends GenericServiceImpl<DepartmentDao,Depa
 
 	@Override
 	public OrgTree<com.lorent.common.tree.DepartmentBean, MemberBean> getOrgTreeByCustomer(int customerId) {
-		String hql = "select u.id, u.username, u.realName, u.position, u.lccAccount, u.status, d.id, d.departmentName, d.searchStr, u.sign, u.myPic, u.mobile, u.email, u.gender, d.parentId " +
+		String hql = "select u.id, u.username, u.realName, u.position, u.lccAccount, u.status, d.id, d.departmentName, d.searchStr, u.sign, u.myPic, u.mobile, u.email, u.gender, d.parentId, u.isCustomPic, u.customPic " +
 				" from UserBean u right join u.department d" +
 				" where d.status = " + Constant.RECORD_STATUS_VALID + 
 //				" and u.status = " + Constant.RECORD_STATUS_VALID + 
@@ -226,6 +226,8 @@ public class DepartmentServiceImpl extends GenericServiceImpl<DepartmentDao,Depa
 			String email = (String)ret[12];
 			String gender = (String)ret[13];
 			Integer parentId = (Integer)ret[14];
+			Integer isCustomPic = (Integer)ret[15];
+			byte[] customPic = (byte[])ret[16];
 			if(searchStr == null){
 				searchStr = "root";
 				rootDeptId = deptId;
@@ -266,7 +268,8 @@ public class DepartmentServiceImpl extends GenericServiceImpl<DepartmentDao,Depa
 				mbean.setDeptName(deptName);
 				mbean.setDeptId(deptId);
 				mbean.setGender(gender);
-				
+				mbean.setIsCustomPic(isCustomPic);
+				mbean.setCustomPic(customPic);
 				OrgNode<com.lorent.common.tree.DepartmentBean, MemberBean> mnode = new OrgNode<com.lorent.common.tree.DepartmentBean, MemberBean>();
 				mnode.setMember(mbean);
 				
