@@ -6,9 +6,19 @@
 
 package com.lorent.vovo.ui;
 
+import java.awt.GridBagConstraints;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.dto.GroupInfo;
 import com.lorent.vovo.util.VovoStringUtil;
+import java.awt.Component;
+import java.awt.FlowLayout;
 
 /**
  *
@@ -45,8 +55,8 @@ public class GroupListItem extends javax.swing.JPanel {
 
 		setMaximumSize(new java.awt.Dimension(1000, 54));
 		setMinimumSize(new java.awt.Dimension(140, 54));
-		setOpaque(false);
 		setPreferredSize(new java.awt.Dimension(140, 54));
+		setOpaque(false);
 		setLayout(new java.awt.BorderLayout());
 
 		backgroundXPanel.setOpaque(false);
@@ -64,7 +74,8 @@ public class GroupListItem extends javax.swing.JPanel {
 		jPanel1.setLayout(new java.awt.GridLayout(2, 0));
 
 		jPanel2.setOpaque(false);
-		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+		FlowLayout fl_jPanel2 = new FlowLayout(FlowLayout.LEFT);
+		jPanel2.setLayout(fl_jPanel2);
 
 		groupNameLabel.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		groupNameLabel.setText("jLabel2");
@@ -73,8 +84,9 @@ public class GroupListItem extends javax.swing.JPanel {
 		jPanel1.add(jPanel2);
 
 		groupDescPanel.setOpaque(false);
-		groupDescPanel.setLayout(new java.awt.FlowLayout(
-				java.awt.FlowLayout.LEFT));
+		FlowLayout fl_groupDescPanel = new FlowLayout(
+				FlowLayout.LEFT);
+		groupDescPanel.setLayout(fl_groupDescPanel);
 
 		groupDescLabel.setText("jLabel3");
 		groupDescPanel.add(groupDescLabel);
@@ -107,6 +119,46 @@ public class GroupListItem extends javax.swing.JPanel {
 		add(backgroundXPanel, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>
 	//GEN-END:initComponents
+	
+	public GroupListItem init4RecentContactListPanel(){
+		GroupListItem clone;
+		try {
+			clone = this.clone();
+			BufferedImage i = ImageIO.read(getClass().getResource(
+					"/com/lorent/vovo/resource/images/emesene-48.png"));
+			javax.swing.ImageIcon icon = new javax.swing.ImageIcon(i.getScaledInstance(40, 42, Image.SCALE_FAST));
+			clone.groupImgLabel.setIcon(icon);
+		} catch (IOException e) {
+			return this;
+		}
+		clone.setMaximumSize(new java.awt.Dimension(1000, 42));
+		clone.setMinimumSize(new java.awt.Dimension(140, 42));
+		clone.setPreferredSize(new java.awt.Dimension(140, 42));
+		clone.backgroundXPanel.remove(clone.groupImgLabel);
+		GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
+		clone.backgroundXPanel.add(clone.groupImgLabel, gridBagConstraints);
+		
+		FlowLayout fl_groupDescPanel = new FlowLayout(
+				FlowLayout.LEFT);
+		fl_groupDescPanel.setVgap(2);
+		fl_groupDescPanel.setHgap(2);
+		clone.groupDescPanel.setLayout(fl_groupDescPanel);
+		clone.groupNameLabel.setLayout(fl_groupDescPanel);
+		clone.backgroundXPanel.validate();
+		return clone;
+	}
+
+	@Override
+	protected GroupListItem clone(){
+		GroupListItem item = new GroupListItem();
+		item.setRoomJid(this.getRoomJid());
+		item.setGroupName(this.getGroupName());
+		item.setGroupDesc(this.groupDescLabel.getText());
+		return item;
+	}
 
 	private void applyInLabelMouseClicked(java.awt.event.MouseEvent evt) {
 		try {
