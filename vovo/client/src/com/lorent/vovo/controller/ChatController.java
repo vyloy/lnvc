@@ -1,6 +1,7 @@
 package com.lorent.vovo.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.FlashWindowUtil;
 import com.lorent.vovo.util.ImageUtil;
 import com.lorent.vovo.util.MyOpenfireUtil;
+import com.lorent.vovo.util.RecentContactManager;
 import com.lorent.vovo.util.TreeUtil;
 import com.lorent.vovo.util.UserInfoUtil;
 import com.lorent.vovo.util.VovoStringUtil;
@@ -194,8 +196,16 @@ public class ChatController extends BaseController {
 		for(Object[] paras : notReadMsg){
 			if(key.startsWith(Constants.FRIEND_CHAT_SESSION_PREFIX)){
 				Vovo.exeC("chat", "getFriendMessage", paras);			
+				try {
+					RecentContactManager.getInstance().insertFriendChat((String) paras[0]);
+				} catch (IOException e) {
+				}
 			}else if(key.startsWith(Constants.GROUP_CHAT_SESSION_PREFIX)){
 				Vovo.exeC("groupChat", "getGroupChatMessage", paras);
+				try {
+					RecentContactManager.getInstance().insertGroupChat((String) paras[0]);
+				} catch (IOException e) {
+				}
 			}
 		}
 		DataUtil.removeNotReadMsg(key);
