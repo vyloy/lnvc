@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.lorent.common.controller.BaseController;
+import com.lorent.common.dto.VovoMyInfo;
 import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.tree.DepartmentBean;
 import com.lorent.common.tree.MemberBean;
@@ -29,6 +30,10 @@ public class OrganController extends BaseController {
 					if(operate.equals(BroadcastEvent.ADD_USER)){
 						TreeManager.addMember(bean);
 					}else if(operate.equals(BroadcastEvent.UPDATE_USER)){
+						VovoMyInfo vovoMyInfo = DataUtil.getMyInfo();
+						if(bean.getLccAccount().equals(vovoMyInfo.getLccAccount())){
+							vovoMyInfo.copy(bean);
+						}
 						TreeManager.updateMember(bean, false, -1);
 						GroupMemberListPanelManager.reflashGroupMemberListPanelItem(bean);
 					}else if(operate.equals(BroadcastEvent.DELETE_USER)){

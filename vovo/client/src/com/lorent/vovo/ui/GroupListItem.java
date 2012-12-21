@@ -146,7 +146,7 @@ public class GroupListItem extends javax.swing.JPanel {
 		fl_groupDescPanel.setVgap(2);
 		fl_groupDescPanel.setHgap(2);
 		clone.groupDescPanel.setLayout(fl_groupDescPanel);
-		clone.groupNameLabel.setLayout(fl_groupDescPanel);
+		clone.jPanel2.setLayout(fl_groupDescPanel);
 		clone.backgroundXPanel.validate();
 		return clone;
 	}

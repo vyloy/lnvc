@@ -2483,3 +2483,7 @@ CREATE TABLE videoclip
 
 ------------========================================================end---------
 
+-----------------------------sys_user表增加自定义头像相关字段------------------------
+alter table sys_user add column custompic bytea;
+
+alter table sys_user add column iscustompic smallint DEFAULT 0;

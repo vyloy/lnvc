@@ -130,7 +130,10 @@ public class RecentContactListPanel extends javax.swing.JPanel {
 			    	if((c.getInfo()&RecentContactInfo.FRIEND.mask)!=0){
 			    		Vovo.exeC("chat", "showFriendChat", TreeUtil.getMemberBeanByLccno(c.getContact()));
 			    	}else if((c.getInfo()&RecentContactInfo.GROUP.mask)!=0){
-			    		
+			    		Vovo.exeC("groupChat", "fetchOneGroupChatAuthority", c.getContact());
+			    		GroupListPanel groupListPanel = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.GroupListPanel.toString());
+			    		GroupListItem item = groupListPanel.findItemByRoomJid(c.getContact());
+			    		Vovo.exeC("groupChat", "showGroupChat", item.getInfo());
 			    	}
 				}
 			}
