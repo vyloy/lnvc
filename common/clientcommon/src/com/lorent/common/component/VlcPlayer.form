@@ -93,6 +93,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="skipNextButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="fullScreenButton">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/lorent/common/resource/images/view-fullscreen.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&#x5168;&#x5c4f;"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fullScreenButtonActionPerformed"/>
+              </Events>
+            </Component>
             <Container class="javax.swing.JPanel" name="jPanel4">
               <Properties>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
