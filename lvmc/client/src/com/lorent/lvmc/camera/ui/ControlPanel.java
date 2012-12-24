@@ -8,20 +8,30 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.HashSet;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
@@ -82,6 +92,7 @@ public class ControlPanel extends JPanel {
 				if(!connected){
 					controller=new CameraController((PanTiltDrive) protocol.getSelectedItem());
 					try {
+						registerKey();
 						controller.connect((String) comPorts.getSelectedItem());
 						connected=true;
 						connectButton.setText("断开");
@@ -90,6 +101,7 @@ public class ControlPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
 				}else{
+					unregisterKey();
 					controller.close();
 					connected=false;
 					connectButton.setText("连接");
@@ -328,6 +340,121 @@ public class ControlPanel extends JPanel {
 		init();
 		disconnected();
 	}
+	
+	private void registerKey(){
+		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "pressUp");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0,true), "releaseUp");
+		
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "pressDown");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0,true), "releaseDown");
+		
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "pressLeft");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0,true), "releaseLeft");
+		
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "pressRight");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0,true), "releaseRight");
+		
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0), "pressPageUp");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0,true), "releasePageUp");
+		
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0), "pressPageDown");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0,true), "releasePageDown");
+		
+		getActionMap().put("pressUp", new PressAction(upButton));
+		getActionMap().put("releaseUp", new ReleaseAction(upButton));
+		
+		getActionMap().put("pressDown", new PressAction(downButton));
+		getActionMap().put("releaseDown", new ReleaseAction(downButton));
+		
+		getActionMap().put("pressLeft", new PressAction(leftButton));
+		getActionMap().put("releaseLeft", new ReleaseAction(leftButton));
+		
+		getActionMap().put("pressRight", new PressAction(rightButton));
+		getActionMap().put("releaseRight", new ReleaseAction(rightButton));
+		
+		getActionMap().put("pressPageUp", new PressAction(zoomTeleButton));
+		getActionMap().put("releasePageUp", new ReleaseAction(zoomTeleButton));
+		
+		getActionMap().put("pressPageDown", new PressAction(zoomWideButton));
+		getActionMap().put("releasePageDown", new ReleaseAction(zoomWideButton));
+	}
+	
+	private void unregisterKey(){
+		InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0,true));
+		
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0,true));
+		
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0,true));
+		
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0,true));
+		
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0,true));
+		
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0));
+		inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0,true));
+		
+		ActionMap actionMap = getActionMap();
+		actionMap.remove("pressUp");
+		actionMap.remove("releaseUp");
+		
+		actionMap.remove("pressDown");
+		actionMap.remove("releaseDown");
+		
+		actionMap.remove("pressLeft");
+		actionMap.remove("releaseLeft");
+		
+		actionMap.remove("pressRight");
+		actionMap.remove("releaseRight");
+		
+		actionMap.remove("pressPageUp");
+		actionMap.remove("releasePageUp");
+		
+		actionMap.remove("pressPageDown");
+		actionMap.remove("releasePageDown");
+	}
+	
+	private class PressAction extends AbstractAction {
+		private JButton button; 
+		
+		public PressAction(JButton button) {
+			super();
+			this.button = button;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Dimension size = button.getSize();
+	        ButtonModel model = button.getModel();
+			model.setArmed(true);
+	        model.setPressed(true);
+	        paintImmediately(new Rectangle(0,0, size.width, size.height));
+		}
+	};
+	
+	private class ReleaseAction extends AbstractAction {
+		private JButton button; 
+		
+		public ReleaseAction(JButton button) {
+			super();
+			this.button = button;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Dimension size = button.getSize();
+			ButtonModel model = button.getModel();
+			model.setPressed(false);
+			model.setArmed(false);
+			paintImmediately(new Rectangle(0,0, size.width, size.height));
+		}
+	};
 	
 	private void connected(){
 		PanTiltDrive panTiltDrive = controller.getPanTiltDrive();
