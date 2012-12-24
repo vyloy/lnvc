@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/jna.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swing-layout-1.0.3.jar"/>
@@ -42,5 +41,18 @@
 	<classpathentry kind="lib" path="lib/lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/lib/slf4j-api-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/lib/smslib-3.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/fmj.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jheora-patch.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/jspeex.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/lti-civil-no_s_w_t.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/theora-java.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/fmj/vorbisspi1.0.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -19,6 +19,7 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 
 import com.lorent.common.dto.VovoMyInfo;
 import com.lorent.vovo.Vovo;
+import com.lorent.vovo.ui.CameraHeadImgDialog.SavePhoneListener;
 import com.lorent.vovo.ui.CustomHeadOperatePanel.MouseReleaseListener;
 import com.lorent.vovo.ui.HeadSampleImgPanel.HeadSampleImgPanelMouseClickListener;
 import com.lorent.vovo.util.Constants;
@@ -34,6 +35,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 
 	private UserSettingDialog settingDialog;
 	private BufferedImage resultImage;
+	private BufferedImage phone;
 
 	/** Creates new form ChangeHeadImgDialog */
 	public ChangeHeadImgDialog(java.awt.Frame parent, boolean modal) {
@@ -152,6 +154,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		jPanel6 = new javax.swing.JPanel();
 		jPanel10 = new javax.swing.JPanel();
 		jButton3 = new javax.swing.JButton();
+		jButton4 = new javax.swing.JButton();
 		customerImgPanel = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
@@ -361,8 +364,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 
 		jPanel4.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-		jTabbedPane1.addTab(Vovo.getMyContext().getViewManager().getUIString(
-				"ChangeHeadImgDialog.local.image"), jPanel4);
+		jTabbedPane1.addTab("\u7cfb\u7edf\u5934\u50cf", jPanel4);
 
 		jPanel6.setOpaque(false);
 		jPanel6.setLayout(new java.awt.BorderLayout());
@@ -379,6 +381,15 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		});
 		jPanel10.add(jButton3);
 
+		jButton4.setText(Vovo.getMyContext().getViewManager().getUIString(
+				"ChangeHeadImgDialog.camera.image"));
+		jButton4.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton4ActionPerformed(evt);
+			}
+		});
+		jPanel10.add(jButton4);
+
 		jPanel6.add(jPanel10, java.awt.BorderLayout.NORTH);
 
 		customerImgPanel.setMinimumSize(new java.awt.Dimension(300, 250));
@@ -386,8 +397,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 		customerImgPanel.setLayout(new java.awt.BorderLayout());
 		jPanel6.add(customerImgPanel, java.awt.BorderLayout.CENTER);
 
-		jTabbedPane1.addTab(Vovo.getMyContext().getViewManager().getUIString(
-				"ChangeHeadImgDialog.customer.headimg"), jPanel6);
+		jTabbedPane1.addTab("\u81ea\u5b9a\u4e49\u5934\u50cf", jPanel6);
 
 		jPanel2.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -439,8 +449,59 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+		final CameraHeadImgDialog dialog = new CameraHeadImgDialog((MainFrame)Vovo.getViewManager().getView(Constants.ViewKey.MAINFRAME.toString()), true);
+		phone = null;
+		try {
+			Vovo.getViewManager().setWindowCenterLocation(dialog);
+			dialog.addSavePhoneListener(new SavePhoneListener() {
+
+				@Override
+				public void doAction() {
+					phone = dialog.getPhone();
+					if (phone != null) {
+						addCustomHeadOperatePanel(new CustomHeadOperatePanel(
+								phone, customerImgPanel.getSize().width,
+								customerImgPanel.getSize().height));
+					}
+				}
+
+			});
+
+		} catch (Exception e) {
+
+		}
+		dialog.setVisible(true);
+		dialog.requestFocusInWindow();
+	}
+
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
-		isChageFlag = false;
+		isChangeFlag = false;
+	}
+
+	public void addCustomHeadOperatePanel(
+			final CustomHeadOperatePanel customHeadOperatePanel) {
+		this.customerImgPanel.removeAll();
+		this.jTabbedPane1.revalidate();
+		this.jTabbedPane1.repaint();
+
+		customHeadOperatePanel.addMouseRelease(new MouseReleaseListener() {
+
+			@Override
+			public void doAction() {
+				isChangeFlag = true;
+				resultImage = customHeadOperatePanel.getResultImage();
+				ImageUtil.adjustLabelIcon(previewLabel, resultImage);
+				previewLabel.revalidate();
+				previewLabel.repaint();
+				imgName = null;
+			}
+		});
+		this.customerImgPanel.add(customHeadOperatePanel);
+		this.jTabbedPane1.revalidate();
+		this.jTabbedPane1.repaint();
+		this.validate();
+		this.repaint();
 	}
 
 	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -463,33 +524,37 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 			String suffix = f.getName().toLowerCase();
 			if (suffix.endsWith(".png") || suffix.endsWith(".gif")
 					|| suffix.endsWith(".jpg") || suffix.endsWith(".bmp")) {
-				this.customerImgPanel.removeAll();
-				this.jTabbedPane1.revalidate();
-				this.jTabbedPane1.repaint();
-				final CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
-						f.getAbsolutePath(),
+				addCustomHeadOperatePanel(new CustomHeadOperatePanel(f
+						.getAbsolutePath(),
 						this.customerImgPanel.getSize().width,
-						this.customerImgPanel.getSize().height);
-				customHeadOperatePanel
-						.addMouseRelease(new MouseReleaseListener() {
-
-							@Override
-							public void doAction() {
-								isChageFlag = true;
-								resultImage = customHeadOperatePanel
-										.getResultImage();
-								ImageUtil.adjustLabelIcon(previewLabel,
-										resultImage);
-								previewLabel.revalidate();
-								previewLabel.repaint();
-								imgName = null;
-							}
-						});
-				this.customerImgPanel.add(customHeadOperatePanel);
-				this.jTabbedPane1.revalidate();
-				this.jTabbedPane1.repaint();
-				this.validate();
-				this.repaint();
+						this.customerImgPanel.getSize().height));
+				//				this.customerImgPanel.removeAll();
+				//				this.jTabbedPane1.revalidate();
+				//				this.jTabbedPane1.repaint();
+				//				final CustomHeadOperatePanel customHeadOperatePanel = new CustomHeadOperatePanel(
+				//						f.getAbsolutePath(),
+				//						this.customerImgPanel.getSize().width,
+				//						this.customerImgPanel.getSize().height);
+				//				customHeadOperatePanel
+				//						.addMouseRelease(new MouseReleaseListener() {
+				//
+				//							@Override
+				//							public void doAction() {
+				//								isChageFlag = true;
+				//								resultImage = customHeadOperatePanel
+				//										.getResultImage();
+				//								ImageUtil.adjustLabelIcon(previewLabel,
+				//										resultImage);
+				//								previewLabel.revalidate();
+				//								previewLabel.repaint();
+				//								imgName = null;
+				//							}
+				//						});
+				//				this.customerImgPanel.add(customHeadOperatePanel);
+				//				this.jTabbedPane1.revalidate();
+				//				this.jTabbedPane1.repaint();
+				//				this.validate();
+				//				this.repaint();
 			}
 		}
 	}
@@ -541,6 +606,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
 	private javax.swing.JButton jButton3;
+	private javax.swing.JButton jButton4;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JPanel jPanel1;
@@ -563,10 +629,10 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	// End of variables declaration//GEN-END:variables
 
 	private String imgName;
-	private boolean isChageFlag = false;
+	private boolean isChangeFlag = false;//记录是否选择过图片
 
 	public void setPreviewLabelImg(String imgName) {
-		isChageFlag = true;
+		isChangeFlag = true;
 		this.imgName = imgName;
 		ImageUtil.adjustLabelIcon(previewLabel,
 				Constants.SYSTEM_HEAD_IMAGE_PATH_SYS + imgName);
