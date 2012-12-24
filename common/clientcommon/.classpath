@@ -2,11 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry exported="true" kind="lib" path="lib/jna.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swing-layout-1.0.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/AbsoluteLayout.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/platform.jar" sourcepath="D:/Users/panda/.m2/repository/net/java/dev/jna/jna/3.3.0/jna-3.3.0-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/spring/org.springframework.aop-3.0.5.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/spring/org.springframework.asm-3.0.5.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/spring/org.springframework.aspects-3.0.5.RELEASE.jar"/>
@@ -53,6 +51,9 @@
 	<classpathentry kind="lib" path="lib/fmj/theora-java.jar"/>
 	<classpathentry kind="lib" path="lib/fmj/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/fmj/vorbisspi1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jna-3.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/platform-3.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/vlcj-2.1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

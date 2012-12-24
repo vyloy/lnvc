@@ -36,6 +36,13 @@ public class FmjUtil {
 			System.out.println("没有摄像头===");
 			flag = 1;
 			return flag;
+		}else if(vectorDevices.size() == 1){
+			CaptureDeviceInfo infoCaptureDevice = (CaptureDeviceInfo) vectorDevices
+			.get(0);
+			if("JavaSound".equalsIgnoreCase(infoCaptureDevice.getName())){
+				flag = 1;
+				return flag;
+			}
 		}
 		// 选择第一个摄像头设备
 		for (int i = 0; i < vectorDevices.size(); i++) {
@@ -43,7 +50,7 @@ public class FmjUtil {
 					.get(i);
 			System.out.println("设备名==============="
 					+ infoCaptureDevice.getName());
-			// 选择第一个设备为程序使用,如果存在多个设备时，则第一个可能不是摄像头
+			
 			locator = infoCaptureDevice.getLocator();
 			
 			break;
@@ -53,7 +60,6 @@ public class FmjUtil {
 		try {
 			containerPlayer.setMediaLocation(locator.toExternalForm(),
 					prefs.autoPlay);
-			System.out.println(containerPlayer.getTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = 1;

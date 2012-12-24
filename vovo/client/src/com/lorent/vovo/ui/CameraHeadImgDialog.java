@@ -36,9 +36,17 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 		try {
 			fmj = new FmjUtil();
 			int flag = fmj.start(cameraPanel);
-			if(flag != 0){
-				this.setVisible(false);
-				JOptionPane.showMessageDialog(null, VovoStringUtil.getErrorString("camera.isnot.normal"), VovoStringUtil.getErrorString("error.normal.tip"), JOptionPane.ERROR_MESSAGE);
+			if (flag != 0) {
+				JOptionPane.showMessageDialog(null, VovoStringUtil
+						.getErrorString("camera.isnot.normal"), VovoStringUtil
+						.getErrorString("error.normal.tip"),
+						JOptionPane.ERROR_MESSAGE);
+				new Thread(){
+					public void run(){
+						CameraHeadImgDialog.this.dispose();
+					}
+				}.start();
+				
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -64,6 +72,7 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(Vovo.getMyContext().getViewManager().getUIString(
 				"ChangeHeadImgDialog.camera.image"));
+		setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				formWindowClosing(evt);
