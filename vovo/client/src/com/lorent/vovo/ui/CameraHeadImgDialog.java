@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JOptionPane;
 
 import com.lorent.common.util.FmjUtil;
+import com.lorent.common.util.FmjUtil.CameraProcess;
 import com.lorent.vovo.Vovo;
 import com.lorent.vovo.util.VovoStringUtil;
 
@@ -31,10 +32,28 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 	public CameraHeadImgDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+		this.takePhoneButton.setEnabled(false);
 		this.saveButton.setVisible(false);
 		this.repeatPhoneButton.setVisible(false);
 		try {
 			fmj = new FmjUtil();
+			fmj.setCameraProcess(new CameraProcess(){
+
+				@Override
+				public void doDisable() {
+					CameraHeadImgDialog.this.dispose();
+					JOptionPane.showMessageDialog(null, VovoStringUtil
+							.getErrorString("camera.isnot.normal"), VovoStringUtil
+							.getErrorString("error.normal.tip"),
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+				@Override
+				public void doEnable() {
+					takePhoneButton.setEnabled(true);
+				}
+				
+			});
 			int flag = fmj.start(cameraPanel);
 			if (flag != 0) {
 				JOptionPane.showMessageDialog(null, VovoStringUtil
