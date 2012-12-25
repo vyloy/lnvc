@@ -60,30 +60,35 @@ public class FacePopupMenu extends JPopupMenu {
 			filesize = 59;
 		}
 //		JMenuItem[] items = new JMenuItem[filesize];
-		for(int i=0;i <filesize;i++){ 
-            fileName= "/com/lorent/lvmc/resource/images/defaultface/e"+i+".gif";/*修改图片路径*/ 
-            final PopupMenuLabel label = new PopupMenuLabel(new ChatPic(this.getClass().getResource(fileName),i),SwingConstants.CENTER);
-            label.setPreferredSize(new Dimension(28,28));
-            label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            label.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-            label.addMouseListener(new java.awt.event.MouseAdapter(){
-            	
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (e.getButton() == 1) {
-						label.setOpaqueAndReflesh(false);
-//                      cubl.setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
-						FacePopupMenu.this.setVisible(false);
-						ChatPic cupic = (ChatPic) (label.getIcon());
-//                                cupic.setPictext("");
-                        owner.insertSendPic(cupic);
-                        
-                    }
-				}
-            	
-            });
+		for(int i=0;i <filesize;i++){
+			try{
+				fileName= "/com/lorent/lvmc/resource/images/defaultface/e"+i+".gif";/*修改图片路径*/ 
+	            final PopupMenuLabel label = new PopupMenuLabel(new ChatPic(this.getClass().getResource(fileName),i),SwingConstants.CENTER);
+	            label.setPreferredSize(new Dimension(28,28));
+	            label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	            label.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+	            label.addMouseListener(new java.awt.event.MouseAdapter(){
+	            	
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (e.getButton() == 1) {
+							label.setOpaqueAndReflesh(false);
+//	                      cubl.setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
+							FacePopupMenu.this.setVisible(false);
+							ChatPic cupic = (ChatPic) (label.getIcon());
+//	                                cupic.setPictext("");
+	                        owner.insertSendPic(cupic);
+	                        
+	                    }
+					}
+	            	
+	            });
 
-            this.add(label);
+	            this.add(label);
+			}catch(Exception ex){
+				log.info(ex.getMessage());
+			}
+            
         }
 	}
 	
