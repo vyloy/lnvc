@@ -507,6 +507,7 @@ public class MainController extends BaseController{
     		}
         	else if(Launcher.isStartedFromOutSide && DataUtil.getLoginInfo() != null 
         			&& DataUtil.getLoginInfo().getUsername().equals(username)){
+        		log.info("kickByRoom "+username+" "+packet+" "+packet.toXML());
         		Boolean initiative = DataUtil.getValue(DataUtil.Key.Initiative);
         		doLogoutFromOutSide();
 

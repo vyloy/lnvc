@@ -76,4 +76,9 @@ public class ShareFileService extends BaseService{
 //        ShareFileServerUtil.getInstance().close();
         return fileSize;
     }
+    
+    public String getServerRealFileName(String meetingID,String fileName) throws Exception{
+    	String serverRealFileName = ShareFileServerUtil.getInstance().getServerRealFileName(meetingID, fileName,ShareFileServerUtil.getInstance().getSession());
+    	return serverRealFileName;
+    }
 }

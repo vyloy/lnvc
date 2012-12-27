@@ -7,6 +7,8 @@ package com.lorent.common.util;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -195,6 +197,11 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmVideo.broadcastMyIpAddress",new Object[]{bean,fromlccno,tolccno});
     }
     
+    public boolean broadcastVideoCommand(String confNo,String from,Object[] toLccnos,HashMap command) throws  Exception{
+    	log.info("broadcastVideoCommand: "+confNo+","+from+","+toLccnos+","+command);
+    	return (Boolean)client.execute("lcmConf.broadcastVideoCommand",new Object[]{confNo,from,toLccnos,command});
+    }
+    
     //index由0开始
     //获得点播视频列表，index由0开始
     public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
@@ -274,19 +281,31 @@ public class LCMUtil {
         System.out.println("length: "+lcm.getVideoListLength());
        
         LCMVideoClip[] monitorList = lcm.getMonitorList(x, y);
-        for (LCMVideoClip lcmVideoClip : monitorList) {
-			System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+        if (monitorList != null) {
+        	for (LCMVideoClip lcmVideoClip : monitorList) {
+        		System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+        	}
+        	System.out.println("length: "+lcm.getVideoListLength());
 		}
-        System.out.println("length: "+lcm.getVideoListLength());
         
        videoClipList = lcm.getVideoClipList(x, y, "电影");
-       for (LCMVideoClip lcmVideoClip : videoClipList) {
-			System.out.println("电影"+ lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+       if (videoClipList != null) {
+    	   for (LCMVideoClip lcmVideoClip : videoClipList) {
+    		   System.out.println("电影"+ lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+    	   }
+    	   System.out.println("电影 length: "+lcm.getVideoListLength("电影"));
+		
        }
-       System.out.println("电影 length: "+lcm.getVideoListLength("电影"));
 //		lcm.uploadMonitorInfo("url123", "ftp://xxxx", "biaoti", "miaoshu", "10.168.250.12", "createname", "33013");
 		
 //        lcm.deleteVideoClip(3);
+       HashMap command = new HashMap();
+		Date date = new Date();
+		command.put("sendtime", date.toString());
+		command.put("action", "ShowAndPlayVideo");
+		command.put("mediaurl", "http://10.168.250.12:8800/93600693/20121224110640980_Fate-Zero_ED（中文字幕）MEMORIA_蓝井エイル（蓝井艾露Aoi_Eir）（原画）1080P_5000K.mp4");
+       boolean broadcastVideoCommand = lcm.broadcastVideoCommand("93600693", "33011", new String[]{"33013","33011"},command );
+       System.out.println(broadcastVideoCommand);
 	}
     
     public static void main2(String[] args)throws Exception {
