@@ -194,15 +194,20 @@ public class VlcPlayer extends javax.swing.JPanel {
 			}
 
 			@Override
-			public void positionChanged(MediaPlayer mediaPlayer, float arg1) {
-				super.positionChanged(mediaPlayer, arg1);
+			public void positionChanged(MediaPlayer mediaPlayer, float newPosition) {
+				super.positionChanged(mediaPlayer, newPosition);
+				
+				final float temp = newPosition;
+				
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						int position = (int) (mediaPlayerComponent
-								.getMediaPlayer().getPosition() * 1000.0f);
+						int position = (int) (temp * 1000.0f);
+//						log.info("positionChanged:  oldposition: "+mediaPlayerComponent
+//								.getMediaPlayer().getPosition()+" newposition: "+temp);
 						positionSlider.setValue(position);
 						positionProgressBar.setValue(position);
+						
 					}
 				});
 			}
@@ -430,36 +435,39 @@ public class VlcPlayer extends javax.swing.JPanel {
 	}
 
 	private void positionSliderMouseReleased(java.awt.event.MouseEvent evt) {
-		log.info("positionSliderMouseReleased: "
-				+ positionSlider.getMousePosition().x + "/"
-				+ positionSlider.getWidth());
+		
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				log.info("positionSliderMouseReleased: "
+						+ positionSlider.getMousePosition().x + "/"
+						+ positionSlider.getWidth());
+				
 				int x = positionSlider.getMousePosition().x;
 				int width = positionSlider.getWidth();
 				long timeValue = (mediaPlayerComponent.getMediaPlayer().getLength() * x)
 						/ width;
-				mediaPlayerComponent.getMediaPlayer().setTime(timeValue);
 				
-				int position = (int) (mediaPlayerComponent.getMediaPlayer()
-						.getPosition() * 1000.0f);
-				positionSlider.setValue(position);
+				mediaPlayerComponent.getMediaPlayer().setTime(timeValue);
+//				int position = (int) (mediaPlayerComponent.getMediaPlayer()
+//						.getPosition() * 1000.0f);
+//				positionSlider.setValue(position);
 				if (vlcPlayerEventAdater != null) {
 //					vlcPlayerEventAdater.mediaPlayerPositionChanged(position);
 					vlcPlayerEventAdater.mediaPlayerTimeChanged(mediaPlayerComponent.getMediaPlayer().getTime());
 				}
+				
 			}
 		});
 	}
 
 	private void skipPreviousButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		mediaPlayerComponent.getMediaPlayer().skip(-SKIP_TIME_MS);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				mediaPlayerComponent.getMediaPlayer().skip(-SKIP_TIME_MS);
 				int position = (int) (mediaPlayerComponent.getMediaPlayer()
 						.getPosition() * 1000.0f);
 				positionSlider.setValue(position);
@@ -473,10 +481,10 @@ public class VlcPlayer extends javax.swing.JPanel {
 	}
 
 	private void skipNextButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		mediaPlayerComponent.getMediaPlayer().skip(SKIP_TIME_MS);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				mediaPlayerComponent.getMediaPlayer().skip(SKIP_TIME_MS);
 				int position = (int) (mediaPlayerComponent.getMediaPlayer()
 						.getPosition() * 1000.0f);
 				positionSlider.setValue(position);
@@ -591,6 +599,15 @@ public class VlcPlayer extends javax.swing.JPanel {
 					//					LibXUtil.setFullScreenWindow(fullscreenframe, true);
 
 					fullscreenWindow.toFront();
+					/*
+					java.awt.EventQueue.invokeLater(new Runnable() {
+					    @Override
+					    public void run() {
+					    	fullscreenWindow.toFront();
+					    	fullscreenWindow.repaint();
+					    }
+					});
+					*/
 					if (vlcPlayerEventAdater != null) {
 						vlcPlayerEventAdater.enterFullScreenMode();
 					}

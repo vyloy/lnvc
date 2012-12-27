@@ -1,5 +1,6 @@
 package com.lorent.lvmc.controller;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smackx.muc.Affiliate;
 
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
@@ -17,6 +19,7 @@ import com.lorent.common.component.VlcPlayer;
 import com.lorent.common.event.VlcPlayerEventAdater;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MemberDto;
+import com.lorent.lvmc.dto.MyMultiUserChat;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.LvmcUtil;
@@ -42,6 +45,7 @@ public class VlcPlayerController extends BaseController {
 		LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
 		//广播
 		LvmcUtil.getLCMUtil().broadcastVideoCommand(loginInfo.getConfno(), loginInfo.getUsername(), targetusers, command);
+		log.info("sendCommand: "+command.get("systemtime")+" , "+command.get("action")+" , "+targetusers);
 	}
 	
 	public void sendPlayCommand(String filename) throws Exception{
@@ -62,7 +66,7 @@ public class VlcPlayerController extends BaseController {
 		}
 	}
 	
-	public void startPlay(String mrl) throws Exception{
+	public void showPlayerAndPlay(String mrl) throws Exception{
 		log.info("startPlay:"+mrl);
 		
 		LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
@@ -92,12 +96,31 @@ public class VlcPlayerController extends BaseController {
 				}
 
 				@Override
+				public void opening(MediaPlayer mediaPlayer) {
+					super.opening(mediaPlayer);
+					HashMap command = new HashMap();
+					command.put("action", "OPENING");
+					try {
+						VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+						if (vlcPlayer.getPlayerButtonsPanel().isVisible()) {
+							sendCommand(command);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						log.error("MediaPlayerEventAdapter.finished", e);
+					}
+				}
+
+				@Override
 				public void finished(MediaPlayer mediaPlayer) {
 					super.finished(mediaPlayer);
 					HashMap command = new HashMap();
 					command.put("action", "FINISHED");
 					try {
-						sendCommand(command);
+						VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+						if (vlcPlayer.getPlayerButtonsPanel().isVisible()) {
+							sendCommand(command);
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						log.error("MediaPlayerEventAdapter.finished", e);
@@ -111,8 +134,12 @@ public class VlcPlayerController extends BaseController {
 					HashMap command = new HashMap();
 					command.put("action", "PAUSED");
 					command.put("isPlaying", mediaPlayer.isPlaying());
+//					command.put("isMediaParsed", mediaPlayer.isMediaParsed());
 					try {
-						sendCommand(command);
+						VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+						if (vlcPlayer.getPlayerButtonsPanel().isVisible()) {
+							sendCommand(command);
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						log.error("MediaPlayerEventAdapter.paused", e);
@@ -122,6 +149,19 @@ public class VlcPlayerController extends BaseController {
 				@Override
 				public void playing(MediaPlayer mediaPlayer) {
 					super.playing(mediaPlayer);
+					HashMap command = new HashMap();
+					command.put("action", "PLAYING");
+					command.put("isPlaying", mediaPlayer.isPlaying());
+//					command.put("isMediaParsed", mediaPlayer.isMediaParsed());
+					try {
+						VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+						if (vlcPlayer.getPlayerButtonsPanel().isVisible()) {
+							sendCommand(command);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						log.error("MediaPlayerEventAdapter.paused", e);
+					}
 				}
 
 				@Override
@@ -130,15 +170,15 @@ public class VlcPlayerController extends BaseController {
 					HashMap command = new HashMap();
 					command.put("action", "STOPED");
 					try {
-						sendCommand(command);
+						VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+						if (vlcPlayer.getPlayerButtonsPanel().isVisible()) {
+							sendCommand(command);
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						log.error("MediaPlayerEventAdapter.stopped", e);
 					}
-
 				}
-        		
-				
         	};
         	mediaPlayer.addMediaPlayerEventListener(mediaPlayerEventAdapter);
         	
@@ -218,7 +258,8 @@ public class VlcPlayerController extends BaseController {
 					vlcPlayer.getPositionSlider().setVisible(true);
 				}
 				if (mrl != null) {
-					startPlay(mrl);
+					showPlayerAndPlay(mrl);
+//					vlcPlayer.getMediaPlayer().play();
 				}
 			}
 			else if(action.equals("TIME_VALUE_CHANGED")){
@@ -236,11 +277,33 @@ public class VlcPlayerController extends BaseController {
 			else if(action.equals("PAUSED")){
 				if (!from.equals(loginInfo.getUsername())) {
 					Boolean isPlaying = (Boolean) commandMap.get("isPlaying");
-					if (vlcPlayer.getMediaPlayer().isPlaying() != isPlaying) {
+//					Boolean isMediaParsed = (Boolean) commandMap.get("isMediaParsed");
+					if (vlcPlayer.getMediaPlayer().isPlaying() != isPlaying && isPlaying == false) {
 						vlcPlayer.getMediaPlayer().pause();
 					}
 				}
 			}
+			else if(action.equals("PLAYING")){
+				if (!from.equals(loginInfo.getUsername())) {
+					Boolean isPlaying = (Boolean) commandMap.get("isPlaying");
+					if (vlcPlayer.getMediaPlayer().isPlaying() != isPlaying && isPlaying == true) {
+						vlcPlayer.getMediaPlayer().pause();
+					}
+				}
+			}
+			else if(action.equals("OPENING")){
+				if (!from.equals(loginInfo.getUsername())) {
+					if (!vlcPlayer.getMediaPlayer().isPlaying()) {
+//						vlcPlayer.getMediaPlayer().play();
+					}
+				}
+			}
 		}
+	}
+	
+	public void stopVlcPlayer() throws Exception{
+		VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+		vlcPlayer.getMediaPlayer().stop();
+		log.info("stopVlcPlayer");
 	}
 }

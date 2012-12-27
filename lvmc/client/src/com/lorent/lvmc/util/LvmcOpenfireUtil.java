@@ -184,10 +184,10 @@ public class LvmcOpenfireUtil {
     	DataUtil.setValue(DataUtil.Key.ReadyToLeaveRoom, muc);
     	if (muc != null) {
     		muc.leave();
-    		log.info("leaveRoom mcu != null");
+    		log.info("leaveRoom muc != null");
 		}
     	else{
-    		log.info("leaveRoom mcu == null");
+    		log.info("leaveRoom muc == null");
     	}
     }
     
