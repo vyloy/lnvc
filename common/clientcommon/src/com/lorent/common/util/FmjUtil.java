@@ -70,19 +70,26 @@ public class FmjUtil {
 			new Thread(){
 				public void run(){
 					try {
-						Thread.sleep(1000);
-						log.info("containerPlayer second:"+containerPlayer.getTime());
-						if(containerPlayer.getTime()==0){
-							if(getCameraProcess()!=null){
-								getCameraProcess().doDisable();
-							}
-						}else{
-							if(getCameraProcess()!=null){
-								getCameraProcess().doEnable();
+						for(int i=0;i<5;i++){
+							Thread.sleep(1000);
+							log.info("containerPlayer second:"+containerPlayer.getTime());
+							if(containerPlayer.getTime()==0 && i==4){
+								closeCamera();
+								if(getCameraProcess()!=null){
+									getCameraProcess().doDisable();
+								}
+							}else if(containerPlayer.getTime()!=0){
+								if(getCameraProcess()!=null){
+									getCameraProcess().doEnable();
+								}
+								break;
 							}
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
+						if(getCameraProcess()!=null){
+							getCameraProcess().doDisable();
+						}
 					}
 				}
 			}.start();
