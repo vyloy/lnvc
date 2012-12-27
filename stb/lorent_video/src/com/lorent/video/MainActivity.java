@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	public final static DeviceType device = DeviceType.PHONE;
+	public final static DeviceType device = DeviceType.STB;
 	private String selectedType = "电影";
 	private LinearLayout setupLayout;
 	private LinearLayout movLayout;

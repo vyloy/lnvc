@@ -69,6 +69,13 @@ public class CustomHeadOperatePanel extends javax.swing.JPanel {
 		setImageLabel();
 	}
 	
+	public CustomHeadOperatePanel(BufferedImage bufferedImage,int w,int h) {
+		this();
+		this.setPreferredSize(new java.awt.Dimension(w,h));
+		this.bufferedImage = bufferedImage;
+		setImageLabel();
+	}
+	
 	public CustomHeadOperatePanel(String imgPath,int w,int h) {
 		this();
 		this.setPreferredSize(new java.awt.Dimension(w,h));
