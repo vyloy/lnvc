@@ -34,6 +34,7 @@ import com.lorent.util.Counter;
 import com.lorent.util.McuUtil;
 import com.lorent.util.OpenfireUtil;
 import com.lorent.util.PropertiesUtil;
+import com.lorent.util.ShellUtil;
 import com.lorent.util.StringUtil;
 import com.lorent.util.ThreadLocaleUtil;
 import com.lorent.whiteboard.client.Client;
@@ -173,6 +174,20 @@ ConferenceNewService{
 				Client.create(PropertiesUtil.getConstant("lvmc.serverIP"), confNo);
 			}catch(Exception e){
 				e.printStackTrace();
+			}
+			
+			//点播文件，创建符号链接
+			try {
+				ShellUtil.execute("mkdir /opt/lcp/lvmcserver/files/"+confNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("createConferenceNew", e);
+			}
+			try {
+				ShellUtil.execute("ln -s /opt/lcp/lvmcserver/files/"+confNo+"  /opt/lcp/common/commonfiles/VideoClips/"+confNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("createConferenceNew", e);
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -351,6 +366,13 @@ ConferenceNewService{
 					log.error("removeConferenceNew", e);
 					throw new ServerException("server.lvmcRemoveConfFail", e);
 				}
+				//删除文件链接
+				try {
+					ShellUtil.execute("rm /opt/lcp/common/commonfiles/VideoClips/"+confno);
+				} catch (Exception e) {
+					log.error("removeConferenceNew", e);
+				}
+				
 			}
 			try{
 				OpenfireUtil.getInstance().removeConferenceRoom(confNos);

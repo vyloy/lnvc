@@ -18,4 +18,5 @@ classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd">
     <bean id="screenShotController" class="com.lorent.lvmc.controller.ScreenShotController" parent="baseController" scope="singleton"/>
     <bean id="videoAudioSetupController" class="com.lorent.lvmc.controller.VideoAudioSetupController" parent="baseController" scope="singleton"/>
     <bean id="authorityController" class="com.lorent.lvmc.controller.AuthorityController" parent="baseController" scope="singleton"/>
+    <bean id="vlcPlayerController" class="com.lorent.lvmc.controller.VlcPlayerController" parent="baseController" scope="singleton"/>
 </beans>

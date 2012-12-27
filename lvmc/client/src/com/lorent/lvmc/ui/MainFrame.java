@@ -370,7 +370,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 						"/com/lorent/lvmc/resource/images/screenshot.png"))); // NOI18N
 		screenShotButton
 				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.tools.txt"));
 		screenShotButton.setFocusable(false);
 		screenShotButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -429,7 +429,8 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	}
 
 	private void screenShotButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		ControllerFacade.execute("screenShotController", "capture");
+//		ControllerFacade.execute("screenShotController", "capture");
+		new ToolsPopupMenu(this.screenShotButton).showPopup();
 	}
 
 	private void windowButtonActionPerformed(java.awt.event.ActionEvent evt) {

@@ -53,6 +53,8 @@ import net.infonode.docking.DockingWindowAdapter;
 import net.infonode.docking.FloatingWindow;
 import net.infonode.docking.OperationAbortedException;
 import net.infonode.docking.RootWindow;
+import net.infonode.docking.SplitWindow;
+import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 import net.infonode.docking.WindowBar;
 import net.infonode.docking.properties.RootWindowProperties;
@@ -302,6 +304,20 @@ public class DockingLayoutMeetingPanel extends javax.swing.JPanel {
 //        view.setEnabled(true);
         DockingUtil.addWindow(view, rootWindow);
         log.info("addPanel: " + panelID);
+    }
+    
+    public synchronized void addPanelToTab(JPanel panel, String title, String panelID, Icon icon,String img,TabWindow tabWindow){
+    	if (findInViewMap(panelID) != null) {
+            return;
+        }
+        MyView view = new MyView(title, icon, panel,img);
+        view.setViewId(panelID);
+        view.setName(panelID);
+        viewMap.addView(viewMap.getViewCount(), view);
+        
+        tabWindow.addTab(view);
+        view.restoreFocus();
+        log.info("addPanelToTab: " + panelID);
     }
     
     public synchronized void removePanel(String panelID){

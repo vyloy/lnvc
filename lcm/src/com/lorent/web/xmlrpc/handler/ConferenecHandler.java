@@ -22,6 +22,7 @@ import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMConferenceRoleBean;
 import com.lorent.common.dto.LCMConferenceTypeBean;
 import com.lorent.common.dto.LCMMobileBean;
+import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.util.PasswordUtil;
 import com.lorent.common.util.SMSUtil;
 import com.lorent.exception.RpcServerException;
@@ -40,6 +41,7 @@ import com.lorent.util.CSUtil;
 import com.lorent.util.Constant;
 import com.lorent.util.MailUtil;
 import com.lorent.util.McuUtil;
+import com.lorent.util.OpenfireUtil;
 import com.lorent.util.PropertiesUtil;
 import com.lorent.util.StringUtil;
 import com.lorent.xmlrpc.McuXmlrpc;
@@ -848,6 +850,16 @@ public class ConferenecHandler extends BaseHandler {
 	public Object[] getCurrentForwardConfInfo()throws Exception{
 		log.info("getCurrentForwardConfInfo");
 		return serviceFacade.getConferenceNewService().getCurrentForwardConfInfo();
+	}
+	
+	public boolean broadcastVideoCommand(String confNo,String from,Object[] toLccnos,HashMap command) throws Exception{
+//		OpenfireUtil.getInstance().sendGroupBroadcast(BroadcastEvent.BROADCAST_CONF_COMMAND, new Object[]{from,toLccnos,command});
+		String[] members = new String[toLccnos.length];
+		for (int i = 0; i < toLccnos.length; i++) {
+			members[i] = (String) toLccnos[i];
+		}
+		OpenfireUtil.getInstance().sendConfVideoCommand(confNo,from, members, command);
+		return true;
 	}
 	
 	//--------------------------------------供 VOVO 调用(不带业务逻辑)end ----------------------------------

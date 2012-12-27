@@ -281,6 +281,28 @@ public class ShareFileServerUtil {
     	
     }
     
+    public String getServerRealFileName(String meetingID,String fileName,IoSession session) throws Exception{
+    	try{
+        	ShareFileCommand shareFileCommand = new ShareFileCommand(meetingID);
+            
+            shareFileCommand.setParameter("FileName", fileName);
+            shareFileCommand.setOperation("getRealFileName");
+//            shareFileCommand.setParameter("UserName", DataUtil.getLoginInfo().getUsername());
+            session.write(shareFileCommand);
+            ReadFuture read = session.read();
+            if (read.awaitUninterruptibly(10, TimeUnit.SECONDS)){
+                ShareFileCommandResult result = (ShareFileCommandResult) read.getMessage();
+                return (String) result.getValue("RealFileName");
+            }else{
+                throw new Exception(StringUtil.getErrorString("getServerRealFileName.error"));
+            }
+        }catch(Exception ex){
+        	throw ex;
+        }finally{
+        	close(session);
+        }
+    }
+    
     
     public void deleteFile(String meetingID,String serverFileName,IoSession session) throws Exception{
     	try{

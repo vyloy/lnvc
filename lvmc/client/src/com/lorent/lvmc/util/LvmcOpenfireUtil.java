@@ -18,6 +18,7 @@ import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketCollector;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -29,6 +30,9 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.DiscussionHistory;
 
+import com.lorent.common.tree.BroadcastEvent;
+import com.lorent.common.tree.DepartmentBean;
+import com.lorent.common.tree.MemberBean;
 import com.lorent.common.util.OpenfireUtil;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MyMultiUserChat;
@@ -48,6 +52,7 @@ public class LvmcOpenfireUtil {
     private static MyChatManagerListener myChatManagerListener;
     private static MyVoteListener myVoteListener;
     private static MyConnectionListener myConnectionListener;
+    private static LvmcPacketListener lvmcPacketListener;
     
     public static void doAddListener() throws Exception{
     	log.info("doAddListener");
@@ -63,6 +68,14 @@ public class LvmcOpenfireUtil {
                 return true;
             }
         });
+        lvmcPacketListener = new LvmcPacketListener();
+        conn.addPacketListener(lvmcPacketListener, new PacketFilter() {
+			
+			@Override
+			public boolean accept(Packet arg0) {
+				return true;
+			}
+		});
         myConnectionListener = new MyConnectionListener();
         conn.addConnectionListener(myConnectionListener);
         DataUtil.setValue(DataUtil.Key.Connection, conn);
@@ -74,6 +87,7 @@ public class LvmcOpenfireUtil {
     	XMPPConnection conn = OpenfireUtil.getInstance().getConn();
     	conn.getChatManager().removeChatListener(myChatManagerListener);
     	conn.removePacketListener(myVoteListener);
+    	conn.removePacketListener(lvmcPacketListener);
     	conn.removeConnectionListener(myConnectionListener);
     	DataUtil.setValue(DataUtil.Key.Connection, null);
     }
@@ -170,10 +184,10 @@ public class LvmcOpenfireUtil {
     	DataUtil.setValue(DataUtil.Key.ReadyToLeaveRoom, muc);
     	if (muc != null) {
     		muc.leave();
-    		log.info("leaveRoom mcu != null");
+    		log.info("leaveRoom muc != null");
 		}
     	else{
-    		log.info("leaveRoom mcu == null");
+    		log.info("leaveRoom muc == null");
     	}
     }
     
@@ -342,4 +356,36 @@ public class LvmcOpenfireUtil {
     	confNo = muc.getRoom().split("@")[0];
     	return confNo;
     }
+    
+    static class LvmcPacketListener implements PacketListener{
+
+		@Override
+		public void processPacket(Packet packet) {
+			
+			if (packet instanceof Message){
+				Message msg = (Message) packet;
+				if(msg.getFrom().split("@")[0].equals("admin")){
+					log.info("receive admin msg : " + msg.toXML());
+					handleAdminMsg(msg);
+				}
+			}
+		}
+    }
+    
+    private static void handleAdminMsg(Message msg){
+		String operate = (String)msg.getProperty("operate");
+		if(operate != null && operate.equals(BroadcastEvent.BROADCAST_CONF_VIDEO_COMMAND) ){
+			Object usernameList = msg.getProperty("usernameList");
+			String confNo = (String) msg.getProperty("confNo");
+			String from = (String) msg.getProperty("from");
+			Object command = msg.getProperty("command");
+			
+			MyEvent event = new MyEvent();
+            event.setId("recevieConfVideoCommand");
+            event.setParas(new Object[]{usernameList, confNo,from,command});
+            MessageUtil.getInstance().sendMessage(event);
+			
+			log.info("handleAdminMsg: "+msg);
+		}
+	}
 }

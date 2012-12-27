@@ -117,6 +117,8 @@
        <listener class="mainController" method="openfireDisconnectByNetwork"/>
        <listener class="voteController" method="disconnect"/>
     </event>
-    
-    
+    <!-- 会议广播信息 -->
+    <event id="recevieConfVideoCommand">
+    	<listener class="vlcPlayerController" method="recevieConfVideoCommand"></listener>
+    </event>
 </events-configuration>

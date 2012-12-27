@@ -376,6 +376,20 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			}
 			
 //			session.write("finished");
+		}else if("getRealFileName".equals(operation)){
+			String filename = (String) getParameter("FileName");
+			ConfigUtil configUtil = FileListConfigUtilFactory.getFileListConfUtilByMeetingID(getMeetingId(), session);
+			try {
+				String realFileName = configUtil.getProperty(filename);
+				logger.info("getRealFileName: "+filename+" , "+realFileName);
+				ShareFileCommandResult shareFileCommandResult = new ShareFileCommandResult();
+		        shareFileCommandResult.setValue("OriginalCommand", this);
+		        shareFileCommandResult.setValue("RealFileName", realFileName);
+		        shareFileCommandResult.setValue("ResultID", "getRealFileName");
+		        session.write(shareFileCommandResult);
+			} catch (Exception e) {
+				logger.error("getRealFileName error:",e);
+			}
 		}
 		
 	}
