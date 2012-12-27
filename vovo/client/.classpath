@@ -11,12 +11,12 @@
 	<classpathentry kind="lib" path="lib/proxool-cglib.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing-SWT.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/antlr.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-generator-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/jniwrap/winpack-3.8.3.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing-SWT.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JTattoo"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/lvmc"/>
 	<classpathentry kind="output" path="bin"/>

@@ -68,14 +68,16 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 		//		DefaultListModel model = (DefaultListModel) transferFileList.getModel();
 		//		model.addElement(panel);
 		transferFileListPanel.add(panel);
-		
-		
-//        JScrollBar verticalScrollBar = getTransferFileListScrollPane().getVerticalScrollBar();
-//        int maximum = verticalScrollBar.getMaximum();
-//        verticalScrollBar.setValue(maximum);
+
+		//        JScrollBar verticalScrollBar = getTransferFileListScrollPane().getVerticalScrollBar();
+		//        int maximum = verticalScrollBar.getMaximum();
+		//        verticalScrollBar.setValue(maximum);
 		getTransferFileListScrollPane().getViewport().scrollRectToVisible(
-				new Rectangle(0, transferFileListPanel.getHeight()-getTransferFileListScrollPane().getHeight()+panel.getHeight(),
-						transferFileListPanel.getWidth(), getTransferFileListScrollPane().getHeight()-panel.getHeight()));
+				new Rectangle(0, transferFileListPanel.getHeight()
+						- getTransferFileListScrollPane().getHeight()
+						+ panel.getHeight(), transferFileListPanel.getWidth(),
+						getTransferFileListScrollPane().getHeight()
+								- panel.getHeight()));
 	}
 
 	public ShareFileListItem getDownLoadShareFileListItem(String uniqueFileID) {
@@ -104,9 +106,10 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 
 		boolean flag = PermissionUtil.hasPermission(PermissionUtil.FILE_UPLOAD);
 		uploadFileButton.setEnabled(flag);
-		boolean flag1 = PermissionUtil.hasPermission(PermissionUtil.DELETE_DOCUMENT);
+		boolean flag1 = PermissionUtil
+				.hasPermission(PermissionUtil.DELETE_DOCUMENT);
 		this.deleteButton.setEnabled(flag1);
-		new MyDropTargetListener(fileList, DnDConstants.ACTION_COPY_OR_MOVE){
+		new MyDropTargetListener(fileList, DnDConstants.ACTION_COPY_OR_MOVE) {
 
 			@Override
 			public void drop(DropTargetDropEvent dtde) {
@@ -115,14 +118,15 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 				if (dataFlavors[0].match(DataFlavor.javaFileListFlavor)) {
 					try {
 						Transferable tr = dtde.getTransferable();
-						Object obj = tr.getTransferData(DataFlavor.javaFileListFlavor);
+						Object obj = tr
+								.getTransferData(DataFlavor.javaFileListFlavor);
 						List<File> files = (List<File>) obj;
 						for (int i = 0; i < files.size(); i++) {
-							
+
 						}
-						ControllerFacade.execute("shareFileListController", "uploadShareFileOnDrop", files);
-					}
-					catch (Exception e) {
+						ControllerFacade.execute("shareFileListController",
+								"uploadShareFileOnDrop", files);
+					} catch (Exception e) {
 						log.error("ShareFileListPanel.MyDropTargetListener", e);
 					}
 				}
@@ -178,6 +182,7 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 		downLoadMenuItem = new javax.swing.JMenuItem();
 		loadToBoardMenuItem = new javax.swing.JMenuItem();
 		deleteFileMenuItem = new javax.swing.JMenuItem();
+		vlcPlayMenuItem = new javax.swing.JMenuItem();
 		jPanel2 = new javax.swing.JPanel();
 		jToolBar1 = new javax.swing.JToolBar();
 		reflashButton = new javax.swing.JButton();
@@ -218,6 +223,14 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 					}
 				});
 		fileListPopupMenu.add(deleteFileMenuItem);
+
+		vlcPlayMenuItem.setText("\u64ad\u653e");
+		vlcPlayMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				vlcPlayMenuItemActionPerformed(evt);
+			}
+		});
+		fileListPopupMenu.add(vlcPlayMenuItem);
 
 		addComponentListener(new java.awt.event.ComponentAdapter() {
 			public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -378,6 +391,14 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void vlcPlayMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+		Object selectedValue = fileList.getSelectedValue();
+		if (selectedValue != null) {
+			ShareFileListItem item = (ShareFileListItem) selectedValue;
+			ControllerFacade.execute("vlcPlayerController","sendPlayCommand", item.getFileName());
+		}
+	}
+
 	private void fileListValueChanged(javax.swing.event.ListSelectionEvent evt) {
 		if (evt.getValueIsAdjusting()) {
 			return;
@@ -529,26 +550,27 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 	private javax.swing.JPanel transferFileListPanel;
 	private javax.swing.JScrollPane transferFileListScrollPane;
 	private javax.swing.JButton uploadFileButton;
+	private javax.swing.JMenuItem vlcPlayMenuItem;
 
 	// End of variables declaration//GEN-END:variables
-	
-	public void setVisibleOfDeleteButton(boolean f){
-//		this.deleteButton.setVisible(f);
+
+	public void setVisibleOfDeleteButton(boolean f) {
+		//		this.deleteButton.setVisible(f);
 		ViewManager.setComponentByAuthority(this.deleteButton, f);
 	}
 
-	public void setVisibleOfUploadFileButton(boolean f){
-//		this.uploadFileButton.setVisible(f);
+	public void setVisibleOfUploadFileButton(boolean f) {
+		//		this.uploadFileButton.setVisible(f);
 		ViewManager.setComponentByAuthority(this.uploadFileButton, f);
 	}
-	
-	public void setVisibleOfLoadBoard(boolean f){
-//		this.loadBoardButton.setVisible(f);
-//		this.loadToBoardMenuItem.setVisible(f);
+
+	public void setVisibleOfLoadBoard(boolean f) {
+		//		this.loadBoardButton.setVisible(f);
+		//		this.loadToBoardMenuItem.setVisible(f);
 		ViewManager.setComponentByAuthority(this.loadBoardButton, f);
 		ViewManager.setComponentByAuthority(this.loadToBoardMenuItem, f);
 	}
-	
+
 	public JPopupMenu getFileListPopupMenu() {
 		return fileListPopupMenu;
 	}

@@ -6,9 +6,13 @@
 
 package com.lorent.common.component;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,7 +22,10 @@ import java.awt.event.WindowEvent;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
@@ -27,11 +34,13 @@ import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 import uk.co.caprica.vlcj.player.embedded.FullScreenStrategy;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.runtime.x.LibXUtil;
 
+import com.lorent.common.event.VlcPlayerEventAdater;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
@@ -42,12 +51,11 @@ import com.sun.jna.NativeLibrary;
 public class VlcPlayer extends javax.swing.JPanel {
 
 	private static Logger log = Logger.getLogger(VlcPlayer.class);
-	private EmbeddedMediaPlayerComponent mediaPlayerComponent = null;
+	private static EmbeddedMediaPlayerComponent mediaPlayerComponent = null;
+	private VlcPlayerEventAdater vlcPlayerEventAdater = null;
 	private static final int SKIP_TIME_MS = 10 * 1000;
-	private final ScheduledExecutorService executorService = Executors
-			.newSingleThreadScheduledExecutor();
 	private String mediaMRL = "";
-	private static JFrame fullscreenframe = new JFrame("Full Screen Strategy");
+	private static Frame fullscreenWindow = new Frame();
 	private VlcPlayer vlcPlayerPanel = null;
 
 	public String getMediaMRL() {
@@ -58,107 +66,166 @@ public class VlcPlayer extends javax.swing.JPanel {
 		this.mediaMRL = mediaMRL;
 	}
 
+	public VlcPlayerEventAdater getVlcPlayerEventAdater() {
+		return vlcPlayerEventAdater;
+	}
+
+	public void setVlcPlayerEventAdater(
+			VlcPlayerEventAdater vlcPlayerEventAdater) {
+		this.vlcPlayerEventAdater = vlcPlayerEventAdater;
+	}
+
+	public MediaPlayer getMediaPlayer() {
+		return mediaPlayerComponent.getMediaPlayer();
+	}
+
 	public void releaseMediaPlayer() {
 		mediaPlayerComponent.release();
 	}
 
-	/** Creates new form VlcPlayer */
-	public VlcPlayer(String vlcLibPath) {
-		vlcPlayerPanel = this;
+	public boolean isPlaying() {
+		return mediaPlayerComponent.getMediaPlayer().isPlaying();
+	}
+
+	public void play() {
+		mediaPlayerComponent.getMediaPlayer().playMedia(mediaMRL);
+	}
+
+	public void stop() {
+		mediaPlayerComponent.getMediaPlayer().stop();
+	}
+
+	public static void init(String vlcLibPath) {
 		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(),
 				vlcLibPath);
 		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+	}
+
+	static {
+		/*
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+		    @Override
+		    public void eventDispatched(AWTEvent event) {
+		        if(event instanceof KeyEvent) {
+		            KeyEvent keyEvent = (KeyEvent)event;
+		            if(keyEvent.getID() == KeyEvent.KEY_PRESSED) {
+		                if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		                	if (fullscreenWindow.isVisible()) {
+		                		mediaPlayerComponent.getMediaPlayer().setFullScreen(false);
+							}
+		                }
+		            }
+		        }
+		    }
+		}, AWTEvent.KEY_EVENT_MASK);
+		 */
+	}
+
+	/** Creates new form VlcPlayer */
+	public VlcPlayer() {
+		vlcPlayerPanel = this;
 		initComponents();
 		positionSlider.setValue(0);
 		mediaPlayerComponent = new MyEmbeddedMediaPlayerComponent();
 		add(mediaPlayerComponent, BorderLayout.CENTER);
 
-		mediaPlayerComponent.getMediaPlayer().addMediaPlayerEventListener(
-				new MediaPlayerEventAdater() {
+		MyMediaPlayerEventAdater mediaPlayerEventAdapter = new MyMediaPlayerEventAdater() {
 
+			@Override
+			public void finished(MediaPlayer mediaPlayer) {
+				super.finished(mediaPlayer);
+				stopButton.setEnabled(false);
+				playButton.setEnabled(true);
+				pauseButton.setEnabled(false);
+				skipPreviousButton.setEnabled(false);
+				skipNextButton.setEnabled(false);
+				fullScreenButton.setEnabled(false);
+				pauseButton.setText("暂停");
+				pauseButton
+						.setIcon(new javax.swing.ImageIcon(
+								getClass()
+										.getResource(
+												"/com/lorent/common/resource/images/media-playback-pause-8.png")));
+			}
+
+			@Override
+			public void paused(MediaPlayer mediaPlayer) {
+				super.paused(mediaPlayer);
+				pauseButton.setText("继续");
+				pauseButton
+						.setIcon(new javax.swing.ImageIcon(
+								getClass()
+										.getResource(
+												"/com/lorent/common/resource/images/media-playback-start-8.png")));
+			}
+
+			@Override
+			public void playing(MediaPlayer mediaPlayer) {
+				super.playing(mediaPlayer);
+				playButton.setEnabled(false);
+				stopButton.setEnabled(true);
+				pauseButton.setEnabled(true);
+				skipPreviousButton.setEnabled(true);
+				skipNextButton.setEnabled(true);
+				fullScreenButton.setEnabled(true);
+				pauseButton.setText("暂停");
+				pauseButton
+						.setIcon(new javax.swing.ImageIcon(
+								getClass()
+										.getResource(
+												"/com/lorent/common/resource/images/media-playback-pause-8.png")));
+			}
+
+			@Override
+			public void stopped(MediaPlayer mediaPlayer) {
+				super.stopped(mediaPlayer);
+				stopButton.setEnabled(false);
+				playButton.setEnabled(true);
+				pauseButton.setEnabled(false);
+				skipPreviousButton.setEnabled(false);
+				skipNextButton.setEnabled(false);
+				fullScreenButton.setEnabled(false);
+				pauseButton.setText("暂停");
+				pauseButton
+						.setIcon(new javax.swing.ImageIcon(
+								getClass()
+										.getResource(
+												"/com/lorent/common/resource/images/media-playback-pause-8.png")));
+			}
+
+			@Override
+			public void positionChanged(MediaPlayer mediaPlayer, float arg1) {
+				super.positionChanged(mediaPlayer, arg1);
+				SwingUtilities.invokeLater(new Runnable() {
 					@Override
-					public void finished(MediaPlayer mediaPlayer) {
-						super.finished(mediaPlayer);
-						stopButton.setEnabled(false);
-						playButton.setEnabled(true);
-						pauseButton.setEnabled(false);
-						skipPreviousButton.setEnabled(false);
-						skipNextButton.setEnabled(false);
-						fullScreenButton.setEnabled(false);
-						pauseButton.setText("暂停");
-						pauseButton
-								.setIcon(new javax.swing.ImageIcon(
-										getClass()
-												.getResource(
-														"/com/lorent/common/resource/images/media-playback-pause-8.png")));
+					public void run() {
+						int position = (int) (mediaPlayerComponent
+								.getMediaPlayer().getPosition() * 1000.0f);
+						positionSlider.setValue(position);
+						positionProgressBar.setValue(position);
 					}
-
-					@Override
-					public void paused(MediaPlayer mediaPlayer) {
-						super.paused(mediaPlayer);
-						pauseButton.setText("继续");
-						pauseButton
-								.setIcon(new javax.swing.ImageIcon(
-										getClass()
-												.getResource(
-														"/com/lorent/common/resource/images/media-playback-start-8.png")));
-					}
-
-					@Override
-					public void playing(MediaPlayer mediaPlayer) {
-						super.playing(mediaPlayer);
-						playButton.setEnabled(false);
-						stopButton.setEnabled(true);
-						pauseButton.setEnabled(true);
-						skipPreviousButton.setEnabled(true);
-						skipNextButton.setEnabled(true);
-						fullScreenButton.setEnabled(true);
-						pauseButton.setText("暂停");
-						pauseButton
-								.setIcon(new javax.swing.ImageIcon(
-										getClass()
-												.getResource(
-														"/com/lorent/common/resource/images/media-playback-pause-8.png")));
-					}
-
-					@Override
-					public void stopped(MediaPlayer mediaPlayer) {
-						super.stopped(mediaPlayer);
-						stopButton.setEnabled(false);
-						playButton.setEnabled(true);
-						pauseButton.setEnabled(false);
-						skipPreviousButton.setEnabled(false);
-						skipNextButton.setEnabled(false);
-						fullScreenButton.setEnabled(false);
-						pauseButton.setText("暂停");
-						pauseButton
-								.setIcon(new javax.swing.ImageIcon(
-										getClass()
-												.getResource(
-														"/com/lorent/common/resource/images/media-playback-pause-8.png")));
-					}
-
-					@Override
-					public void positionChanged(MediaPlayer mediaPlayer,
-							float arg1) {
-						super.positionChanged(mediaPlayer, arg1);
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								int position = (int) (mediaPlayerComponent
-										.getMediaPlayer().getPosition() * 1000.0f);
-								positionSlider.setValue(position);
-
-							}
-						});
-					}
-
 				});
+			}
+
+		};
+
+		mediaPlayerComponent.getMediaPlayer().addMediaPlayerEventListener(mediaPlayerEventAdapter);
 		//		executorService.scheduleAtFixedRate(new UpdateRunnable(
 		//				mediaPlayerComponent.getMediaPlayer()), 0L, 1L,
 		//				TimeUnit.SECONDS);
-		fullscreenframe.setAlwaysOnTop(true);
-		fullscreenframe.addWindowListener(new WindowAdapter() {
+		//		fullscreenWindow.setExtendedState(state)
+
+		fullscreenWindow.setAlwaysOnTop(true);
+		fullscreenWindow.setFocusable(true);
+		fullscreenWindow.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				log.info("fullscreenframe.mouseClicked");
+			}
+
+		});
+		fullscreenWindow.addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -166,47 +233,52 @@ public class VlcPlayer extends javax.swing.JPanel {
 			}
 
 		});
-		fullscreenframe.addKeyListener(new KeyAdapter() {
+		fullscreenWindow.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				log.info("fullscreenframe.keyPressed");
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					if (fullscreenframe.isVisible()) {
-						mediaPlayerComponent.getMediaPlayer().setFullScreen(
-								false);
+
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						if (fullscreenWindow.isVisible()) {
+							mediaPlayerComponent.getMediaPlayer()
+									.setFullScreen(false);
+						}
 					}
 				}
 			}
 
 		});
-		fullscreenframe.setUndecorated(true);
-//		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(fullscreenframe);
+		fullscreenWindow.setUndecorated(true);
+		//		fullscreenDialog.setResizable(false);
+		//		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(fullscreenframe);
 	}
 
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
-		jPanel2 = new javax.swing.JPanel();
-		jPanel1 = new javax.swing.JPanel();
+		playerControllPanel = new javax.swing.JPanel();
+		playerButtonsPanel = new javax.swing.JPanel();
 		playButton = new javax.swing.JButton();
 		pauseButton = new javax.swing.JButton();
 		stopButton = new javax.swing.JButton();
 		skipPreviousButton = new javax.swing.JButton();
 		skipNextButton = new javax.swing.JButton();
 		fullScreenButton = new javax.swing.JButton();
+		jPanel3 = new javax.swing.JPanel();
+		positionSlider = new javax.swing.JSlider();
+		positionProgressBar = new javax.swing.JProgressBar();
 		jPanel4 = new javax.swing.JPanel();
 		volumeSlider = new javax.swing.JSlider();
 		jLabel1 = new javax.swing.JLabel();
-		jPanel3 = new javax.swing.JPanel();
-		positionSlider = new javax.swing.JSlider();
 
 		setLayout(new java.awt.BorderLayout());
 
-		jPanel2.setLayout(new java.awt.BorderLayout());
+		playerControllPanel.setLayout(new java.awt.BorderLayout());
 
-		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+		playerButtonsPanel.setLayout(new java.awt.FlowLayout(
+				java.awt.FlowLayout.LEFT));
 
 		playButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -219,7 +291,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 				playButtonActionPerformed(evt);
 			}
 		});
-		jPanel1.add(playButton);
+		playerButtonsPanel.add(playButton);
 
 		pauseButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -233,7 +305,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 				pauseButtonActionPerformed(evt);
 			}
 		});
-		jPanel1.add(pauseButton);
+		playerButtonsPanel.add(pauseButton);
 
 		stopButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -247,7 +319,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 				stopButtonActionPerformed(evt);
 			}
 		});
-		jPanel1.add(stopButton);
+		playerButtonsPanel.add(stopButton);
 
 		skipPreviousButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -262,7 +334,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 						skipPreviousButtonActionPerformed(evt);
 					}
 				});
-		jPanel1.add(skipPreviousButton);
+		playerButtonsPanel.add(skipPreviousButton);
 
 		skipNextButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -276,7 +348,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 				skipNextButtonActionPerformed(evt);
 			}
 		});
-		jPanel1.add(skipNextButton);
+		playerButtonsPanel.add(skipNextButton);
 
 		fullScreenButton
 				.setIcon(new javax.swing.ImageIcon(
@@ -290,7 +362,33 @@ public class VlcPlayer extends javax.swing.JPanel {
 				fullScreenButtonActionPerformed(evt);
 			}
 		});
-		jPanel1.add(fullScreenButton);
+		playerButtonsPanel.add(fullScreenButton);
+
+		playerControllPanel.add(playerButtonsPanel,
+				java.awt.BorderLayout.CENTER);
+
+		jPanel3.setLayout(new java.awt.BorderLayout());
+
+		positionSlider.setMaximum(1000);
+		positionSlider.setSnapToTicks(true);
+		positionSlider.setValue(0);
+		positionSlider.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseReleased(java.awt.event.MouseEvent evt) {
+				positionSliderMouseReleased(evt);
+			}
+		});
+		positionSlider
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						positionSliderStateChanged(evt);
+					}
+				});
+		jPanel3.add(positionSlider, java.awt.BorderLayout.CENTER);
+
+		positionProgressBar.setMaximum(1000);
+		jPanel3.add(positionProgressBar, java.awt.BorderLayout.SOUTH);
+
+		playerControllPanel.add(jPanel3, java.awt.BorderLayout.NORTH);
 
 		jPanel4.setPreferredSize(new java.awt.Dimension(120, 36));
 		jPanel4.setLayout(new java.awt.BorderLayout());
@@ -308,27 +406,15 @@ public class VlcPlayer extends javax.swing.JPanel {
 				"/com/lorent/common/resource/images/audio-volume-high-5.png"))); // NOI18N
 		jPanel4.add(jLabel1, java.awt.BorderLayout.WEST);
 
-		jPanel1.add(jPanel4);
+		playerControllPanel.add(jPanel4, java.awt.BorderLayout.EAST);
 
-		jPanel2.add(jPanel1, java.awt.BorderLayout.SOUTH);
-
-		jPanel3.setLayout(new java.awt.BorderLayout());
-
-		positionSlider.setMaximum(1000);
-		positionSlider.setSnapToTicks(true);
-		positionSlider.setValue(0);
-		positionSlider.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseReleased(java.awt.event.MouseEvent evt) {
-				positionSliderMouseReleased(evt);
-			}
-		});
-		jPanel3.add(positionSlider, java.awt.BorderLayout.CENTER);
-
-		jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
-
-		add(jPanel2, java.awt.BorderLayout.SOUTH);
+		add(playerControllPanel, java.awt.BorderLayout.SOUTH);
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void positionSliderStateChanged(javax.swing.event.ChangeEvent evt) {
+//		log.info("positionSliderStateChanged: "+positionSlider.getValue());
+	}
 
 	private void fullScreenButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		if (mediaPlayerComponent.getMediaPlayer().isFullScreen()) {
@@ -347,17 +433,23 @@ public class VlcPlayer extends javax.swing.JPanel {
 		log.info("positionSliderMouseReleased: "
 				+ positionSlider.getMousePosition().x + "/"
 				+ positionSlider.getWidth());
-		int x = positionSlider.getMousePosition().x;
-		int width = positionSlider.getWidth();
-		long timeValue = (mediaPlayerComponent.getMediaPlayer().getLength() * x)
-				/ width;
-		mediaPlayerComponent.getMediaPlayer().setTime(timeValue);
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				int x = positionSlider.getMousePosition().x;
+				int width = positionSlider.getWidth();
+				long timeValue = (mediaPlayerComponent.getMediaPlayer().getLength() * x)
+						/ width;
+				mediaPlayerComponent.getMediaPlayer().setTime(timeValue);
+				
 				int position = (int) (mediaPlayerComponent.getMediaPlayer()
 						.getPosition() * 1000.0f);
 				positionSlider.setValue(position);
+				if (vlcPlayerEventAdater != null) {
+//					vlcPlayerEventAdater.mediaPlayerPositionChanged(position);
+					vlcPlayerEventAdater.mediaPlayerTimeChanged(mediaPlayerComponent.getMediaPlayer().getTime());
+				}
 			}
 		});
 	}
@@ -371,6 +463,11 @@ public class VlcPlayer extends javax.swing.JPanel {
 				int position = (int) (mediaPlayerComponent.getMediaPlayer()
 						.getPosition() * 1000.0f);
 				positionSlider.setValue(position);
+				if (vlcPlayerEventAdater != null) {
+//					vlcPlayerEventAdater.mediaPlayerPositionChanged(mediaPlayerComponent.getMediaPlayer()
+//							.getPosition());
+					vlcPlayerEventAdater.mediaPlayerTimeChanged(mediaPlayerComponent.getMediaPlayer().getTime());
+				}
 			}
 		});
 	}
@@ -383,6 +480,10 @@ public class VlcPlayer extends javax.swing.JPanel {
 				int position = (int) (mediaPlayerComponent.getMediaPlayer()
 						.getPosition() * 1000.0f);
 				positionSlider.setValue(position);
+				if (vlcPlayerEventAdater != null) {
+//					vlcPlayerEventAdater.mediaPlayerPositionChanged(position);
+					vlcPlayerEventAdater.mediaPlayerTimeChanged(mediaPlayerComponent.getMediaPlayer().getTime());
+				}
 			}
 		});
 	}
@@ -403,12 +504,13 @@ public class VlcPlayer extends javax.swing.JPanel {
 	// Variables declaration - do not modify
 	private javax.swing.JButton fullScreenButton;
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JButton pauseButton;
 	private javax.swing.JButton playButton;
+	private javax.swing.JPanel playerButtonsPanel;
+	private javax.swing.JPanel playerControllPanel;
+	private javax.swing.JProgressBar positionProgressBar;
 	private javax.swing.JSlider positionSlider;
 	private javax.swing.JButton skipNextButton;
 	private javax.swing.JButton skipPreviousButton;
@@ -416,6 +518,22 @@ public class VlcPlayer extends javax.swing.JPanel {
 	private javax.swing.JSlider volumeSlider;
 
 	// End of variables declaration//GEN-END:variables
+
+	public javax.swing.JPanel getPlayerControllPanel() {
+		return playerControllPanel;
+	}
+
+	public javax.swing.JSlider getPositionSlider() {
+		return positionSlider;
+	}
+
+	public javax.swing.JProgressBar getPositionProgressBar() {
+		return positionProgressBar;
+	}
+
+	public javax.swing.JPanel getPlayerButtonsPanel() {
+		return playerButtonsPanel;
+	}
 
 	class MyEmbeddedMediaPlayerComponent extends EmbeddedMediaPlayerComponent {
 		@Override
@@ -435,7 +553,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 					log.info("exitFullScreenMode");
 					long time = mediaPlayerComponent.getMediaPlayer().getTime();
 					mediaPlayerComponent.getMediaPlayer().stop();
-					fullscreenframe.setVisible(false);
+					fullscreenWindow.setVisible(false);
 					vlcPlayerPanel.remove(mediaPlayerComponent);
 					vlcPlayerPanel.add(mediaPlayerComponent,
 							BorderLayout.CENTER);
@@ -443,36 +561,45 @@ public class VlcPlayer extends javax.swing.JPanel {
 					mediaPlayerComponent.getMediaPlayer().setTime(time);
 					vlcPlayerPanel.revalidate();
 					isFullScreen = false;
-//					LibXUtil.setFullScreenWindow(fullscreenframe, false);
+					//					LibXUtil.setFullScreenWindow(fullscreenframe, false);
+					if (vlcPlayerEventAdater != null) {
+						vlcPlayerEventAdater.exitFullScreenMode();
+					}
 				}
 
 				@Override
 				public void enterFullScreenMode() {
 					log.info("enterFullScreenMode");
-					fullscreenframe.setLocation(0, 0);
-//					fullscreenframe.setSize(1200, 800);
-					Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-					fullscreenframe.setSize(screenSize);
-//					fullscreenframe.toFront();
+					fullscreenWindow.setLocation(0, 0);
+					//					fullscreenWindow.setSize(1200, 800);
+					Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
+							.getScreenSize();
+					//					fullscreenWindow.setSize(screenSize);
+					//					fullscreenframe.toFront();
+					fullscreenWindow.setBounds(getGraphicsConfiguration()
+							.getDevice().getDefaultConfiguration().getBounds());
 					long time = mediaPlayerComponent.getMediaPlayer().getTime();
 					mediaPlayerComponent.getMediaPlayer().stop();
 					//			        fullscreenframe.remove(mediaPlayerComponent);
-					fullscreenframe.add(mediaPlayerComponent,
+					fullscreenWindow.add(mediaPlayerComponent,
 							BorderLayout.CENTER);
-					fullscreenframe.setVisible(true);
+					fullscreenWindow.setVisible(true);
 					mediaPlayerComponent.getMediaPlayer().play();
 					mediaPlayerComponent.getMediaPlayer().setTime(time);
 					//			        fullscreenframe.repaint();
 					isFullScreen = true;
-//					LibXUtil.setFullScreenWindow(fullscreenframe, true);
-					
-					fullscreenframe.toFront();
+					//					LibXUtil.setFullScreenWindow(fullscreenframe, true);
+
+					fullscreenWindow.toFront();
+					if (vlcPlayerEventAdater != null) {
+						vlcPlayerEventAdater.enterFullScreenMode();
+					}
 				}
 			};
 		}
 	}
 
-	public class MediaPlayerEventAdater implements MediaPlayerEventListener {
+	public class MyMediaPlayerEventAdater implements MediaPlayerEventListener {
 
 		@Override
 		public void backward(MediaPlayer mediaPlayer) {
@@ -630,7 +757,7 @@ public class VlcPlayer extends javax.swing.JPanel {
 		}
 
 	}
-
+	
 	/**
 	 * @param args
 	 */
@@ -639,8 +766,9 @@ public class VlcPlayer extends javax.swing.JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(100, 100);
 		frame.setSize(1080, 720);
-		VlcPlayer vlcPlayer = new VlcPlayer(
-				"D:\\MyEclipseWorkspaces\\git\\lnvc2\\vovo\\client\\vlc");
+		VlcPlayer
+				.init("D:\\MyEclipseWorkspaces\\git\\lnvc2\\vovo\\client\\vlc");
+		VlcPlayer vlcPlayer = new VlcPlayer();
 		vlcPlayer
 				.setMediaMRL("http://10.168.250.12:8800/20121218103504_291_720P.mp4");
 		frame.add(vlcPlayer);

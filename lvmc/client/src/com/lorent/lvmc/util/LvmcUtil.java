@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import com.lorent.common.util.LCMUtil;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.controller.ControllerFacade;
@@ -73,6 +74,11 @@ public class LvmcUtil {
 //        DataUtil.setValue(DataUtil.Key.showFlag, true);
         return panel;
     }
+    
+    public static LCMUtil getLCMUtil()throws Exception{
+		String url = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
+		return LCMUtil.newInstance(url);
+	}
     
     public static void main(String[] args){
         LvmcUtil util = new LvmcUtil();
