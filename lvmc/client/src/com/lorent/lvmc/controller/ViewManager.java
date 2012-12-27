@@ -35,8 +35,6 @@ import com.lorent.lvmc.ui.MainFrame;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
 import com.lorent.lvmc.util.DataUtil;
-import com.nilo.plaf.nimrod.NimRODLookAndFeel;
-import com.nilo.plaf.nimrod.NimRODTheme;
 import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 
 /**
@@ -339,14 +337,14 @@ public class ViewManager {
     }
     
     public static void chageTheme(String themeFileName) throws Exception{
-    	if(themeFileName==null || "".equals(themeFileName.trim())){
-    		themeFileName = "2.theme";
-    	}
-    	NimRODTheme nt = new NimRODTheme(ViewManager.class.getResource("/com/lorent/lvmc/resource/theme/" + themeFileName));
-    	NimRODLookAndFeel nf = new NimRODLookAndFeel();
-    	nf.setCurrentTheme(nt);
-    	changeLookAndFeel(nf);
-    	ConfigUtil.setProperty("themeFileName", themeFileName);
+//    	if(themeFileName==null || "".equals(themeFileName.trim())){
+//    		themeFileName = "2.theme";
+//    	}
+//    	NimRODTheme nt = new NimRODTheme(ViewManager.class.getResource("/com/lorent/lvmc/resource/theme/" + themeFileName));
+//    	NimRODLookAndFeel nf = new NimRODLookAndFeel();
+//    	nf.setCurrentTheme(nt);
+//    	changeLookAndFeel(nf);
+//    	ConfigUtil.setProperty("themeFileName", themeFileName);
     }
     
     public static DockingWindowsTheme getDockingWindowsTheme(String className){

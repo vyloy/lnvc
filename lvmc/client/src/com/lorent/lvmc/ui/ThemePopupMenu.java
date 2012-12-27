@@ -17,7 +17,6 @@ import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 
 import com.lorent.lvmc.controller.ViewManager;
-import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 
 public class ThemePopupMenu extends BasicPopupMenu {
 

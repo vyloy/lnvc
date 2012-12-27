@@ -87,36 +87,40 @@ public   class   PicsJWindow  extends   JDialog   {
             filesize=59;
         }
         ico=new   JLabel[filesize];
-        for(i=0;i <filesize;i++){ 
-            fileName= "/com/lorent/lvmc/resource/images/defaultface/e"+i+".gif";/*修改图片路径*/ 
-            ico[i] =new   JLabel(new  ChatPic(this.getClass().getResource(fileName),i),SwingConstants.CENTER);
-            ico[i].setBorder(BorderFactory.createLineBorder(new Color(225,225,225), 1));
-            ico[i].setToolTipText(i+"");
-            ico[i].addMouseListener(new   MouseAdapter(){ 
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getButton() == 1) {
-                        JLabel cubl = (JLabel) (e.getSource());
-                        ChatPic cupic = (ChatPic) (cubl.getIcon());
-//                                cupic.setPictext("");
-                        owner.insertSendPic(cupic);
-                        cubl.setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
-                        getObj().dispose();
+        for(i=0;i <filesize;i++){
+        	try{
+        		fileName= "/com/lorent/lvmc/resource/images/defaultface/e"+i+".gif";/*修改图片路径*/ 
+                ico[i] =new   JLabel(new  ChatPic(this.getClass().getResource(fileName),i),SwingConstants.CENTER);
+                ico[i].setBorder(BorderFactory.createLineBorder(new Color(225,225,225), 1));
+                ico[i].setToolTipText(i+"");
+                ico[i].addMouseListener(new   MouseAdapter(){ 
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getButton() == 1) {
+                            JLabel cubl = (JLabel) (e.getSource());
+                            ChatPic cupic = (ChatPic) (cubl.getIcon());
+//                                    cupic.setPictext("");
+                            owner.insertSendPic(cupic);
+                            cubl.setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
+                            getObj().dispose();
+                        }
                     }
-                }
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    ((JLabel) e.getSource()).setBorder(BorderFactory.createLineBorder(Color.BLUE));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    dispose(e);
-                    ((JLabel) e.getSource()).setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
-                    
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        ((JLabel) e.getSource()).setBorder(BorderFactory.createLineBorder(Color.BLUE));
                     }
-            });
-            p.add(ico[i]);
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        dispose(e);
+                        ((JLabel) e.getSource()).setBorder(BorderFactory.createLineBorder(new Color(225, 225, 225), 1));
+                        
+                        }
+                });
+                p.add(ico[i]);
+        	}catch(Exception ex){
+        		log.info(ex.getMessage());
+        	}
         }
         getObj().addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {

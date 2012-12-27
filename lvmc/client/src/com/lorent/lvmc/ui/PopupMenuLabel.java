@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 
 public class PopupMenuLabel extends JLabel {
 

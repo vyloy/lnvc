@@ -18,7 +18,6 @@ import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.bean.ChatComboxMemberModel;
 import com.lorent.lvmc.controller.ChatConctroller;
 import com.lorent.lvmc.util.StringUtil;
-import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -790,7 +789,7 @@ public class ChatMainPanel extends javax.swing.JPanel {
 		if (pmenu == null) {
 			pmenu = new FacePopupMenu(this);
 		}
-		pmenu.setBackground(NimRODLookAndFeel.getControl());
+//		pmenu.setBackground(NimRODLookAndFeel.getControl());
 		pmenu.showPopup();
 		//				if (null == picsJWindow)
 		//							picsJWindow = new PicsJWindow(this);

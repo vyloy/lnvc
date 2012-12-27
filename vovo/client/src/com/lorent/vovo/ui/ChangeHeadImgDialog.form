@@ -285,10 +285,8 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
-                            <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Vovo.getMyContext().getViewManager().getUIString(&quot;ChangeHeadImgDialog.local.image&quot;)" type="code"/>
-                            </Property>
+                          <JTabbedPaneConstraints tabName="&#x7cfb;&#x7edf;&#x5934;&#x50cf;">
+                            <Property name="tabTitle" type="java.lang.String" value="&#x7cfb;&#x7edf;&#x5934;&#x50cf;"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -413,10 +411,8 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
-                            <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Vovo.getMyContext().getViewManager().getUIString(&quot;ChangeHeadImgDialog.customer.headimg&quot;)" type="code"/>
-                            </Property>
+                          <JTabbedPaneConstraints tabName="&#x81ea;&#x5b9a;&#x4e49;&#x5934;&#x50cf;">
+                            <Property name="tabTitle" type="java.lang.String" value="&#x81ea;&#x5b9a;&#x4e49;&#x5934;&#x50cf;"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -445,6 +441,16 @@
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="jButton4">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                  <Connection code="Vovo.getMyContext().getViewManager().getUIString(&quot;ChangeHeadImgDialog.camera.image&quot;)" type="code"/>
+                                </Property>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
                               </Events>
                             </Component>
                           </SubComponents>
