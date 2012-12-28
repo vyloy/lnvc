@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lorent</groupId>
+		<artifactId>lnvc</artifactId>
+		<version>2.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	<artifactId>WhiteBoardClient</artifactId>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lorent</groupId>
+			<artifactId>WhiteBoardCommon</artifactId>
+			<version>${lnvc.version}</version>
+		</dependency>
+	</dependencies>
+</project>

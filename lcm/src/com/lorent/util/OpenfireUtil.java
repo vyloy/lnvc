@@ -16,6 +16,7 @@ import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
+import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.tree.MemberBean;
 import com.lorent.model.AuthorityBean;
 import com.lorent.model.ConferenceNewBean;
@@ -354,7 +355,18 @@ public class OpenfireUtil {
 		conn.disconnect();
 	}
 	
-	
+	public synchronized void sendConfVideoCommand(String confNo,String from, String[] tomembers,Object command) throws Exception{
+		XMPPConnection conn = initXMPPConnection();
+		conn.login(PropertiesUtil.getConstant("initdata.admin.name"), PropertiesUtil.getConstant("initdata.admin.password"));
+		Message msg = getAdminGroupMsg(conn);
+		msg.setProperty("confNo", confNo);
+		msg.setProperty("operate", BroadcastEvent.BROADCAST_CONF_VIDEO_COMMAND);
+		msg.setProperty("usernameList", tomembers);
+		msg.setProperty("from", from);
+		msg.setProperty("command", command);
+		conn.sendPacket(msg);
+		conn.disconnect();
+	}
 	
 	public synchronized void sendConfNotice(String confNo,String[] members,String msgText) throws Exception{
 		XMPPConnection conn = initXMPPConnection();

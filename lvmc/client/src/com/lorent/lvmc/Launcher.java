@@ -71,6 +71,7 @@ public class Launcher {
     public static void stopLvmcFromOutSide() throws Exception{
 //    	ControllerFacade.execute("mainController", "doLogoutFromOutSide");
 //    	isStartedFromOutSide = false;
+    	ControllerFacade.execute("vlcPlayerController", "stopVlcPlayer");
     	try{
     		LvmcOpenfireUtil.leaveRoom();
     	}catch(Exception e){//即使不能离开会议室也继续
