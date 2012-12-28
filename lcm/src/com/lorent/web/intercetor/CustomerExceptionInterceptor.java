@@ -1,8 +1,9 @@
 package com.lorent.web.intercetor;
 
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
-import common.Logger;
 
 public class CustomerExceptionInterceptor extends AbstractInterceptor {
 

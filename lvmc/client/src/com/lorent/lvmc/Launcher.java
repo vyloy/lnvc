@@ -4,24 +4,19 @@
  */
 package com.lorent.lvmc;
 
-import java.io.File;
-
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Connection;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.orm.jpa.vendor.Database;
 
 import com.lorent.common.util.LCMUtil;
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
 import com.lorent.lvmc.util.DataUtil;
-import com.lorent.lvmc.util.FileUtil;
 import com.lorent.lvmc.util.LvmcOpenfireUtil;
 import com.lorent.lvmc.util.DataUtil.Key;
-import com.lorent.util.LCCUtil;
 
 
 /**

@@ -16,3 +16,4 @@ Thumbs.db
 /testfmj
 /testjmf
 .gitignore
+/lcm/bin

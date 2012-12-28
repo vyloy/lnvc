@@ -230,7 +230,7 @@ public class Vovo extends BaseApplication{
 
 	
 	public static <T> T getValue(String key){
-		return getMyContext().getDataManager().getValue(key);
+		return (T)getMyContext().getDataManager().getValue(key);
 	}
 	
 	public static void setValue(String key, Object o){

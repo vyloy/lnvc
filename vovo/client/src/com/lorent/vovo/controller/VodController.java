@@ -90,7 +90,7 @@ public class VodController extends BaseController {
 							ImagePainter imagePainter = null;
 				            try {
 				            	Image image = Toolkit.getDefaultToolkit().getImage(videoClipList[nindex].getThumbnailUrl());
-								imagePainter = new ImagePainter(new URL(videoClipList[nindex].getThumbnailUrl()));
+								imagePainter = new ImagePainter(ImageIO.read(new URL(videoClipList[nindex].getThumbnailUrl())));
 							} catch (Exception e) {
 								try {
 									imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));

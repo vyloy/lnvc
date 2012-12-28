@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 public class ShareFileCommandResult implements Serializable {
 
 	/**

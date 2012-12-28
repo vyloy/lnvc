@@ -2,8 +2,6 @@ package com.lorent.model;
 
 import java.util.Date;
 
-import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
-
 public class ConfNoStatusBean extends BaseModel {
 
 	/**

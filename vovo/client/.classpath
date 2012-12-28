@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/clientcommon"/>
-	<classpathentry kind="lib" path="lib/swingx-core-1.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/ftp4j-1.7.1.jar"/>
-	<classpathentry kind="lib" path="lib/Filters.jar"/>
-	<classpathentry kind="lib" path="lib/jaxen-1.1-beta-7.jar"/>
-	<classpathentry kind="lib" path="lib/proxool-0.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/proxool-cglib.jar"/>
-	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing-SWT.jar"/>
-	<classpathentry kind="lib" path="lib/DJNativeSwing/DJNativeSwing.jar"/>
-	<classpathentry kind="lib" path="lib/jniwrap/antlr.jar"/>
-	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-3.8.3.jar"/>
-	<classpathentry kind="lib" path="lib/jniwrap/jniwrap-generator-3.8.3.jar"/>
-	<classpathentry kind="lib" path="lib/jniwrap/winpack-3.8.3.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JTattoo"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/lvmc"/>
+	<classpathentry kind="src" output="bin" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_26"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

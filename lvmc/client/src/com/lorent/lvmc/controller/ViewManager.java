@@ -23,13 +23,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.infonode.docking.RootWindow;
 import net.infonode.docking.theme.DockingWindowsTheme;
 import net.infonode.docking.theme.ShapedGradientDockingTheme;
 
 import org.apache.log4j.Logger;
 
-import com.jtattoo.plaf.AbstractLookAndFeel;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
 import com.lorent.lvmc.ui.MainFrame;
 import com.lorent.lvmc.util.ConfigUtil;
