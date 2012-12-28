@@ -22,24 +22,19 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.painter.ImagePainter;
 import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jidesoft.swing.JideLabel;
 import com.jtattoo.plaf.vovoglass.VoVoBasicListUI;
-import com.lorent.common.tree.MemberBean;
 import com.lorent.vovo.Vovo;
-import com.lorent.vovo.bean.TreeNodeInfo;
 import com.lorent.vovo.util.Constants;
-import com.lorent.vovo.util.DataUtil;
 import com.lorent.vovo.util.RecentContactManager;
+import com.lorent.vovo.util.TreeUtil;
 import com.lorent.vovo.util.RecentContactManager.RecentContact;
 import com.lorent.vovo.util.RecentContactManager.RecentContactInfo;
-import com.lorent.vovo.util.TreeUtil;
 
 /**
  *

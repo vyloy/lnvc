@@ -7,7 +7,6 @@ import java.text.MessageFormat;
 
 import com.lorent.common.util.DataUtil;
 import com.lorent.common.util.StringUtil;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class ViewManager extends BaseManager{
 	

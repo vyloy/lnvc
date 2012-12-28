@@ -1284,7 +1284,7 @@ public class VideoClipController extends BaseController {
 //										String beginstr = stemp1.substring(0, indexOf+6);
 //										String url = beginstr+ URLEncoder.encode(endstr);
 //										imagePainter = new ImagePainter(new URL(url));
-										imagePainter = new ImagePainter(new URL(lcmVideoClip.getThumbnailUrl()));
+										imagePainter = new ImagePainter(ImageIO.read(new URL(lcmVideoClip.getThumbnailUrl())));
 									} catch (Exception e) {
 										try {
 											imagePainter = new ImagePainter(ImageIO.read(getClass().getResource("/com/lorent/vovo/resource/images/video_no_pic.png")));

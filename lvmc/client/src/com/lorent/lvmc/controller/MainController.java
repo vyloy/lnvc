@@ -127,8 +127,8 @@ public class MainController extends BaseController{
 //        if(flag){
         	String username = paras.getValue("username");
         	String password = paras.getValue("password");
-        	boolean autoLogin = paras.getValue("autoLogin");
-        	boolean savePasswd = paras.getValue("savePasswd");
+        	Boolean autoLogin = paras.getValue("autoLogin");
+        	Boolean savePasswd = paras.getValue("savePasswd");
         	UserInfoUtil.setInfo(username, password, autoLogin, savePasswd);
             LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
             DataUtil.setValue(DataUtil.Key.showExitMenuItem, Boolean.TRUE);
