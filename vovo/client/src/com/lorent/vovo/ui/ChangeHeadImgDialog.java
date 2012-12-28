@@ -452,6 +452,7 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
 		final CameraHeadImgDialog dialog = new CameraHeadImgDialog((MainFrame)Vovo.getViewManager().getView(Constants.ViewKey.MAINFRAME.toString()), true);
 		phone = null;
+		isChangeFlag = false;
 		try {
 			Vovo.getViewManager().setWindowCenterLocation(dialog);
 			dialog.addSavePhoneListener(new SavePhoneListener() {
@@ -560,17 +561,19 @@ public class ChangeHeadImgDialog extends javax.swing.JDialog {
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-		if (this.imgName != null && this.imgName.trim().length() > 3) {
-			Vovo.exeC("main", "changeHeadImg", imgName, 0, null);
-			if (this.settingDialog != null) {
-				this.settingDialog.setIconLabelForChange(imgName);
-			}
-		} else {
-			Vovo.exeC("main", "changeHeadImg", null, 1, ImageUtil
-					.convertBufferedImage2ByteArray(PicScale.getInstance()
-							.resizeImage(resultImage, 100, 100)));
-			if (this.settingDialog != null) {
-				this.settingDialog.setIconLabelForChange(resultImage);
+		if(isChangeFlag){
+			if (this.imgName != null && this.imgName.trim().length() > 3) {
+				Vovo.exeC("main", "changeHeadImg", imgName, 0, null);
+				if (this.settingDialog != null) {
+					this.settingDialog.setIconLabelForChange(imgName);
+				}
+			} else {
+				Vovo.exeC("main", "changeHeadImg", null, 1, ImageUtil
+						.convertBufferedImage2ByteArray(PicScale.getInstance()
+								.resizeImage(resultImage, 100, 100)));
+				if (this.settingDialog != null) {
+					this.settingDialog.setIconLabelForChange(resultImage);
+				}
 			}
 		}
 		this.dispose();
