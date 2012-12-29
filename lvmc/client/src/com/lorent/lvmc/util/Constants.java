@@ -28,6 +28,7 @@ public class Constants {
     public static final int OPER_DELETE = 2;
     
     public static final String[] SUPPORT_CONVERT_FILETYPE  ={"pdf","ppt","doc","xls"};
+    public static final String[] SUPPORT_PLAY_FILETYPE = {"mp4"};
     
     public static final boolean DEFAULT_OPEN_CAMERA = true;
     
