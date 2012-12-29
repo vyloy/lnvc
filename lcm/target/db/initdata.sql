@@ -18,7 +18,7 @@ INSERT INTO authority (authority_name, mark, del) VALUES ('踢出会议', 'kickf
 INSERT INTO authority (authority_name, mark, del) VALUES ('投票管理', 'votemanage', 1);
 INSERT INTO authority (authority_name, mark, del) VALUES ('权限操作', 'authorityoperate', 1);
 INSERT INTO authority (authority_name, mark, del) VALUES ('删除文档', 'deletedocument', 1);
-INSERT INTO authority (authority_name, mark, del) VALUES ('播放文件', 'playdocument', 1);
+INSERT INTO authority (authority_name, mark, del) VALUES ('媒体播放', 'playdocument', 1);
 
 INSERT INTO conference_type (type_name, del) VALUES ('讲座会议类型', 1);
 --INSERT INTO conference_type (type_name, del) VALUES ('自由会议类型', 1);

@@ -543,6 +543,10 @@ public class VlcPlayer extends javax.swing.JPanel {
 		return playerButtonsPanel;
 	}
 
+	public javax.swing.JButton getFullScreenButton() {
+		return fullScreenButton;
+	}
+
 	class MyEmbeddedMediaPlayerComponent extends EmbeddedMediaPlayerComponent {
 		@Override
 		protected FullScreenStrategy onGetFullScreenStrategy() {
