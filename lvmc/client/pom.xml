@@ -22,12 +22,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lorent</groupId>
-			<artifactId>vncviewer</artifactId>
+			<artifactId>VncViewer</artifactId>
 			<version>${lnvc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lorent</groupId>
-			<artifactId>jtattoo</artifactId>
+			<artifactId>JTattoo</artifactId>
 			<version>${lnvc.version}</version>
 		</dependency>
 		<dependency>
