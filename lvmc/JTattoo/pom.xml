@@ -7,7 +7,7 @@
 		<version>2.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-	<artifactId>jtattoo</artifactId>
+	<artifactId>JTattoo</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
