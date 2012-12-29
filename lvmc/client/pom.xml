@@ -56,6 +56,11 @@
 			<version>3.7M5</version>
 			<classifier>x86</classifier>
 		</dependency>
+		<dependency>
+			<groupId>com.lorent</groupId>
+			<artifactId>RXTXcomm</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

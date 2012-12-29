@@ -13,4 +13,7 @@
 /stb/test
 /stb/lorent_video/bin
 Thumbs.db
+/testfmj
+/testjmf
+.gitignore
 /lcm/bin

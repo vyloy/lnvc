@@ -105,5 +105,11 @@
 			<version>1.0</version>
 			<classifier>vorbisspi</classifier>
 		</dependency>
+		<dependency>
+			<groupId>com.lorent</groupId>
+			<artifactId>fmj</artifactId>
+			<version>1.0</version>
+			<classifier>jdom</classifier>
+		</dependency>
 	</dependencies>
 </project>
