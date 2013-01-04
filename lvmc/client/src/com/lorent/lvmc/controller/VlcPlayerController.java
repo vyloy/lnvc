@@ -250,7 +250,7 @@ public class VlcPlayerController extends BaseController {
 		
 		
 		String action = (String) commandMap.get("action");
-		if (action != null) {
+		if (action != null && loginInfo != null) {
 			
 			if (action.equals("SHOW_AND_PLAYVIDEO")) {
 				if (!from.equals(loginInfo.getUsername())) {

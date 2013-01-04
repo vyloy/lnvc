@@ -16,9 +16,12 @@
         <delete file="${target.file.dir}"/>
 	</target>
 	<target name="release" depends="clean">
-		<mkdir dir="${lcm.dist}"/>
+		<!--<mkdir dir="${lcm.dist}"/>
 		<copy todir="${lcm.dist}">
 			<fileset dir="${mytomcatlcm}"/>
+		</copy>-->
+		<copy todir="${basedir}/target/apache-tomcat-6.0.29/webapps/" file="${basedir}/bin/lcm.war">
+			
 		</copy>
 		<tar destfile="${release.dir}/${project.name}.tar" basedir="${target.dir}"/>
 		<gzip destfile="${target.file.dir}" src="${release.dir}/${project.name}.tar"/>
