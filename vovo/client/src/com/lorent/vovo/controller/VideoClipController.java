@@ -1515,7 +1515,8 @@ public class VideoClipController extends BaseController {
 	
 	public void startLiveTv() throws Exception{
 		String liveTv = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\livetv\\tv.jar");
-		final String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr("java -jar "+liveTv);
+		String javaExePath = StringUtil.convertFilePath2DOSCommandStr(Constants.USER_DIR+"\\jre\\bin\\java.exe");
+		final String cmdStr = "cmd /c "+StringUtil.convertFilePath2DOSCommandStr(javaExePath+" -jar "+liveTv);
 		new Thread(){
 
 			@Override

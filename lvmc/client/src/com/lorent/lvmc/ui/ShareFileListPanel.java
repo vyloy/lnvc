@@ -571,6 +571,10 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 		ViewManager.setComponentByAuthority(this.loadToBoardMenuItem, f);
 	}
 
+	public void setVisibleOfPlayButton(boolean f){
+		ViewManager.setComponentByAuthority(this.vlcPlayMenuItem, f);
+	}
+	
 	public JPopupMenu getFileListPopupMenu() {
 		return fileListPopupMenu;
 	}
@@ -593,6 +597,10 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 
 	public javax.swing.JScrollPane getTransferFileListScrollPane() {
 		return transferFileListScrollPane;
+	}
+
+	public javax.swing.JMenuItem getVlcPlayMenuItem() {
+		return vlcPlayMenuItem;
 	}
 
 	//	public javax.swing.JList getTransferFileList() {

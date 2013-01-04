@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -81,7 +83,13 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			if (!file.exists()) {
 				file.mkdirs();
 			}
-			String realFileName = uniqueFileID + "_" + fileName.substring(lastIndexOf+1);
+			long currentTimeMillis = System.currentTimeMillis();
+			SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
+			sdf.applyPattern("yyyyMMddHHmmss_SSS");
+//			String realFileName = uniqueFileID + "_" + fileName.substring(lastIndexOf+1);
+			String tempName = fileName.substring(lastIndexOf+1);
+			String extName = tempName.substring(tempName.indexOf(".")+1);
+			String realFileName = uniqueFileID + "_" + sdf.format(currentTimeMillis)+"."+extName;
 			String filePath = apppath + "/files/" + getMeetingId() + "/" + realFileName;
 			try {
 				ConfigUtil configUtil = FileListConfigUtilFactory.getFileListConfUtilByMeetingID(getMeetingId(), session);
@@ -201,7 +209,7 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			Set set = properties.keySet();
 
 			for(Object obj:set){
-				logger.error("GetFileList====" + (String)obj);
+				logger.info("GetFileList====" + (String)obj);
 				arrayList.add((String)obj);
 			}
 			Object[] array = arrayList.toArray();

@@ -431,6 +431,18 @@ public class ShareFileListController extends BaseController {
         return bFlag;
     }
     
+    private boolean checkFileSupportPlay(String filename) throws Exception{
+    	boolean bFlag = false;
+        String extName = filename.substring(filename.lastIndexOf(".")+1);
+        for (String fileType : com.lorent.lvmc.util.Constants.SUPPORT_PLAY_FILETYPE) {
+            if (fileType.equals(extName.toLowerCase())) {
+                bFlag = true;
+                break;
+            }
+        }
+        return bFlag;
+    }
+    
     public boolean isMaxWhiteBoard()throws Exception{
         int whiteboardnum=Integer.parseInt(LCMUtil.getWhiteBoardNumber(((LoginInfo)DataUtil.getValue(DataUtil.Key.LoginInfo)).getConfno()));
         WhiteBoardPanel whiteBoardPanel = ViewManager.getComponent(WhiteBoardPanel.class);
@@ -453,6 +465,13 @@ public class ShareFileListController extends BaseController {
             panel.getDeleteFileMenuItem().setVisible(true);
         }else{
             panel.getDeleteFileMenuItem().setVisible(false);
+        }
+        if (PermissionUtil.hasPermission(PermissionUtil.PLAY_DOCUMENT)) {
+        	panel.getVlcPlayMenuItem().setVisible(true);
+        	panel.getVlcPlayMenuItem().setEnabled(checkFileSupportPlay(filename));
+		}
+        else{
+        	panel.getVlcPlayMenuItem().setVisible(false);
         }
         panel.getFileListPopupMenu().show(evt.getComponent(), evt.getPoint().x, evt.getPoint().y);
     }
