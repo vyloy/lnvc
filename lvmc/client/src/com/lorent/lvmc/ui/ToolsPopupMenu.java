@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-//import org.monte.screenrecorder.ScreenRecorderCompactMain;
+import org.monte.screenrecorder.ScreenRecorderCompactMain;
 
 import com.lorent.lvmc.camera.ui.ControlDialog;
 import com.lorent.lvmc.controller.ControllerFacade;
@@ -25,9 +25,13 @@ public class ToolsPopupMenu extends BasicPopupMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				new ScreenRecorderCompactMain().setVisible(true);
+				try {
+					ScreenRecorderCompactMain dialog = ViewManager.getComponent(ScreenRecorderCompactMain.class);
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
-			
 		});
 		screenShot.addActionListener(new ActionListener(){
 
