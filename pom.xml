@@ -31,6 +31,7 @@
 		<module>lvmc/JTattoo</module>
 		<module>lvmc/JHotDrawx</module>
 		<module>lvmc/VncViewer</module>
+		<module>lvmc/MeetingRecorder</module>
 		<module>lvmc/client</module>
 		<module>vovo/client</module>
 		<module>lvmc/WhiteBoardServer</module>

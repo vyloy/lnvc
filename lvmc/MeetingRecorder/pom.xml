@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<groupId>com.lorent</groupId>
+		<artifactId>lnvc</artifactId>
+		<version>2.0</version>
+		<relativePath>../../pom.xml</relativePath>
+  </parent>
+  <artifactId>MeetingRecorder</artifactId>
+  <build>
+    <sourceDirectory>src/main</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/main</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main.jmf</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
+</project>

@@ -53,20 +53,28 @@ public class RecentContactListPanel extends javax.swing.JPanel {
 				return null;
 			RecentContact rc = (RecentContact) value;
 			JComponent node = null;
-			switch(rc.getInfo()){
-			case 4:
-				GroupListPanel groupListPanel = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.GroupListPanel.toString());
-				node = groupListPanel.findItemByRoomJid(rc.getContact()).init4RecentContactListPanel();
-				break;
-			case 2:
-				MemberTreeNodePanel memberPanel = new MemberTreeNodePanel();
-				memberPanel.setMemberInfo(TreeUtil.getMemberBeanByLccno(rc.getContact()));
-				node=memberPanel;
-				break;
+			try{
+				switch(rc.getInfo()){
+				case 4:
+					GroupListPanel groupListPanel = Vovo.getMyContext().getViewManager().getView(Constants.ViewKey.GroupListPanel.toString());
+					node = groupListPanel.findItemByRoomJid(rc.getContact()).init4RecentContactListPanel();
+					break;
+				case 2:
+					MemberTreeNodePanel memberPanel = new MemberTreeNodePanel();
+					memberPanel.setMemberInfo(TreeUtil.getMemberBeanByLccno(rc.getContact()));
+					node=memberPanel;
+					break;
+				}
+			}catch(Exception e){
+				try {
+					RecentContactManager.getInstance().remove(rc);
+				} catch (IOException e1) {
+					throw new RuntimeException("删除不一致数据出错",e);
+				}
 			}
 			if(node==null){
 				JLabel l = new JLabel(rc.getContact());
-				l.setVisible(true);
+				l.setVisible(false);
 				return l;
 			}
 			if (isSelected || cellHasFocus) {
