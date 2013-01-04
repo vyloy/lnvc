@@ -742,6 +742,7 @@ public class VoteController extends BaseController{
         } else {
             voteMap = new HashMap<String, VoteDataDto>();
         }
+        loadTabitem=new HashMap<String, VoteTabItemPane>();
         VoteTabItemPane voteTabItemPane=null;
         for (Iterator<VoteDataDto> it = voteDataDtos.iterator(); it.hasNext();) {
             try {
