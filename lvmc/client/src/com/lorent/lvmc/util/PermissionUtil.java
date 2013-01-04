@@ -13,6 +13,7 @@ import com.lorent.lvmc.event.DeleteDocumentAuthorityCheckListener;
 import com.lorent.lvmc.event.FileUploadAuthorityCheckListener;
 import com.lorent.lvmc.event.InviteJoinConferenceAuthorityCheckListener;
 import com.lorent.lvmc.event.KickFromConferenceAuthorityCheckListener;
+import com.lorent.lvmc.event.PlayDocumentAuthorityCheckListener;
 import com.lorent.lvmc.event.ScreenShareAuthorityCheckListener;
 import com.lorent.lvmc.event.ShareDocumentAuthorityCheckListener;
 import com.lorent.lvmc.event.VoteManageAuthorityCheckListener;
@@ -29,6 +30,7 @@ public class PermissionUtil {
     public final static String SHARE_DOCUMENT = "sharedocument";
     public final static String SCREEN_SHARE = "screenshare";
     public final static String DELETE_DOCUMENT = "deletedocument";
+    public final static String PLAY_DOCUMENT = "playdocument";
     public final static String INVITE_JOIN_CONFERENCE = "invitejoinconference";
     public final static String KICK_FROM_CONFERENCE = "kickfromconference";
     public final static String VOTE_MANAGE = "votemanage";
@@ -44,6 +46,7 @@ public class PermissionUtil {
     	addAuthorityListeners(KICK_FROM_CONFERENCE,new KickFromConferenceAuthorityCheckListener());
     	addAuthorityListeners(VOTE_MANAGE, new VoteManageAuthorityCheckListener());
     	addAuthorityListeners(WHITE_BOARD, new WhiteboardAuthorityCheckListener());
+    	addAuthorityListeners(PLAY_DOCUMENT, new PlayDocumentAuthorityCheckListener());
     }
     
     public static boolean hasPermission(String permission){

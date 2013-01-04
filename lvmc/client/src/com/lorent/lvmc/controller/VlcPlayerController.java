@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.infonode.docking.DockingWindow;
+import net.infonode.docking.DockingWindowAdapter;
 import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 
@@ -15,19 +16,22 @@ import org.jivesoftware.smackx.muc.Affiliate;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.lorent.common.component.VlcPlayer;
 import com.lorent.common.event.VlcPlayerEventAdater;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MemberDto;
 import com.lorent.lvmc.dto.MyMultiUserChat;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
+import com.lorent.lvmc.ui.VideoViewsPanelItem;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.LvmcUtil;
 import com.lorent.lvmc.util.StringUtil;
 
 public class VlcPlayerController extends BaseController {
 	private Logger log = Logger.getLogger(VlcPlayerController.class);
-	
+	private String vlcPlayerPanelTitle = "媒体播放";
+	private DockingWindowAdapter windowAdapter = null;
 	static{
 //		System.out.println(System.getProperty("user.dir"));
 		VlcPlayer.init(System.getProperty("user.dir")+"\\vlc");
@@ -88,6 +92,7 @@ public class VlcPlayerController extends BaseController {
         }
         else{
         	MediaPlayer mediaPlayer = vlcPlayer.getMediaPlayer();
+        	vlcPlayer.getFullScreenButton().setVisible(false);
         	MediaPlayerEventAdapter mediaPlayerEventAdapter = new MediaPlayerEventAdapter(){
 
 				@Override
@@ -221,6 +226,7 @@ public class VlcPlayerController extends BaseController {
 //        	dockingLayoutMeetingPanel.addPanel(vlcPlayer, "媒体播放", "vlcplayerview", null,StringUtil.getUIString("VlcPlayerPanel.img"));
             	dockingLayoutMeetingPanel.addPanelToTab(vlcPlayer, "媒体播放", "vlcplayerview", null,StringUtil.getUIString("VlcPlayerPanel.img"),tabWindow);
             	vlcPlayer.play();
+            	dockingLayoutMeetingPanel.addDockingWindowAdapter(getVlcPlayerWindowAdapter());
 			}
         }
 	}
@@ -294,11 +300,93 @@ public class VlcPlayerController extends BaseController {
 			else if(action.equals("OPENING")){
 				if (!from.equals(loginInfo.getUsername())) {
 					if (!vlcPlayer.getMediaPlayer().isPlaying()) {
-//						vlcPlayer.getMediaPlayer().play();
+						vlcPlayer.getMediaPlayer().play();
 					}
 				}
 			}
 		}
+	}
+	
+	public DockingWindowAdapter getVlcPlayerWindowAdapter(){
+		if (windowAdapter == null) {
+			
+			windowAdapter =  new DockingWindowAdapter(){
+				@Override
+				public void windowAdded(DockingWindow dw, DockingWindow dw0) {
+				}
+
+				@Override
+				public void windowRemoved(DockingWindow dw, DockingWindow dw0) {
+				}
+
+				@Override
+				public void windowShown(DockingWindow dw) {
+					log.info("windowShown , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+	                if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
+	                	
+	                	try {
+	                		VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+							if (vlcPlayer.isPlaying()) {
+								long time = vlcPlayer.getMediaPlayer().getTime();
+								vlcPlayer.stop();
+								vlcPlayer.play();
+								vlcPlayer.getMediaPlayer().setTime(time);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							log.error("windowShown", e);
+						}
+	                }
+				}
+
+				@Override
+				public void windowClosed(DockingWindow dw) {
+					
+				}
+				
+				@Override
+				public void windowMaximized(DockingWindow dw) {
+					log.info("windowMaximized , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+					if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
+						log.info("windowMaximized title == "+vlcPlayerPanelTitle);
+						try {
+							VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+							if (vlcPlayer.isPlaying()) {
+								long time = vlcPlayer.getMediaPlayer().getTime();
+								vlcPlayer.stop();
+								vlcPlayer.play();
+								vlcPlayer.getMediaPlayer().setTime(time);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							log.error("windowMaximized", e);
+						}
+					}
+				}
+				
+				@Override
+				public void windowRestored(DockingWindow dw) {
+					log.info("windowRestored , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+	                if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
+	                    log.info("windowRestored title == "+vlcPlayerPanelTitle);
+	                    try {
+							VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+							if (vlcPlayer.isPlaying()) {
+								long time = vlcPlayer.getMediaPlayer().getTime();
+								vlcPlayer.stop();
+								vlcPlayer.play();
+								vlcPlayer.getMediaPlayer().setTime(time);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							log.error("windowRestored", e);
+						}
+	                }
+				}
+				
+			};
+		}
+		return windowAdapter;
 	}
 	
 	public void stopVlcPlayer() throws Exception{

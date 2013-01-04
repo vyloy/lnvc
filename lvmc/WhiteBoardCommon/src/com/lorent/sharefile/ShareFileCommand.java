@@ -209,7 +209,7 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			Set set = properties.keySet();
 
 			for(Object obj:set){
-				logger.error("GetFileList====" + (String)obj);
+				logger.info("GetFileList====" + (String)obj);
 				arrayList.add((String)obj);
 			}
 			Object[] array = arrayList.toArray();
