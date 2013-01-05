@@ -17,3 +17,6 @@ Thumbs.db
 /testjmf
 .gitignore
 /lcm/bin
+/lvmc/openfire_src/target
+/lvmc/openfire_src/work
+/lvmc/openfire_src/release

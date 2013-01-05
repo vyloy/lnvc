@@ -78,7 +78,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>
-								${project.build.directory}/sub_lib
+								${project.build.directory}/vovo_lib
                             </outputDirectory>
 						</configuration>
 					</execution>
@@ -91,7 +91,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>sub_lib/</classpathPrefix>
+                            <classpathPrefix>vovo_lib/</classpathPrefix>
                             <mainClass>com.lorent.vovo.Vovo</mainClass>
                         </manifest>
                     </archive>
