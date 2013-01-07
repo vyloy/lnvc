@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="vovo" basedir="." default="makeInstall">
+	<!-- 需要修改 -->
+	<property name="installshield.cmd.dir" location="H:\InstallShield\2009\System" />
+	<property name="lvnc.dir" location="../.." />
+	<property name="clientcommon.dir" location="${lvnc.dir}/common/clientcommon" />
+	<property name="pack.dir" location="${lvnc.dir}/../lnvc2_pack" />
+	<property name="vovo.pack.dir" location="${pack.dir}/tools/install_tool/project1/vovo" />
+	<!-- 需要修改 -->
+	<property name="launch4j.dir" location="${pack.dir}/tools/Launch4j" />
+	<property name="dest.dir" location="${lvnc.dir}/../output" />
+	<property name="install.package.name" value="setup.exe"/>
+	
+	<patternset id="copy.files">
+		<include name="ffmpeg/**" />
+		<include name="GPAC/**" />
+		<include name="layouts/**" />
+		<include name="livetv/**" />
+		<include name="mediainfo/**" />
+		<include name="vlc/**" />
+		<include name="vnc/**" />
+		<include name="vovo.exe" />
+		<include name="lvmc.conf" />
+		<include name="vovo.conf" />
+	</patternset>
+	<target name="clean">
+		<delete dir="${vovo.pack.dir}/jre/launch4j-tmp" />
+		<delete dir="${pack.dir}/tools/install_tool/project1/PROJECT_ASSISTANT/SINGLE_EXE_IMAGE" />
+		<delete includeemptydirs="true">
+			<fileset dir="${vovo.pack.dir}">
+				<patternset refid="copy.files" />
+				<include name="vovo_lib/**" />
+				<include name="vovo.jar" />
+			</fileset>
+		</delete>
+		<delete file="${dest.dir}/${install.package.name}"></delete>
+	</target>
+	<target name="makeInstall" depends="clean">
+		<mkdir dir="${vovo.pack.dir}/jre/launch4j-tmp" />
+		<copy todir="${vovo.pack.dir}/jre/launch4j-tmp">
+			<fileset dir="${clientcommon.dir}/dll">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy todir="${vovo.pack.dir}">
+			<fileset dir="${basedir}">
+				<patternset refid="copy.files" />
+			</fileset>
+			<fileset dir="${basedir}/bin">
+				<include name="vovo_lib/**" />
+				<include name="vovo.jar" />
+			</fileset>
+		</copy>
+		<antcall target="buildexe"></antcall>
+		<antcall target="buildInstallPackage"></antcall>
+		<mkdir dir="${dest.dir}"/>
+		<copy todir="${dest.dir}" file="${pack.dir}/tools/install_tool/project1/PROJECT_ASSISTANT/SINGLE_EXE_IMAGE/DiskImages/DISK1/${install.package.name}"/>
+	</target>
+	<target name="buildexe">
+		<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+		<launch4j configFile="${pack.dir}/tools/launch4j.xml" />
+	</target>
+	<target name="buildInstallPackage">
+		<exec executable="${installshield.cmd.dir}\iscmdbld.exe">
+			<arg value="-p" />
+			<arg value="${pack.dir}\tools\install_tool\project1.ism" />
+		</exec>
+	</target>
+</project>
