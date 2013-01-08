@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="lcm" basedir="." default="release">
+	<property name="project.name" value="lcm"/>
+	<property name="target.dir" value="${basedir}/target"/>
+	<property name="release.dir" value="${basedir}/release"/>
+	<property name="target.file" value="${project.name}.tar.gz"/>
+	<property name="lcm.dist" value="${basedir}/target/apache-tomcat-6.0.29/webapps/lcm"/>
+	<property name="lnvc.dir" value="../.."/>
+	<property name="lcm.pack.dir" value="${lnvc.dir}/lnvc2_pack/lnvcserver/opt/lcp/lnvc_server_install/lcm"/>
+	
+	<target name="clean" description="clean old files">
+		<delete dir="${lcm.dist}"/>
+        <delete file="${release.dir}/${target.file}"/>
+        <delete file="${lcm.pack.dir}/${target.file}"/>
+	</target>
+	<target name="release" depends="clean">
+		<copy todir="${basedir}/target/apache-tomcat-6.0.29/webapps/" file="${basedir}/bin/lcm.war"/>
+		<tar destfile="${release.dir}/${project.name}.tar" basedir="${target.dir}"/>
+		<gzip destfile="${lcm.pack.dir}/${target.file}" src="${release.dir}/${project.name}.tar"/>
+		<delete file="${release.dir}/${project.name}.tar"></delete>
+	</target>
+</project>
