@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="whiteboardserver" basedir="." default="release">
+	<property name="lnvc.dir" value="../../.." />
+	<property name="lvmcserver.pack.dir" value="${lnvc.dir}/lnvc2_pack/lnvcserver/opt/lcp/lnvc_server_install/lvmc/lvmcserver" />
+
+	<target name="clean">
+		<delete dir="${lvmcserver.pack.dir}/sub_lib"/>
+		<delete file="${lvmcserver.pack.dir}/lvmcserver.jar"/>
+	</target>
+
+	<target name="release" depends="clean">
+		<copy todir="${lvmcserver.pack.dir}">
+			<fileset dir="bin" includes="sub_lib/**">
+			</fileset>
+		</copy>
+		<copy tofile="${lvmcserver.pack.dir}/lvmcserver.jar" file="bin/lvmcserver.jar">
+		</copy>
+	</target>
+</project>

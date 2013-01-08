@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="openfire" basedir="." default="release">
+	<property name="lnvc.dir" value="../../.." />
+	<property name="clientcommon" value="../../common/clientcommon" />
+	<property name="pack.file" value="IMSrv.tar.gz" />
+	<property name="imserver.pack.dir" value="${lnvc.dir}/lnvc2_pack/lnvcserver/opt/lcp/lnvc_server_install/imserver" />
+
+	<target name="clean">
+		<delete dir="build/lib/dist" includes="clientcommon*.jar" />
+		<delete file="${imserver.pack.dir}/${pack.file}" />
+	</target>
+
+	<target name="release" depends="clean">
+		<copy todir="build/lib/dist">
+			<fileset dir="${clientcommon}/bin" includes="clientcommon*.jar">
+			</fileset>
+		</copy>
+		<ant antfile="build/build.xml" target="release" inheritall="false" />
+		<copy file="release/${pack.file}" todir="${imserver.pack.dir}" />
+	</target>
+</project>
