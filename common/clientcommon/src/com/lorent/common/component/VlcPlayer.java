@@ -75,6 +75,10 @@ public class VlcPlayer extends javax.swing.JPanel {
 		this.vlcPlayerEventAdater = vlcPlayerEventAdater;
 	}
 
+	public static EmbeddedMediaPlayerComponent getMediaPlayerComponent() {
+		return mediaPlayerComponent;
+	}
+
 	public MediaPlayer getMediaPlayer() {
 		return mediaPlayerComponent.getMediaPlayer();
 	}

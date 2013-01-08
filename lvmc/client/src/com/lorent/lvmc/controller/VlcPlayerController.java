@@ -1,7 +1,6 @@
 package com.lorent.lvmc.controller;
 
-import java.util.Collection;
-import java.util.Date;
+import java.awt.Canvas;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,19 +10,15 @@ import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smackx.muc.Affiliate;
 
 import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.lorent.common.component.VlcPlayer;
 import com.lorent.common.event.VlcPlayerEventAdater;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MemberDto;
-import com.lorent.lvmc.dto.MyMultiUserChat;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
-import com.lorent.lvmc.ui.VideoViewsPanelItem;
 import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.LvmcUtil;
 import com.lorent.lvmc.util.StringUtil;
@@ -41,15 +36,17 @@ public class VlcPlayerController extends BaseController {
 		long systemTime = LvmcUtil.getLCMUtil().getSystemTime();
 		command.put("systemtime", systemTime);
 		List<MemberDto> members = (List<MemberDto>) ControllerFacade.execute("mainController", "getOpenfireMemberList");
-		String[] targetusers = new String[members.size()];
-		for (int i = 0; i < members.size(); i++) {
-			MemberDto memberDto = members.get(i);
-			targetusers[i] = memberDto.getName();
+		if (members != null) {
+			String[] targetusers = new String[members.size()];
+			for (int i = 0; i < members.size(); i++) {
+				MemberDto memberDto = members.get(i);
+				targetusers[i] = memberDto.getName();
+			}
+			LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
+			//广播
+			LvmcUtil.getLCMUtil().broadcastVideoCommand(loginInfo.getConfno(), loginInfo.getUsername(), targetusers, command);
+			log.info("sendCommand: "+command.get("systemtime")+" , "+command.get("action")+" , "+targetusers);
 		}
-		LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
-		//广播
-		LvmcUtil.getLCMUtil().broadcastVideoCommand(loginInfo.getConfno(), loginInfo.getUsername(), targetusers, command);
-		log.info("sendCommand: "+command.get("systemtime")+" , "+command.get("action")+" , "+targetusers);
 	}
 	
 	public void sendPlayCommand(String filename) throws Exception{
@@ -223,7 +220,7 @@ public class VlcPlayerController extends BaseController {
             if (windowParent != null && windowParent instanceof TabWindow) {
             	TabWindow tabWindow = (TabWindow) windowParent;
             	vlcPlayer.setMediaMRL(mrl);
-//        	dockingLayoutMeetingPanel.addPanel(vlcPlayer, "媒体播放", "vlcplayerview", null,StringUtil.getUIString("VlcPlayerPanel.img"));
+//            	dockingLayoutMeetingPanel.addPanel(vlcPlayer, "媒体播放", "vlcplayerview", null,StringUtil.getUIString("VlcPlayerPanel.img"));
             	dockingLayoutMeetingPanel.addPanelToTab(vlcPlayer, "媒体播放", "vlcplayerview", null,StringUtil.getUIString("VlcPlayerPanel.img"),tabWindow);
             	vlcPlayer.play();
             	dockingLayoutMeetingPanel.addDockingWindowAdapter(getVlcPlayerWindowAdapter());
@@ -307,6 +304,21 @@ public class VlcPlayerController extends BaseController {
 		}
 	}
 	
+	private void vlcPlayerReset() throws Exception{
+		
+		DockingLayoutMeetingPanel dockingLayoutMeetingPanel = ViewManager.getComponent(DockingLayoutMeetingPanel.class);
+        View vlcview = dockingLayoutMeetingPanel.findInViewMap("vlcplayerview");
+        log.info("vlcview isDisplayable: "+vlcview.isDisplayable());
+		VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+		Canvas videoSurface = VlcPlayer.getMediaPlayerComponent().getVideoSurface();
+		if (vlcPlayer.isPlaying() && videoSurface.isDisplayable()) {
+			long time = vlcPlayer.getMediaPlayer().getTime();
+			vlcPlayer.stop();
+			vlcPlayer.play();
+			vlcPlayer.getMediaPlayer().setTime(time);
+		}
+	}
+	
 	public DockingWindowAdapter getVlcPlayerWindowAdapter(){
 		if (windowAdapter == null) {
 			
@@ -321,17 +333,21 @@ public class VlcPlayerController extends BaseController {
 
 				@Override
 				public void windowShown(DockingWindow dw) {
-					log.info("windowShown , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+					log.info("VlcPlayerController.windowShown , title: "+dw.getTitle()+" , panelTitle: "+vlcPlayerPanelTitle+" , isDisplayable: "+dw.isDisplayable());
 	                if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
-	                	
+//	                	if (dw.getTitle().equals(vlcPlayerPanelTitle)) {
+//							return;
+//						}
 	                	try {
-	                		VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
-							if (vlcPlayer.isPlaying()) {
-								long time = vlcPlayer.getMediaPlayer().getTime();
-								vlcPlayer.stop();
-								vlcPlayer.play();
-								vlcPlayer.getMediaPlayer().setTime(time);
-							}
+	                		vlcPlayerReset();
+						} catch (Exception e) {
+							e.printStackTrace();
+							log.error("windowShown", e);
+						}
+	                }
+	                else if(dw.getTitle() == null || dw.getTitle().equals("")){
+	                	try {
+	                		vlcPlayerReset();
 						} catch (Exception e) {
 							e.printStackTrace();
 							log.error("windowShown", e);
@@ -346,17 +362,11 @@ public class VlcPlayerController extends BaseController {
 				
 				@Override
 				public void windowMaximized(DockingWindow dw) {
-					log.info("windowMaximized , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+					log.info("VlcPlayerController.windowMaximized , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
 					if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
 						log.info("windowMaximized title == "+vlcPlayerPanelTitle);
 						try {
-							VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
-							if (vlcPlayer.isPlaying()) {
-								long time = vlcPlayer.getMediaPlayer().getTime();
-								vlcPlayer.stop();
-								vlcPlayer.play();
-								vlcPlayer.getMediaPlayer().setTime(time);
-							}
+							vlcPlayerReset();
 						} catch (Exception e) {
 							e.printStackTrace();
 							log.error("windowMaximized", e);
@@ -366,17 +376,11 @@ public class VlcPlayerController extends BaseController {
 				
 				@Override
 				public void windowRestored(DockingWindow dw) {
-					log.info("windowRestored , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
+					log.info("VlcPlayerController.windowRestored , title:"+dw.getTitle()+" panelTitle:"+vlcPlayerPanelTitle);
 	                if (dw.getTitle().indexOf(vlcPlayerPanelTitle) != -1) {
 	                    log.info("windowRestored title == "+vlcPlayerPanelTitle);
 	                    try {
-							VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
-							if (vlcPlayer.isPlaying()) {
-								long time = vlcPlayer.getMediaPlayer().getTime();
-								vlcPlayer.stop();
-								vlcPlayer.play();
-								vlcPlayer.getMediaPlayer().setTime(time);
-							}
+	                    	vlcPlayerReset();
 						} catch (Exception e) {
 							e.printStackTrace();
 							log.error("windowRestored", e);

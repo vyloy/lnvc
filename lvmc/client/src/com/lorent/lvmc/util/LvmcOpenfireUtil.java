@@ -296,18 +296,22 @@ public class LvmcOpenfireUtil {
     
     public static List<String> getCurrentMembers()throws Exception{
         MyMultiUserChat muc = DataUtil.getValue(DataUtil.Key.Room);
-        Iterator<String> occupants = muc.getOccupants();
         List<String> ret = new ArrayList<String>();
-        while(occupants.hasNext()){
-        	String name = getNameFromOccupant(occupants.next());
-        	log.info("获取会议在线人员：" + name);
-        	if(name.equals(Constants.SUPPER_USER)){
-        		continue;
-        	}
-            ret.add(name);
+        if (muc != null) {
+			
+        	Iterator<String> occupants = muc.getOccupants();
+        	
+        	while(occupants.hasNext()){
+        		String name = getNameFromOccupant(occupants.next());
+        		log.info("获取会议在线人员：" + name);
+        		if(name.equals(Constants.SUPPER_USER)){
+        			continue;
+        		}
+        		ret.add(name);
 //            log.debug(occupants.next());
-        }
+        	}
 //        log.debug("获取会议在线人员：" + ret);
+		}
         return ret;
     }
     
