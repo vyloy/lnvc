@@ -220,11 +220,11 @@ public class RecentContactManager {
 	
 	public void remove(RecentContact c) throws IOException{
 		RecentContact rc = quickCache.remove(c);
-		panel.getModel().removeElement(rc);
-		result.remove(rc);
 		if(rc==null){
 			return;
 		}
+		panel.getModel().removeElement(rc);
+		result.remove(rc);
 		--size;
 		availableMask&=~(1<<(rc.position-12)/112);
 		r.seek(0);
