@@ -73,7 +73,7 @@ public class RecentContactManager {
 		availableMask = r.readInt();
 		int mask=1;
 		for(int i=0;i<30;i++){
-			if(((mask<<i)&availableMask)==0){
+			if(((mask<<i)&availableMask)!=0){
 				size++;
 			}
 		}
