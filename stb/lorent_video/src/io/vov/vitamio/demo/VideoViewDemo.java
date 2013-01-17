@@ -44,8 +44,8 @@ public class VideoViewDemo extends Activity {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Intent intent = this.getIntent();
-		String videoUrl = intent.getExtras().getString("videoUrl");
-		String title = intent.getExtras().getString("fileName");
+		String videoUrl = intent.getExtras().getString("videoUrl");//rtsp连接
+		String title = intent.getExtras().getString("fileName");//视频文字，可以任意
 		Log.i("videoUrl", videoUrl);
 		Log.i("title", title+"");
 //		currentDisplay = getWindowManager().getDefaultDisplay();
