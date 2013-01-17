@@ -1175,11 +1175,13 @@ public class VideoClipController extends BaseController {
 					
 			@Override
 			public void run() {
+				final VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
 				try {
-					LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
+					//LoginInfo info = Vovo.getMyContext().getDataManager().getValue(Constants.DataKey.LOGGININFO.toString());
 //					LCMVideoClip[] monitorList = Vovo.getLcmUtil().getMonitorList(pageIndex, pageSize);
 					int index=pageIndex*pageSize;
 					int count=pageSize;
+					panel.getMonitorPanel().removeAll();
 					Monitor[] monitors =MonitorsUtil.getArray();
 					if(null==monitors||monitors.length<index)
 						return;
@@ -1189,8 +1191,6 @@ public class VideoClipController extends BaseController {
 					System.arraycopy(monitors, index, monitorList, 0, count);
 					if (monitorList != null) {
 						log.info("MonitorList size: "+monitorList.length);
-						VideoClipPanel panel = Vovo.getViewManager().getView(Constants.ViewKey.VIDEOCLIPPANEL.toString());
-						panel.getMonitorPanel().removeAll();
 						for (final Monitor lcmVideoClip : monitorList) {
 							if(lcmVideoClip==null)
 								return;
@@ -1240,11 +1240,12 @@ public class VideoClipController extends BaseController {
 							
 							videoClipItem.getDeleteButton().setVisible(true);
 						}
-						panel.getMonitorPanel().repaint();
-						panel.getMonitorPanel().revalidate();
 					}
 				} catch (Exception e) {
 					log.error("reflashMonitorPanel", e);
+				}finally{
+					panel.getMonitorPanel().validate();
+					panel.getMonitorPanel().repaint();
 				}
 			}
 		});

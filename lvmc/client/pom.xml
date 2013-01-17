@@ -61,22 +61,48 @@
 			<artifactId>RXTXcomm</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.lorent</groupId>
+			<artifactId>MeetingRecorder</artifactId>
+			<version>${lnvc.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
+		<finalName>lvmc</finalName>
 		<plugins>
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>com.lorent.lvmc.ucs.Start</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/lvmc_lib
+                            </outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lvmc_lib/</classpathPrefix>
+                            <mainClass>com.lorent.lvmc.ucs.Start</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>

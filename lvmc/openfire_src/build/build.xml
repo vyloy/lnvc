@@ -1857,8 +1857,10 @@
 	<property name="build.release.dir" value="${basedir}/build/release"/>
 	<target name="release" description="build release">
 		<antcall target="clean"/>
+		<!--
 		<ant antfile="${clientcommon}/build.xml" target="jar" inheritall="false"/>
 		<copy tofile="${lib.dist.dir}/clientcommon.jar" file="${clientcommon}/clientcommon.jar"/>
+		-->
 		<antcall target="openfire"/>
 		<antcall target="plugin">
 			<param name="plugin" value="conferenceVote"/>

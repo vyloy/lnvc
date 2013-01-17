@@ -57,8 +57,8 @@ public class LoginService extends BaseService {
 			initLCCUtil();
 			int csPort = context.getConfigManager().getIntProperty("csPort", 5060);
 //			LCCUtil.getInstance().register("sip:" + userName + "@" + serverIP + ":" + csPort, passPsw, "sip:" + serverIP + ":" + csPort, 0);
-//			LCCUtil.getInstance().register(userName, serverIP, csPort+"", passPsw, 0);
-			LCCUtil.getInstance().registerForP2P(userName, serverIP, csPort+"", passPsw, localCSPort);
+			LCCUtil.getInstance().register(userName, serverIP, csPort+"", passPsw, localCSPort);
+//			LCCUtil.getInstance().registerForP2P(userName, serverIP, csPort+"", passPsw, localCSPort);
         //init database
         MyDataBase.init(userName);
         /*

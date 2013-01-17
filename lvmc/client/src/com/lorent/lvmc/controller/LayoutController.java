@@ -70,6 +70,7 @@ public class LayoutController extends BaseController {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileout);
         rootWindow.write(objectOutputStream);
         objectOutputStream.close();
+        log.info("LayoutController.saveLayout  "+filepath);
         ConfigUtil.setProperty("LayoutName", filename);
         String selectedLayout = DataUtil.getVideoLayout();
         String layoutStr = ConfigUtil.getProperty("video.layout","");
