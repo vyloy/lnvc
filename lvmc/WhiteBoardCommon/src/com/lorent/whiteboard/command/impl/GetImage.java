@@ -12,6 +12,8 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lorent.commonconfig.ConfigUtil;
+import com.lorent.util.FileListConfigUtilFactory;
 import com.lorent.whiteboard.command.ClientRunnable;
 import com.lorent.whiteboard.model.CommandsManager;
 import com.lorent.whiteboard.model.Updater;
@@ -38,6 +40,10 @@ public class GetImage extends BroadcastCommand implements ClientRunnable{
 	public void execute(Whiteboard board, IoSession session) {
 		String apppath=System.getProperty("user.dir");
 		String fileName=whiteboardId;
+		
+		ConfigUtil configUtil = FileListConfigUtilFactory.getFileListConfUtilByMeetingID(getMeetingId(), session);
+		fileName = configUtil.getProperty(fileName);
+		
 		StringBuilder filePath = new StringBuilder(apppath)
 				.append(File.separator).append("files").append(File.separator)
 				.append(getMeetingId()).append(File.separator).append(fileName);

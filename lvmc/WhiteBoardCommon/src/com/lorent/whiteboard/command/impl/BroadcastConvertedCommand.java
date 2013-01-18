@@ -41,6 +41,7 @@ public class BroadcastConvertedCommand extends BroadcastCommand implements Clien
 			session.write(this);
 			board.getMeeting().broadcast(session,this);
 		}else{
+			logger.info("BroadcastConvertedCommand: "+getSimpleFileName());
 			session.write(new ShowMessage("文档已被加载。", 
 					"尊敬的用户", JOptionPane.INFORMATION_MESSAGE,new LoadedFile(getSimpleFileName())));
 			logger.info("{} Whiteboard {} create failed because of loaded!",board.getMeeting().getMeetingId(),whiteboardId);

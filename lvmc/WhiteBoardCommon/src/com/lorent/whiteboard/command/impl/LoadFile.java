@@ -46,11 +46,11 @@ public class LoadFile extends MeetingCommandAdaptor {
 			return;
 		}
 		String filePath=apppath+"/files/"+meetingId+"/"+realFileName;
-		logger.info("LoadToWhiteBoard {}",filePath);
+		logger.info("LoadToWhiteBoard {}",filePath+" , "+fileName);
 		try {
 			Class<?> clazz = Class.forName("com.lorent.fileserver.convertor.FileConvertors");
-			Method method = clazz.getDeclaredMethod("convert", File.class,String.class,IoSession.class);
-			method.invoke(null, new File(filePath),meetingId,session);
+			Method method = clazz.getDeclaredMethod("convert", File.class,String.class,String.class,IoSession.class);
+			method.invoke(null, new File(filePath),fileName,meetingId,session);
 		} catch (Exception e) {
 			meeting.removeWhiteboard(realFileName);
 			logger.warn("convert file {} failed",filePath);

@@ -254,11 +254,11 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			ConfigUtil configUtil = FileListConfigUtilFactory.getFileListConfUtilByMeetingID(getMeetingId(), session);
 			String realFileName = configUtil.getProperty(filename);
 			String filePath=apppath+"/files/"+getMeetingId()+"/"+realFileName;
-			logger.info("LoadToWhiteBoard {}",filePath);
+			logger.info("ShareFileCommand.LoadToWhiteBoard {}",filePath+" , "+filename);
 			try {
 				Class<?> clazz = Class.forName("com.lorent.fileserver.convertor.FileConvertors");
-				Method method = clazz.getDeclaredMethod("convert", File.class,String.class);
-				method.invoke(null, new File(filePath),meetingId);
+				Method method = clazz.getDeclaredMethod("convert", File.class,String.class,String.class,IoSession.class);
+				method.invoke(null, new File(filePath),filename,meetingId,session);
 			} catch (Exception e) {
 				logger.warn("convert file {} failed",filePath);
 				logger.warn("failed by",e);
