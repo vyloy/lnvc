@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 //	private GetGridDataTask task = new GetGridDataTask();
 	private VideoService videoService ;
 	private boolean loadDataFinish = false;
-	public final static DeviceType device = DeviceType.STB;
+	
 	private String selectedType = "电影";
 	private LinearLayout setupLayout;
 	private LinearLayout movLayout;
@@ -76,7 +76,18 @@ public class MainActivity extends Activity {
 	private int pageSize;
 	RelativeLayout container;
 	private static Drawable bgDrawable;
-	
+	private static DeviceType deviceTemp;
+	static{
+		String deviceType = StringUtil.getConfigValueByKey("DeviceType");
+		if(deviceType.equalsIgnoreCase(DeviceType.PHONE.toString())){
+			deviceTemp = DeviceType.PHONE;
+		}else if(deviceType.equalsIgnoreCase(DeviceType.STB.toString())){
+			deviceTemp = DeviceType.STB;
+		}else if(deviceType.equalsIgnoreCase(DeviceType.CLOUDTV.toString())){
+			deviceTemp = DeviceType.CLOUDTV;
+		}
+	}
+	public final static DeviceType device = deviceTemp;
 	public static Drawable getDgDrawable(){
 		return bgDrawable;
 	}

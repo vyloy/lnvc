@@ -55,4 +55,15 @@ public class StringUtil {
 		return result;
 	}
 	
+	public static String getResourceString(String file, String key){
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(file); 
+        return bundle.getString(key);
+    }
+	
+	public static String getConfigValueByKey(String key){
+		
+//      java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/lorent/vovo/resource/i18n/view"); 
+      return getResourceString("com/lorent/video/config/lorent_video", key);
+  }
+	
 }

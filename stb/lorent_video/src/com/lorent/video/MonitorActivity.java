@@ -397,24 +397,24 @@ public class MonitorActivity  extends ListActivity  {
         Log.i("mVideoView", mVideoView + "");
         surfaceContainer = (LinearLayout)layout.findViewById(R.id.monitor_surface_container);
         showMonitor(info);
-        monitorBuilder = new AlertDialog.Builder(this);
-        monitorBuilder.setTitle(info.title);
-        monitorBuilder.setView(layout);
-        
-        monitorShowDialog = monitorBuilder.create();
-        monitorShowDialog.show();
+//        monitorBuilder = new AlertDialog.Builder(this);
+//        monitorBuilder.setTitle(info.title);
+//        monitorBuilder.setView(layout);
+//        
+//        monitorShowDialog = monitorBuilder.create();
+//        monitorShowDialog.show();
         
 	}
 	
 	
 	public void showMonitor(MonitorInfo info){
 		if(MainActivity.device!=DeviceType.STB){
-			Intent intent = new Intent(MonitorActivity.this,MonitorShowActivity.class);
+			Intent intent = new Intent(this,MonitorShowActivity.class);
 			intent.putExtra("fileName", info.title);
 			intent.putExtra("videoUrl", info.monitoUrl);
 			startActivity(intent);
 		}else{
-			Intent intent = new Intent(MonitorActivity.this,MonitorShowSZActivity.class);
+			Intent intent = new Intent(this,MonitorShowSZActivity.class);
 			intent.putExtra("fileName", info.title);
 			intent.putExtra("videoUrl", info.monitoUrl);
 			startActivity(intent);
