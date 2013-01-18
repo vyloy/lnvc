@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,14 +19,15 @@ import org.apache.log4j.Logger;
 import org.jhotdraw.samples.svg.SVGPanels;
 import org.jivesoftware.smack.packet.Presence;
 
-import com.lorent.common.util.LCMUtil;
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.util.ParaUtil;
+import com.lorent.common.util.PasswordUtil;
 import com.lorent.common.util.PlatformUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.bean.ChatComboxMemberModel;
 import com.lorent.lvmc.dto.LoginInfo;
 import com.lorent.lvmc.dto.MemberDto;
-import com.lorent.lvmc.event.AuthorityCheckListener;
 import com.lorent.lvmc.service.FetchMemberInfoService;
 import com.lorent.lvmc.ui.AboutDialog;
 import com.lorent.lvmc.ui.ChatMainPanel;
@@ -37,6 +39,7 @@ import com.lorent.lvmc.ui.MainPanel;
 import com.lorent.lvmc.ui.MainWindow;
 import com.lorent.lvmc.ui.MemberListPanel;
 import com.lorent.lvmc.ui.MyTrayIcon;
+import com.lorent.lvmc.ui.RegisterUserDialog;
 import com.lorent.lvmc.ui.ShareFileListPanel;
 import com.lorent.lvmc.ui.VideoViewsPanel;
 import com.lorent.lvmc.ui.WhiteBoardPanel;
@@ -123,48 +126,66 @@ public class MainController extends BaseController{
     }
     
     public void doLogin(ParaUtil paras)throws Exception{
-        boolean flag = services.getLoginService().doLogin(paras);
-//        if(flag){
-        	String username = paras.getValue("username");
-        	String password = paras.getValue("password");
-        	Boolean autoLogin = paras.getValue("autoLogin");
-        	Boolean savePasswd = paras.getValue("savePasswd");
-        	UserInfoUtil.setInfo(username, password, autoLogin, savePasswd);
-            LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
-            DataUtil.setValue(DataUtil.Key.showExitMenuItem, Boolean.TRUE);
-            log.info("MainFrame create start");
-            MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
-            log.info("MainFrame create end");
-            DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
-            mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
-                + StringUtil.getUIString("base.username") + paras.getValue("username"));
-            mainFrame.getTitleLabel().setText(mainFrame.getTitle());
-            
-            ViewManager.disposeComponent(LoginFrame.class);
-            log.info("initMainWindow start");
-            this.initMainWindow(mainFrame, loginInfo);
-            log.info("initMainWindow end");
-            if (!PlatformUtil.isLocalSession()) {
-				mainFrame.getShareDesktopButton().setEnabled(false);
-				log.info("is not local windows session,can not use sharedesktop");
+    	String username = paras.getValue("username");
+    	String password = paras.getValue("password");
+    	Boolean autoLogin = paras.getValue("autoLogin");
+    	Boolean savePasswd = paras.getValue("savePasswd");
+    	String confpassword = paras.getValue("confpassword");
+    	String confno = paras.getValue("confno");
+    	
+        //判断会议密码
+        Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil().getConfList();
+		LCMConferenceDto lcmConferenceDto = confList.get(confno);
+		if (lcmConferenceDto != null) {
+			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
+				JOptionPane.showMessageDialog(null, "会议密码错误");
+//				throw new Exception("会议密码错误");
+				return;
 			}
-            else{
-            	log.info("is local windows session");
-            }
-            MyTrayIcon trayicon = ViewManager.getComponent(MyTrayIcon.class);
-            trayicon.showMainMenu();
-//            ViewManager.changeTheme(ConfigUtil.getProperty("themeFileName"));
-//            ViewManager.changeLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName"));
-//            ViewManager.changeTheme(ConfigUtil.getProperty("DefaultThemeClassName"));
-//            ViewManager.changeSkin(ConfigUtil.getProperty("SkinFileName"));
-            log.info("================login end=============");
-            mainFrame.setVisible(true);
-//            ViewManager.changeLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName", "com.jtattoo.plaf.mcwin.McWinLookAndFeel"));
-//        }else{
-//            throw new Exception(StringUtil.getErrorString("login.fail"));
-//        }
+		}
+        
+		//登录openfire
+        boolean flag = services.getLoginService().doLogin(paras);
+        
+    	
+    	UserInfoUtil.setInfo(username, password, autoLogin, savePasswd);
+        LoginInfo loginInfo=DataUtil.getValue(DataUtil.Key.LoginInfo);
+        DataUtil.setValue(DataUtil.Key.showExitMenuItem, Boolean.TRUE);
+        log.info("MainFrame create start");
+        MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+        log.info("MainFrame create end");
+        DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
+        mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
+            + StringUtil.getUIString("base.username") + paras.getValue("username"));
+        mainFrame.getTitleLabel().setText(mainFrame.getTitle());
+        
+        ViewManager.disposeComponent(LoginFrame.class);
+        log.info("initMainWindow start");
+        this.initMainWindow(mainFrame, loginInfo);
+        log.info("initMainWindow end");
+        if (!PlatformUtil.isLocalSession()) {
+			mainFrame.getShareDesktopButton().setEnabled(false);
+			log.info("is not local windows session,can not use sharedesktop");
+		}
+        else{
+        	log.info("is local windows session");
+        }
+        MyTrayIcon trayicon = ViewManager.getComponent(MyTrayIcon.class);
+        trayicon.showMainMenu();
+        log.info("================login end=============");
+        mainFrame.setVisible(true);
     }
     
+    public void showRegisterUserDialog() throws Exception{
+    	RegisterUserDialog dialog = ViewManager.getComponent(RegisterUserDialog.class,new Class[] { java.awt.Frame.class,
+			boolean.class }, new Object[] { null, false });
+    	ViewManager.setWindowCenterLocation(dialog);
+    	dialog.setVisible(true);
+    }
+    
+    public void doRegisterUser(RegisterUserDialog dialog) throws Exception{
+    	 Launcher.getLCMUtil();
+    }
     
     public JPanel getMainPanel(ParaUtil paras)throws Exception{
         boolean flag = services.getLoginService().doLogin(paras);

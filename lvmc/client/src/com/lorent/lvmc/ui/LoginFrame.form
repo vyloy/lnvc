@@ -23,7 +23,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,2,0,0,1,78"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,19,0,0,1,78"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -64,33 +64,37 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="savePasswdCb" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="autoLoginCb" min="-2" max="-2" attributes="0"/>
+                          <Component id="registerBtn" min="-2" pref="64" max="-2" attributes="0"/>
+                          <EmptySpace pref="186" max="32767" attributes="0"/>
+                          <Component id="confirmBtn" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" alignment="1" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="usernameCb" min="-2" pref="167" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="passwdIt" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="serverIPIt" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="confnoIt" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="savePasswdCb" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="autoLoginCb" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="serverIPIt" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="confPasswdIt" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="usernameCb" min="-2" pref="167" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="passwdIt" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="confnoIt" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="69" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="260" max="32767" attributes="0"/>
-                  <Component id="confirmBtn" min="-2" pref="64" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -107,15 +111,20 @@
                   <Component id="passwdIt" min="-2" max="-2" attributes="1"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="confnoIt" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="confPasswdIt" min="-2" max="-2" attributes="1"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="serverIPIt" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="autoLoginCb" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="savePasswdCb" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="25" max="32767" attributes="0"/>
-                  <Component id="confirmBtn" min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="confirmBtn" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="registerBtn" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -124,7 +133,7 @@
       <SubComponents>
         <Component class="com.lorent.common.component.PasswdInput" name="passwdIt">
           <Properties>
-            <Property name="label" type="java.lang.String" value="&#x5bc6;&#x7801;"/>
+            <Property name="label" type="java.lang.String" value="&#x7528;&#x6237;&#x5bc6;&#x7801;"/>
           </Properties>
         </Component>
         <Component class="com.lorent.common.component.CommonButton" name="confirmBtn">
@@ -180,6 +189,19 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoLoginCbActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.lorent.common.component.PasswdInput" name="confPasswdIt">
+          <Properties>
+            <Property name="label" type="java.lang.String" value="&#x4f1a;&#x8bae;&#x5bc6;&#x7801;"/>
+          </Properties>
+        </Component>
+        <Component class="com.lorent.common.component.CommonButton" name="registerBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x6ce8;&#x518c;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerBtnActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
