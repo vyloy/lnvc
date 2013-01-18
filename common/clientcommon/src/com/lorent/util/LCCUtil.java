@@ -590,6 +590,7 @@ public class LCCUtil {
         else{
             this.enablevideo(enable, Native.getComponentID(win));
         }
+        log.info("setVideo finish");
     }
 
     public void setPreview(boolean open) {
