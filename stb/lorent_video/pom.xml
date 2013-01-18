@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lorent</groupId>
-	<artifactId>video</artifactId>
+	<artifactId>lorent_video</artifactId>
 	<version>0.0.1</version>
 	<packaging>apk</packaging>
-	<name>video</name>
+	<name>lorent_video</name>
 
 	<properties>
 		<platform.version> 4.0.1.2
@@ -21,18 +21,23 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			  <groupId>com.lorent</groupId>
-			  <artifactId>vplayer</artifactId>
-			  <version>0.1</version>
+			  <groupId>com.lorent.vplayer</groupId>
+			  <artifactId>libvinit</artifactId>
+			  <version>1.0</version>
 			  <classifier>armeabi</classifier>
 			  <type>so</type>
 		</dependency>
 		<dependency>
-			  <groupId>com.lorent</groupId>
-			  <artifactId>vplayer</artifactId>
-			  <version>0.1</version>
+			  <groupId>com.lorent.vplayer</groupId>
+			  <artifactId>libvinit</artifactId>
+			  <version>1.0</version>
 			  <classifier>armeabi-v7a</classifier>
 			  <type>so</type>
+		</dependency>
+		<dependency>
+			  <groupId>com.lorent.vplayer</groupId>
+			  <artifactId>vitamio</artifactId>
+			  <version>1.0</version>
 		</dependency>
 	</dependencies>
 
@@ -78,6 +83,46 @@
 				<extensions>true</extensions>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
+						<version>1.6.0</version>
+						<scope>system</scope>
+						<systemPath>${java.home}/../lib/tools.jar</systemPath>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						
+						<configuration>
+						    <target>
+				                
+				                <property name="compile_classpath" value="${project.version}"/>
+								<echo message="maven  compile classpath: ${compile_classpath}"/>
+								<property name="releaseversion" value="0.0.1"/>
+				                <ant antfile="build.xml" target="aidl">
+				                </ant>
+			                </target>
+							<!-- <target>
+								<echo>copy R.java file</echo>
+								
+								<ant antfile="build.xml" target="aidl" >
+								    <property name="releaseversion" value="0.0.1"/>
+								</ant>
+							</target> -->
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
