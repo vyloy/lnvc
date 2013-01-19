@@ -9,6 +9,9 @@
 	<!-- project directorty -->
 	<property name="rootdir" value="." />
 	
+	<!-- import property file -->
+	<property file="local.properties" />
+	
 	<!-- ant directories -->
 	<property environment="env" />
 	<property name="ant-ospath" value="${env.ant_home}" />
@@ -141,15 +144,15 @@
             <arg value="clean" />  
             <arg value="install" />
         </exec>
-        <echo message="ant compile classpath: ${compile_classpath}"/>
-        <echo>接收到MAVEN的version是${releaseversion}</echo>
+        <echo message="ant compile classpath: ${apk.version}"/>
+        <echo>接收到MAVEN的version是${apk.name}</echo>
         <copy todir="${outdir-bin}">
 			<fileset dir="${maven-target-dir}">
-				<include name="lorent_video-0.0.1.apk"/>
+				<include name="${apk.name}-*.apk"/>
 			</fileset>
 		</copy>
-		<move file="${outdir-bin}/lorent_video-0.0.1.apk"
-   			tofile="${outdir-bin}/lorent_video_${devicetype}.apk" />  
+		<move file="${outdir-bin}/${apk.name}-*.apk"
+   			tofile="${outdir-bin}/${apk.name}_${devicetype}.apk" />  
     </target>  
 
 	<!-- modify file -->
