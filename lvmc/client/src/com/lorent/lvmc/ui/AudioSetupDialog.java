@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSlider;
 
@@ -98,8 +99,6 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jPanel37 = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel7 = new javax.swing.JPanel();
-		jPanel8 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
 		jPanel9 = new javax.swing.JPanel();
 		jLabel2 = new javax.swing.JLabel();
 		micComboBox = new javax.swing.JComboBox();
@@ -112,8 +111,6 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jPanel25 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
 		jPanel11 = new javax.swing.JPanel();
-		jPanel12 = new javax.swing.JPanel();
-		jLabel4 = new javax.swing.JLabel();
 		jPanel13 = new javax.swing.JPanel();
 		jLabel5 = new javax.swing.JLabel();
 		narratorComboBox = new javax.swing.JComboBox();
@@ -126,21 +123,20 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		jPanel26 = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel15 = new javax.swing.JPanel();
-		jPanel16 = new javax.swing.JPanel();
-		jLabel7 = new javax.swing.JLabel();
 		jPanel17 = new javax.swing.JPanel();
 		jLabel8 = new javax.swing.JLabel();
 		codesCB = new javax.swing.JComboBox();
 		jPanel27 = new javax.swing.JPanel();
 		jPanel6 = new javax.swing.JPanel();
 		jPanel18 = new javax.swing.JPanel();
-		jPanel19 = new javax.swing.JPanel();
-		jLabel9 = new javax.swing.JLabel();
 		jPanel20 = new javax.swing.JPanel();
 		jCheckBox1 = new javax.swing.JCheckBox();
 		jPanel21 = new javax.swing.JPanel();
 		jCheckBox2 = new javax.swing.JCheckBox();
 		jPanel36 = new javax.swing.JPanel();
+		jPanel8 = new javax.swing.JPanel();
+		jPanel12 = new javax.swing.JPanel();
+		jLabel16 = new javax.swing.JLabel();
 		jPanel24 = new javax.swing.JPanel();
 		jPanel28 = new javax.swing.JPanel();
 		jPanel29 = new javax.swing.JPanel();
@@ -178,22 +174,22 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel37, gridBagConstraints);
 
+		jPanel3.setMinimumSize(new java.awt.Dimension(168, 90));
+		jPanel3.setPreferredSize(new java.awt.Dimension(332, 90));
 		jPanel3.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel7.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel7.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel8.setMaximumSize(new java.awt.Dimension(32767, 25));
-		jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		jLabel1.setText("\u9ea6\u514b\u98ce");
-		jPanel8.add(jLabel1);
-
-		jPanel7.add(jPanel8);
+		jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(),
+				"\u9ea6\u514b\u98ce",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel7.setMinimumSize(new java.awt.Dimension(168, 90));
+		jPanel7.setPreferredSize(new java.awt.Dimension(332, 90));
+		jPanel7.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel9.setMaximumSize(new java.awt.Dimension(32767, 25));
 		jPanel9.setPreferredSize(new java.awt.Dimension(158, 25));
@@ -253,19 +249,17 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel25, gridBagConstraints);
 
+		jPanel4.setMinimumSize(new java.awt.Dimension(168, 90));
+		jPanel4.setPreferredSize(new java.awt.Dimension(332, 90));
 		jPanel4.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel11.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel11.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel4.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		jLabel4.setText("\u626c\u58f0\u5668");
-		jPanel12.add(jLabel4);
-
-		jPanel11.add(jPanel12);
+		jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(),
+				"\u626c\u58f0\u5668",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel11.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT,
 				20, 0));
@@ -324,19 +318,19 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel26, gridBagConstraints);
 
+		jPanel5.setMinimumSize(new java.awt.Dimension(225, 65));
+		jPanel5.setPreferredSize(new java.awt.Dimension(230, 65));
 		jPanel5.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel15.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel15.setLayout(new java.awt.GridLayout(2, 1));
-
-		jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel7.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		jLabel7.setText("\u7f16\u7801\u7c7b\u578b");
-		jPanel16.add(jLabel7);
-
-		jPanel15.add(jPanel16);
+		jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(),
+				"\u7f16\u7801\u7c7b\u578b",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel15.setMinimumSize(new java.awt.Dimension(225, 65));
+		jPanel15.setPreferredSize(new java.awt.Dimension(230, 65));
+		jPanel15.setLayout(new java.awt.GridLayout(1, 1));
 
 		jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT,
 				20, 3));
@@ -370,22 +364,18 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel27, gridBagConstraints);
 
+		jPanel6.setMinimumSize(new java.awt.Dimension(125, 0));
+		jPanel6.setPreferredSize(new java.awt.Dimension(125, 0));
 		jPanel6.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel18.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel18.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel19.setMaximumSize(new java.awt.Dimension(32767, 27));
-		jPanel19.setMinimumSize(new java.awt.Dimension(36, 27));
-		jPanel19.setPreferredSize(new java.awt.Dimension(36, 27));
-		jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel9.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		jLabel9.setText("\u8bbe\u7f6e");
-		jPanel19.add(jLabel9);
-
-		jPanel18.add(jPanel19);
+		jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(), "\u8bbe\u7f6e",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel18.setMinimumSize(new java.awt.Dimension(125, 90));
+		jPanel18.setPreferredSize(new java.awt.Dimension(125, 90));
+		jPanel18.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel20.setMaximumSize(new java.awt.Dimension(32767, 27));
 		jPanel20.setMinimumSize(new java.awt.Dimension(113, 27));
@@ -417,6 +407,29 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel6, gridBagConstraints);
+
+		jPanel36.setLayout(new java.awt.GridBagLayout());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		jPanel36.add(jPanel8, gridBagConstraints);
+
+		jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+		jLabel16.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		jLabel16.setForeground(new java.awt.Color(255, 0, 0));
+		jLabel16.setText(StringUtil
+				.getUIString("audioAndVideo.setup.restart.tip"));
+		jPanel12.add(jLabel16);
+
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		jPanel36.add(jPanel12, gridBagConstraints);
+
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 8;
@@ -624,21 +637,18 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	private javax.swing.JCheckBox jCheckBox1;
 	private javax.swing.JCheckBox jCheckBox2;
 	private javax.swing.JComboBox jComboBox4;
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel10;
 	private javax.swing.JLabel jLabel11;
 	private javax.swing.JLabel jLabel12;
 	private javax.swing.JLabel jLabel13;
 	private javax.swing.JLabel jLabel14;
 	private javax.swing.JLabel jLabel15;
+	private javax.swing.JLabel jLabel16;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel7;
 	private javax.swing.JLabel jLabel8;
-	private javax.swing.JLabel jLabel9;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel10;
 	private javax.swing.JPanel jPanel11;
@@ -646,10 +656,8 @@ public class AudioSetupDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel13;
 	private javax.swing.JPanel jPanel14;
 	private javax.swing.JPanel jPanel15;
-	private javax.swing.JPanel jPanel16;
 	private javax.swing.JPanel jPanel17;
 	private javax.swing.JPanel jPanel18;
-	private javax.swing.JPanel jPanel19;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel20;
 	private javax.swing.JPanel jPanel21;

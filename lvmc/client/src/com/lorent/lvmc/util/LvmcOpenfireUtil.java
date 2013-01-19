@@ -108,11 +108,11 @@ public class LvmcOpenfireUtil {
                 return true;
             }
         });
-        try{
-        	conn.connect();
-        }catch(Exception ex){
-        	throw new Exception(StringUtil.getErrorString("error.server.ip"));
-        }
+//        try{
+//        	conn.connect();
+//        }catch(Exception ex){
+//        	throw new Exception(StringUtil.getErrorString("error.server.ip"));
+//        }
         
         log.info("登录");
         try{
