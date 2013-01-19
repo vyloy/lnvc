@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="vovo" basedir="." default="makeInstall">
 	<!-- 需要修改 -->
-	<property name="installshield.cmd.dir" location="H:\InstallShield\2009\System" />
+	<property environment="env"/>
+	<property name="installshield.cmd.dir" location="${env.InstallShield_HOME}\2009\System" />
 	<property name="lvnc.dir" location="../.." />
 	<property name="clientcommon.dir" location="${lvnc.dir}/common/clientcommon" />
 	<property name="pack.dir" location="${lvnc.dir}/../lnvc2_pack" />
