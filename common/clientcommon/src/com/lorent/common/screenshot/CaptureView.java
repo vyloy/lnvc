@@ -143,16 +143,17 @@ public class CaptureView extends JWindow
 
   public void refreshInfoText()
   {
-    String text = new String("操作提示: By MaiLingFeng  =^-^=\n1.单击托盘图标->进入截图状态\n2.双击右键------>退出截图状态\n3.双击左键------>保存截图\n4.单击右键---->重新选择截图区域");
+    String text = new String("操作提示:\n1.双击右键--->退出截图状态\n2.双击左键--->保存截图\n3.单击右键--->重新选择截图区域");
     String infoString;
     if (this.captured)
-      infoString = "X,Y : " + this.point_x + "," + this.point_y + "    W*H : " + Math.abs(this.x2 - this.x) + "*" + Math.abs(this.y2 - this.y) + 
+      infoString = "X,Y: " + this.point_x + "," + this.point_y + "  W*H: " + Math.abs(this.x2 - this.x) + "*" + Math.abs(this.y2 - this.y) + 
         "\n当前RBG:(" + this.point_color.getRed() + "," + this.point_color.getGreen() + "," + this.point_color.getBlue() + ")\n" + text;
     else {
-      infoString = "X,Y : " + this.point_x + "," + this.point_y + "    W*H : 0*0" + 
+      infoString = "X,Y: " + this.point_x + "," + this.point_y + "  W*H: 0*0" + 
         "\n当前RBG:(" + this.point_color.getRed() + "," + this.point_color.getGreen() + "," + this.point_color.getBlue() + ")\n" + text;
     }
-
+    Font font = new Font("宋体",Font.BOLD,12);
+    this.infoArea.setFont(font);
     this.infoArea.setText(infoString);
     int pickImg_x;
     int pick_x1;
@@ -247,7 +248,9 @@ public class CaptureView extends JWindow
   
   public void saveCapture(int x1, int y1, int x2, int y2){
 //	  setClipboardImage(this.desktopImg.getSubimage(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1)));
-	  screenShotListener.doSave(this.desktopImg.getSubimage(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1)));
+	  if(Math.abs(x2 - x1)!=0 || Math.abs(y2 - y1)!=0){
+		  screenShotListener.doSave(this.desktopImg.getSubimage(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1)));
+	  }
   }
   
   protected static void setClipboardImage(final Image image) {
@@ -283,9 +286,11 @@ public class CaptureView extends JWindow
 //    	        exit();
 //    		  }
 //    	  });
-    	  setVisible(false);
-	        saveCapture(this.x1, this.y1, this.x2, this.y2);
-	        exit();
+		if (Math.abs(x2 - x1) != 0 || Math.abs(y2 - y1) != 0) {
+			setVisible(false);
+			saveCapture(this.x1, this.y1, this.x2, this.y2);
+			exit();
+		}
       }
     } else if (e.getClickCount() == 2) {
 //      if (!this.window.iconed) {
