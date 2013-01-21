@@ -412,6 +412,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 1;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
 		jPanel6.add(jPanel12, gridBagConstraints);
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
