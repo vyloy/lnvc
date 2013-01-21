@@ -59,8 +59,6 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		jPanel37 = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel7 = new javax.swing.JPanel();
-		jPanel8 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
 		jPanel9 = new javax.swing.JPanel();
 		jPanel28 = new javax.swing.JPanel();
 		jLabel2 = new javax.swing.JLabel();
@@ -74,8 +72,6 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		jPanel25 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
 		jPanel11 = new javax.swing.JPanel();
-		jPanel12 = new javax.swing.JPanel();
-		jLabel4 = new javax.swing.JLabel();
 		jPanel13 = new javax.swing.JPanel();
 		jPanel32 = new javax.swing.JPanel();
 		jLabel5 = new javax.swing.JLabel();
@@ -89,8 +85,6 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		jPanel26 = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel15 = new javax.swing.JPanel();
-		jPanel16 = new javax.swing.JPanel();
-		jLabel7 = new javax.swing.JLabel();
 		jPanel17 = new javax.swing.JPanel();
 		jLabel8 = new javax.swing.JLabel();
 		jSlider1 = new javax.swing.JSlider();
@@ -100,6 +94,9 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		jPanel36 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
 		jPanel6 = new javax.swing.JPanel();
+		jPanel8 = new javax.swing.JPanel();
+		jPanel12 = new javax.swing.JPanel();
+		jLabel9 = new javax.swing.JLabel();
 		jPanel24 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
 		okButton = new javax.swing.JButton();
@@ -131,18 +128,14 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 
 		jPanel3.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel7.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel7.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel8.setMaximumSize(new java.awt.Dimension(32767, 25));
-		jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel1.setFont(new java.awt.Font("宋体", 1, 12));
-		jLabel1.setText("\u6355\u6349");
-		jPanel8.add(jLabel1);
-
-		jPanel7.add(jPanel8);
+		jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(), "\u6355\u6349",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel7.setMinimumSize(new java.awt.Dimension(169, 90));
+		jPanel7.setPreferredSize(new java.awt.Dimension(332, 90));
+		jPanel7.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel9.setMaximumSize(new java.awt.Dimension(32767, 25));
 		jPanel9.setPreferredSize(new java.awt.Dimension(158, 25));
@@ -226,19 +219,19 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel25, gridBagConstraints);
 
+		jPanel4.setMinimumSize(new java.awt.Dimension(169, 0));
+		jPanel4.setPreferredSize(new java.awt.Dimension(332, 0));
 		jPanel4.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel11.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel11.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel4.setFont(new java.awt.Font("宋体", 1, 12));
-		jLabel4.setText("\u6444\u50cf\u5934\u8fdc\u7a0b\u63a7\u5236");
-		jPanel12.add(jLabel4);
-
-		jPanel11.add(jPanel12);
+		jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(),
+				"\u6444\u50cf\u5934\u8fdc\u7a0b\u63a7\u5236",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel11.setMinimumSize(new java.awt.Dimension(169, 90));
+		jPanel11.setPreferredSize(new java.awt.Dimension(332, 90));
+		jPanel11.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel13.setPreferredSize(new java.awt.Dimension(200, 30));
 		jPanel13.setLayout(new java.awt.GridBagLayout());
@@ -322,19 +315,19 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weightx = 1.0;
 		jPanel22.add(jPanel26, gridBagConstraints);
 
+		jPanel5.setMinimumSize(new java.awt.Dimension(269, 0));
+		jPanel5.setPreferredSize(new java.awt.Dimension(340, 0));
 		jPanel5.setLayout(new java.awt.BorderLayout(5, 5));
 
-		jPanel15.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel15.setLayout(new java.awt.GridLayout(3, 1));
-
-		jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-		jLabel7.setFont(new java.awt.Font("宋体", 1, 12));
-		jLabel7.setText("\u56fe\u50cf\u8d28\u91cf");
-		jPanel16.add(jLabel7);
-
-		jPanel15.add(jPanel16);
+		jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(
+				javax.swing.BorderFactory.createEtchedBorder(),
+				"\u56fe\u50cf\u8d28\u91cf",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+				javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("微软雅黑", 1, 12), new java.awt.Color(0, 0, 0)));
+		jPanel15.setMinimumSize(new java.awt.Dimension(269, 90));
+		jPanel15.setPreferredSize(new java.awt.Dimension(340, 90));
+		jPanel15.setLayout(new java.awt.GridLayout(2, 1));
 
 		jPanel17.setMinimumSize(new java.awt.Dimension(164, 30));
 		jPanel17.setPreferredSize(new java.awt.Dimension(328, 30));
@@ -383,23 +376,48 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 8;
+		gridBagConstraints.gridy = 6;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
 		jPanel22.add(jPanel36, gridBagConstraints);
 
-		javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(
-				jPanel6);
-		jPanel6.setLayout(jPanel6Layout);
-		jPanel6Layout.setHorizontalGroup(jPanel6Layout.createParallelGroup(
+		jPanel6.setPreferredSize(new java.awt.Dimension(200, 0));
+		jPanel6.setLayout(new java.awt.GridBagLayout());
+
+		javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(
+				jPanel8);
+		jPanel8.setLayout(jPanel8Layout);
+		jPanel8Layout.setHorizontalGroup(jPanel8Layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 367,
 				Short.MAX_VALUE));
-		jPanel6Layout.setVerticalGroup(jPanel6Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 9,
+		jPanel8Layout.setVerticalGroup(jPanel8Layout.createParallelGroup(
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 168,
 				Short.MAX_VALUE));
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 9;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		jPanel6.add(jPanel8, gridBagConstraints);
+
+		jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+		jLabel9.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		jLabel9.setForeground(new java.awt.Color(255, 0, 0));
+		jLabel9.setText(StringUtil
+				.getUIString("audioAndVideo.setup.restart.tip"));
+		jPanel12.add(jLabel9);
+
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+		jPanel6.add(jPanel12, gridBagConstraints);
+
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 7;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 		gridBagConstraints.weightx = 1.0;
 		gridBagConstraints.weighty = 1.0;
@@ -419,7 +437,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		gridBagConstraints.weighty = 1.0;
 		jPanel2.add(jPanel24, gridBagConstraints);
 
-		jTabbedPane1.addTab(StringUtil.getUIString("Convention.txt"), jPanel2);
+		jTabbedPane1.addTab("\u5e38\u89c4", jPanel2);
 
 		getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -455,8 +473,8 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		Map<String, String> paras = new HashMap<String, String>();
 		paras.put(Constants.VideoParam.VideoEquipment.toString(), String
 				.valueOf(video.getIndex()));
-		ControllerFacade.execute("videoAudioSetupController", "setVideoEquimentPara",
-				paras);
+		ControllerFacade.execute("videoAudioSetupController",
+				"setVideoEquimentPara", paras);
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -501,15 +519,13 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 	private javax.swing.JComboBox jComboBox2;
 	private javax.swing.JComboBox jComboBox4;
 	private javax.swing.JComboBox jComboBox5;
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel10;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel7;
 	private javax.swing.JLabel jLabel8;
+	private javax.swing.JLabel jLabel9;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel10;
 	private javax.swing.JPanel jPanel11;
@@ -517,7 +533,6 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel13;
 	private javax.swing.JPanel jPanel14;
 	private javax.swing.JPanel jPanel15;
-	private javax.swing.JPanel jPanel16;
 	private javax.swing.JPanel jPanel17;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel22;
