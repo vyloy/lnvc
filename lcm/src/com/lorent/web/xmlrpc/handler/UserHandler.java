@@ -1,5 +1,6 @@
 package com.lorent.web.xmlrpc.handler;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import com.lorent.model.SipConfBean;
 import com.lorent.model.UserBean;
 import com.lorent.util.Constant;
 import com.lorent.util.MD5Builder;
+import com.lorent.util.MailUtil;
+import com.lorent.util.PropertiesUtil;
 
 public class UserHandler extends BaseHandler {
 	/**
@@ -108,6 +111,14 @@ public class UserHandler extends BaseHandler {
 		return true;
 	}
 	
+	public boolean userIsValid(String lccno) throws Exception{
+		UserBean byLccAccount = serviceFacade.getUserService().getByLccAccount(lccno);
+		if (byLccAccount == null) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * @param paraters
 	 * paraters[0]:username 登录名 ，必填
@@ -126,21 +137,14 @@ public class UserHandler extends BaseHandler {
 	 */
 	public boolean registerUser(Object[] paraters) throws Exception{
 		String username = (String) paraters[0];
-		String password = (String) paraters[1];
+		final String password = (String) paraters[1];
 		String realname = (String) paraters[2];
-		String email = (String) paraters[3];
+		final String email = (String) paraters[3];
 		String phone = (String) paraters[4];
 		String gender = (String) paraters[5];
 		String mobile = (String) paraters[6];
+		String department_id = (String) paraters[7];
 		
-		String department = (String) paraters[7];
-		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
-		if(firstValidCustomer != null){
-			
-		}
-		else{
-			return false;
-		}
 		
 		String position = (String) paraters[8];
 		String code = (String) paraters[9];
@@ -150,7 +154,8 @@ public class UserHandler extends BaseHandler {
 		userBean.setUserEnabled(false);
 		userBean.setUsername(username);
 		userBean.setNewPassword(password);
-		userBean.setPassword(MD5Builder.getMD5(userBean.getNewPassword().trim(),userBean.getUsername().trim()));
+		userBean.setRepeatPassword(password);
+		userBean.setPassword(password);//MD5Builder.getMD5(userBean.getNewPassword().trim(),userBean.getUsername().trim())
 		userBean.setMd5passwd(MD5Builder.getMD5(userBean.getNewPassword().trim()));
 		userBean.setUserCredentialsNonExpired(true);
 		userBean.setRealName(realname);
@@ -158,14 +163,41 @@ public class UserHandler extends BaseHandler {
 		userBean.setPhone(phone);
 		userBean.setGender(gender);
 		userBean.setEmail(email);
-		userBean.setDepartment(null);
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		List<DepartmentBean> deptByCustomer = serviceFacade.getDepartmentService().getDeptByCustomer(firstValidCustomer.getId());
+		if (department_id == null || department_id.equals("")) {
+			userBean.setDepartment(deptByCustomer.get(0));
+		}
+		else{
+			try {
+				int parseInt = Integer.parseInt(department_id);
+				DepartmentBean departmentBean = serviceFacade.getDepartmentService().get(parseInt);
+				userBean.setDepartment(departmentBean);
+			} catch (Exception e) {
+				userBean.setDepartment(deptByCustomer.get(0));
+			}
+		}
 		userBean.setPosition(position);
 		userBean.setCode(code);
 		userBean.setLccAccount(lcc_account);
 		userBean.setCustomer(serviceFacade.getCustomerService().getFirstValidCustomer());
-		userBean.setDepartment(serviceFacade.getDepartmentService().get(userBean.getDepartment().getId()));
+//		userBean.setDepartment(serviceFacade.getDepartmentService().get(userBean.getDepartment().getId()));
 		userBean.setUserType(Constant.USER_TYPE_INNERUSER);
 		serviceFacade.getUserService().createUser(userBean);
+		
+		
+		//发送邮件至邮箱
+		String password_md5 = MD5Builder.getMD5(password);
+		String activeStr = MD5Builder.getMD5(password_md5+","+email);
+		String http_link = "https://10.168.250.12:8443/lcm/"+activeStr;
+		
+		String content = PropertiesUtil.getProperty("messageResource", "page.mail.conference.registeruser.context",true);
+		final String serialport = PropertiesUtil.getConstant("sms.serialport");
+		content = MessageFormat.format(content, new String[]{userBean.getLccAccount(),http_link});
+		
+		MailUtil.sendEmail(new String[]{email}, "帐号激活", content);
+		
+		
 		return true;
 	}
 	
