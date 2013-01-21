@@ -202,9 +202,9 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmConf.broadcastVideoCommand",new Object[]{confNo,from,toLccnos,command});
     }
     
-    public boolean registerUser(String username,String password,String realname,String email,String phone,String gender,String mobile,String department,String position,String code, String lcc_account)throws Exception{
+    public boolean registerUser(String username,String password,String realname,String email,String phone,String gender,String mobile,String department,String position,String code, String lcc_account,String lcm_serverip)throws Exception{
     	log.info("registerUser: "+username+","+password+","+realname+","+mobile+","+phone+","+gender);
-    	return (Boolean)client.execute("lcmUser.registerUser",new Object[]{new String[]{username,password,realname,email,phone,gender,mobile,department,position,code,lcc_account}});
+    	return (Boolean)client.execute("lcmUser.registerUser",new Object[]{new String[]{username,password,realname,email,phone,gender,mobile,department,position,code,lcc_account,lcm_serverip}});
     }
     
     public boolean userIsValid(String lccno) throws Exception{
@@ -319,7 +319,7 @@ public class LCMUtil {
        boolean broadcastVideoCommand = lcm.broadcastVideoCommand("93600693", "33011", new String[]{"33013","33011"},command );
        System.out.println(broadcastVideoCommand);
        */
-       lcm.registerUser("testlcmutil", "password", "realname", "gadaout4858@163.com", "075783391781", "male", "13700000000", "", "position", "222", "99999");
+//       lcm.registerUser("testlcmutil", "password", "realname", "gadaout4858@163.com", "075783391781", "male", "13700000000", "", "position", "222", "","10.168.250.12");
 	}
     
     public static void main2(String[] args)throws Exception {

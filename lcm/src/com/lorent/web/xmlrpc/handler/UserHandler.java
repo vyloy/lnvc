@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.lorent.common.util.PasswordUtil;
 import com.lorent.exception.CustomSqlException;
 import com.lorent.model.CustomerBean;
 import com.lorent.model.DepartmentBean;
@@ -132,6 +133,7 @@ public class UserHandler extends BaseHandler {
 	 * paraters[8]:position 职位
 	 * paraters[9]:code 员工编号
 	 * paraters[10]:lcc_account 指定lcc号码
+	 * paraters[11]:serverip lcm服务器地址，必填
 	 * @return
 	 * @throws Exception
 	 */
@@ -149,6 +151,7 @@ public class UserHandler extends BaseHandler {
 		String position = (String) paraters[8];
 		String code = (String) paraters[9];
 		String lcc_account = (String) paraters[10];
+		String lcm_serverip = (String) paraters[11];
 		
 		UserBean userBean = new UserBean();
 		userBean.setUserEnabled(false);
@@ -187,16 +190,13 @@ public class UserHandler extends BaseHandler {
 		
 		
 		//发送邮件至邮箱
-		String password_md5 = MD5Builder.getMD5(password);
-		String activeStr = MD5Builder.getMD5(password_md5+","+email);
-		String http_link = "https://10.168.250.12:8443/lcm/"+activeStr;
+		String psw = PropertiesUtil.getConstant("reg.user.psw", "lorent1234");
 		
+		String activeStr = PasswordUtil.getEncString(PasswordUtil.baseEncryptString(userBean.getId().toString(), psw));
+		String http_link = "http://"+lcm_serverip+":6090/lcm/app/registerUserAction_activeRegisterUser_result.action?id="+activeStr;
 		String content = PropertiesUtil.getProperty("messageResource", "page.mail.conference.registeruser.context",true);
-		final String serialport = PropertiesUtil.getConstant("sms.serialport");
 		content = MessageFormat.format(content, new String[]{userBean.getLccAccount(),http_link});
-		
 		MailUtil.sendEmail(new String[]{email}, "帐号激活", content);
-		
 		
 		return true;
 	}

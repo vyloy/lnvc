@@ -47,4 +47,6 @@
 	 <bean name="sysServerConfigAction" class="com.lorent.web.action.SysServerConfigAction" scope="session" parent="baseAction" />
 	 <!-- organ Action -->
 	 <bean name="organAction" class="com.lorent.web.action.OrganAction" scope="session" parent="baseAction" />
+	 <!-- registerUser Action -->
+	 <bean name="registerUserAction" class="com.lorent.web.action.RegisterUserAction" scope="session"  parent="baseAction"/>
 </beans> 

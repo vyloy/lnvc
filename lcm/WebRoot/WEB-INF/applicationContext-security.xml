@@ -19,6 +19,7 @@
 		<intercept-url pattern="/file/**" filters="none" />
 		<intercept-url pattern="/lvmc/**" filters="none" />
 		<intercept-url pattern="/jnlp/**" filters="none" />
+		<intercept-url pattern="/app/registerUserAction_activeRegisterUser_result.action*" filters="none" />
 		<intercept-url pattern="/**" access="ROLE_CUSTOMER_USER,ROLE_ADMIN,ROLE_MEMBER_USER,ROLE_CUSTOMER_DEP_ADMIN,ROLE_CUSTOMER_ADMIN" requires-channel="https" />
 		<logout invalidate-session="true" logout-success-url="/login/loginPage_toLoginPage.action" logout-url="/security_logout"/>
 		<concurrent-session-control max-sessions="1" expired-url="/login/loginPage_toLoginPage.action?error=sessionexpired" />
