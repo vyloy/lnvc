@@ -133,6 +133,15 @@ public class MainController extends BaseController{
     	String confpassword = paras.getValue("confpassword");
     	String confno = paras.getValue("confno");
     	
+    	//判断用户是否有效
+    	boolean userIsValid = Launcher.getLCMUtil().userIsValid(username);
+    	if (!userIsValid) {
+    		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
+			return;
+		}
+    	//判断会议是否存在
+    	
+    	
         //判断会议密码
         Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil().getConfList();
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);

@@ -3,8 +3,8 @@ package com.lorent.util;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -16,14 +16,14 @@ import javax.mail.internet.MimeMultipart;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.quartz.impl.calendar.CronCalendar;
-import org.quartz.impl.calendar.DailyCalendar;
+import org.apache.log4j.Logger;
 
 import com.lorent.model.ConferenceBean;
 import com.lorent.model.CronConferenceBean;
 import com.lorent.model.UserBean;
 
 public class MailUtil {
+	private static Logger log = Logger.getLogger(MailUtil.class);
 	private final static String MESSAGE_FILENAME = "messageResource";
 	private final static String INVITE_PREFIX = PropertiesUtil.getConstant("page.mail.invite.prefix");
 	private final static String INVITE_SUFIX = PropertiesUtil.getConstant("page.mail.invite.sufix");
@@ -38,6 +38,7 @@ public class MailUtil {
 			return (Session)envContext.lookup("mail/Session");
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("initSession", e);
 			return null;
 		}
 	}
@@ -65,7 +66,7 @@ public class MailUtil {
 	 * @param subject
 	 * @param content
 	 */
-	private static void sendEmail(String[]receivers,String subject,String content) {
+	public static void sendEmail(String[]receivers,String subject,String content) {
 		try {
 			Session session = initSession();
 			Message msg = initMsg(session, subject, content);
@@ -87,18 +88,19 @@ public class MailUtil {
 						transport.connect(session.getProperty("mail.smtp.host"),session.getProperty("mail.smtp.username"),session.getProperty("mail.smtp.password"));
 						transport.sendMessage(msg, msg.getAllRecipients());
 						System.out.println("send email to "+receivers.toString()+" success.........");
+						log.info("send email to "+receivers.toString()+" success.........");
 					}catch(Exception e){
 						e.printStackTrace();
 						System.out.println("send email to "+receivers.toString()+" fail.........");
+						log.error("send email to "+receivers.toString()+" fail.........",e);
 					}
 				}
 				
 			}.start();
-			
-		} catch (AddressException e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
+			log.error("sendEmail", e);
 		}
 	}
 	/**
@@ -110,7 +112,7 @@ public class MailUtil {
 	 * @throws AddressException
 	 * @throws MessagingException
 	 */
-	private static Message initMsg(Session session,String subject,String content) throws AddressException, MessagingException  {
+	private static Message initMsg(Session session,String subject,String content) throws Exception  {
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(PropertiesUtil.getConstant("mail.smtp.username")));
 		msg.setSentDate(new Date());

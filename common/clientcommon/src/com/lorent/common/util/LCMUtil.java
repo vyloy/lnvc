@@ -207,6 +207,11 @@ public class LCMUtil {
     	return (Boolean)client.execute("lcmUser.registerUser",new Object[]{new String[]{username,password,realname,email,phone,gender,mobile,department,position,code,lcc_account}});
     }
     
+    public boolean userIsValid(String lccno) throws Exception{
+    	log.info("userIsValid: "+lccno);
+    	return (Boolean)client.execute("lcmUser.userIsValid",new Object[]{lccno});
+    }
+    
     //index由0开始
     //获得点播视频列表，index由0开始
     public LCMVideoClip[] getVideoClipList(Integer pageIndex,Integer pageSize) throws Exception{
@@ -275,7 +280,8 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
+        String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
+//        xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
         int x = 0;
         int y = 6;
@@ -313,7 +319,7 @@ public class LCMUtil {
        boolean broadcastVideoCommand = lcm.broadcastVideoCommand("93600693", "33011", new String[]{"33013","33011"},command );
        System.out.println(broadcastVideoCommand);
        */
-       lcm.registerUser("username", "password", "realname", "email", "phone", "gender", "mobile", "department", "position", "code", "lcc_account");
+       lcm.registerUser("testlcmutil", "password", "realname", "gadaout4858@163.com", "075783391781", "male", "13700000000", "", "position", "222", "99999");
 	}
     
     public static void main2(String[] args)throws Exception {
