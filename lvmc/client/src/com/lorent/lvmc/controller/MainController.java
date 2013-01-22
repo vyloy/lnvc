@@ -38,6 +38,7 @@ import com.lorent.lvmc.ui.MainFrame;
 import com.lorent.lvmc.ui.MainPanel;
 import com.lorent.lvmc.ui.MainWindow;
 import com.lorent.lvmc.ui.MemberListPanel;
+import com.lorent.lvmc.ui.MyGuestBook;
 import com.lorent.lvmc.ui.MyTrayIcon;
 import com.lorent.lvmc.ui.RegisterUserDialog;
 import com.lorent.lvmc.ui.ShareFileListPanel;
@@ -740,6 +741,12 @@ public class MainController extends BaseController{
     		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("permission.onlyHostCanDo"));
     		return;
     	}
+    }
+    
+    public void showGuestBook()throws Exception{
+    	MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+    	MyGuestBook book = ViewManager.getComponent(MyGuestBook.class, new Class[]{Frame.class, Boolean.class}, new Object[]{mainFrame, true});
+    	book.setVisible(true);
     }
     
     
