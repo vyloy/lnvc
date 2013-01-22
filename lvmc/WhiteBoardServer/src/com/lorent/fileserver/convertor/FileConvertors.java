@@ -48,7 +48,7 @@ public class FileConvertors {
 			@Override
 			public void converted(BufferedImage image,File file,int page,int pageCount) {
 				Main.getServer().getHandler().getMeetings().execute(session, 
-						new BroadcastConvertedCommand(meetingId, new SVGImage(image), displayFileName, page,pageCount));
+						new BroadcastConvertedCommand(meetingId, new SVGImage(image), file.getName(),displayFileName, page,pageCount));
 			}
 		});
 	}
