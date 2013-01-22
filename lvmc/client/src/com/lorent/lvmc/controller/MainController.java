@@ -134,9 +134,10 @@ public class MainController extends BaseController{
     	Boolean savePasswd = paras.getValue("savePasswd");
     	String confpassword = paras.getValue("confpassword");
     	String confno = paras.getValue("confno");
+    	String serverIP = paras.getValue("serverIP");
     	
     	//判断用户是否有效
-    	boolean userIsValid = Launcher.getLCMUtil().userIsValid(username);
+    	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
     	if (!userIsValid) {
     		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
 			return;
@@ -145,7 +146,7 @@ public class MainController extends BaseController{
     	
     	
         //判断会议密码
-        Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil().getConfList();
+        Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(serverIP).getConfList();
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);
 		if (lcmConferenceDto != null) {
 			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
