@@ -124,6 +124,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 			themeButton.setVisible(false);
 		}
 		this.guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
+		this.aboutBtn.setText(StringUtil.getUIString("main.menu.aboutus"));
 		instance = this;
 	}
 
@@ -162,6 +163,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		screenShotButton = new javax.swing.JButton();
 		setupButton = new javax.swing.JButton();
 		guestbookBtn = new javax.swing.JButton();
+		aboutBtn = new javax.swing.JButton();
 		logoPanel = new javax.swing.JPanel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -419,6 +421,20 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(guestbookBtn);
 
+		aboutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/lvmc/resource/images/main-about.png"))); // NOI18N
+		aboutBtn.setFocusable(false);
+		aboutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		aboutBtn.setMaximumSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setPreferredSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		aboutBtn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				aboutBtnActionPerformed(evt);
+			}
+		});
+		jToolBar1.add(aboutBtn);
+
 		logoPanel.setOpaque(false);
 		logoPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT,
 				5, 0));
@@ -438,6 +454,10 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {
+		ControllerFacade.execute("mainController", "showAboutDialog");
+	}
 
 	private void guestbookBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		ControllerFacade.execute("mainController", "showGuestBook");
@@ -606,6 +626,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JButton aboutBtn;
 	private javax.swing.JButton guestbookBtn;
 	private javax.swing.JButton jButton3;
 	private javax.swing.JPanel jPanel1;
