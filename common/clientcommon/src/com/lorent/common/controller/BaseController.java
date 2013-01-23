@@ -42,8 +42,9 @@ public abstract class BaseController implements Context{
 		return context.getViewManager().getUIString(key);
 	}
 	
+	
 	public <T> T getValue(String key){
-		return context.getDataManager().getValue(key);
+		return (T)context.getDataManager().getValue(key);
 	}
 	
 	public void setValue(String key, Object o){

@@ -4,7 +4,6 @@ package com.lorent.video;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
-import io.vov.utils.Log;
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.MediaPlayer.OnCompletionListener;
 import io.vov.vitamio.demo.VideoViewDemo;

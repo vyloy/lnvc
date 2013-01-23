@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--  thanks Jojol Zhou
+  byread Package Utility  
+  Author: Jojol Zhou  
+  Date: 20100804  
+    -->  
+<project name="lorent_video" default="build-many-package">
+
+	<!-- project directorty -->
+	<property name="rootdir" value="." />
+	
+	<!-- import property file -->
+	<property file="local.properties" />
+	
+	<!-- ant directories -->
+	<property environment="env" />
+	<property name="ant-ospath" value="${env.ant_home}" />
+	
+    <!-- SDK Locations -->  
+    <property name="sdk-basedir" value="${env.ANDROID_HOME}" />  
+    <property name="sdk-folder" value="${sdk-basedir}/platforms/android-16" />  
+    <property name="sdk-tools" value="${sdk-basedir}/platform-tools" />  
+    <property name="android-tools" value="${sdk-basedir}/tools" />
+    
+    <!-- maven directory -->
+    <property name="maven-basedir" value="${env.MAVEN_HOME}" />
+    <property name="maven-bindir" value="${maven-basedir}\bin" />
+    <property name="mvn" value="${maven-bindir}/mvn.bat" />
+    
+    <!--property name="proguardpath" location="${wtkhome}/lib/proguard" /-->  
+  
+        <!-- step 1.generate R.java by aapt  2.compile java to class by javac。exe 3.generate classes.dex by dx.bat  -->  
+        <!-- 4.package resources by aapt 5. package resource and classes.dex by apkbuilder.bat 6.sign apk by jarsinger -->  
+    <!-- Tools -->  
+    <property name="aapt" value="${sdk-tools}/aapt.exe" />  
+    <property name="dx" value="${sdk-tools}/dx.bat" />  
+    <property name="apk-builder" value="${android-tools}/apkbuilder.bat" />  
+    <property name="aidl" value="${sdk-tools}/aidl.exe" />  
+    <property name="adb" value="${sdk-tools}/adb.exe" />  
+    <property name="android-jar" value="${sdk-folder}/android.jar" />  
+    <property name="jarsigner" value="${env.JAVA_HOME}\bin\jarsigner.exe" />  
+  
+    <!-- Application Package Name -->  
+    <property name="application-package" value="com.lorent.video" />  
+    <!-- <property name="useragent" value="byAndroidWeb" /> -->  
+    <!-- <property name="version" value="1.02" /> -->
+	<property name="application-package-folder" value="com\lorent\video" />
+    <!-- The intermediates directory -->  
+    <!-- Eclipse uses "bin" for its own output, so we do the same. -->  
+    <property name="outdir-bin" value="${rootdir}/bin" />  
+    <property name="outdir-gen" value="${rootdir}/gen" />  
+    <!-- source directories -->  
+    <property name="resource-dir" value="${rootdir}/res" />  
+    <property name="asset-dir" value="${rootdir}/assets" />  
+    <property name="srcdir" value="src" />  
+    <property name="srcdir-ospath" value="${rootdir}/${srcdir}" />  
+    <property name="external-libs" value="libs" />  
+    <property name="external-libs-ospath" value="${rootdir}/${external-libs}" />
+	<property name="manifest-file-name" value="AndroidManifest.xml" />
+	<property name="manifest-file-ospath" value="${rootdir}/AndroidManifest.xml" />
+	<property name="vplayer-R-file-ospath" value="${outdir-gen}/io/vov/vitamio" />
+	<property name="vplayer-R-file-packagename" value="io.vov.vitamio" />
+      
+    <!-- dest directories -->  
+    <property name="des-resource-dir" value="${outdir-bin}/res" />  
+    <property name="des-asset-dir" value="${outdir-bin}/assets" />  
+    <property name="des-srcdir" value="${outdir-bin}/src" />  
+    <property name="des-srcdir-ospath" value="${rootdir}/${outdir-bin}/${srcdir}" />  
+    <property name="des-external-libs" value="${outdir-bin}/libs" />  
+    <property name="des-external-libs-ospath" value="${rootdir}/${outdir-bin}/${external-libs}" />  
+      
+    <!-- Output directories -->  
+    <property name="outdir-classes" value="${outdir-bin}/classes" />  
+    <property name="outdir-obfuscate-classes" value="classes" />  
+    <property name="outdir-obfuscate-classes-ospath" value="${outdir-bin}/${outdir-obfuscate-classes}" />  
+  
+    <!-- Intermediate files -->  
+    <property name="dex-file" value="classes.dex" />  
+    <property name="intermediate-dex" value="${outdir-bin}/${dex-file}" />  
+    <property name="intermediate-dex-ospath" value="${intermediate-dex}" />  
+  
+    <!-- The final package file to generate -->  
+    <property name="resources-package" value="${ant.project.name}" />  
+    <property name="resources-package-ospath" value="${outdir-bin}/${resources-package}.ap_" />  
+    <property name="out-debug-package" value="${ant.project.name}-debug.apk" />  
+    <property name="out-debug-package-ospath" value="${outdir-bin}/${out-debug-package}" />  
+    <property name="out-unsigned-package" value="${ant.project.name}-unsigned.apk" />  
+    <property name="out-unsigned-package-ospath" value="${outdir-bin}/${out-unsigned-package}" />  
+	<property name="out-signed-package" value="${ant.project.name}.apk" />  
+	<property name="out-signed-package-ospath" value="${outdir-bin}/${out-signed-package}" />  
+    
+	<!-- keystore file -->
+	<property name="keystore-file-name" value="lorent_android.keystore" />
+	<property name="keystore-file-ospath" value="${rootdir}/${keystore-file-name}" />
+
+	
+
+	<!-- device type -->
+	
+	<property name="device-stb" value="STB" />
+	<property name="device-phone" value="PHONE" />
+	<property name="device-cloudtv" value="CLOUDTV" />
+
+	<!-- the modify file -->
+	<property name="lorent_video_cfg" value="${srcdir-ospath}/${application-package-folder}/config/lorent_video.properties" />
+
+	<!-- configfile-replace-content -->
+	<property name="common-content" value="DeviceType=" />
+	<property name="phone-content" value="${common-content}${device-phone}" />
+	<property name="stb-content" value="${common-content}${device-stb}" />
+	<property name="cloudtv-content" value="${common-content}${device-cloudtv}" />
+	
+	
+	<!-- maven target directory  -->
+	<property name="maven-target-dir" value="${rootdir}/target" />
+	<property name="maven-generated-sources-dir" value="${maven-target-dir}/generated-sources" />
+	<property name="maven-sources-r-dir" value="${maven-generated-sources-dir}/r" />
+	<property name="maven-classes-dir" value="${maven-target-dir}/classes" />
+
+
+	<path id="ant.contrib.lib">  
+        <fileset dir="${ant-ospath}\lib">  
+            <include name="**/*jar" />  
+        </fileset>  
+    </path>  
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">  
+        <classpath>  
+            <path refid="ant.contrib.lib" />  
+        </classpath>  
+    </taskdef>  
+    <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach">  
+        <classpath>  
+            <path refid="ant.contrib.lib" />  
+        </classpath>  
+    </taskdef>
+
+    
+	<target name="build-many-package">  
+        <foreach target="update-generate-file" param="devicetype" list="${device-stb};${device-phone};${device-cloudtv}" delimiter=";" />  
+    </target>
+  
+	<target name="update-generate-file" depends="modify-file">  
+        <exec executable="${mvn}" failonerror="true">  
+            <arg value="clean" />  
+            <arg value="install" />
+        </exec>
+        <echo message="ant compile classpath: ${apk.version}"/>
+        <echo>接收到MAVEN的version是${apk.name}</echo>
+        <copy todir="${outdir-bin}">
+			<fileset dir="${maven-target-dir}">
+				<include name="${apk.name}-*.apk"/>
+			</fileset>
+		</copy>
+		<move file="${outdir-bin}/${apk.name}-*.apk"
+   			tofile="${outdir-bin}/${apk.name}_${devicetype}.apk" />  
+    </target>  
+
+	<!-- modify file -->
+	<target name="modify-file">
+		<replace file="${lorent_video_cfg}" >
+			<replacefilter token="${phone-content}" value ="${common-content}${devicetype}"  />
+		</replace>
+		<replace file="${lorent_video_cfg}" >
+			<replacefilter token="${stb-content}" value ="${common-content}${devicetype}"  />
+		</replace>
+		<replace file="${lorent_video_cfg}" >
+			<replacefilter token="${cloudtv-content}" value ="${common-content}${devicetype}"  />
+		</replace>
+	</target>
+	
+	
+
+    <!-- init -->  
+    <target name="init">  
+        <echo>Creating all output directories </echo>  
+        <delete includeemptydirs="true">
+			<fileset dir="${outdir-bin}" includes="**/*" excludes="*.apk"/>
+		</delete>
+		<delete file="${out-unsigned-package-ospath}"/>
+        <delete dir="${useragent}" />
+		<delete dir="${out-unsigned-package-ospath}" />
+		<delete dir="${out-signed-package-ospath}" />
+		<delete dir="${vplayer-R-file-ospath}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${outdir-gen}" includes="**/*"/>
+		</delete>
+        <mkdir dir="${outdir-bin}" />  
+        <mkdir dir="${outdir-classes}" />
+		<mkdir dir="${vplayer-R-file-ospath}" />
+        <!--mkdir dir="${useragent}" /-->  
+    </target>  
+      
+    <!-- copy original strings and modify useragent -->  
+    <target name="copy" depends="init">  
+	<!--
+        <echo>copy files to output folder</echo>  
+        <delete file="${resource-dir}\values\strings.xml"/>  
+        <copy file="strings.xml" todir="${resource-dir}\values" />  
+        <replace file="${resource-dir}\values\strings.xml" token="@USERAGENT@" value="${useragent}" encoding="utf-8"/>  
+		-->
+		
+    </target>  
+  
+    <!-- Generate the R.java file for this project's resources. -->  
+    <target name="resource-src" depends="copy">  
+        <echo>Generating R.java / Manifest.java from the resources...</echo>  
+        <exec executable="${aapt}" failonerror="true">  
+                    <arg value="package" />  
+                    <arg value="-m" />  
+                    <arg value="-J" />  
+                    <arg value="${outdir-gen}" />  
+                    <arg value="-M" />  
+                    <arg value="${manifest-file-ospath}" />  
+                    <arg value="-S" />  
+                    <arg value="${resource-dir}" />  
+                    <arg value="-I" />  
+                    <arg value="${android-jar}" />  
+                </exec>  
+    </target>  
+  
+    <!-- Generate java classes from .aidl files. -->  
+    <target name="aidl" depends="resource-src">  
+	<!--
+        <echo>Compiling aidl files into Java classes...</echo>  
+        <apply executable="${aidl}" failonerror="true">  
+            <arg value="-p${android-framework}" />  
+            <arg value="-I${srcdir}" />  
+            <fileset dir="${srcdir}">  
+                <include name="**/*.aidl"/>  
+            </fileset>  
+        </apply>  
+		-->
+		<copy todir="${outdir-obfuscate-classes-ospath}">
+			<fileset dir="${external-libs-ospath}">
+				<include name="**/*.so"/>
+			</fileset>
+		</copy>
+		<copy todir="${outdir-obfuscate-classes-ospath}">
+			<fileset dir="${srcdir-ospath}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${vplayer-R-file-ospath}" file="${outdir-gen}/${application-package-folder}/R.java" />
+        <replace file="${vplayer-R-file-ospath}\R.java" >
+			<replacefilter token="${application-package}" value ="${vplayer-R-file-packagename}"  />
+		</replace>
+		<copy todir="${maven-sources-r-dir}">
+			<fileset dir="${outdir-gen}">
+			    <include name="**/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${maven-classes-dir}">
+			<fileset dir="${srcdir-ospath}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+    </target>  
+  
+    <!-- Compile this project's .java files into .class files. -->  
+    <target name="compile" depends="copy, resource-src, aidl">  
+        <javac encoding="utf-8" target="1.6" debug="true" extdirs=""  
+                srcdir="${srcdir-ospath}:${outdir-gen}"  
+                destdir="${outdir-obfuscate-classes-ospath}"  
+                bootclasspath="${android-jar}">  
+            <classpath>  
+                <fileset dir="${external-libs-ospath}" includes="*.jar"/>  
+            </classpath>  
+         </javac>  
+    </target>  
+      
+  
+	
+  
+  
+    <!-- Convert this project's .class files into .dex files. -->  
+    <target name="dex" depends="compile">  
+        <echo>Converting compiled files and external libraries into ${outdir}/${dex-file}...</echo>  
+        <apply executable="${dx}" failonerror="true" parallel="true">  
+            <arg value="--dex" />  
+            <arg value="--output=${intermediate-dex-ospath}" />  
+            <arg path="${outdir-obfuscate-classes-ospath}" />  
+            <fileset dir="${external-libs-ospath}">
+				<include name="**/*.so"/>
+				<include name="**/*.jar"/>
+			</fileset>
+        </apply>  
+    </target>  
+  
+    <!-- Put the project's resources into the output package file. -->  
+    <target name="package-res-and-assets">  
+        <echo>Packaging resources and assets...</echo>  
+        <exec executable="${aapt}" failonerror="true">  
+            <arg value="package" />  
+            <arg value="-f" />  
+            <arg value="-M" />  
+            <arg value="${manifest-file-ospath}" />  
+            <arg value="-S" />  
+            <arg value="${resource-dir}" />  
+            <arg value="-A" />  
+            <arg value="${asset-dir}" />  
+            <arg value="-I" />  
+            <arg value="${android-jar}" />  
+            <arg value="-F" />  
+            <arg value="${resources-package-ospath}" />  
+        </exec>  
+    </target>  
+  
+    <!-- Same as package-res-and-assets, but without "-A ${asset-dir}" -->  
+    <target name="package-res-no-assets">  
+        <echo>Packaging resources...</echo>  
+        <exec executable="${aapt}" failonerror="true">  
+            <arg value="package" />  
+            <arg value="-f" />  
+            <arg value="-M" />  
+            <arg value="${manifest-file-ospath}" />  
+            <arg value="-S" />  
+            <arg value="${resource-dir}" />  
+            <!-- No assets directory -->  
+            <arg value="-I" />  
+            <arg value="${android-jar}" />  
+            <arg value="-F" />  
+            <arg value="${resources-package-ospath}" />  
+        </exec>  
+    </target>  
+  
+    <!-- Invoke the proper target depending on whether or not  
+         an assets directory is present. -->  
+    <!-- TODO: find a nicer way to include the "-A ${asset-dir}" argument  
+         only when the assets dir exists. -->  
+    <target name="package-res">  
+        <available file="${asset-dir}" type="dir"  
+                property="res-target" value="and-assets" />  
+        <property name="res-target" value="no-assets" />  
+        <antcall target="package-res-${res-target}" />  
+    </target>  
+  
+    <!-- Package the application and sign it with a debug key.  
+         This is the default target when building. It is used for debug. -->  
+    <target name="debug" depends="dex, package-res">  
+        <echo>Packaging ${out-debug-package}, and signing it with a debug key...</echo>  
+        <exec executable="${apk-builder}" failonerror="true">  
+            <arg value="${out-debug-package-ospath}" />  
+            <arg value="-z" />  
+            <arg value="${resources-package-ospath}" />  
+            <arg value="-f" />  
+            <arg value="${intermediate-dex-ospath}" />  
+            <arg value="-rf" />  
+            <arg value="${srcdir-ospath}" />  
+            <arg value="-rj" />  
+            <arg value="${external-libs-ospath}" />  
+        </exec>  
+    </target>  
+  
+    <!-- Package the application without signing it.  
+         This allows for the application to be signed later with an official publishing key. -->  
+    <target name="package" depends="dex, package-res">  
+        <echo>Packaging ${out-unsigned-package} for release...</echo>  
+        <exec executable="${apk-builder}" failonerror="true">  
+            <arg value="${out-unsigned-package-ospath}" />  
+            <arg value="-u" />  
+            <arg value="-z" />  
+            <arg value="${resources-package-ospath}" />  
+            <arg value="-f" />  
+            <arg value="${intermediate-dex-ospath}" />  
+            <arg value="-rf" />  
+            <arg value="${srcdir-ospath}" />  
+            <arg value="-rj" />  
+            <arg value="${external-libs-ospath}" />
+			<!-- 包括本地so文件 -->  
+            <arg value="-nf" />  
+            <arg value="${external-libs-ospath}" />
+        </exec>  
+        <echo>It will need to be signed with jarsigner before being published.</echo>  
+    </target>  
+      
+	<target name="jarsigner" depends="package">  
+		<echo>Packaging ${out-unsigned-package} for release...</echo>  
+		<exec executable="${jarsigner}" failonerror="true">  
+			<arg value="-verbose" />  
+			<arg value="-storepass" />  
+			<arg value="1qaz@WSX" />  
+			<arg value="-keypass" />  
+			<arg value="1qaz@WSX" />  
+			<arg value="-keystore" />  
+			<arg value="${keystore-file-ospath}" />  
+			<arg value="-signedjar" />  
+			<arg value="${outdir-bin}/${ant.project.name}_${devicetype}.apk" />  
+			<arg value="${out-unsigned-package-ospath}" />  
+			<arg value="lorent_android" />  
+		</exec>  
+	</target>  
+
+	
+    <!--      
+    <target name="release" depends="jarsigner">  
+        <echo>release for release...</echo>  
+    </target>  
+      
+    
+    <target name="install" depends="debug">  
+        <echo>Installing ${out-debug-package} onto default emulator...</echo>  
+        <exec executable="${adb}" failonerror="true">  
+            <arg value="install" />  
+            <arg value="${out-debug-package}" />  
+        </exec>  
+    </target>  
+  
+    <target name="reinstall" depends="debug">  
+        <echo>Installing ${out-debug-package} onto default emulator...</echo>  
+        <exec executable="${adb}" failonerror="true">  
+            <arg value="install" />  
+            <arg value="-r" />  
+            <arg value="${out-debug-package}" />  
+        </exec>  
+    </target>  
+  
+    
+    <target name="uninstall">  
+        <echo>Uninstalling ${application-package} from the default emulator...</echo>  
+        <exec executable="${adb}" failonerror="true">  
+            <arg value="uninstall" />  
+            <arg value="${application-package}" />  
+        </exec>  
+    </target>  
+  -->
+</project>  

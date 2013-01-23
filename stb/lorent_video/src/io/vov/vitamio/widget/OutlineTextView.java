@@ -16,7 +16,7 @@
 
 package io.vov.vitamio.widget;
 
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -32,7 +32,7 @@ import android.widget.TextView;
  * {@link android.widget.TextView}, except that {@link OutlineTextView} will
  * transform the shadow to border
  */
-@SuppressLint("DrawAllocation")
+//@SuppressLint("DrawAllocation")
 public class OutlineTextView extends TextView {
 	public OutlineTextView(Context context) {
 		super(context);

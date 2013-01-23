@@ -11,10 +11,12 @@ import javax.media.CaptureDeviceManager;
 import javax.media.MediaLocator;
 import javax.media.NoDataSourceException;
 import javax.media.NoPlayerException;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
 import net.sf.fmj.media.cdp.GlobalCaptureDevicePlugger;
+import net.sf.fmj.ui.application.CaptureDeviceBrowser;
 import net.sf.fmj.ui.application.ContainerPlayer;
 import net.sf.fmj.ui.application.PlayerPanelPrefs;
 import net.sf.fmj.ui.control.TransportControlListener;
@@ -30,7 +32,7 @@ public class FmjUtil {
 		int flag = 0;// 正常
 		container = cameraPanel;
 		containerPlayer = new ContainerPlayer(container);
-		// MediaLocator locator = CaptureDeviceBrowser.run(null); //弹出摄像头设备选择
+//		 MediaLocator locator = CaptureDeviceBrowser.run(null); //弹出摄像头设备选择
 
 		MediaLocator locator = null;
 		GlobalCaptureDevicePlugger.addCaptureDevices();
@@ -67,13 +69,16 @@ public class FmjUtil {
 			containerPlayer.setMediaLocation(locator.toExternalForm(),
 					prefs.autoPlay);
 			log.info("containerPlayer first:"+containerPlayer.getTime());
-			new Thread(){
-				public void run(){
+			final int delay = 5;//等待5秒
+			SwingUtilities.invokeLater(new Runnable(){
+
+				@Override
+				public void run() {
 					try {
-						for(int i=0;i<5;i++){
+						for(int i=0;i<delay;i++){
 							Thread.sleep(1000);
 							log.info("containerPlayer second:"+containerPlayer.getTime());
-							if(containerPlayer.getTime()==0 && i==4){
+							if(containerPlayer.getTime()==0 && i==(delay-1)){
 								closeCamera();
 								if(getCameraProcess()!=null){
 									getCameraProcess().doDisable();
@@ -92,7 +97,34 @@ public class FmjUtil {
 						}
 					}
 				}
-			}.start();
+				
+			});
+//			new Thread(){
+//				public void run(){
+//					try {
+//						for(int i=0;i<5;i++){
+//							Thread.sleep(1000);
+//							log.info("containerPlayer second:"+containerPlayer.getTime());
+//							if(containerPlayer.getTime()==0 && i==4){
+//								closeCamera();
+//								if(getCameraProcess()!=null){
+//									getCameraProcess().doDisable();
+//								}
+//							}else if(containerPlayer.getTime()!=0){
+//								if(getCameraProcess()!=null){
+//									getCameraProcess().doEnable();
+//								}
+//								break;
+//							}
+//						}
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//						if(getCameraProcess()!=null){
+//							getCameraProcess().doDisable();
+//						}
+//					}
+//				}
+//			}.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag = 1;
@@ -137,6 +169,7 @@ public class FmjUtil {
 
 	public void closeCamera() {
 		if (containerPlayer != null) {
+			System.out.println("关闭摄像头");
 			containerPlayer.close();
 			containerPlayer = null;
 		}

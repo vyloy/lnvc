@@ -27,13 +27,15 @@ public class BroadcastConvertedCommand extends BroadcastCommand implements Clien
 			.getLogger(BroadcastConvertedCommand.class);
 	protected transient static Updater<?> loadingImage;
 	protected final int pageCount;
+	protected final String displayName;
 	protected transient volatile Reference<Updater<?>> updaterReference;
 	
 	public BroadcastConvertedCommand(String meetingId, Updater<?> updater,
-			String whiteboardId, int page,int pageCount) {
+			String whiteboardId,String displayName, int page,int pageCount) {
 		super(meetingId, updater, whiteboardId, page);
 		commandId=1;
 		this.pageCount=pageCount;
+		this.displayName=displayName;
 	}
 	
 	public void execute(Whiteboard board, IoSession session) {
@@ -42,28 +44,21 @@ public class BroadcastConvertedCommand extends BroadcastCommand implements Clien
 			board.getMeeting().broadcast(session,this);
 		}else{
 			session.write(new ShowMessage("文档已被加载。", 
-					"尊敬的用户", JOptionPane.INFORMATION_MESSAGE,new LoadedFile(getSimpleFileName())));
+					"尊敬的用户", JOptionPane.INFORMATION_MESSAGE,new LoadedFile(displayName)));
 			logger.info("{} Whiteboard {} create failed because of loaded!",board.getMeeting().getMeetingId(),whiteboardId);
 		}
 	}
 	
-	private String getSimpleFileName(){
-		int index=whiteboardId.indexOf('_');
-		if(index!=-1)
-			return new String(whiteboardId.substring(index+1));
-		return whiteboardId;
-	}
-
 	@Override
 	public void run(CommandsManager manager) {
-		View view = manager.getView(whiteboardId);
+		View view = manager.getView(whiteboardId,displayName);
 		view.execute(this);
 		for(int i=2;i<=pageCount;i++){
 			BroadcastConvertedCommand clone = this.clone();
 			clone.page = i;
 			view.executeWithoutCheck(clone);
 		}
-		final LoadingFileDialog d=(LoadingFileDialog) manager.removeAttribute(getSimpleFileName());
+		final LoadingFileDialog d=(LoadingFileDialog) manager.removeAttribute(displayName);
 		if(d==null)
 			return;
 		SwingUtilities.invokeLater(new Runnable() {

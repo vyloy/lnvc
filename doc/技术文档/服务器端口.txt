@@ -1,0 +1,9 @@
+imserver 5222
+lcm 6090
+Whiteboard 8888
+fileserver 8889
+RemoteDesktop 5901
+ftp 2121
+StreamMediaServer 554
+SIP Server	5062
+rtp port	10000 - 12000 

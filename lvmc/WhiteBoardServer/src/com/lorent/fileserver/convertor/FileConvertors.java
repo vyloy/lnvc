@@ -31,7 +31,8 @@ public class FileConvertors {
 		convertors.put(".xlsx", officeConvertor);
 	}
 	
-	public static void convert(File file,final String meetingId,final IoSession session) throws IOException{
+	public static void convert(File file,final String displayFileName,final String meetingId,final IoSession session) throws IOException{
+		logger.info("file: "+file.getName()+" display:"+displayFileName+" meetingId:"+meetingId);
 		int index = file.getName().lastIndexOf('.');
 		if(index==-1){
 			throw new IllegalArgumentException("file has not a valid suffix!It is "+file.getName());
@@ -47,9 +48,13 @@ public class FileConvertors {
 			@Override
 			public void converted(BufferedImage image,File file,int page,int pageCount) {
 				Main.getServer().getHandler().getMeetings().execute(session, 
-						new BroadcastConvertedCommand(meetingId, new SVGImage(image), file.getName(), page,pageCount));
+						new BroadcastConvertedCommand(meetingId, new SVGImage(image), file.getName(),displayFileName, page,pageCount));
 			}
 		});
+	}
+	
+	public static void convert(File file, String meetingId, IoSession session) throws IOException{
+		convert(file, file.getName(), meetingId, session);
 	}
 	
 	public static Convertor getConvertor(String suffix){

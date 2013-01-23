@@ -33,6 +33,7 @@ public class Launcher {
 //        Thread.currentThread().setContextClassLoader(loader);
     	Connection.DEBUG_ENABLED = false;
     	try{
+    		DataUtil.setAppName(Constants.AppName.VOVO);
     		startLvmc(args);
     	}catch(Exception e){
     		log.error("main", e);
@@ -140,6 +141,11 @@ public class Launcher {
 	
 	public static LCMUtil getLCMUtil()throws Exception{
     	String xmlrpcUrl = "http://" + ConfigUtil.getProperty("serverIP") + ConfigUtil.getProperty("lcm.xmlrpc");
+    	return LCMUtil.newInstance(xmlrpcUrl);
+	}
+	
+	public static LCMUtil getLCMUtil(String serverIP)throws Exception{
+    	String xmlrpcUrl = "http://" + serverIP + ConfigUtil.getProperty("lcm.xmlrpc");
     	return LCMUtil.newInstance(xmlrpcUrl);
 	}
 }

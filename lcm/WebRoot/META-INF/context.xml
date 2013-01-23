@@ -27,7 +27,7 @@
 
 	<Resource name="mail/Session" auth="Container" type="javax.mail.Session"
 			mail.smtp.host="smtp.gmail.com" mail.smtp.auth="true" mail.smtp.port="587"
-			mail.transport.protocol="smtp" mail.smtp.starttls.enable="true"
-			mail.smtp.username="conference@lorentnetworks.com" mail.smtp.password="lorentnetwork"
-			mail.smtp.connectiontimeout="3000" mail.smtp.timeout="3000" />
+			mail.smtp.starttls.enable="true"
+			mail.smtp.user="conference@lorentnetworks.com" mail.smtp.password="lorentnetwork"
+			mail.smtp.connectiontimeout="5000" mail.smtp.timeout="5000" />
 </Context>
