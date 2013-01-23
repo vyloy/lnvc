@@ -84,14 +84,12 @@ public class MailUtil {
 					Message msg = (Message)(this.args[1]);
 					String[] receivers = (String[])(this.args[2]);
 					try{
-						Transport transport = session.getTransport();
+						Transport transport = session.getTransport("smtp");
 						transport.connect(session.getProperty("mail.smtp.host"),session.getProperty("mail.smtp.username"),session.getProperty("mail.smtp.password"));
 						transport.sendMessage(msg, msg.getAllRecipients());
-						System.out.println("send email to "+receivers.toString()+" success.........");
+						transport.close();
 						log.info("send email to "+receivers.toString()+" success.........");
 					}catch(Exception e){
-						e.printStackTrace();
-						System.out.println("send email to "+receivers.toString()+" fail.........");
 						log.error("send email to "+receivers.toString()+" fail.........",e);
 					}
 				}
@@ -114,7 +112,7 @@ public class MailUtil {
 	 */
 	private static Message initMsg(Session session,String subject,String content) throws Exception  {
 		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(PropertiesUtil.getConstant("mail.smtp.username")));
+//		msg.setFrom(new InternetAddress(session.getProperty("mail.smtp.username")));
 		msg.setSentDate(new Date());
 		msg.setSubject(subject);
 		Multipart multipart = new MimeMultipart();
