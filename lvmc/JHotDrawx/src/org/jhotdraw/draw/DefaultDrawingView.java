@@ -1009,7 +1009,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 	
 	private ConcurrentHashMap<Integer, BroadcastStateCommand> stateCommands = new ConcurrentHashMap<Integer, BroadcastStateCommand>();
 
-	private String id;
+	private String id,displayName;
 	
 	private transient Object draggingLock=new Object();
 	
@@ -1177,6 +1177,16 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	@Override
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	@Override

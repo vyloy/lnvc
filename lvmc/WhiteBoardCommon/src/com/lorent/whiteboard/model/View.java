@@ -39,4 +39,6 @@ public interface View {
 	Map<Integer, Long> getStateCommandIds();
 	int getPagecount();
 	JPanel getParentPanel();
+	String getDisplayName();
+	void setDisplayName(String displayName);
 }

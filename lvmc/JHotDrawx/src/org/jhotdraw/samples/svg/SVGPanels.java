@@ -143,7 +143,9 @@ public class SVGPanels implements CommandsManager{
 			if (vid == null)
 				throw new IllegalArgumentException("vid == null!");
 			SVGPanel svgPanel = new SVGPanel(true,writable);
-			svgPanel.getView().setId(vid);
+			DefaultDrawingView view = svgPanel.getView();
+			view.setId(vid);
+			view.setDisplayName(displayName);
 			SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
 			if(repeat!=null){
 				return repeat;
