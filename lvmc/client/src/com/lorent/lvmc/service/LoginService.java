@@ -146,7 +146,6 @@ public class LoginService extends BaseService {
             //log.error("", ex);
             throw e;
         }
-        ControllerFacade.execute("shareDesktopController", "startScreenShareProcess");
         
     	return true;
     }
@@ -239,7 +238,6 @@ public class LoginService extends BaseService {
             //log.error("", ex);
             throw e;
         }
-        ControllerFacade.execute("shareDesktopController", "startScreenShareProcess");
         log.info("登录成功");
         return true;
     }

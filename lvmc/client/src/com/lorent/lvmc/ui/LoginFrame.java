@@ -59,7 +59,7 @@ public class LoginFrame extends JFrame {
 			log.error("LoginFrame()", e);
 			e.printStackTrace();
 		}
-
+		autoLoginCb.setVisible(false);
 	}
 
 	//GEN-BEGIN:initComponents
