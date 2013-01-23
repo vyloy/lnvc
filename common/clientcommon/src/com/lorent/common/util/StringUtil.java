@@ -7,6 +7,7 @@ package com.lorent.common.util;
 import java.lang.reflect.Array;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.springframework.util.StringUtils;
@@ -18,7 +19,7 @@ import org.springframework.util.StringUtils;
 public class StringUtil {
     
     public static String getResourceString(String file, String key){
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle(file); 
+        ResourceBundle bundle = ResourceBundle.getBundle(file); 
         return bundle.getString(key);
     }
     
@@ -46,5 +47,18 @@ public class StringUtil {
     
     public static String arrayToDelimitedString(Object[] paras, String delim){
     	return StringUtils.arrayToDelimitedString(paras, delim);
+    }
+    
+    public StringUtil(){
+    }
+    
+    private ResourceBundle bundle;
+    
+    public StringUtil(String file){
+    	bundle = ResourceBundle.getBundle(file);
+    }
+    
+    public String getString(String key){
+    	return bundle.getString(key);
     }
 }
