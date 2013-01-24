@@ -138,6 +138,23 @@ public class SVGPanels implements CommandsManager{
 		}
 	}
 	
+	private SVGPanel createPanel(String vid,String displayName){
+		synchronized(panels){
+			if (vid == null)
+				throw new IllegalArgumentException("vid == null!");
+			SVGPanel svgPanel = new SVGPanel(true,writable);
+			DefaultDrawingView view = svgPanel.getView();
+			view.setId(vid);
+			view.setDisplayName(displayName);
+			SVGPanel repeat = panels.putIfAbsent(vid,svgPanel);
+			if(repeat!=null){
+				return repeat;
+			}
+			addToParent(svgPanel,displayName);
+			return svgPanel;
+		}
+	}
+	
 	public SVGPanel createPanel(String vid,long commandId){
 		synchronized(panels){
 			if (vid == null)
@@ -166,11 +183,22 @@ public class SVGPanels implements CommandsManager{
 
 				@Override
 				public void run() {
-					DefaultDrawingView view = panel.getView();
-					if(view.isDoc())
-						parent.addTab("画板:" + getSimpleFileName(view.getId()), panel);
-					else
-						parent.addTab("画板:" + view.getId(), panel);
+					parent.addTab("画板:" + panel.getView().getId(), panel);
+					int i = parent.indexOfComponent(panel);
+					if(writable)
+						new CloseTabButton(parent, i);
+				}
+			});
+		}
+	}
+	
+	private void addToParent(final SVGPanel panel,final String displayName){
+		if (parent != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					parent.addTab("画板:" + displayName, panel);
 					int i = parent.indexOfComponent(panel);
 					if(writable)
 						new CloseTabButton(parent, i);
@@ -210,6 +238,18 @@ public class SVGPanels implements CommandsManager{
 		SVGPanel panel = panels.get(id);
 		if(panel==null){
 			SVGPanel opanel = createPanel(id);
+			if(opanel!=null){
+				panel=opanel;
+			}
+		}
+		return panel.getView();
+	}
+	
+	@Override
+	public View getView(String id,String displayName){
+		SVGPanel panel = panels.get(id);
+		if(panel==null){
+			SVGPanel opanel = createPanel(id,displayName);
 			if(opanel!=null){
 				panel=opanel;
 			}
@@ -487,6 +527,8 @@ public class SVGPanels implements CommandsManager{
 
 	public void setWritable(boolean writable) {
 		synchronized(panels){
+			if(this.writable==writable)
+				return;
 			this.writable = writable;
 			if(writable){
 				for (SVGPanel p : panels.values()) {
