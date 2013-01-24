@@ -51,4 +51,6 @@
 	 <bean name="registerUserAction" class="com.lorent.web.action.RegisterUserAction" scope="session"  parent="baseAction"/>
 	 <!-- guestbook Action -->
 	 <bean name="guestbookAction" class="com.lorent.web.action.GuestBookAction" scope="session"  parent="baseAction"/>
+	 <!-- system paras Action -->
+	 <bean name="systemParasAction" class="com.lorent.web.action.SystemParasAction" scope="session"  parent="baseAction"/>
 </beans> 

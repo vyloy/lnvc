@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="module" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.systemparas.module")})}</message>
+		</field-validator>
+	</field>
+	<field name="key" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.systemparas.key")})}</message>
+		</field-validator>
+	</field>
+	<field name="value" >
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>${getText("page.validate.error.required",{getText("page.systemparas.value")})}</message>
+		</field-validator>
+	</field>
+</validators>
