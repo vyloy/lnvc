@@ -82,7 +82,7 @@ public class HeadImagePanel extends javax.swing.JPanel {
 		}
 	}
 
-	private void setSteteImg(int state) {
+	private void setStateImg(int state) {
 		try{
 			int scaleW = w;//(int)w/3;
 			int scaleH = h;//(int)h/3;
@@ -124,7 +124,7 @@ public class HeadImagePanel extends javax.swing.JPanel {
 		this.state = state;
 		this.w = w;
 		this.h = h;
-		setSteteImg(state);
+		setStateImg(state);
 		setMaximumSize(new java.awt.Dimension(w, h));
 		setMinimumSize(new java.awt.Dimension(w, h));
 		setPreferredSize(new java.awt.Dimension(w, h));

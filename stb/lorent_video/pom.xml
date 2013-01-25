@@ -114,26 +114,32 @@
 					</dependency>
 				</dependencies>
 				<executions>
+				    <execution>
+				        <id>package</id>
+						<phase>package</phase>
+						<configuration>
+						    <target>
+								<property name="releaseversion" value="${project.version}"/>
+								<property name="devicetype" value="${typename}"/>
+				                <ant antfile="build.xml" target="copy-apk"/>
+			                </target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
 					<execution>
+					    <id>process-resources</id>
 						<phase>process-resources</phase>
-						
 						<configuration>
 						    <target>
 				                
 				                <property name="compile_classpath" value="${apk.version}"/>
-								<echo message="maven  compile classpath: ${compile_classpath}"/>
+								<echo message="maven  compile classpath: ${typename}"/>
 								<property name="releaseversion" value="0.0.1"/>
-				                <ant antfile="build.xml" target="aidl">
-				                    <!-- <ant antfile="test.xml" target="test"> -->
-				                </ant>
+								<property name="devicetype" value="${typename}"/>
+				                <ant antfile="build.xml" target="aidl"/>
 			                </target>
-							<!-- <target>
-								<echo>copy R.java file</echo>
-								
-								<ant antfile="build.xml" target="aidl" >
-								    <property name="releaseversion" value="0.0.1"/>
-								</ant>
-							</target> -->
 						</configuration>
 						<goals>
 							<goal>run</goal>
