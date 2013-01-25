@@ -10,7 +10,9 @@
  */
 package org.monte.screenrecorder;
 
-import com.sun.awt.AWTUtilities;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -25,10 +27,14 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import static java.lang.Math.*;
+
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
+
+import com.sun.awt.AWTUtilities;
 
 /**
  * JRecordingAreaFrame.
@@ -261,7 +267,8 @@ public class JRecordingAreaFrame extends javax.swing.JFrame {
         // heavyweight component is created.
         setAlwaysOnTop(true);
         setUndecorated(true);
-        getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE); //$NON-NLS-1$
 
         setBackground(backgroundColor);
         JContentPane cp = new JContentPane();
@@ -292,7 +299,7 @@ public class JRecordingAreaFrame extends javax.swing.JFrame {
     public void updateLabel() {
         Rectangle r = getBounds();
         //r=r.intersection(getGraphicsConfiguration().getBounds());
-        infoLabel.setText("Recording Area: " + r.x + ", " + r.y + "; " + r.width + " x " + r.height);
+        infoLabel.setText(Messages.getString("JRecordingAreaFrame.recordingArea") + r.x + ", " + r.y + "; " + r.width + " x " + r.height); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
     /** This method is called from within the constructor to
@@ -311,17 +318,17 @@ public class JRecordingAreaFrame extends javax.swing.JFrame {
 
         FormListener formListener = new FormListener();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
-        infoLabel.setText("Recording Area: 0,0,640,480");
+        infoLabel.setText(Messages.getString("JRecordingAreaFrame.recordingAreaSample")); //$NON-NLS-1$
         infoPanel.add(infoLabel, new java.awt.GridBagConstraints());
 
         getContentPane().add(infoPanel, new java.awt.GridBagConstraints());
 
-        closeButton.setText("Close");
+        closeButton.setText(Messages.getString("JRecordingAreaFrame.close")); //$NON-NLS-1$
         closeButton.addActionListener(formListener);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;

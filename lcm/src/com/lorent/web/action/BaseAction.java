@@ -83,6 +83,7 @@ public abstract class BaseAction<E,ID> extends ActionSupport implements ModelDri
 		buttonMap.put("closeBilling", false);
 		buttonMap.put("statistics", false);
 		buttonMap.put("importUser", false);
+		buttonMap.put("exportUser", false);
 	}
 	/**
 	 * 初始化pagemap

@@ -76,6 +76,8 @@ public class MyTrayIcon {
 	
 	private JPopupMenu getLoginMenu(){
 		JPopupMenu loginMenu = new JPopupMenu();
+		loginMenu.add(aboutMI);
+		loginMenu.addSeparator();
 		loginMenu.add(exitMI);
 		return loginMenu;
 	}

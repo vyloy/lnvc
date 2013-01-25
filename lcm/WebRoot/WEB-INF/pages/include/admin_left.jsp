@@ -35,6 +35,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							title="<s:text name="page.display.text.resourceadmin.sysconfig" />">
 						<s:text name="page.display.text.resourceadmin.sysconfig" />
 					</a></div>
+					<div><a href="app/systemParasAction_toList_parasList.action" target="index_iframe"
+							title="<s:text name="page.systemparas.set" />">
+						<s:text name="page.systemparas.set" />
+					</a></div>
 					<!-- 会议录音管理 
 					<div><a href="app/recordMediaAction_toRecordList_recordMediaList.action" target="index_iframe"
 							title="<s:text name="page.display.text.resourceadmin.recordmediaconfig" />">

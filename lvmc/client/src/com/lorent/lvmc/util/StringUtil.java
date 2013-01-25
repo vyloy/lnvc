@@ -31,6 +31,11 @@ public class StringUtil {
         return MessageFormat.format(oriStr, paras);
     }
     
+    public static String getAppString(String key){
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/lorent/lvmc/config/app"); 
+        return bundle.getString(key);
+    }
+    
     public static String utf8Togb2312(String str)throws Exception{
       StringBuffer sb = new StringBuffer();
       for(int i=0; i<str.length(); i++) {

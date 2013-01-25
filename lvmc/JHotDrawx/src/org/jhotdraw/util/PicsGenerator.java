@@ -87,7 +87,7 @@ public class PicsGenerator implements Runnable {
 			SVGPanels.getInstance().registerPicsGenerator(virtualView.getId(),this);
 			final Task task = printPrintablePage();
 			requestThread = new RequestThread(task);
-			ioThread = new IOThread(virtualView.getId(),count,requestThread);
+			ioThread = new IOThread(virtualView.getDisplayName(),count,requestThread);
 			requestThread.start();
 			ioThread.start();
 		}else{
@@ -270,10 +270,12 @@ public class PicsGenerator implements Runnable {
 			File file = new File(folder,whiteboardId);
 			if(file.exists()){
 				if(file.isFile()){
+					failed();
 					return;
 				}
 			}else{
 				if(!file.mkdirs()){
+					failed();
 					return;
 				}
 			}
@@ -300,20 +302,24 @@ public class PicsGenerator implements Runnable {
 				logger.debug("whiteboard saving interrupted",e);
 			} catch (IOException e) {
 				logger.error("whiteboard saving error",e);
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						JOptionPane.showMessageDialog(null, "所指定的路径不可写，任务被取消，请检查保存目录。", "保存白板出错", JOptionPane.ERROR_MESSAGE);
-						JRootPane rootPane = SwingUtilities.getRootPane(progressBar);
-						Window parent = (Window) rootPane.getParent();
-						parent.dispose();
-					}
-				});
+				failed();
 			}finally{
 				SVGPanels.getInstance().removePicsGenerator(whiteboardId);
 				if(rThread!=null)
 					rThread.interrupt();
 			}
 			
+		}
+		
+		private void failed(){
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, "所指定的路径不可写，任务被取消，请检查保存目录，可能存在同名文件或者文件夹。", "保存白板出错", JOptionPane.ERROR_MESSAGE);
+					JRootPane rootPane = SwingUtilities.getRootPane(progressBar);
+					Window parent = (Window) rootPane.getParent();
+					parent.dispose();
+				}
+			});
 		}
 	}
 	

@@ -28,6 +28,7 @@ public interface CommandsManager extends MissingCommander{
 	BroadcastCloseWhiteboardCommand createCloseWhiteboardCommand(
 			String meetingId, String whiteboardId);
 	View getView(String id);
+	View getView(String id, String displayName);
 	JTabbedPane getContainer();
 	void acceptState(BroadcastStateCommand command);
 	Map<String, Map<Integer, Long>> getStateCommandIds();
