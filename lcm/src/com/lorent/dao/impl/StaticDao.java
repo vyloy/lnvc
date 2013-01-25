@@ -234,6 +234,13 @@ public class StaticDao extends HibernateDaoSupport implements Serializable{
 		}		
 	}
 	
+	public List<SystemParamBean> getSystemParamsByModule(String module)throws Exception{
+		SystemParamBean example = new SystemParamBean();
+		example.setModule(module);
+		List<SystemParamBean> objs = getByExample(example);
+		return objs;
+	}
+	
 	public void save(Object entity) {
 		getHibernateTemplate().save(entity);
 	}
@@ -264,5 +271,9 @@ public class StaticDao extends HibernateDaoSupport implements Serializable{
 	
 	public <T> void saveOrUpdate(List<T> list){
 		getHibernateTemplate().saveOrUpdateAll(list);
+	}
+	
+	public void delete(Object entity){
+		getHibernateTemplate().delete(entity);
 	}
 }
