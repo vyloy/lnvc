@@ -54,7 +54,8 @@ public class DataUtil {
         AppName,
         AleardyHangup,
         IsAnswer,
-        SelectAudioCodes
+        SelectAudioCodes,
+        SystemParas
     }
     
     public static <T> T getValue(Key key) {
@@ -142,5 +143,13 @@ public class DataUtil {
     
     public static void setAppName(Constants.AppName appName){
     	setValue(Key.AppName, appName);
+    }
+    
+    public static String getSystemPara(String key){
+    	Map<String, String> paras = getValue(Key.SystemParas);
+    	if(paras == null){
+    		return null;
+    	}
+    	return paras.get(key);
     }
 }

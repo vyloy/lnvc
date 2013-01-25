@@ -23,6 +23,7 @@ import org.jivesoftware.smack.packet.Presence;
 
 import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.lorent.common.dto.LCMConferenceDto;
+import com.lorent.common.util.LCMUtil;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.common.util.PasswordUtil;
 import com.lorent.common.util.PlatformUtil;
@@ -128,6 +129,32 @@ public class MainController extends BaseController{
 
     }
     
+    private boolean checkClientVersion(){
+    	int clientVersion = Integer.parseInt(StringUtil.getAppString("real.version"));
+    	Integer newestVersion = Integer.parseInt(DataUtil.getSystemPara("newest.real.version"));
+    	Integer compatibleVersion = Integer.parseInt(DataUtil.getSystemPara("compatible.real.version"));
+    	if(newestVersion != null && compatibleVersion != null){
+    		if(clientVersion == newestVersion){//已是最新版本
+    			return true;
+    		}else if(clientVersion >= compatibleVersion){//是兼容版本
+    			new Thread(){
+    				public void run() {
+    					String temp = StringUtil.getFormatString(StringUtil.getUIString("update.clientUpdateInfo"), DataUtil.getSystemPara("update.site"));
+    	    			JOptionPane.showMessageDialog(null, temp);
+    				};
+    			}.start();
+    			//获取最新版本信息并显示
+    			return true;
+    		}else{//低于兼容版本
+    			String temp = StringUtil.getFormatString(StringUtil.getUIString("update.clientMustUpdate"), DataUtil.getSystemPara("update.site"));
+    			JOptionPane.showMessageDialog(null, temp);
+    			return false;
+    		}
+    	}else{//服务器没有客户端版本信息
+    		return true;//TODO 暂时不处理
+    	}
+    }
+    
     public void doLogin(ParaUtil paras)throws Exception{
     	String username = paras.getValue("username");
     	String password = paras.getValue("password");
@@ -137,6 +164,15 @@ public class MainController extends BaseController{
     	String confno = paras.getValue("confno");
     	String serverIP = paras.getValue("serverIP");
     	
+    	//获取系统属性
+    	Map<String, String> systemProperties = Launcher.getLCMUtil(serverIP).getSystemProperties("lvmc");
+    	DataUtil.setValue(Key.SystemParas, systemProperties);
+    	
+    	//判断客户端是否需要更新
+    	if(!checkClientVersion()){
+    		return;
+    	}
+    	
     	//判断用户是否有效
     	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
     	if (!userIsValid) {
@@ -144,7 +180,11 @@ public class MainController extends BaseController{
 			return;
 		}
     	//判断会议是否存在
-    	
+    	boolean existConf = Launcher.getLCMUtil(serverIP).existConf(confno);
+    	if(!existConf){
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confNotExist"));
+			return;
+    	}
     	
         //判断会议密码
         Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(serverIP).getConfList();
