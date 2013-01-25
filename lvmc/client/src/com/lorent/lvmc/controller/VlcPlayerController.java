@@ -1,6 +1,7 @@
 package com.lorent.lvmc.controller;
 
 import java.awt.Canvas;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +30,10 @@ public class VlcPlayerController extends BaseController {
 	private DockingWindowAdapter windowAdapter = null;
 	static{
 //		System.out.println(System.getProperty("user.dir"));
-		VlcPlayer.init(System.getProperty("user.dir")+"\\vlc");
+		File file = new File(System.getProperty("user.dir")+"\\vlc\\libvlc.dll");
+		if (file.exists()) {
+			VlcPlayer.init(System.getProperty("user.dir")+"\\vlc");
+		}
 	}
 	
 	private void sendCommand(HashMap command) throws Exception{
