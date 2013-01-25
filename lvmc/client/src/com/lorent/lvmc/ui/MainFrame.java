@@ -120,10 +120,11 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		} catch (Exception e) {
 			log.error("MainFrame()", e);
 		}
-		if(LvmcUtil.isUCSAPP()){
+		if (LvmcUtil.isUCSAPP()) {
 			themeButton.setVisible(false);
 		}
-
+		this.guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
+		this.aboutBtn.setText(StringUtil.getUIString("main.menu.aboutus"));
 		instance = this;
 	}
 
@@ -161,6 +162,8 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		windowButton = new javax.swing.JButton();
 		screenShotButton = new javax.swing.JButton();
 		setupButton = new javax.swing.JButton();
+		guestbookBtn = new javax.swing.JButton();
+		aboutBtn = new javax.swing.JButton();
 		logoPanel = new javax.swing.JPanel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -370,7 +373,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 						"/com/lorent/lvmc/resource/images/screenshot.png"))); // NOI18N
 		screenShotButton
 				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.tools.txt"));
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
 		screenShotButton.setFocusable(false);
 		screenShotButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -403,6 +406,35 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(setupButton);
 
+		guestbookBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/lvmc/resource/images/guestbook.png"))); // NOI18N
+		guestbookBtn.setFocusable(false);
+		guestbookBtn
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		guestbookBtn.setMaximumSize(new java.awt.Dimension(58, 57));
+		guestbookBtn.setPreferredSize(new java.awt.Dimension(58, 57));
+		guestbookBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		guestbookBtn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				guestbookBtnActionPerformed(evt);
+			}
+		});
+		jToolBar1.add(guestbookBtn);
+
+		aboutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/lvmc/resource/images/main-about.png"))); // NOI18N
+		aboutBtn.setFocusable(false);
+		aboutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		aboutBtn.setMaximumSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setPreferredSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		aboutBtn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				aboutBtnActionPerformed(evt);
+			}
+		});
+		jToolBar1.add(aboutBtn);
+
 		logoPanel.setOpaque(false);
 		logoPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT,
 				5, 0));
@@ -423,13 +455,22 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {
+		ControllerFacade.execute("mainController", "showAboutDialog");
+	}
+
+	private void guestbookBtnActionPerformed(java.awt.event.ActionEvent evt) {
+		ControllerFacade.execute("mainController", "showGuestBook");
+	}
+
 	private void setupButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		SystemSetupPopupMenu systemSetupPopupMenu = new SystemSetupPopupMenu(this.setupButton);
+		SystemSetupPopupMenu systemSetupPopupMenu = new SystemSetupPopupMenu(
+				this.setupButton);
 		systemSetupPopupMenu.showPopup();
 	}
 
 	private void screenShotButtonActionPerformed(java.awt.event.ActionEvent evt) {
-//		ControllerFacade.execute("screenShotController", "capture");
+		//		ControllerFacade.execute("screenShotController", "capture");
 		new ToolsPopupMenu(this.screenShotButton).showPopup();
 	}
 
@@ -585,6 +626,8 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JButton aboutBtn;
+	private javax.swing.JButton guestbookBtn;
 	private javax.swing.JButton jButton3;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;

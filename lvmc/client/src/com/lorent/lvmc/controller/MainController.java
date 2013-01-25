@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,6 +40,7 @@ import com.lorent.lvmc.ui.MainFrame;
 import com.lorent.lvmc.ui.MainPanel;
 import com.lorent.lvmc.ui.MainWindow;
 import com.lorent.lvmc.ui.MemberListPanel;
+import com.lorent.lvmc.ui.MyGuestBook;
 import com.lorent.lvmc.ui.MyTrayIcon;
 import com.lorent.lvmc.ui.RegisterUserDialog;
 import com.lorent.lvmc.ui.ShareFileListPanel;
@@ -132,9 +135,19 @@ public class MainController extends BaseController{
     	Boolean savePasswd = paras.getValue("savePasswd");
     	String confpassword = paras.getValue("confpassword");
     	String confno = paras.getValue("confno");
+    	String serverIP = paras.getValue("serverIP");
+    	
+    	//判断用户是否有效
+    	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
+    	if (!userIsValid) {
+    		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
+			return;
+		}
+    	//判断会议是否存在
+    	
     	
         //判断会议密码
-        Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil().getConfList();
+        Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(serverIP).getConfList();
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);
 		if (lcmConferenceDto != null) {
 			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
@@ -177,14 +190,144 @@ public class MainController extends BaseController{
     }
     
     public void showRegisterUserDialog() throws Exception{
-    	RegisterUserDialog dialog = ViewManager.getComponent(RegisterUserDialog.class,new Class[] { java.awt.Frame.class,
-			boolean.class }, new Object[] { null, false });
+    	LoginFrame loginFrame = ViewManager.getComponent(LoginFrame.class);
+    	RegisterUserDialog dialog = new RegisterUserDialog(loginFrame, true);
     	ViewManager.setWindowCenterLocation(dialog);
     	dialog.setVisible(true);
     }
     
+    private boolean checkUserInput(RegisterUserDialog dialog) throws Exception{
+    	//检测输入
+    	String username = dialog.getUsernameInput().getText().trim();
+    	if (username == null || username.equals("")) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.needusername"));
+			return false;
+		}
+    	else{
+    		if (username.length() > 20) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.morethan20"));
+				return false;
+			}
+    	}
+    	String realname = dialog.getRealnameInput().getText().trim();
+    	if (realname == null || realname.equals("")) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.needrealname"));
+			return false;
+		}
+    	else{
+    		if (realname.length() > 30) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.realname.morethan30"));
+				return false;
+			}
+    	}
+    	String email = dialog.getEmailInput().getText().trim();
+    	if (email ==  null || email.equals("")) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.needemail"));
+			return false;
+		}
+    	else{
+    		if (email.length() > 50) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.email.morethan50"));
+				return false;
+			}
+    		else{
+    			 Pattern pattern =  null; //Pattern.compile("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
+    			 pattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+    			 Matcher matcher = pattern.matcher(email);
+    			 if (!matcher.matches()) {
+					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.email.formaterror"));
+					return false;
+				}
+    		}
+    	}
+    	String serverip = dialog.getServerIpInput().getText().trim();
+    	if (serverip == null || serverip.equals("")) {
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.needserverip"));
+    		return false;
+			
+		}
+    	else{
+    		if (serverip.length() > 15) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.morethan15"));
+				return false;
+			}
+    		else{
+    			//"\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b"
+    			String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+    			Pattern pattern = Pattern.compile(regex);
+    			Matcher matcher = pattern.matcher(serverip);
+    			if (!matcher.matches()) {
+					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.formaterror"));
+					return false;
+				}
+    		}
+    	}
+    	String password = dialog.getPasswdInput().getText();
+    	String repassword = dialog.getRePasswdInput().getText();
+    	if (password == null || password.equals("")) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.needpsw"));
+			return false;
+		}
+    	else{
+    		if (password.length() < 6) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.psw.lessthan6"));
+				return false;
+			}
+    		else if(password.length() > 15){
+    			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.psw.morethan15"));
+    			return false;
+    		}
+    		if (!password.equals(repassword)) {
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.psw.different"));
+				return false;
+			}
+    	}
+    	return true;
+    }
+    
     public void doRegisterUser(RegisterUserDialog dialog) throws Exception{
-    	 Launcher.getLCMUtil();
+    	if (checkUserInput(dialog)) {
+    		String username = dialog.getUsernameInput().getText().trim();
+    		String password = dialog.getPasswdInput().getText();
+    		String realname = dialog.getRealnameInput().getText().trim();
+    		String email = dialog.getEmailInput().getText().trim();
+    		String phone = dialog.getPhoneInput().getText().trim();
+    		String gender = dialog.getGenderComboBox().getSelectedItem().toString();
+    		if (gender.equals("男")) {
+				gender = "male";
+			}
+    		else{
+    			gender = "female";
+    		}
+    		String mobile = dialog.getMobileInput().getText().trim();
+    		String department = "";
+    		String position = "";
+    		String code = "";
+    		String lcc_account = "";
+			String serverIP = dialog.getServerIpInput().getText().trim();
+			try {
+				boolean registerUser = Launcher.getLCMUtil(serverIP).registerUser(username, password, realname, email, phone, gender, mobile, department, position, code, lcc_account, serverIP);
+				if (registerUser) {
+					JOptionPane.showMessageDialog(null, StringUtil.getUIString("registerUser.reg.sendmailok"));
+					dialog.dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.error"));
+				}
+			} catch (Exception e) {
+				String message = e.getMessage();
+				String substring = message.substring(message.indexOf(":")+1);
+				if (substring.trim().equals("Connection refused: connect")) {
+					substring = StringUtil.getErrorString("registerUser.reg.connectRefused");
+				}
+				JOptionPane.showMessageDialog(null, substring);
+				log.error("注册失败",e);
+				e.printStackTrace();
+			}
+		}
     }
     
     public JPanel getMainPanel(ParaUtil paras)throws Exception{
@@ -293,6 +436,7 @@ public class MainController extends BaseController{
 			            log.info("osversion: "+osVersion);
 //			            services.getScreenShareService().unInitScreenShareService();
 //			            Thread.sleep(4000);
+			            services.getScreenShareService().stopScreenShareProcess();
 			            
 			            boolean processExists = com.lorent.common.util.ProcessUtil.getInstance().processExists("winvnc.exe");
 			            if (!processExists) {
@@ -306,6 +450,7 @@ public class MainController extends BaseController{
 				            	services.getScreenShareService().installScreenShareService();
 				            }
 			            	*/
+			            	
 			            	Process startScreenShareProcess = services.getScreenShareService().startScreenShareProcess();
 			            	DataUtil.setValue(DataUtil.Key.ScreenShareProcess, startScreenShareProcess);
 						}
@@ -730,6 +875,12 @@ public class MainController extends BaseController{
     		this.showErrorDialog(StringUtil.getErrorString("error.title"), StringUtil.getErrorString("permission.onlyHostCanDo"));
     		return;
     	}
+    }
+    
+    public void showGuestBook()throws Exception{
+    	MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
+    	MyGuestBook book = ViewManager.getComponent(MyGuestBook.class, new Class[]{Frame.class, Boolean.class}, new Object[]{mainFrame, true});
+    	book.setVisible(true);
     }
     
     

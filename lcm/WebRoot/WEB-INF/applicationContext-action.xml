@@ -47,4 +47,10 @@
 	 <bean name="sysServerConfigAction" class="com.lorent.web.action.SysServerConfigAction" scope="session" parent="baseAction" />
 	 <!-- organ Action -->
 	 <bean name="organAction" class="com.lorent.web.action.OrganAction" scope="session" parent="baseAction" />
+	 <!-- registerUser Action -->
+	 <bean name="registerUserAction" class="com.lorent.web.action.RegisterUserAction" scope="session"  parent="baseAction"/>
+	 <!-- guestbook Action -->
+	 <bean name="guestbookAction" class="com.lorent.web.action.GuestBookAction" scope="session"  parent="baseAction"/>
+	 <!-- system paras Action -->
+	 <bean name="systemParasAction" class="com.lorent.web.action.SystemParasAction" scope="session"  parent="baseAction"/>
 </beans> 

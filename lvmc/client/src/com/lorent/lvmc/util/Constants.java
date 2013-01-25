@@ -127,4 +127,6 @@ public class Constants {
     public static final int REVOKE_AUTHORITY = -1;
     
     public static final Object[] AUDIO_CODES = {"PCMU", "G729", "G711", "SILK"};
+    
+    public static final int GUEST_BOOK_MAX = 500;
 }
