@@ -32,9 +32,9 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 	public CameraHeadImgDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
-		this.takePhoneButton.setEnabled(false);
+		this.takePhotoButton.setEnabled(false);
 		this.saveButton.setVisible(false);
-		this.repeatPhoneButton.setVisible(false);
+		this.repeatPhotoButton.setVisible(false);
 		try {
 			fmj = new FmjUtil();
 			fmj.setCameraProcess(new CameraProcess(){
@@ -50,7 +50,7 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 
 				@Override
 				public void doEnable() {
-					takePhoneButton.setEnabled(true);
+					takePhotoButton.setEnabled(true);
 				}
 				
 			});
@@ -84,9 +84,9 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 
 		cameraPanel = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
-		takePhoneButton = new javax.swing.JButton();
+		takePhotoButton = new javax.swing.JButton();
 		saveButton = new javax.swing.JButton();
-		repeatPhoneButton = new javax.swing.JButton();
+		repeatPhotoButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(Vovo.getMyContext().getViewManager().getUIString(
@@ -112,14 +112,14 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 
 		jPanel2.setOpaque(false);
 
-		takePhoneButton.setText(Vovo.getMyContext().getViewManager()
+		takePhotoButton.setText(Vovo.getMyContext().getViewManager()
 				.getUIString("CameraHeadImgDialog.takephone.txt"));
-		takePhoneButton.addActionListener(new java.awt.event.ActionListener() {
+		takePhotoButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				takePhoneButtonActionPerformed(evt);
 			}
 		});
-		jPanel2.add(takePhoneButton);
+		jPanel2.add(takePhotoButton);
 
 		saveButton.setText(Vovo.getMyContext().getViewManager().getUIString(
 				"CameraHeadImgDialog.savephone.txt"));
@@ -130,15 +130,15 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 		});
 		jPanel2.add(saveButton);
 
-		repeatPhoneButton.setText(Vovo.getMyContext().getViewManager()
+		repeatPhotoButton.setText(Vovo.getMyContext().getViewManager()
 				.getUIString("CameraHeadImgDialog.repeatphone.txt"));
-		repeatPhoneButton
+		repeatPhotoButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						repeatPhoneButtonActionPerformed(evt);
 					}
 				});
-		jPanel2.add(repeatPhoneButton);
+		jPanel2.add(repeatPhotoButton);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
@@ -168,17 +168,17 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 	}
 
 	private void repeatPhoneButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		fmj.repeatPhone();
-		this.takePhoneButton.setVisible(true);
+		fmj.repeatPhoto();
+		this.takePhotoButton.setVisible(true);
 		this.saveButton.setVisible(false);
-		this.repeatPhoneButton.setVisible(false);
+		this.repeatPhotoButton.setVisible(false);
 	}
 
 	private void takePhoneButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		image = fmj.takePhone();
-		this.takePhoneButton.setVisible(false);
+		image = fmj.takePhoto();
+		this.takePhotoButton.setVisible(false);
 		this.saveButton.setVisible(true);
-		this.repeatPhoneButton.setVisible(true);
+		this.repeatPhotoButton.setVisible(true);
 	}
 
 	/**
@@ -203,9 +203,9 @@ public class CameraHeadImgDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JPanel cameraPanel;
 	private javax.swing.JPanel jPanel2;
-	private javax.swing.JButton repeatPhoneButton;
+	private javax.swing.JButton repeatPhotoButton;
 	private javax.swing.JButton saveButton;
-	private javax.swing.JButton takePhoneButton;
+	private javax.swing.JButton takePhotoButton;
 	// End of variables declaration//GEN-END:variables
 
 }

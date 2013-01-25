@@ -134,6 +134,17 @@
         </classpath>  
     </taskdef>
 
+    <!-- copy apk from target dir to bin dir -->
+    <target name="copy-apk">
+        <copy todir="${outdir-bin}">
+			<fileset dir="${maven-target-dir}">
+				<include name="${apk.name}-${releaseversion}.apk"/>
+			</fileset>
+		</copy>
+		<move file="${outdir-bin}/${apk.name}-${releaseversion}.apk"
+   			tofile="${outdir-bin}/${apk.name}_${devicetype}.apk" />
+    </target>
+    
     
 	<target name="build-many-package">  
         <foreach target="update-generate-file" param="devicetype" list="${device-stb};${device-phone};${device-cloudtv}" delimiter=";" />  

@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 	private static Drawable bgDrawable;
 	private static DeviceType deviceTemp;
 	static{
-		String deviceType = StringUtil.getConfigValueByKey("DeviceType");
+		String deviceType = StringUtil.getConfigValueByKey("DeviceType").trim();
 		if(deviceType.equalsIgnoreCase(DeviceType.PHONE.toString())){
 			deviceTemp = DeviceType.PHONE;
 		}else if(deviceType.equalsIgnoreCase(DeviceType.STB.toString())){
