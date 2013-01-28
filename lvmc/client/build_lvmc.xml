@@ -8,7 +8,8 @@
 	<property name="lvmc.pack.dir" location="${pack.dir}/tools/install_tool/lvmc_project/lvmc" />
 	<property name="launch4j.dir" location="${pack.dir}/tools/Launch4j" />
 	<property name="dest.dir" location="${lvnc.dir}/../output" />
-
+	
+	
 	<patternset id="copy.files">
 		<include name="vnc/**" />
 		<include name="lvmc.exe" />
@@ -49,6 +50,7 @@
 		<mkdir dir="${dest.dir}" />
 		<antcall target="buildInstallPackage">
 		</antcall>
+		<copy todir="${dest.dir}" file="${pack.dir}/tools/install_tool/lvmc_project/PROJECT_ASSISTANT/SINGLE_EXE_IMAGE/DiskImages/DISK1/lvmc_setup.exe"/>
 	</target>
 	<target name="buildexe">
 	

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.xmlrpc.XmlRpcConfigImpl;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.server.PropertyHandlerMapping;
+import org.apache.xmlrpc.server.XmlRpcServerConfigImpl;
 import org.apache.xmlrpc.webserver.XmlRpcServletServer;
 
 public class LcmRpcServlet extends HttpServlet {
@@ -45,9 +46,11 @@ public class LcmRpcServlet extends HttpServlet {
 				handlerMapping.addHandler(strs[0], Class.forName(strs[1]));
 			}
 			server.setHandlerMapping(handlerMapping);
-			XmlRpcConfigImpl rpcConfig = (XmlRpcConfigImpl)server.getConfig();
+			XmlRpcServerConfigImpl rpcConfig = (XmlRpcServerConfigImpl)server.getConfig();
+			rpcConfig.setEnabledForExceptions(true);
 			rpcConfig.setEnabledForExtensions(true);
 			rpcConfig.setContentLengthOptional(false);
+			
 		} catch (XmlRpcException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

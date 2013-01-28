@@ -42,6 +42,7 @@ public class LCMUtil {
     	this.xmlrpcUrl = xmlrpcUrl;
         config.setServerURL(new URL(xmlrpcUrl));
         config.setEnabledForExtensions(true);
+        config.setEnabledForExceptions(true);
         config.setReplyTimeout(20 * 1000);
         client = new XmlRpcClient();
         client.setConfig(config);
@@ -279,34 +280,46 @@ public class LCMUtil {
     	return objs;
     }
     
+    public Map<String, String> getSystemProperties(String module)throws Exception{
+    	Map<String, String> map = (Map<String, String>)client.execute("lcmConf.getSystemProperties", new Object[]{module});
+    	return map;
+    }
+    
+    public boolean existConf(String confno)throws Exception{
+    	boolean flag = (Boolean)client.execute("lcmConf.existConf", new Object[]{confno});
+    	return flag;
+    }
+    
     public static void main(String[] args) throws Exception{
         String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
-//        xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
+        xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
-        int x = 0;
-        int y = 6;
-        LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
-        for (LCMVideoClip lcmVideoClip : videoClipList) {
-			System.out.println("全部: " +lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
-		}
-        System.out.println("length: "+lcm.getVideoListLength());
-       
-        LCMVideoClip[] monitorList = lcm.getMonitorList(x, y);
-        if (monitorList != null) {
-        	for (LCMVideoClip lcmVideoClip : monitorList) {
-        		System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
-        	}
-        	System.out.println("length: "+lcm.getVideoListLength());
-		}
-        
-       videoClipList = lcm.getVideoClipList(x, y, "电影");
-       if (videoClipList != null) {
-    	   for (LCMVideoClip lcmVideoClip : videoClipList) {
-    		   System.out.println("电影"+ lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
-    	   }
-    	   System.out.println("电影 length: "+lcm.getVideoListLength("电影"));
-		
-       }
+        Map<String, String> map = lcm.getSystemProperties("lvmc");
+        System.out.println(map);
+//        int x = 0;
+//        int y = 6;
+//        LCMVideoClip[] videoClipList = lcm.getVideoClipList(x, y);
+//        for (LCMVideoClip lcmVideoClip : videoClipList) {
+//			System.out.println("全部: " +lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+//		}
+//        System.out.println("length: "+lcm.getVideoListLength());
+//       
+//        LCMVideoClip[] monitorList = lcm.getMonitorList(x, y);
+//        if (monitorList != null) {
+//        	for (LCMVideoClip lcmVideoClip : monitorList) {
+//        		System.out.println(lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+//        	}
+//        	System.out.println("length: "+lcm.getVideoListLength());
+//		}
+//        
+//       videoClipList = lcm.getVideoClipList(x, y, "电影");
+//       if (videoClipList != null) {
+//    	   for (LCMVideoClip lcmVideoClip : videoClipList) {
+//    		   System.out.println("电影"+ lcmVideoClip.getId()+","+lcmVideoClip.getHttpVideoUrlHigh()+","+lcmVideoClip.getThumbnailUrl());
+//    	   }
+//    	   System.out.println("电影 length: "+lcm.getVideoListLength("电影"));
+//		
+//       }
 //		lcm.uploadMonitorInfo("url123", "ftp://xxxx", "biaoti", "miaoshu", "10.168.250.12", "createname", "33013");
 		
 //        lcm.deleteVideoClip(3);
