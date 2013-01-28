@@ -37,7 +37,7 @@ INSERT INTO conf_role_authority (authority_id, role_id) VALUES (6, 1);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (7, 2);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (8, 1);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (9, 2);
-INSERT INTO conf_role_authority (authority_id, role_id) VALUES (10, 2);
+--INSERT INTO conf_role_authority (authority_id, role_id) VALUES (10, 2);
 
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 1);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 2);
