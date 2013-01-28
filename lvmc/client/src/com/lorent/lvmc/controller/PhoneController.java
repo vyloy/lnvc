@@ -177,10 +177,10 @@ public class PhoneController extends BaseController {
                 isExitApplication = false;
             }
 			memberinfomap.clear();
-    		if(Launcher.isStartedFromOutSide){
+//    		if(Launcher.isStartedFromOutSide){
     			DataUtil.setValue(DataUtil.Key.AleardyHangup, true);
     			Launcher.stopLvmcFromOutSide();
-    		}
+//    		}
 		}
     }
     

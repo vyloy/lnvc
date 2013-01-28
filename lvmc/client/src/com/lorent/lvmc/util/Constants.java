@@ -87,7 +87,7 @@ public class Constants {
     public static final String PLAF_SMART = "com.jtattoo.plaf.smart.SmartLookAndFeel";
     public static final String PLAF_CUSTOM = "com.jtattoo.plaf.custom.systemx.SystemXLookAndFeel";
     
-    public static final String APPLICATION_NAME = "VOVOT.exe";
+    public static final String APPLICATION_NAME = "lvmc.exe";
 
     public enum AppName{
     	UCS,

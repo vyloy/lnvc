@@ -448,6 +448,7 @@ public class MainController extends BaseController{
 //    	w.getDockingLayoutMeetingPanel().addPanel(p, StringUtil.getUIString("MemberListPanel.title"), "memberListPanel", null);
             createMemberList();
             w.getDockingLayoutMeetingPanel().addPanel(ViewManager.getComponent(MemberListPanel.class), StringUtil.getUIString("MemberListPanel.title"), "memberListPanel", null,StringUtil.getUIString("MemberListPanel.img"));
+            ViewManager.getComponent(MemberListPanel.class).refreshOperatePanel();
             w.getDockingLayoutMeetingPanel().addPanel(ViewManager.getComponent(ChatMainPanel.class), StringUtil.getUIString("ChatMainPanel.title"), "chatMainPanel", null,StringUtil.getUIString("ChatMainPanel.img"));
             initChatMainPanelCombox();
 //            List<MemberDto> members = getMemberList();
@@ -538,12 +539,12 @@ public class MainController extends BaseController{
             this.showMessageDialog(StringUtil.getErrorString("info.tip"), StringUtil.getErrorString("maincontroller.showLogin.soundcard.error"));
 //            return;
         }
-    	if((Boolean)DataUtil.getValue(Key.Restart)){
-    		String reason = ConfigUtil.getProperty("RestartReason");
-    		if(!reason.equals("")){
-    			this.showMessageDialog(StringUtil.getErrorString("info.tip"), reason);
-    		}
-    	}
+//    	if((Boolean)DataUtil.getValue(Key.Restart)){
+//    		String reason = ConfigUtil.getProperty("RestartReason");
+//    		if(!reason.equals("")){
+//    			this.showMessageDialog(StringUtil.getErrorString("info.tip"), reason);
+//    		}
+//    	}
     	UIManager.setLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName", "com.jtattoo.plaf.mcwin.McWinLookAndFeel"));
 //    	ViewManager.changeLookAndFeelOnLoginFrame(ViewManager.getLookAndFeelByConf(ConfigUtil.getProperty("desktop.style")));
     	log.info("显示trayicon");
@@ -727,12 +728,12 @@ public class MainController extends BaseController{
     	if (packet.getType() == Presence.Type.unavailable) {
     		if (!Launcher.isStartedFromOutSide && DataUtil.getLoginInfo() != null) {
         		if (username.equals(DataUtil.getLoginInfo().getUsername()) && !packet.isAvailable()) {
-            		log.info("kickByRoom "+username+" "+packet+" "+packet.toXML());
+            		log.info("kickByRoom "+username);
             		MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
             		mainFrame.setExtendedState(mainFrame.MAXIMIZED_BOTH);
             		mainFrame.toFront();
-        			JOptionPane.showMessageDialog(mainFrame, StringUtil.getUIString("kickByRoom.text"));
-        			exitApplicationWithoutConfirm(false, null);
+//        			JOptionPane.showMessageDialog(mainFrame, StringUtil.getUIString("kickByRoom.text"));
+        			exitApplicationWithoutConfirm(false, StringUtil.getUIString("kickByRoom.lvmc.text"));
         		}
     		}
         	else if(Launcher.isStartedFromOutSide && DataUtil.getLoginInfo() != null 
@@ -750,7 +751,7 @@ public class MainController extends BaseController{
 		}
     }
     
-    public void exitApplicationWithoutConfirm(boolean isRestartApp, String restartReason) throws Exception{
+    public void exitApplicationWithoutConfirm(boolean isRestartApp, String exitReason) throws Exception{
         log.info("退出应用程序");
         try{
             ControllerFacade.execute("phoneController", "exitApplication", ((LoginInfo)DataUtil.getValue(DataUtil.Key.LoginInfo)).getConfno());
@@ -766,13 +767,18 @@ public class MainController extends BaseController{
 //        services.getScreenShareService().unInitScreenShareService();
         ControllerFacade.execute("shareDesktopController", "stopScreenShare");
         
+    	if(exitReason!=null && !exitReason.equals("")){
+    		JOptionPane.showMessageDialog(null, exitReason);
+    	}
         if(isRestartApp){
         	ConfigUtil.setProperty("restart", true + "");
-        	ConfigUtil.setProperty("RestartReason", restartReason);
             ProcessUtil.getInstance().restartApplication();
+        }else{
+        	 System.exit(0);
         }
-        Thread.sleep(500);
-        System.exit(0);
+//        Thread.sleep(500);
+       
+
     }
     
     public void exitApplication() throws Exception{
