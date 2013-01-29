@@ -1,5 +1,6 @@
 package com.lorent.common.util;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,7 +68,8 @@ public class HttpUtil {
 			String key = it.next();
 			nvps.add(new BasicNameValuePair(key, map.get(key)));
 		}		
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps, Charset.forName("utf8")));
+		
 		HttpResponse response2 = httpclient.execute(httpPost);
 
 		try {
@@ -85,11 +87,12 @@ public class HttpUtil {
 		}
 	}
 	
+	
 	public static void main(String[] args) throws Exception{
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("sender", "33012");
-		map.put("content", "jack123");
-		ResponseEntity re = doPost("http://127.0.0.1:6090/lcm/ajax/guestbook_sendAdvice.action", map);
+		map.put("content", "我是谁");
+		ResponseEntity re = doPost("http://10.168.150.72:6090/lcm/ajax/guestbook_sendAdvice.action", map);
 		System.out.println(re);
 	}
 }
