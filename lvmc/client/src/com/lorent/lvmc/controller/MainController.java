@@ -200,7 +200,7 @@ public class MainController extends BaseController{
     	//判断用户是否有效
     	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
     	if (!userIsValid) {
-    		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.user.NotActive"));
 			return;
 		}
     	//判断会议是否存在
@@ -209,13 +209,22 @@ public class MainController extends BaseController{
     		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confNotExist"));
 			return;
     	}
+    	//判断会议是否超出人数限制 
+    	int maxnum = Launcher.getLCMUtil(serverIP).getConfUserNum();
+    	Object[] xmlrpcConf = Launcher.getLCMUtil(serverIP).getForwardConferenceByConfNo(confno);
+    	Integer memberCount = (Integer) xmlrpcConf[2];
+    	if (maxnum <= memberCount) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confIsMaxNum"));
+    		return;
+		}
+    	
     	
         //判断会议密码
         Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(serverIP).getConfList();
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);
 		if (lcmConferenceDto != null) {
 			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
-				JOptionPane.showMessageDialog(null, "会议密码错误");
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.conf.passworderror"));
 //				throw new Exception("会议密码错误");
 				return;
 			}
