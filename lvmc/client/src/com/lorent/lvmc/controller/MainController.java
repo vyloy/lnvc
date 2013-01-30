@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 import org.jhotdraw.samples.svg.SVGPanels;
@@ -34,6 +38,7 @@ import com.lorent.lvmc.dto.MemberDto;
 import com.lorent.lvmc.service.FetchMemberInfoService;
 import com.lorent.lvmc.ui.AboutDialog;
 import com.lorent.lvmc.ui.ChatMainPanel;
+import com.lorent.lvmc.ui.ConfListDialog;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
 import com.lorent.lvmc.ui.InviteDialog;
 import com.lorent.lvmc.ui.LoginFrame;
@@ -265,6 +270,8 @@ public class MainController extends BaseController{
     public void showRegisterUserDialog() throws Exception{
     	LoginFrame loginFrame = ViewManager.getComponent(LoginFrame.class);
     	RegisterUserDialog dialog = new RegisterUserDialog(loginFrame, true);
+    	String serverIP = loginFrame.getServerIPIt().getText();
+    	dialog.getServerIpInput().setText(serverIP);
     	ViewManager.setWindowCenterLocation(dialog);
     	dialog.setVisible(true);
     }
@@ -962,5 +969,26 @@ public class MainController extends BaseController{
     	book.setVisible(true);
     }
     
-    
+    public void showSelectConfListDialog(LoginFrame frame) throws Exception{
+    	String ip = frame.getServerIPIt().getText().trim();
+    	ConfListDialog dialog = new ConfListDialog(frame, true);
+    	ViewManager.setWindowCenterLocation(dialog);
+    	
+    	DefaultTableModel model = (DefaultTableModel) dialog.getConfListTable().getModel();
+    	Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(ip).getConfList();
+    	Set<Entry<String, LCMConferenceDto>> entrySet = confList.entrySet();
+    	for (Entry<String, LCMConferenceDto> entry : entrySet) {
+			LCMConferenceDto value = entry.getValue();
+			
+			model.addRow(new Object[]{value.getConfNo(),value.getConferenceName(),value.getDescription()});
+		}
+    	dialog.setVisible(true);
+    	
+    	boolean clickedOK = dialog.isClickedOK();
+    	int selectedRow = dialog.getConfListTable().getSelectedRow();
+    	if (clickedOK && selectedRow != -1) {
+			String conf = (String) dialog.getConfListTable().getModel().getValueAt(selectedRow, 0);
+			frame.getConfnoIt().setText(conf);
+		}
+    }
 }
