@@ -22,6 +22,7 @@ import com.lorent.common.dto.LCMConferenceTypeBean;
 import com.lorent.common.dto.LCMMobileBean;
 import com.lorent.common.util.PasswordUtil;
 import com.lorent.common.util.SMSUtil;
+import com.lorent.dto.XmlrpcConf;
 import com.lorent.exception.ArgsException;
 import com.lorent.model.ConferenceBean;
 import com.lorent.model.ConferenceNewBean;
@@ -853,6 +854,21 @@ public class ConferenecHandler extends BaseHandler {
 	public Object[] getCurrentForwardConfInfo()throws Exception{
 		log.info("getCurrentForwardConfInfo");
 		return serviceFacade.getConferenceNewService().getCurrentForwardConfInfo();
+	}
+	
+	public Object[] getForwardConferenceByConfNo(String confNo) throws Exception{
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+//		List<XmlrpcConf> confs = McuXmlrpc.getForwardConferenceList(xmlrpcUrl);
+		Object[] result = new Object[4];
+		XmlrpcConf xmlrpcConf = McuXmlrpc.getForwardConferenceByConfNo(xmlrpcUrl, confNo);
+		if (xmlrpcConf != null) {
+			result[0] = xmlrpcConf.getConfno();
+//			result[1] = xmlrpcConf.getLayout();
+			result[2] = xmlrpcConf.getMemberCount();
+//			result[3] = xmlrpcConf.getQuality();
+		}
+		return result;
 	}
 	
 	public boolean broadcastVideoCommand(String confNo,String from,Object[] toLccnos,HashMap command) throws Exception{

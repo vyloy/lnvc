@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 import org.jhotdraw.samples.svg.SVGPanels;
@@ -34,6 +38,7 @@ import com.lorent.lvmc.dto.MemberDto;
 import com.lorent.lvmc.service.FetchMemberInfoService;
 import com.lorent.lvmc.ui.AboutDialog;
 import com.lorent.lvmc.ui.ChatMainPanel;
+import com.lorent.lvmc.ui.ConfListDialog;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
 import com.lorent.lvmc.ui.InviteDialog;
 import com.lorent.lvmc.ui.LoginFrame;
@@ -200,7 +205,7 @@ public class MainController extends BaseController{
     	//判断用户是否有效
     	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
     	if (!userIsValid) {
-    		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.user.NotActive"));
 			return;
 		}
     	//判断会议是否存在
@@ -209,13 +214,22 @@ public class MainController extends BaseController{
     		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confNotExist"));
 			return;
     	}
+    	//判断会议是否超出人数限制 
+    	int maxnum = Launcher.getLCMUtil(serverIP).getConfUserNum();
+    	Object[] xmlrpcConf = Launcher.getLCMUtil(serverIP).getForwardConferenceByConfNo(confno);
+    	Integer memberCount = (Integer) xmlrpcConf[2];
+    	if (maxnum <= memberCount) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confIsMaxNum"));
+    		return;
+		}
+    	
     	
         //判断会议密码
         Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(serverIP).getConfList();
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);
 		if (lcmConferenceDto != null) {
 			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
-				JOptionPane.showMessageDialog(null, "会议密码错误");
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.conf.passworderror"));
 //				throw new Exception("会议密码错误");
 				return;
 			}
@@ -256,6 +270,8 @@ public class MainController extends BaseController{
     public void showRegisterUserDialog() throws Exception{
     	LoginFrame loginFrame = ViewManager.getComponent(LoginFrame.class);
     	RegisterUserDialog dialog = new RegisterUserDialog(loginFrame, true);
+    	String serverIP = loginFrame.getServerIPIt().getText();
+    	dialog.getServerIpInput().setText(serverIP);
     	ViewManager.setWindowCenterLocation(dialog);
     	dialog.setVisible(true);
     }
@@ -953,5 +969,26 @@ public class MainController extends BaseController{
     	book.setVisible(true);
     }
     
-    
+    public void showSelectConfListDialog(LoginFrame frame) throws Exception{
+    	String ip = frame.getServerIPIt().getText().trim();
+    	ConfListDialog dialog = new ConfListDialog(frame, true);
+    	ViewManager.setWindowCenterLocation(dialog);
+    	
+    	DefaultTableModel model = (DefaultTableModel) dialog.getConfListTable().getModel();
+    	Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(ip).getConfList();
+    	Set<Entry<String, LCMConferenceDto>> entrySet = confList.entrySet();
+    	for (Entry<String, LCMConferenceDto> entry : entrySet) {
+			LCMConferenceDto value = entry.getValue();
+			
+			model.addRow(new Object[]{value.getConfNo(),value.getConferenceName(),value.getDescription()});
+		}
+    	dialog.setVisible(true);
+    	
+    	boolean clickedOK = dialog.isClickedOK();
+    	int selectedRow = dialog.getConfListTable().getSelectedRow();
+    	if (clickedOK && selectedRow != -1) {
+			String conf = (String) dialog.getConfListTable().getModel().getValueAt(selectedRow, 0);
+			frame.getConfnoIt().setText(conf);
+		}
+    }
 }

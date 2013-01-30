@@ -66,6 +66,11 @@
 			<artifactId>MeetingRecorder</artifactId>
 			<version>${lnvc.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jdesktop</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>lvmc</finalName>

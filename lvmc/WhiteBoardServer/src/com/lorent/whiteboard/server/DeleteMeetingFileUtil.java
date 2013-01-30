@@ -147,14 +147,15 @@ public class DeleteMeetingFileUtil {
 								long modifyTime = Long.parseLong(modifyTimeStr);
 								long currentTime = System.currentTimeMillis();
 								if (currentTime - modifyTime >= saveTime) {
+									String filename = f.getName();
 									f.delete();
 									ConfigUtil deleteConfigUtil = FileListConfigUtilFactory
 											.getDeleteFileListConfUtilByMeetingID(f
 													.getParentFile().getName());
 									try {
-										deleteConfigUtil.removeProperty(f
-												.getName());
+										deleteConfigUtil.removeProperty(filename);
 									} catch (Exception e) {
+										logger.error("delete1stLevelFilesInDir", e);
 										e.printStackTrace();
 									}
 								}

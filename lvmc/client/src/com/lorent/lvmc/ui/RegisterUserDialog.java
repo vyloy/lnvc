@@ -98,6 +98,8 @@ public class RegisterUserDialog extends javax.swing.JDialog {
 
 		rePasswdInput.setLabel("*\u91cd\u590d\u5bc6\u7801");
 
+		jPanel3.setOpaque(false);
+
 		jLabel1.setLabelFor(genderComboBox);
 		jLabel1.setText("\u6027\u522b");
 
@@ -126,6 +128,7 @@ public class RegisterUserDialog extends javax.swing.JDialog {
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addComponent(jLabel1)));
 
+		serverIpInput.setEnable(false);
 		serverIpInput.setLabel("*\u670d\u52a1\u5668\u5730\u5740");
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(

@@ -280,6 +280,11 @@ public class LCMUtil {
     	return objs;
     }
     
+    public Object[] getForwardConferenceByConfNo(String confNo) throws Exception{
+    	Object[] objs = (Object[])client.execute("lcmConf.getForwardConferenceByConfNo",new Object[]{confNo});
+    	return objs;
+    }
+    
     public Map<String, String> getSystemProperties(String module)throws Exception{
     	Map<String, String> map = (Map<String, String>)client.execute("lcmConf.getSystemProperties", new Object[]{module});
     	return map;
@@ -291,8 +296,8 @@ public class LCMUtil {
     }
     
     public static void main(String[] args) throws Exception{
-        String xmlurl = "http://10.168.250.12:6090/lcm/lcmRpc";
-        xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
+        String xmlurl = "http://10.168.150.72:6090/lcm/lcmRpc";
+//        xmlurl = "http://127.0.0.1:6090/lcm/lcmRpc";
         LCMUtil lcm = LCMUtil.newInstance(xmlurl);
         Map<String, String> map = lcm.getSystemProperties("lvmc");
         System.out.println(map);
@@ -333,6 +338,10 @@ public class LCMUtil {
        System.out.println(broadcastVideoCommand);
        */
 //       lcm.registerUser("testlcmutil", "password", "realname", "gadaout4858@163.com", "075783391781", "male", "13700000000", "", "position", "222", "","10.168.250.12");
+        Object[] forwardConferenceByConfNo = lcm.getForwardConferenceByConfNo("44688668");
+        for (Object object : forwardConferenceByConfNo) {
+			System.out.println(object);
+		}
 	}
     
     public static void main2(String[] args)throws Exception {
