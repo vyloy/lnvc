@@ -43,7 +43,11 @@ INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 2);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 3);
 
-INSERT INTO sys_params(module, "key", "value") VALUES ('lcm', 'version', 1);
+INSERT INTO sys_params(module, "key", "value") VALUES ('lcm', 'version', '1');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.readable.version', '1.0.0');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'update.site', 'http://www.lorentnetworks.com');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'compatible.real.version', '1');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.real.version', '1');
 
 alter table conference_type_role add column maxnum integer default -1;
 alter table conference_type_role add column minnum integer default -1;
