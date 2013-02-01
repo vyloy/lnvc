@@ -389,7 +389,7 @@ public class UserServiceImpl extends GenericServiceImpl<UserDao,UserBean,Integer
 		customer.setCustomerUserlimit(100);
 		customer.setCustomerNolimit(0);
 		customer.setPerConfNoLimit(0);
-		customer.setConfPeopleLimit(16);
+		customer.setConfPeopleLimit(5);
 //		customer.setCustomerCode(PropertiesUtil.getConstant("initdata.customer.code"));
 		customer.setStatus(Constant.RECORD_STATUS_VALID);
 		customer.setCustomerStatus(Constant.RECORD_VALID);

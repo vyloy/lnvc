@@ -32,6 +32,9 @@ public class ConferenceRoleAction extends BaseAction<ConferenceRoleBean,Integer>
 	 * @return
 	 */
 	public String toConferenceRoleList(){
+		buttonMap.put("add", false);
+		buttonMap.put("delete", false);
+		buttonMap.put("search", false);
 		searchConferenceRole = false;
 		conferenceRole = new ConferenceRoleBean();
 		setSubPageMap(conferenceRole, serviceFacade.getConferenceRoleService(), orderString);

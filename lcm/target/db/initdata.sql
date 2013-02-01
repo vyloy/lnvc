@@ -43,11 +43,13 @@ INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 2);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 3);
 
-INSERT INTO sys_params(module, "key", "value") VALUES ('lcm', 'version', '1');
-INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.readable.version', '1.0.0');
-INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'update.site', 'http://www.lorentnetworks.com');
-INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'compatible.real.version', '1');
-INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.real.version', '1');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lcm', 'version', '1', 'lcm版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.readable.version', '1.0.0', '最新版本名称');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'update.site', 'http://www.lorentnetworks.com', '更新地址');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'compatible.real.version', '1', '兼容版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.real.version', '1', '最新版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'cs.port', '5062', 'cs端口');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'video.advance.setup', 'false', '视频高级设置');
 
 alter table conference_type_role add column maxnum integer default -1;
 alter table conference_type_role add column minnum integer default -1;

@@ -218,6 +218,10 @@ public class MainController extends BaseController{
     	int maxnum = Launcher.getLCMUtil(serverIP).getConfUserNum();
     	Object[] xmlrpcConf = Launcher.getLCMUtil(serverIP).getForwardConferenceByConfNo(confno);
     	Integer memberCount = (Integer) xmlrpcConf[2];
+    	if(memberCount == null){
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("lcm.getMcuConfUserError"));
+    		return;
+    	}
     	if (maxnum <= memberCount) {
 			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confIsMaxNum"));
     		return;

@@ -1,7 +1,9 @@
 package com.lorent.lvmc.ucs;
 
 import java.util.Date;
+import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -19,6 +21,8 @@ import com.lorent.common.util.StringUtil;
 import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.util.ConfigUtil;
 import com.lorent.lvmc.util.Constants;
+import com.lorent.lvmc.util.DataUtil;
+import com.lorent.lvmc.util.DataUtil.Key;
 import com.lorent.util.LCCUtil;
 
 public class UCSServer {
@@ -54,14 +58,35 @@ public class UCSServer {
         webServer.start();
 	}
 	
+	private Map<String, String> systemProperties;
+	private void getSystemParas(){
+		try{
+	    	systemProperties = Launcher.getLCMUtil(ConfigUtil.getProperty("serverIP")).getSystemProperties("lvmc");
+	    	DataUtil.setValue(Key.SystemParas, systemProperties);
+		}catch(Exception e){
+			log.error("get systemProperties error", e);
+			systemProperties = null;
+			JOptionPane.showMessageDialog(null, "get systemProperties error", "error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	public boolean init() throws Exception{
 		log.info("init()");
 		LCCUtil.getInstance().addEventListener(new MyJNIListener());
 		LCCUtil.getInstance().setVideo(true, null);
 		LCCUtil.getInstance().setOneCall(false);
-		LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), ConfigUtil.getIntProperty("csPort"));
+		setMcuProxy();
 		log.info("init() end");
 		return true;
+	}
+	
+	private void setMcuProxy(){
+		getSystemParas();
+		if(systemProperties == null && DataUtil.getSystemPara("cs.port") != null){
+			LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), Integer.parseInt(DataUtil.getSystemPara("cs.port")));	
+		}else{
+			LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), 5060);			
+		}
 	}
 	
 	private static class ConfigData{
@@ -142,7 +167,7 @@ public class UCSServer {
 	public boolean setconfserverip(String ip){
 		try {
 			ConfigUtil.setProperty("serverIP", ip);
-			LCCUtil.getInstance().setMcuProxy(ConfigUtil.getProperty("serverIP"), ConfigUtil.getIntProperty("csPort"));
+			setMcuProxy();
 		} catch (Exception e) {
 			log.error("setconfserverip", e);
 		}
