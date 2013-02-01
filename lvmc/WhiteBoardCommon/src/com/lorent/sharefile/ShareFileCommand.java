@@ -88,7 +88,7 @@ public class ShareFileCommand extends MeetingCommandAdaptor {
 			sdf.applyPattern("yyyyMMddHHmmss_SSS");
 //			String realFileName = uniqueFileID + "_" + fileName.substring(lastIndexOf+1);
 			String tempName = fileName.substring(lastIndexOf+1);
-			String extName = tempName.substring(tempName.indexOf(".")+1);
+			String extName = tempName.substring(tempName.lastIndexOf(".")+1);
 			String realFileName = uniqueFileID + "_" + sdf.format(currentTimeMillis)+"."+extName;
 			String filePath = apppath + "/files/" + getMeetingId() + "/" + realFileName;
 			try {

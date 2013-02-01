@@ -50,6 +50,12 @@ INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'compat
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.real.version', '1', '最新版本');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'cs.port', '5062', 'cs端口');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'video.advance.setup', 'false', '视频高级设置');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.buffersize', '10240');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.sleep.millisecond', '100');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '10240');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '52428800');
+
 
 alter table conference_type_role add column maxnum integer default -1;
 alter table conference_type_role add column minnum integer default -1;
