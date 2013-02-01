@@ -31,6 +31,7 @@ import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.jhotdraw.samples.svg.SVGPanels;
 
+import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.event.MyEvent;
 import com.lorent.lvmc.ui.LoadingFileDialog;
@@ -50,7 +51,13 @@ public class ShareFileServerUtil {
     
     static {
         ShareFileServerUtil.getInstance();
+        
     }
+    
+    private static int DOWNLOAD_SLEEP_MILLISECOND = 100;
+    private static int DOWNLOAD_BUFFERSIZE = 8192;//Integer.MAX_VALUE;
+    private static int UPLOAD_BUFFERSIZE = 8192;//8192
+    private static int UPLOAD_SLEEP_MILLISECOND = 100;
     
     private String DOWNLOAD = "DOWNLOAD";
     private String DOWNLOADCANCEL = "DOWNLOADCANCEL";
@@ -179,14 +186,6 @@ public class ShareFileServerUtil {
         	
         	
         }.start();
-        
-//        new SwingWorker<Object, Object>(){
-//                @Override
-//            protected Object doInBackground() throws Exception {
-//                
-//            }
-//        }.execute();
-        
     }
     
     public void processResult(ShareFileCommandResult result) throws Exception{
@@ -333,7 +332,17 @@ public class ShareFileServerUtil {
         	MyEvent event = new MyEvent();
             event.setId("downLoadShareFileProgress");
 //                    event.setParas(new Object[]{});
-            
+            Map<String, String> systemProperties = Launcher.getLCMUtil().getSystemProperties("lvmc");
+            String download_buffersize = systemProperties.get("sharefile.download.buffersize");
+            if (download_buffersize != null) {
+    			DOWNLOAD_BUFFERSIZE = Integer.parseInt(download_buffersize);
+    			log.info("get from lcm DOWNLOAD_BUFFERSIZE: "+DOWNLOAD_BUFFERSIZE);
+    		}
+            String download_sleep_millisecond = systemProperties.get("sharefile.download.sleep.millisecond");
+            if (download_sleep_millisecond != null) {
+    			DOWNLOAD_SLEEP_MILLISECOND = Integer.parseInt(download_sleep_millisecond);
+    			log.info("get from lcm DOWNLOAD_SLEEP_MILLISECOND: "+DOWNLOAD_SLEEP_MILLISECOND);
+    		}
             
             ShareFileCommand shareFileCommand = new ShareFileCommand(meetingID);
             
@@ -356,11 +365,12 @@ public class ShareFileServerUtil {
                 getFileCommand.setOperation("ClientDownLoadFileFromServer");
                 getFileCommand.setParameter("FileName", serverFileName);
                 getFileCommand.setParameter("RealFileName", (String)result.getValue("RealFileName"));
-                getFileCommand.setParameter("readBufferSize", 65536);
+                getFileCommand.setParameter("readBufferSize", DOWNLOAD_BUFFERSIZE );
                 Object[] parameters  = new Object[]{"download",uniqueFileID,position,filesize,true};
                 
                 byte[] writeBuffer;
                 do {
+                	Thread.sleep(DOWNLOAD_SLEEP_MILLISECOND);
                 	if (processStateMap.get(uniqueFileID) == null || processStateMap.get(uniqueFileID) == false) {
                 		parameters = new Object[]{DOWNLOADCANCEL,uniqueFileID};
                 		progressBlockingQueue.offer(parameters);
@@ -501,16 +511,29 @@ public class ShareFileServerUtil {
         	MyEvent event = new MyEvent();
         	event.setId("upLoadShareFileProgress");
         	
+        	Map<String, String> systemProperties = Launcher.getLCMUtil().getSystemProperties("lvmc");
+        	String upload_buffersize = systemProperties.get("sharefile.upload.buffersize");
+            if (upload_buffersize != null) {
+            	UPLOAD_BUFFERSIZE = Integer.parseInt(upload_buffersize);
+    		}
+            String upload_sleep_millisecond = systemProperties.get("sharefile.upload.sleep.millisecond");
+            if (upload_sleep_millisecond != null) {
+    			UPLOAD_SLEEP_MILLISECOND = Integer.parseInt(upload_sleep_millisecond);
+    		}
+        	
         	ShareFileCommand shareFileCommand = new ShareFileCommand(meetingID);
         	
         	File file = new File(filenPath);
         	FileInputStream fileInputStream = new FileInputStream(file);
         	long length = file.length();
         	long finishedLength = 0;
-        	byte[] buf = new byte[8192]; 
+        	byte[] buf = new byte[UPLOAD_BUFFERSIZE]; 
         	int offset = 0;
         	Object[] parameters  = new Object[]{"upload",uniqueFileID, filenPath, finishedLength, length, false};
-        	while (true) {            
+        	while (true) {   
+//        		log.info("before sleep");
+        		Thread.sleep(UPLOAD_SLEEP_MILLISECOND);
+//        		log.info("after sleep");
         		if (processStateMap.get(uniqueFileID) == null || processStateMap.get(uniqueFileID) == false) {
             		parameters = new Object[]{UPLOADCANCEL,uniqueFileID};
             		progressBlockingQueue.offer(parameters);
@@ -536,6 +559,7 @@ public class ShareFileServerUtil {
         		if (read.awaitUninterruptibly(20, TimeUnit.SECONDS)) {
         			finishedLength  = finishedLength + offset;
 //        			log.info("上传文件，服务器返回：..."+length+"" + read.getMessage()+",offset:"+offset+","+finishedLength);
+//        			log.info("sendfile "+finishedLength+" / "+length);
         		} else {
         			//超时
         			log.info("上传文件失败: 超时");
@@ -638,6 +662,7 @@ public class ShareFileServerUtil {
     	ConnectFuture future = nioSocketConnector.connect(new InetSocketAddress(DataUtil.getLoginInfo().getServerIP(), Integer.parseInt(ConfigUtil.getProperty("fileServerPort","8889"))));
     	ConnectFuture awaitUninterruptibly = future.awaitUninterruptibly();
     	IoSession session = future.getSession();
+//    	session.getConfig().setMaxReadBufferSize(maxReadBufferSize)
     	return session;
     }
     

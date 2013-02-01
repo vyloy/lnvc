@@ -48,6 +48,12 @@ INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.readable.
 INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'update.site', 'http://www.lorentnetworks.com');
 INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'compatible.real.version', '1');
 INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'newest.real.version', '1');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'sharefile.upload.buffersize', '10240');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'sharefile.upload.sleep.millisecond', '100');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'sharefile.download.buffersize', '10240');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100');
+INSERT INTO sys_params(module, "key", "value") VALUES ('lvmc', 'sharefile.upload.maxfilesize', '52428800');
+
 
 alter table conference_type_role add column maxnum integer default -1;
 alter table conference_type_role add column minnum integer default -1;
