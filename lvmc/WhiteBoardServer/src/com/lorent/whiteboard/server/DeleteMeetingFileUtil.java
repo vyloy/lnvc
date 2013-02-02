@@ -78,6 +78,7 @@ public class DeleteMeetingFileUtil {
 		
 		saveTime = Integer.parseInt(QuartzTrigger.config.getProperty("saveTime"));
 //		logger.error("saveTime=============================" + saveTime);
+//		logger.info("DeleteMeetingFileUtil.execute ");
 		deleteTmpFile();
 		deleteFilesDirFile();
 		
@@ -117,12 +118,13 @@ public class DeleteMeetingFileUtil {
 						properties1.load(inputStreamReader);
 					}
 				} catch (Exception ex) {
-
+					logger.error("deleteFilesDirFile",ex);
 				} finally {
 					if (inputStreamReader != null) {
 						try {
 							inputStreamReader.close();
 						} catch (IOException e) {
+							logger.error("deleteFilesDirFile",e);
 							inputStreamReader = null;
 						}
 					}
@@ -147,19 +149,22 @@ public class DeleteMeetingFileUtil {
 								long modifyTime = Long.parseLong(modifyTimeStr);
 								long currentTime = System.currentTimeMillis();
 								if (currentTime - modifyTime >= saveTime) {
+									String filename = f.getName();
+									System.out.println("delete "+filename);
+									logger.info("delete1stLevelFilesInDir: delete file "+filename);
 									f.delete();
 									ConfigUtil deleteConfigUtil = FileListConfigUtilFactory
 											.getDeleteFileListConfUtilByMeetingID(f
 													.getParentFile().getName());
 									try {
-										deleteConfigUtil.removeProperty(f
-												.getName());
+										deleteConfigUtil.removeProperty(filename);
 									} catch (Exception e) {
+										logger.error("delete1stLevelFilesInDir", e);
 										e.printStackTrace();
 									}
 								}
 							} else {
-								deleteFileByTime(f, saveTime);
+//								deleteFileByTime(f, saveTime);
 							}
 						}
 
@@ -237,6 +242,7 @@ public class DeleteMeetingFileUtil {
 		long currentTime = System.currentTimeMillis();
 		long modifyTime = f.lastModified();
 		if(currentTime-modifyTime>=time){
+			logger.info("deleteFileByTime: delete file "+f.getName());
 			f.delete();
 		}
 	}

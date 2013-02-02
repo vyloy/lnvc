@@ -93,6 +93,8 @@
                                   </Group>
                               </Group>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="selectConfListButton" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -110,7 +112,10 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="passwdIt" min="-2" max="-2" attributes="1"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="confnoIt" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="selectConfListButton" min="0" pref="0" max="32767" attributes="1"/>
+                      <Component id="confnoIt" alignment="0" max="32767" attributes="1"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="confPasswdIt" min="-2" max="-2" attributes="1"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -151,6 +156,8 @@
         </Component>
         <Component class="com.lorent.common.component.TextInput" name="serverIPIt">
           <Properties>
+            <Property name="enable" type="boolean" value="false"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="label" type="java.lang.String" value="&#x670d;&#x52a1;&#x5668;"/>
           </Properties>
         </Component>
@@ -202,6 +209,15 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="selectConfListButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="..."/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectConfListButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

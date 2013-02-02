@@ -125,6 +125,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		}
 		this.guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
 		this.aboutBtn.setText(StringUtil.getUIString("main.menu.aboutus"));
+		this.otherToolsButton.setText(StringUtil.getUIString("mainMenu.otherTools"));
 		instance = this;
 	}
 
@@ -160,7 +161,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		saveLayouttButton = new javax.swing.JButton();
 		selectLayoutButton = new javax.swing.JButton();
 		windowButton = new javax.swing.JButton();
-		screenShotButton = new javax.swing.JButton();
+		otherToolsButton = new javax.swing.JButton();
 		setupButton = new javax.swing.JButton();
 		guestbookBtn = new javax.swing.JButton();
 		aboutBtn = new javax.swing.JButton();
@@ -368,25 +369,25 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(windowButton);
 
-		screenShotButton
+		otherToolsButton
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/lvmc/resource/images/screenshot.png"))); // NOI18N
-		screenShotButton
+		otherToolsButton
 				.setText(StringUtil
 						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
-		screenShotButton.setFocusable(false);
-		screenShotButton
+		otherToolsButton.setFocusable(false);
+		otherToolsButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		screenShotButton.setMaximumSize(new java.awt.Dimension(58, 57));
-		screenShotButton.setPreferredSize(new java.awt.Dimension(58, 57));
-		screenShotButton
+		otherToolsButton.setMaximumSize(new java.awt.Dimension(58, 57));
+		otherToolsButton.setPreferredSize(new java.awt.Dimension(58, 57));
+		otherToolsButton
 				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		screenShotButton.addActionListener(new java.awt.event.ActionListener() {
+		otherToolsButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				screenShotButtonActionPerformed(evt);
+				otherToolsButtonActionPerformed(evt);
 			}
 		});
-		jToolBar1.add(screenShotButton);
+		jToolBar1.add(otherToolsButton);
 
 		setupButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/setup.png"))); // NOI18N
@@ -469,9 +470,9 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		systemSetupPopupMenu.showPopup();
 	}
 
-	private void screenShotButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void otherToolsButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//		ControllerFacade.execute("screenShotController", "capture");
-		new ToolsPopupMenu(this.screenShotButton).showPopup();
+		new ToolsPopupMenu(this.otherToolsButton).showPopup();
 	}
 
 	private void windowButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -639,8 +640,8 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	private javax.swing.JPanel logoPanel;
 	private javax.swing.JButton maxizableButton;
 	private javax.swing.JButton minizableButton;
+	private javax.swing.JButton otherToolsButton;
 	private javax.swing.JButton saveLayouttButton;
-	private javax.swing.JButton screenShotButton;
 	private javax.swing.JButton selectLayoutButton;
 	private javax.swing.JButton setupButton;
 	private javax.swing.JButton shareDesktopButton;

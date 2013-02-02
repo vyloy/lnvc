@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="exeManager" basedir="." default="buildexe">
+	<property environment="env" />
+	<property name="lvnc.dir" location="../.." />
+	<property name="pack.dir" location="${lvnc.dir}/../lnvc2_pack" />
+	<property name="lvmc.pack.dir" location="${pack.dir}/tools/install_tool/lvmc_project/lvmc" />
+	<property name="launch4j.dir" location="${pack.dir}/tools/Launch4j" />
+
+	<target name="buildexe">
+		<copy file="bin/exeManager-jar-with-dependencies.jar" tofile="${lvmc.pack.dir}/exeManager.jar" />
+		<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+		<launch4j configFile="${lvmc.pack.dir}/exeManager.xml" />
+		<delete file="${lvmc.pack.dir}/exeManager.jar" />
+	</target>
+</project>

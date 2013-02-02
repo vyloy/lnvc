@@ -190,12 +190,19 @@ public class UserHandler extends BaseHandler {
 		
 		
 		//发送邮件至邮箱
+		String sgender = "";
+		if (gender.equals("male")) {
+			sgender = "男";
+		}
+		else{
+			sgender = "女";
+		}
 		String psw = PropertiesUtil.getConstant("reg.user.psw", "lorent1234");
 		
 		String activeStr = PasswordUtil.getEncString(PasswordUtil.baseEncryptString(userBean.getId().toString(), psw));
 		String http_link = "http://"+lcm_serverip+":6090/lcm/app/registerUserAction_activeRegisterUser_result.action?id="+activeStr;
 		String content = PropertiesUtil.getProperty("messageResource", "page.mail.conference.registeruser.context",true);
-		content = MessageFormat.format(content, new String[]{userBean.getLccAccount(),http_link});
+		content = MessageFormat.format(content, new String[]{userBean.getLccAccount(),http_link,username,realname,email,password,sgender,mobile,phone});
 		MailUtil.sendEmail(new String[]{email}, "帐号激活", content);
 		
 		return true;

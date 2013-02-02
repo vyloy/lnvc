@@ -25,7 +25,6 @@
 				<include name="lvmc-lvmc.jar" />
 			</fileset>
 		</delete>
-
 	</target>
 	<target name="makePackage" depends="clean">
 		<mkdir dir="${lvmc.pack.dir}/jre/launch4j-tmp" />

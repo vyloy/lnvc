@@ -87,7 +87,7 @@ public class Constants {
     public static final String PLAF_SMART = "com.jtattoo.plaf.smart.SmartLookAndFeel";
     public static final String PLAF_CUSTOM = "com.jtattoo.plaf.custom.systemx.SystemXLookAndFeel";
     
-    public static final String APPLICATION_NAME = "VOVOT.exe";
+    public static final String APPLICATION_NAME = "lvmc.exe";
 
     public enum AppName{
     	UCS,
@@ -126,7 +126,7 @@ public class Constants {
     public static final int GRANT_AUTHORITY = 1;
     public static final int REVOKE_AUTHORITY = -1;
     
-    public static final Object[] AUDIO_CODES = {"PCMU", "G729", "G711", "SILK"};
+    public static final Object[] AUDIO_CODES = {"PCMU", "G729", "SILK"};
     
     public static final int GUEST_BOOK_MAX = 500;
 }
