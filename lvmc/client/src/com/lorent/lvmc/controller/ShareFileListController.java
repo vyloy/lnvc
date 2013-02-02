@@ -188,7 +188,7 @@ public class ShareFileListController extends BaseController {
             String maxsize = Launcher.getLCMUtil().getSystemProperties("lvmc").get("sharefile.upload.maxfilesize");
             long maxfilesize = Long.parseLong(maxsize);
             if(fileLength > maxfilesize){//ConfigUtil.getLongProperty("uploadFileSize")
-                showErrorDialog(StringUtil.getErrorString("error.title"),StringUtil.getFormatString(StringUtil.getErrorString("uploadfile.length.toomuch"), MathUtil.convertByte(ConfigUtil.getLongProperty("uploadFileSize"), 0)));
+                showErrorDialog(StringUtil.getErrorString("error.title"),StringUtil.getFormatString(StringUtil.getErrorString("uploadfile.length.toomuch"), MathUtil.convertByte(maxfilesize, 0)));
                 return;
             }
             
