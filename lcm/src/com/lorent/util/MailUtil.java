@@ -111,10 +111,10 @@ public class MailUtil {
 	 * @throws MessagingException
 	 */
 	private static Message initMsg(Session session,String subject,String content) throws Exception  {
-		Message msg = new MimeMessage(session);
+		MimeMessage msg = new MimeMessage(session);
 //		msg.setFrom(new InternetAddress(session.getProperty("mail.smtp.username")));
 		msg.setSentDate(new Date());
-		msg.setSubject(subject);
+		msg.setSubject(subject, "utf8");
 		Multipart multipart = new MimeMultipart();
 		MimeBodyPart mbp = new MimeBodyPart();
 		mbp.setContent(content,"text/html;charset=utf8");

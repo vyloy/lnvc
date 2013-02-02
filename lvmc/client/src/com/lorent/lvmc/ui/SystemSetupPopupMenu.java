@@ -18,7 +18,7 @@ public class SystemSetupPopupMenu extends BasicPopupMenu {
 		super(c);
 		JMenuItem audioSetupItem = new JMenuItem(StringUtil.getUIString("SystemSetupPopupMenu.audioSetupItem.txt"));
 		JMenuItem videoSetupItem = new JMenuItem(StringUtil.getUIString("SystemSetupPopupMenu.videoSetupItem.txt"));
-		JMenuItem panTiltItem = new JMenuItem(StringUtil.getUIString("SystemSetupPopupMenu.panTiltItem.txt"));
+		
 		audioSetupItem.addActionListener(new ActionListener(){
 
 			@Override
@@ -35,29 +35,12 @@ public class SystemSetupPopupMenu extends BasicPopupMenu {
 			}
 			
 		});
-		panTiltItem.addActionListener(new ActionListener(){
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				panTiltItemPerformed(e);
-			}
-			
-		});
+
 		this.add(audioSetupItem);
 		this.add(videoSetupItem);
-		this.add(panTiltItem);
+
 	}
 
-	public void panTiltItemPerformed(ActionEvent e) {
-		this.setVisible(false);
-		try {
-			ControlDialog dialog = ViewManager.getComponent(ControlDialog.class, new Class[]{Frame.class,boolean.class}, new Object[]{(java.awt.Frame)DataUtil.getTopWindow(),true});
-			ViewManager.setWindowCenterLocation(dialog);
-			dialog.setVisible(true);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
 
 	public void audioSetupItemPerformed(ActionEvent e){
 		this.setVisible(false);

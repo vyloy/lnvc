@@ -576,12 +576,12 @@
                     <Property name="alignment" type="int" value="2"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JButton" name="jButton1">
+                    <Component class="javax.swing.JButton" name="advanceSetupBtn">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="&#x66f4;&#x591a;&#x5c5e;&#x6027;&#x8bbe;&#x7f6e;"/>
+                        <Property name="text" type="java.lang.String" value="&#x89c6;&#x9891;&#x8d28;&#x91cf;&#x8bbe;&#x7f6e;"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advanceSetupBtnActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -615,7 +615,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="168" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="167" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
