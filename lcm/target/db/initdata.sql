@@ -50,11 +50,11 @@ INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'compat
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.real.version', '1', '最新版本');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'cs.port', '5062', 'cs端口');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'video.advance.setup', 'false', '视频高级设置');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.buffersize', '10240');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.sleep.millisecond', '100');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '10240');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '52428800');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.buffersize', '5120', '上传buffer大小(B)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.sleep.millisecond', '100', '上传间隔时间(ms)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '3072', '下载buffer大小(B)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100', '下载间隔时间(ms)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '5242880', '上传最大文件大小(B)');
 
 
 alter table conference_type_role add column maxnum integer default -1;
