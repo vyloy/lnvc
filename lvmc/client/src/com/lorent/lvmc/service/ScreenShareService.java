@@ -30,7 +30,9 @@ public class ScreenShareService extends BaseService{
         	//判断进程是否存在
         	if (!ProcessUtil.getInstance().processExists("winvnc.exe")) {
         		log.info("startScreenShareProcess process not Exists");
-        		process = Runtime.getRuntime().exec("cmd /c createprocess.exe IntegrityLevel=High \"" + StringUtil.convertFilePath2DOSCommandStr(filepath)+" -run\"");
+        		String cmd = "cmd /c createprocess.exe IntegrityLevel=High \"\\\"" + filepath+"\\\" -run\"";
+        		log.info(cmd);
+        		process = Runtime.getRuntime().exec(cmd);
 //        		process = Runtime.getRuntime().exec("cmd /c " + StringUtil.convertFilePath2DOSCommandStr(filepath)+" -run");
 //                process.waitFor();
                 log.info("startScreenShareProcess  started");
