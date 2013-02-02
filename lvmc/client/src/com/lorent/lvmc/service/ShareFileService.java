@@ -31,7 +31,7 @@ public class ShareFileService extends BaseService{
     	ShareFileServerUtil.getInstance().removeTransferState(uniqueFileID);
     }
 	
-    public  void downLoadFile(String uniqueFileID,String meetingID,String serverFileName,String localFilePath) throws Exception{
+    public synchronized void downLoadFile(String uniqueFileID,String meetingID,String serverFileName,String localFilePath) throws Exception{
 //        ShareFileServerUtil.getInstance().connect("127.0.0.1", 8889);//DataUtil.getLoginInfo().getServerIP()
 //        ShareFileServerUtil.getInstance().connect(DataUtil.getLoginInfo().getServerIP(), Integer.parseInt(ConfigUtil.getProperty("fileServerPort","8889")));
         ShareFileServerUtil.getInstance().downLoadFileFromServer(uniqueFileID,meetingID, serverFileName, localFilePath,ShareFileServerUtil.getInstance().getSession());
@@ -53,7 +53,7 @@ public class ShareFileService extends BaseService{
 //        return  fileListFromServer;
     }
     
-    public  void upLoadFile(String uniqueFileID,String meetingID,String localFilePath, boolean convertFileToImgFlag) throws Exception{
+    public synchronized void upLoadFile(String uniqueFileID,String meetingID,String localFilePath, boolean convertFileToImgFlag) throws Exception{
 //        ShareFileServerUtil.getInstance().connect("127.0.0.1", 8889);//DataUtil.getLoginInfo().getServerIP()
 //        ShareFileServerUtil.getInstance().connect(DataUtil.getLoginInfo().getServerIP(), Integer.parseInt(ConfigUtil.getProperty("fileServerPort","8889")));
         ShareFileServerUtil.getInstance().sendFileToServer(uniqueFileID,meetingID, localFilePath,convertFileToImgFlag,ShareFileServerUtil.getInstance().getSession());
