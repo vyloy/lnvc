@@ -1,6 +1,6 @@
 package org.jhotdraw.samples.svg.figures;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,8 +18,8 @@ import com.lorent.whiteboard.model.RemoteFigure;
 public class MoveFigures extends AbstractNormalResultUpdater {
 
 	private static final long serialVersionUID = 1L;
-	private Map<Long,Rectangle2D.Double> data=new HashMap<Long,Rectangle2D.Double>();
-	public static final int TYPE=13;
+	private Map<Long,Point2D.Double> data=new HashMap<Long,Point2D.Double>();
+	public static final int TYPE=14;
 	
 	@Override
 	public void change(final DefaultDrawingView view) {
@@ -29,7 +29,7 @@ public class MoveFigures extends AbstractNormalResultUpdater {
 			public void run() {
 				Collection<Figure> figures = view.getDrawing().getFigures();
 				OUTER:
-				for(Map.Entry<Long, Rectangle2D.Double> e:data.entrySet()){
+				for(Map.Entry<Long, Point2D.Double> e:data.entrySet()){
 					Long id = e.getKey();
 					for(Figure f:figures){
 						if(!(f instanceof RemoteFigure)){
@@ -37,7 +37,10 @@ public class MoveFigures extends AbstractNormalResultUpdater {
 						}
 						RemoteFigure rf=(RemoteFigure) f;
 						if(!rf.isNeedToSetId()&&rf.getId()==id){
-							((AbstractFigure)f).setBounds(e.getValue());
+							java.awt.geom.Point2D.Double p = e.getValue();
+							Double bounds = f.getBounds();
+							Double b = new Double(p.x,p.y,bounds.width,bounds.height);
+							((AbstractFigure) f).setBounds(b);
 							continue OUTER;
 						}
 					}
@@ -48,7 +51,8 @@ public class MoveFigures extends AbstractNormalResultUpdater {
 	}
 	
 	public void add(RemoteFigure f){
-		data.put(f.getId(), f.getBounds());
+		Double bounds = f.getBounds();
+		data.put(f.getId(), new Point2D.Double(bounds.x,bounds.y));
 	}
 	
 	public void add(Figure f){
@@ -71,16 +75,12 @@ public class MoveFigures extends AbstractNormalResultUpdater {
 	@Override
 	public JSONObject toJSON() {
 		JSONObject result = new JSONObject(true);
-		for(Map.Entry<Long, Rectangle2D.Double> e:data.entrySet()){
+		for(Map.Entry<Long, Point2D.Double> e:data.entrySet()){
 			StringBuilder s = new StringBuilder();
-			Double v = e.getValue();
+			Point2D.Double v = e.getValue();
 			s.append(v.x);
 			s.append(",");
 			s.append(v.y);
-			s.append(",");
-			s.append(v.width);
-			s.append(",");
-			s.append(v.height);
 			result.put(String.valueOf(e.getKey()), s.toString());
 		}
 		return result;

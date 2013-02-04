@@ -1,7 +1,5 @@
 package org.jhotdraw.samples.svg.figures;
 
-import java.awt.geom.Rectangle2D.Double;
-
 import org.jhotdraw.draw.AbstractFigure;
 import org.jhotdraw.draw.DefaultDrawingView;
 import org.jhotdraw.draw.Figure;
@@ -9,24 +7,20 @@ import org.jhotdraw.draw.Figure;
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.model.RemoteFigure;
 
-public class MoveFigure extends SingleUpdater {
+public class ChangeFigureBounds extends SingleUpdater {
 
 	private static final long serialVersionUID = 1L;
-	private double x,y;
-	public static final int TYPE=13;
+	private java.awt.geom.Rectangle2D.Double bounds;
+	public static final int TYPE=12;
 
-	public MoveFigure(RemoteFigure rf) {
+	public ChangeFigureBounds(RemoteFigure rf) {
 		super(rf);
-		Double bounds = rf.getBounds();
-		x=bounds.x;
-		y=bounds.y;
+		bounds=rf.getBounds();
 	}
 
 	@Override
 	protected void change(DefaultDrawingView view, Figure figure) {
-		Double bounds = figure.getBounds();
-		Double b = new Double(x,y,bounds.width,bounds.height);
-		((AbstractFigure) figure).setBounds(b);
+		((AbstractFigure) figure).setBounds(bounds);
 	}
 	
 	@Override
@@ -38,9 +32,13 @@ public class MoveFigure extends SingleUpdater {
 	public JSONObject toJSON() {
 		JSONObject result = new JSONObject(true);
 		StringBuilder s = new StringBuilder();
-		s.append(x);
+		s.append(bounds.x);
 		s.append(",");
-		s.append(y);
+		s.append(bounds.y);
+		s.append(",");
+		s.append(bounds.width);
+		s.append(",");
+		s.append(bounds.height);
 		result.put(String.valueOf(id), s.toString());
 		return result;
 	}

@@ -1,6 +1,6 @@
 服务端反馈
 {"type":101,"whiteboardId":"1","oldCommandId":52,"commandId":52}
-移动,删除白板
+移动图象,删除白板
 {"type":102,"whiteboardId":"1","oldCommandId":52,"commandId":52,"figureId":2}
 创建图像
 {"type":103,"whiteboardId":"1","oldCommandId":52,"commandId":52,"figureIds":[4,2,3]}
@@ -53,8 +53,8 @@
 {"type":211,"meetingId":"111","whiteboardId":"1","commandId":3,"page":1,"updater":{"ids":[1],"attributes":{"strokeWidth":1}}}
 在会议111中的白板1，设置id为1的图形的粗细为1，属性可以是strokeWidth、strokeColor、fillColor、strokeType等。
 
-{"type":212,"meetingId":"111","whiteboardId":"1","commandId":13,"page":1,"updater":{"4":"309.0,148.0,72.0,36.0"}}
+{"type":213,"meetingId":"111","whiteboardId":"1","commandId":13,"page":1,"updater":{"4":"309.0,148.0,72.0,36.0"}}
 绝对移动单个图象
 
-{"type":213,"meetingId":"111","whiteboardId":"2","commandId":9,"page":1,"updater":{"1":"174.0,86.0,40.0,39.0","2":"231.0,129.0,46.0,35.0","3":"307.0,139.0,24.0,29.0","4":"366.52569580078125,142.0,29.47430419921875,35.0","5":"440.0,162.0,72.0,36.0"}}
+{"type":214,"meetingId":"111","whiteboardId":"2","commandId":9,"page":1,"updater":{"1":"174.0,86.0,40.0,39.0","2":"231.0,129.0,46.0,35.0","3":"307.0,139.0,24.0,29.0","4":"366.52569580078125,142.0,29.47430419921875,35.0","5":"440.0,162.0,72.0,36.0"}}
 绝对移动多个图象

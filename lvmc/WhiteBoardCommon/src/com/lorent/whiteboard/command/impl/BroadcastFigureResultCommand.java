@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.model.CommandsManager;
+import com.lorent.whiteboard.model.RemoteFigure;
 
 public class BroadcastFigureResultCommand extends BroadcastResultCommand {
 
@@ -36,9 +37,15 @@ public class BroadcastFigureResultCommand extends BroadcastResultCommand {
 
 	@Override
 	public void subsequentlyRun(CommandsManager manager) {
-		BroadcastCommand result = manager.broadcastSuccessed(whiteboardId,
-				oldCommandId);
-		if (result == null) {
+		BroadcastCommand result = manager.broadcastSuccessed(whiteboardId,oldCommandId);
+		if(result!=null){
+			if(result.isNeedToReExecute()){
+				if(result.commandId!=commandId)
+					result.commandId=commandId;
+				((RemoteFigure)result.updater).setId(remoteFigureId);
+				result.subsequentlyRun(manager);
+			}
+		}else{
 			logger.warn("manager.broadcastSuccessed return null");
 		}
 	}
