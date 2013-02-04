@@ -23,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
 import org.jhotdraw.samples.svg.figures.ChangeBounds;
+import org.jhotdraw.samples.svg.figures.MoveFigure;
 
 import com.lorent.whiteboard.client.Client;
 import com.lorent.whiteboard.model.RemoteFigure;
@@ -126,7 +127,8 @@ public class BoxHandleKit {
 			Figure f = getOwner();
 			if (f instanceof RemoteFigure) {
 				RemoteFigure rf = (RemoteFigure) f;
-				Client.getInstance().broadcast(new ChangeBounds(rf, f.getBounds()));
+//				Client.getInstance().broadcast(new ChangeBounds(rf, f.getBounds()));
+				Client.getInstance().broadcast(new MoveFigure(rf));
 			}
         }
         protected void trackStepNormalized(Point2D.Double p) {

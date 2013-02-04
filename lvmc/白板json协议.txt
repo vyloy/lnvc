@@ -39,10 +39,10 @@
 在会议111中的白板1，添加文字
 
 {"type":207,"meetingId":"111","whiteboardId":"1","commandId":7,"page":1,"updater":{"id":1,"transform":[1,0,0,1,152,-15]}}
-在会议111中的白板1，移动文本1
+在会议111中的白板1，移动文本1——相对移动单个图象
 
 {"type":208,"meetingId":"111","whiteboardId":"1","commandId":7,"page":1,"updater":{"ids":[1,2],"transform":[1,0,0,1,152,-15]}}
-在会议111中的白板1，移动椭圆1
+在会议111中的白板1，移动椭圆1——相对移动多个图象
 
 {"type":209,"meetingId":"111","whiteboardId":"1","commandId":5,"page":1,"updater":[2,3]]}
 在会议111中的白板1，删除id为2的矩形
@@ -52,3 +52,9 @@
 
 {"type":211,"meetingId":"111","whiteboardId":"1","commandId":3,"page":1,"updater":{"ids":[1],"attributes":{"strokeWidth":1}}}
 在会议111中的白板1，设置id为1的图形的粗细为1，属性可以是strokeWidth、strokeColor、fillColor、strokeType等。
+
+{"type":212,"meetingId":"111","whiteboardId":"1","commandId":13,"page":1,"updater":{"4":"309.0,148.0,72.0,36.0"}}
+绝对移动单个图象
+
+{"type":213,"meetingId":"111","whiteboardId":"2","commandId":9,"page":1,"updater":{"1":"174.0,86.0,40.0,39.0","2":"231.0,129.0,46.0,35.0","3":"307.0,139.0,24.0,29.0","4":"366.52569580078125,142.0,29.47430419921875,35.0","5":"440.0,162.0,72.0,36.0"}}
+绝对移动多个图象

@@ -13,9 +13,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.model.Initializable;
 import com.lorent.whiteboard.model.RemoteFigure;
-import com.lorent.whiteboard.model.Updater;
 
-public abstract class MultiUpdater extends AbstractNormalResultUpdater implements Updater<DefaultDrawingView>,Initializable {
+public abstract class MultiUpdater extends AbstractNormalResultUpdater implements Initializable {
 
 	private static final long serialVersionUID = 1L;
 	
