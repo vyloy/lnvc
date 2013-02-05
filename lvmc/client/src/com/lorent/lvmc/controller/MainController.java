@@ -250,7 +250,7 @@ public class MainController extends BaseController{
         MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
         log.info("MainFrame create end");
         DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
-        mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
+        mainFrame.setTitle(StringUtil.getUIString("base.title")+"  --  "+StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
             + StringUtil.getUIString("base.username") + paras.getValue("username"));
         mainFrame.getTitleLabel().setText(mainFrame.getTitle());
         

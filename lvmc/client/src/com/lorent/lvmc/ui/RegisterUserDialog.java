@@ -16,6 +16,7 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
+import com.lorent.lvmc.util.StringUtil;
 
 /**
  *
@@ -49,6 +50,7 @@ public class RegisterUserDialog extends javax.swing.JDialog {
 			log.error("RegisterUserDialog", e);
 			e.printStackTrace();
 		}
+		setTitle(StringUtil.getUIString("RegisterUserDialog.title"));
 	}
 
 	//GEN-BEGIN:initComponents
@@ -74,7 +76,7 @@ public class RegisterUserDialog extends javax.swing.JDialog {
 		bannerXPanel = new org.jdesktop.swingx.JXPanel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("\u6ce8\u518c");
+		setTitle("");
 		setMinimumSize(new java.awt.Dimension(334, 183));
 		setModal(true);
 		setResizable(false);
@@ -94,8 +96,10 @@ public class RegisterUserDialog extends javax.swing.JDialog {
 
 		phoneInput.setLabel("\u56fa\u5b9a\u7535\u8bdd");
 
+		passwdInput.setToolTipText("\u5bc6\u7801\u957f\u5ea66-15\u4f4d");
 		passwdInput.setLabel("*\u5bc6\u7801");
 
+		rePasswdInput.setToolTipText("\u5bc6\u7801\u957f\u5ea66-15\u4f4d");
 		rePasswdInput.setLabel("*\u91cd\u590d\u5bc6\u7801");
 
 		jPanel3.setOpaque(false);

@@ -76,7 +76,7 @@ public class MemberListItem extends javax.swing.JPanel {
 			}
 			roleText.append(")");
 			memberRole.setText(roleText.toString());
-		}else{
+		} else {
 			memberRole.setVisible(false);
 		}
 		showPermission = true;//TODO暂时所有人都可以看到
@@ -89,23 +89,27 @@ public class MemberListItem extends javax.swing.JPanel {
 		}
 		updateVideoSoundStatus(data);
 	}
-	
-	public void updateVideoSoundStatus(MemberDto data){
+
+	public void updateVideoSoundStatus(MemberDto data) {
 		this.data.setEnableAudio(data.isEnableAudio());
 		this.data.setEnableVideo(data.isEnableVideo());
-		if(data.isEnableAudio()){
-			enableSound.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-			"/com/lorent/lvmc/resource/images/sound-on.png")));
-		}else{
-			enableSound.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-			"/com/lorent/lvmc/resource/images/sound-off.png")));
+		if (data.isEnableAudio()) {
+			enableSound.setIcon(new javax.swing.ImageIcon(getClass()
+					.getResource(
+							"/com/lorent/lvmc/resource/images/sound-on.png")));
+		} else {
+			enableSound.setIcon(new javax.swing.ImageIcon(getClass()
+					.getResource(
+							"/com/lorent/lvmc/resource/images/sound-off.png")));
 		}
-		if(data.isEnableVideo()){
-			enableVideo.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-			"/com/lorent/lvmc/resource/images/camera-on.png")));
-		}else{
-			enableVideo.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-			"/com/lorent/lvmc/resource/images/camera-off.png")));
+		if (data.isEnableVideo()) {
+			enableVideo.setIcon(new javax.swing.ImageIcon(getClass()
+					.getResource(
+							"/com/lorent/lvmc/resource/images/camera-on.png")));
+		} else {
+			enableVideo
+					.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+							"/com/lorent/lvmc/resource/images/camera-off.png")));
 		}
 	}
 
@@ -155,6 +159,7 @@ public class MemberListItem extends javax.swing.JPanel {
 		enableSound = new javax.swing.JLabel();
 		shareDesktopStatusButton = new javax.swing.JButton();
 
+		setToolTipText("");
 		setOpaque(false);
 		setLayout(new javax.swing.BoxLayout(this,
 				javax.swing.BoxLayout.LINE_AXIS));
@@ -181,6 +186,7 @@ public class MemberListItem extends javax.swing.JPanel {
 
 		enableVideo.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/camera-on.png"))); // NOI18N
+		enableVideo.setToolTipText("\u89c6\u9891\u5f00\u5173");
 		enableVideo.setName("enableVideo");
 		permissionPanel.add(enableVideo);
 
@@ -207,9 +213,11 @@ public class MemberListItem extends javax.swing.JPanel {
 
 	public void handleClick(Point p, Rectangle cellBounds) {
 		if (isClick(enableSound, p, cellBounds)) {
-			ControllerFacade.execute("mainController", "enableUserAudio", !data.isEnableAudio(), data.getName());
+			ControllerFacade.execute("mainController", "enableUserAudio", !data
+					.isEnableAudio(), data.getName());
 		} else if (isClick(enableVideo, p, cellBounds)) {
-			ControllerFacade.execute("mainController", "enableUserVideo", !data.isEnableVideo(), data.getName());
+			ControllerFacade.execute("mainController", "enableUserVideo", !data
+					.isEnableVideo(), data.getName());
 		}
 	}
 
