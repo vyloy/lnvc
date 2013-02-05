@@ -95,6 +95,7 @@ public class MemberListPanel extends javax.swing.JPanel {
 					}
 
 				});
+		memberList.setToolTipText(StringUtil.getUIString("toolTipText.MemberListPanel.memberlist"));
 	}
 
 	public void refreshOperatePanel() {
@@ -272,6 +273,7 @@ public class MemberListPanel extends javax.swing.JPanel {
 
 		memberList
 				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		memberList.setToolTipText("");
 		memberList.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				memberListMouseClicked(evt);

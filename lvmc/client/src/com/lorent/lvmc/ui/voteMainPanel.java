@@ -57,6 +57,12 @@ public class voteMainPanel extends javax.swing.JPanel {
 		//		this.jLabel4.setVisible(flag);
 		//		this.addSelectItemBtn.setVisible(flag);
 		//		this.jLabel5.setVisible(flag);
+		addthemeBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.addthemeBtn"));
+		updateThemeBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.updateThemeBtn"));
+		startVoteBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.startVoteBtn"));
+		comitVoteBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.comitVoteBtn"));
+		voteFinishBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.voteFinishBtn"));
+		voteResultBtn.setToolTipText(StringUtil.getUIString("toolTipText.voteMainPanel.voteResultBtn"));
 	}
 
 	public void reloadData() {

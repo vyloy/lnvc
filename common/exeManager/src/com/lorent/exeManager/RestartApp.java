@@ -15,7 +15,7 @@ public class RestartApp {
 				Thread.sleep(1000);
 			}
 		}
-		String cmd = "createprocess.exe " + appPath + "/" + appName;
+		String cmd = "createprocess.exe IntegrityLevel=High \"" + appPath + "/" + appName + "\"";
 		log.info("command = " + cmd);
 		Runtime.getRuntime().exec(cmd);
 		log.info("RestartApp finish");

@@ -46,6 +46,7 @@ public class VoteTabItemPane extends javax.swing.JPanel {
 		//		this.jPanel4.setLayout(new GridLayout(6, 1));
 		this.jLabel1.setVisible(false);
 		this.jLabel3.setVisible(false);
+		addSelectItemBtn.setToolTipText(StringUtil.getUIString("toolTipText.VoteTabItemPane.addSelectItemBtn"));
 	}
 
 	private Logger log = Logger.getLogger(VoteTabItemPane.class);
@@ -90,8 +91,6 @@ public class VoteTabItemPane extends javax.swing.JPanel {
 						getClass()
 								.getResource(
 										"/com/lorent/lvmc/resource/images/vote_icon/list-add-3.png"))); // NOI18N
-		addSelectItemBtn.setBorderPainted(false);
-		addSelectItemBtn.setContentAreaFilled(false);
 		addSelectItemBtn.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				addSelectItemBtnActionPerformed(evt);

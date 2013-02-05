@@ -8,6 +8,11 @@ public class ExeManager {
 
 	public static void main(String[] args) {
 		if (args[0] != null) {
+			String temp = "args : ";
+			for(String arg : args){
+				temp = temp + arg + " & ";
+			}
+			log.info(temp);
 			try {
 				if (args[0].equals("1")) {// restart app
 					if (args[1] != null && args[2] != null) {

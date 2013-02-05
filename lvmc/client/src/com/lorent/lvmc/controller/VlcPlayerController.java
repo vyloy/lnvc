@@ -398,8 +398,13 @@ public class VlcPlayerController extends BaseController {
 	}
 	
 	public void stopVlcPlayer() throws Exception{
-		VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
-		vlcPlayer.getMediaPlayer().stop();
-		log.info("stopVlcPlayer");
+		
+		File file = new File(System.getProperty("user.dir")+"\\vlc\\libvlc.dll");
+		if (file.exists()) {
+			VlcPlayer vlcPlayer = ViewManager.getComponent(VlcPlayer.class);
+			vlcPlayer.getMediaPlayer().stop();
+			log.info("stopVlcPlayer");
+		}
+		
 	}
 }

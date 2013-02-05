@@ -14,7 +14,7 @@ import com.lorent.lvmc.dto.LoginInfo;
 
 public class UserInfoUtil {
 	
-	private static final String FILE_PATH = "userinfo.properties";
+	private static final String FILE_PATH = Constants.UserPath + "/lorent/lvmc/userinfo.properties";
 	private static final String AUTOLOGIN_SUFFIX = "_autologin";
 	private static final String SAVEPASSWD_SUFFIX = "_savepasswd";
 	

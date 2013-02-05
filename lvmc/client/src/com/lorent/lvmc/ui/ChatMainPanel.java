@@ -186,6 +186,8 @@ public class ChatMainPanel extends javax.swing.JPanel {
 				ChatMainPanel.this.picsJWindow.dispose();
 			}
 		});
+		emotionButton.setToolTipText(StringUtil.getUIString("toolTipText.ChatMainPanel.emotionButton"));
+		jButton2.setToolTipText(StringUtil.getUIString("toolTipText.ChatMainPanel.fontToolBar"));
 	};
 
 	private Object fontstyle = "宋体";

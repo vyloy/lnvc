@@ -11,6 +11,8 @@
 package com.lorent.lvmc.ui;
 
 import com.lorent.lvmc.bean.OptionDto;
+import com.lorent.lvmc.util.StringUtil;
+
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class SelectItemPanel extends javax.swing.JPanel {
 	public SelectItemPanel() {
 		initComponents();
 		this.jPanel2.setVisible(false);
-		//        initItem();
+		initItem();
 	}
 
 	private voteMainPanel mainPanel;
@@ -39,23 +41,25 @@ public class SelectItemPanel extends javax.swing.JPanel {
 		initComponents();
 		this.mainPanel = mainPanel;
 		this.jPanel2.setVisible(false);
-		//        initItem();
+		initItem();
 	}
 
 	public SelectItemPanel(VoteTabItemPane voteTabItemPane) {
 		initComponents();
 		this.voteTabItemPane = voteTabItemPane;
 		this.jPanel2.setVisible(false);
-		//        initItem();
+		initItem();
 	}
 
-	//	public void initItem() {
-	//		this.jPanel1.setLayout(new GridLayout(3, 1));
-	//		this.jPanel1.add(new SingleSelectPanel());
-	//		this.jPanel1.add(new SingleSelectPanel());
-	//		this.jPanel1.add(new SingleSelectPanel());
-	//		this.jPanel1.validate();
-	//	}
+		public void initItem() {
+//			this.jPanel1.setLayout(new GridLayout(3, 1));
+//			this.jPanel1.add(new SingleSelectPanel());
+//			this.jPanel1.add(new SingleSelectPanel());
+//			this.jPanel1.add(new SingleSelectPanel());
+//			this.jPanel1.validate();
+			jButton1.setToolTipText(StringUtil.getUIString("toolTipText.SelectItemPanel.editButton"));
+			jButton2.setToolTipText(StringUtil.getUIString("toolTipText.SelectItemPanel.deleteButton"));
+		}
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -98,8 +102,6 @@ public class SelectItemPanel extends javax.swing.JPanel {
 
 		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/vote_icon/edit-4.png"))); // NOI18N
-		jButton1.setBorderPainted(false);
-		jButton1.setContentAreaFilled(false);
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
@@ -111,8 +113,6 @@ public class SelectItemPanel extends javax.swing.JPanel {
 						getClass()
 								.getResource(
 										"/com/lorent/lvmc/resource/images/vote_icon/list-remove-3.png"))); // NOI18N
-		jButton2.setBorderPainted(false);
-		jButton2.setContentAreaFilled(false);
 		jButton2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton2ActionPerformed(evt);

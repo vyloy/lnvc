@@ -27,6 +27,7 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
+import com.lorent.lvmc.util.StringUtil;
 
 /**
  *
@@ -60,6 +61,7 @@ public class LoginFrame extends JFrame {
 			e.printStackTrace();
 		}
 		autoLoginCb.setVisible(false);
+		setTitle(StringUtil.getUIString("LoginFrame.title"));
 	}
 
 	//GEN-BEGIN:initComponents
@@ -81,7 +83,6 @@ public class LoginFrame extends JFrame {
 		selectConfListButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("\u767b\u5f55");
 		setMinimumSize(new java.awt.Dimension(334, 183));
 		setResizable(false);
 
@@ -124,7 +125,7 @@ public class LoginFrame extends JFrame {
 		});
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-		jLabel1.setText("\u7528\u6237\u540d");
+		jLabel1.setText("\u7528\u6237\u53f7\u7801");
 
 		savePasswdCb.setText("\u4fdd\u5b58\u5bc6\u7801");
 		savePasswdCb.setOpaque(false);
@@ -147,6 +148,7 @@ public class LoginFrame extends JFrame {
 		});
 
 		selectConfListButton.setText("...");
+		selectConfListButton.setToolTipText("\u9009\u62e9\u4f1a\u8bae\u5ba4");
 		selectConfListButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		selectConfListButton
@@ -182,7 +184,7 @@ public class LoginFrame extends JFrame {
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																				186,
+																				182,
 																				Short.MAX_VALUE)
 																		.addComponent(
 																				confirmBtn,
@@ -222,12 +224,16 @@ public class LoginFrame extends JFrame {
 																						.addGroup(
 																								jXPanel1Layout
 																										.createParallelGroup(
-																												javax.swing.GroupLayout.Alignment.TRAILING)
+																												javax.swing.GroupLayout.Alignment.TRAILING,
+																												false)
 																										.addGroup(
 																												jXPanel1Layout
 																														.createSequentialGroup()
 																														.addComponent(
-																																jLabel1)
+																																jLabel1,
+																																javax.swing.GroupLayout.DEFAULT_SIZE,
+																																javax.swing.GroupLayout.DEFAULT_SIZE,
+																																Short.MAX_VALUE)
 																														.addPreferredGap(
 																																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 																														.addComponent(
@@ -325,7 +331,8 @@ public class LoginFrame extends JFrame {
 																savePasswdCb))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												13, Short.MAX_VALUE)
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
 										.addGroup(
 												jXPanel1Layout
 														.createParallelGroup(
@@ -351,7 +358,8 @@ public class LoginFrame extends JFrame {
 	private void selectConfListButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		ControllerFacade.execute("mainController", "showSelectConfListDialog", this);
+		ControllerFacade.execute("mainController", "showSelectConfListDialog",
+				this);
 	}
 
 	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,5 +495,5 @@ public class LoginFrame extends JFrame {
 	public com.lorent.common.component.TextInput getConfnoIt() {
 		return confnoIt;
 	}
-	
+
 }

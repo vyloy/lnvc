@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
  */
 public class ProcessUtil {
     
-    
     private static ProcessUtil instance = new ProcessUtil();
     private Logger log = Logger.getLogger(ProcessUtil.class);
     private ProcessUtil() {
