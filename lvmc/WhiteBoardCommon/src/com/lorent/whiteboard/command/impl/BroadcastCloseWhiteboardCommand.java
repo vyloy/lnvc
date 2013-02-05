@@ -10,7 +10,7 @@ import com.lorent.whiteboard.command.SubsequentlyRunnable;
 import com.lorent.whiteboard.model.CommandsManager;
 import com.lorent.whiteboard.model.Whiteboard;
 
-public class BroadcastCloseWhiteboardCommand extends BroadcastCommand implements ClientRunnable,SubsequentlyRunnable{
+public class BroadcastCloseWhiteboardCommand extends BroadcastCommand implements ClientRunnable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -56,5 +56,10 @@ public class BroadcastCloseWhiteboardCommand extends BroadcastCommand implements
 		result.put("whiteboardId", whiteboardId);
 		result.put("commandId", commandId);
 		return result.toJSONString();
+	}
+
+	@Override
+	public boolean isNeedToReExecute() {
+		return true;
 	}
 }

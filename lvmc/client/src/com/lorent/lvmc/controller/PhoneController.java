@@ -177,10 +177,10 @@ public class PhoneController extends BaseController {
                 isExitApplication = false;
             }
 			memberinfomap.clear();
-    		if(Launcher.isStartedFromOutSide){
+//    		if(Launcher.isStartedFromOutSide){
     			DataUtil.setValue(DataUtil.Key.AleardyHangup, true);
     			Launcher.stopLvmcFromOutSide();
-    		}
+//    		}
 		}
     }
     
@@ -320,8 +320,8 @@ public class PhoneController extends BaseController {
 							if (LccRegisterState != PhoneEvent.PHONE_STATE_REGISTER_SUCCESS) {
 								if (DataUtil.getLoginInfo() != null && !LCCUtil.getInstance().isRegister()) {
 									log.info("尝试注册... LccRegisterState:"+LccRegisterState+",LccState:"+LccState);
-									String mcuLocalPort = ConfigUtil.getProperty("csPort");
-									String mcuIP = DataUtil.getLoginInfo().getServerIP();
+//									String mcuLocalPort = ConfigUtil.getProperty("csPort");
+//									String mcuIP = DataUtil.getLoginInfo().getServerIP();
 									LCCUtil.getInstance().reRegister();
 //										instance.register("sip:" + username + "@" + mcuIP + ":" + mcuLocalPort, password, "sip:" + mcuIP + ":" + mcuLocalPort, 0);
 								}

@@ -123,7 +123,43 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		if (LvmcUtil.isUCSAPP()) {
 			themeButton.setVisible(false);
 		}
-		this.guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
+		themeButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.windowStyleMenu.themeMenu"));
+		themeButton.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.themeButton"));
+		shareDesktopButton.setText(StringUtil
+				.getUIString("DockingLayoutMeetingPanel.screenShareMenu.text"));
+		shareDesktopButton.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.shareDesktopButton"));
+		saveLayouttButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.layoutMenuItemSaveLayout"));
+		saveLayouttButton.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.saveLayoutButton"));
+		selectLayoutButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.changeLayout"));
+		selectLayoutButton.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.selectLayoutButton"));
+		windowButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.viewsMenu"));
+		windowButton.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.windowButton"));
+		otherToolsButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
+		otherToolsButton
+				.setToolTipText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
+		setupButton.setText(StringUtil.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
+		setupButton.setToolTipText(StringUtil.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
+		guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
+		guestbookBtn.setToolTipText(StringUtil.getUIString("toolTipText.MainFrame.guestbookBtn"));
+		aboutBtn.setText(StringUtil.getUIString("main.menu.aboutus"));
+		aboutBtn.setToolTipText(StringUtil.getUIString("toolTipText.MainFrame.aboutbtn"));
+		otherToolsButton.setText(StringUtil.getUIString("mainMenu.otherTools"));
 		instance = this;
 	}
 
@@ -159,9 +195,10 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		saveLayouttButton = new javax.swing.JButton();
 		selectLayoutButton = new javax.swing.JButton();
 		windowButton = new javax.swing.JButton();
-		screenShotButton = new javax.swing.JButton();
+		otherToolsButton = new javax.swing.JButton();
 		setupButton = new javax.swing.JButton();
 		guestbookBtn = new javax.swing.JButton();
+		aboutBtn = new javax.swing.JButton();
 		logoPanel = new javax.swing.JPanel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -262,9 +299,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		themeButton.setFont(new java.awt.Font("新宋体", 0, 12));
 		themeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/changetheme.png"))); // NOI18N
-		themeButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.windowStyleMenu.themeMenu"));
+		themeButton.setToolTipText("");
 		themeButton.setFocusable(false);
 		themeButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -283,8 +318,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		shareDesktopButton
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/lvmc/resource/images/sharedesktop_32.png"))); // NOI18N
-		shareDesktopButton.setText(StringUtil
-				.getUIString("DockingLayoutMeetingPanel.screenShareMenu.text"));
+		shareDesktopButton.setToolTipText("");
 		shareDesktopButton.setFocusable(false);
 		shareDesktopButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -305,9 +339,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		saveLayouttButton
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/lvmc/resource/images/savelayout.png"))); // NOI18N
-		saveLayouttButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.layoutMenuItemSaveLayout"));
+		saveLayouttButton.setToolTipText("");
 		saveLayouttButton.setFocusable(false);
 		saveLayouttButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -326,9 +358,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 
 		selectLayoutButton.setIcon(new javax.swing.ImageIcon(getClass()
 				.getResource("/com/lorent/lvmc/resource/images/window.png"))); // NOI18N
-		selectLayoutButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.changeLayout"));
+		selectLayoutButton.setToolTipText("");
 		selectLayoutButton.setFocusable(false);
 		selectLayoutButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -347,9 +377,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 
 		windowButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/views.png"))); // NOI18N
-		windowButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.viewsMenu"));
+		windowButton.setToolTipText("");
 		windowButton.setFocusable(false);
 		windowButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -366,31 +394,25 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(windowButton);
 
-		screenShotButton
+		otherToolsButton
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 						"/com/lorent/lvmc/resource/images/screenshot.png"))); // NOI18N
-		screenShotButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
-		screenShotButton.setFocusable(false);
-		screenShotButton
+		otherToolsButton.setFocusable(false);
+		otherToolsButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-		screenShotButton.setMaximumSize(new java.awt.Dimension(58, 57));
-		screenShotButton.setPreferredSize(new java.awt.Dimension(58, 57));
-		screenShotButton
+		otherToolsButton.setMaximumSize(new java.awt.Dimension(58, 57));
+		otherToolsButton.setPreferredSize(new java.awt.Dimension(58, 57));
+		otherToolsButton
 				.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-		screenShotButton.addActionListener(new java.awt.event.ActionListener() {
+		otherToolsButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				screenShotButtonActionPerformed(evt);
+				otherToolsButtonActionPerformed(evt);
 			}
 		});
-		jToolBar1.add(screenShotButton);
+		jToolBar1.add(otherToolsButton);
 
 		setupButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/setup.png"))); // NOI18N
-		setupButton
-				.setText(StringUtil
-						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
 		setupButton.setFocusable(false);
 		setupButton
 				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -419,6 +441,20 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(guestbookBtn);
 
+		aboutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/lvmc/resource/images/main-about.png"))); // NOI18N
+		aboutBtn.setFocusable(false);
+		aboutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		aboutBtn.setMaximumSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setPreferredSize(new java.awt.Dimension(58, 57));
+		aboutBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		aboutBtn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				aboutBtnActionPerformed(evt);
+			}
+		});
+		jToolBar1.add(aboutBtn);
+
 		logoPanel.setOpaque(false);
 		logoPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT,
 				5, 0));
@@ -439,6 +475,10 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {
+		ControllerFacade.execute("mainController", "showAboutDialog");
+	}
+
 	private void guestbookBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		ControllerFacade.execute("mainController", "showGuestBook");
 	}
@@ -449,9 +489,9 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		systemSetupPopupMenu.showPopup();
 	}
 
-	private void screenShotButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void otherToolsButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//		ControllerFacade.execute("screenShotController", "capture");
-		new ToolsPopupMenu(this.screenShotButton).showPopup();
+		new ToolsPopupMenu(this.otherToolsButton).showPopup();
 	}
 
 	private void windowButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -606,6 +646,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JButton aboutBtn;
 	private javax.swing.JButton guestbookBtn;
 	private javax.swing.JButton jButton3;
 	private javax.swing.JPanel jPanel1;
@@ -618,8 +659,8 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	private javax.swing.JPanel logoPanel;
 	private javax.swing.JButton maxizableButton;
 	private javax.swing.JButton minizableButton;
+	private javax.swing.JButton otherToolsButton;
 	private javax.swing.JButton saveLayouttButton;
-	private javax.swing.JButton screenShotButton;
 	private javax.swing.JButton selectLayoutButton;
 	private javax.swing.JButton setupButton;
 	private javax.swing.JButton shareDesktopButton;

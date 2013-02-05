@@ -35,6 +35,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							title="<s:text name="page.display.text.resourceadmin.sysconfig" />">
 						<s:text name="page.display.text.resourceadmin.sysconfig" />
 					</a></div>
+					<div><a href="app/systemParasAction_toList_parasList.action" target="index_iframe"
+							title="<s:text name="page.systemparas.set" />">
+						<s:text name="page.systemparas.set" />
+					</a></div>
 					<!-- 会议录音管理 
 					<div><a href="app/recordMediaAction_toRecordList_recordMediaList.action" target="index_iframe"
 							title="<s:text name="page.display.text.resourceadmin.recordmediaconfig" />">
@@ -101,12 +105,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</a></div>
     			</li> --%>
     			<!-- 权限管理 -->
-    			<!--<li class="menu"><s:text name="page.display.text.authoritymanager" /></li>
+    			<li class="menu"><s:text name="page.display.text.authoritymanager" /></li>
     			<li class="menu_list">
-    				<div><a href="app/conferenceTypeAction_toConferenceTypeList_conferencetypelist.action" target="index_iframe"
+    				<!--<div><a href="app/conferenceTypeAction_toConferenceTypeList_conferencetypelist.action" target="index_iframe"
 							title="<s:text name="page.display.text.authoritymanager.conferencetypedefine"/>">
 						<s:text name="page.display.text.authoritymanager.conferencetypedefine"></s:text>
-					</a></div>
+					</a></div>-->
 					<div><a href="app/conferenceRoleAction_toConferenceRoleList_conferencerolelist.action" target="index_iframe"
 							title="<s:text name="page.display.text.authoritymanager.roledefine"/>">
 						<s:text name="page.display.text.authoritymanager.roledefine"></s:text>
@@ -115,10 +119,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							title="<s:text name="page.display.text.authoritymanager.authoritydefine"/>">
 						<s:text name="page.display.text.authoritymanager.authoritydefine"></s:text>
 					</a></div>
-					<div><a href="app/conferenceNewAction_toConferenceNewList_conferencenewlist.action" target="index_iframe">
+					<!--  <div><a href="app/conferenceNewAction_toConferenceNewList_conferencenewlist.action" target="index_iframe">
 						<s:text name="page.display.text.conferencenew" />
-					</a></div>
-    			</li>-->
+					</a></div>-->
+    			</li>
     			<%--<li class="menu"><s:text name="page.display.text.mediaadmin" /></li>
     			<li class="menu_list">
     				<div><a href="app/toPage_pages_conf_conflist.action" target="index_iframe"

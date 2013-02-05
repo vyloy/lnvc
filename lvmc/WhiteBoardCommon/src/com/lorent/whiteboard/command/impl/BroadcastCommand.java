@@ -10,16 +10,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.command.DelayedMeetingCommandAdaptor;
 import com.lorent.whiteboard.command.Savable;
+import com.lorent.whiteboard.command.SubsequentlyRunnable;
 import com.lorent.whiteboard.command.WhiteboardCommand;
+import com.lorent.whiteboard.model.CommandsManager;
 import com.lorent.whiteboard.model.Detailed;
 import com.lorent.whiteboard.model.Identifiable;
-import com.lorent.whiteboard.model.RemoteFigure;
-import com.lorent.whiteboard.model.RemoteFigures;
 import com.lorent.whiteboard.model.Updater;
 import com.lorent.whiteboard.model.View;
 import com.lorent.whiteboard.model.Whiteboard;
 
-public class BroadcastCommand extends DelayedMeetingCommandAdaptor implements WhiteboardCommand, Savable,Detailed{
+public class BroadcastCommand extends DelayedMeetingCommandAdaptor implements WhiteboardCommand, Savable,Detailed,SubsequentlyRunnable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -41,6 +41,8 @@ public class BroadcastCommand extends DelayedMeetingCommandAdaptor implements Wh
 	protected String whiteboardId;
 	
 	protected volatile int page;
+	
+	private transient boolean needToReExecute=true;
 	
 	protected BroadcastCommand(String meetingId,Updater<?> updater,String whiteboardId,int page) {
 		super(meetingId);
@@ -127,9 +129,6 @@ public class BroadcastCommand extends DelayedMeetingCommandAdaptor implements Wh
 		BroadcastResultCommand resultCommand=updater.createResultCommand(board, oid, commandId);
 		board.saveToDatabase(this);
 		board.getMeeting().broadcast(session,this);
-		if(updater instanceof RemoteFigure ||updater instanceof RemoteFigures){
-			session.write(this);
-		}
 		session.write(resultCommand);
 		session.setAttribute(this, resultCommand);
 	}
@@ -213,5 +212,21 @@ public class BroadcastCommand extends DelayedMeetingCommandAdaptor implements Wh
 	@Override
 	public String toString() {
 		return toJSON(false).toJSONString();
+	}
+
+	@Override
+	public void subsequentlyRun(CommandsManager manager) {
+		if(isNeedToReExecute()){
+			manager.execute(this);
+		}
+	}
+
+	@Override
+	public boolean isNeedToReExecute() {
+		return needToReExecute;
+	}
+
+	public void setNeedToReExecute(boolean needToReExecute) {
+		this.needToReExecute = needToReExecute;
 	}
 }

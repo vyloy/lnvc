@@ -31,6 +31,7 @@
         <Component class="javax.swing.JList" name="memberList">
           <Properties>
             <Property name="selectionMode" type="int" value="0"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="memberListMouseClicked"/>

@@ -5,27 +5,23 @@
 package com.lorent.lvmc.controller;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 
 import com.lorent.common.util.FileUtil;
+import com.lorent.lvmc.Launcher;
 import com.lorent.lvmc.dto.LoginInfo;
-import com.lorent.lvmc.ui.ConfirmDialog;
 import com.lorent.lvmc.ui.ConfirmUploadFileDialog;
+import com.lorent.lvmc.ui.MsgUploadFileDialog;
 import com.lorent.lvmc.ui.ShareFileListItem;
 import com.lorent.lvmc.ui.ShareFileListPanel;
 import com.lorent.lvmc.ui.WhiteBoardPanel;
@@ -97,6 +93,28 @@ public class ShareFileListController extends BaseController {
 				findedFiles.addAll(allFiles);
 			}
 		}
+    	//检查文件大小是否超出限制
+    	ArrayList<String> tooMaxFileNames = new ArrayList<String>();
+    	String maxsize = Launcher.getLCMUtil().getSystemProperties("lvmc").get("sharefile.upload.maxfilesize");
+        long maxfilesize = Long.parseLong(maxsize);
+        for (File file : findedFiles) {
+			if (file.isFile() && file.length() > maxfilesize) {
+				tooMaxFileNames.add(file.getName());
+			}
+		}
+        if (tooMaxFileNames.size() > 0) {
+        	MsgUploadFileDialog msgUploadFileDialog = new MsgUploadFileDialog(null, true);
+        	msgUploadFileDialog.getMessageLabel().setText(StringUtil.getUIString("ShareFileListController.msgUploadFileSizeMax"));
+        	DefaultListModel msgModel = (DefaultListModel) msgUploadFileDialog.getMessageList().getModel();
+        	msgModel.clear();
+        	for (String string : tooMaxFileNames) {
+    			msgModel.addElement(string);
+    		}
+        	ViewManager.setWindowCenterLocation(msgUploadFileDialog);
+        	msgUploadFileDialog.setVisible(true);
+        	return;
+		}
+    	
     	//检查文件是否已经存在
     	for (File file : findedFiles) {
     		
@@ -167,8 +185,10 @@ public class ShareFileListController extends BaseController {
             	showErrorDialog(StringUtil.getErrorString("error.title"),StringUtil.getErrorString("uploadfile.length.iszero"));
             	return;
 			}
-            if(fileLength>ConfigUtil.getLongProperty("uploadFileSize")){
-                showErrorDialog(StringUtil.getErrorString("error.title"),StringUtil.getFormatString(StringUtil.getErrorString("uploadfile.length.toomuch"), MathUtil.convertByte(ConfigUtil.getLongProperty("uploadFileSize"), 0)));
+            String maxsize = Launcher.getLCMUtil().getSystemProperties("lvmc").get("sharefile.upload.maxfilesize");
+            long maxfilesize = Long.parseLong(maxsize);
+            if(fileLength > maxfilesize){//ConfigUtil.getLongProperty("uploadFileSize")
+                showErrorDialog(StringUtil.getErrorString("error.title"),StringUtil.getFormatString(StringUtil.getErrorString("uploadfile.length.toomuch"), MathUtil.convertByte(maxfilesize, 0)));
                 return;
             }
             

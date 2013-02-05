@@ -16,11 +16,14 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.Collection;
 
-import org.jhotdraw.samples.svg.figures.Transform;
+import org.jhotdraw.samples.svg.figures.MoveFigure;
 
 import com.lorent.whiteboard.client.Client;
 import com.lorent.whiteboard.model.RemoteFigure;
@@ -83,7 +86,8 @@ public class MoveHandle extends LocatorHandle {
         Figure f = getOwner();
         if(f instanceof RemoteFigure){
         	RemoteFigure rf=(RemoteFigure) f;
-        	Client.getInstance().broadcast(new Transform(rf, tx));
+//        	Client.getInstance().broadcast(new Transform(rf, tx));
+        	Client.getInstance().broadcast(new MoveFigure(rf));
         }
         fireUndoableEditHappened(
                 new TransformEdit(getOwner(),tx)

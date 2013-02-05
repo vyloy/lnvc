@@ -410,7 +410,7 @@ public class ShareFileListPanel extends javax.swing.JPanel {
 			Boolean bflag = (Boolean) ControllerFacade.execute(
 					"shareFileListController", "checkFileSupportConvert", item
 							.getFileName());
-			if (bflag) {
+			if (bflag && PermissionUtil.hasPermission(PermissionUtil.SHARE_DOCUMENT)) {
 				loadBoardButton.setEnabled(true);
 			} else {
 				loadBoardButton.setEnabled(false);

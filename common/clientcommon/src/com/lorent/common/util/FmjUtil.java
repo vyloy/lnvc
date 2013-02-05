@@ -147,7 +147,7 @@ public class FmjUtil {
 		void doEnable();
 	}
 
-	public BufferedImage takePhone() {
+	public BufferedImage takePhoto() {
 		Dimension imageSize = container.getSize();
 		BufferedImage image = new BufferedImage(imageSize.width,
 				imageSize.height, BufferedImage.TYPE_INT_RGB);
@@ -161,7 +161,7 @@ public class FmjUtil {
 		return image;
 	}
 
-	public void repeatPhone() {
+	public void repeatPhoto() {
 		if (containerPlayer != null) {
 			containerPlayer.start();
 		}

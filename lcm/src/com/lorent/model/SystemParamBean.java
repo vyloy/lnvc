@@ -5,7 +5,7 @@ package com.lorent.model;
  * @author jack
  *
  */
-public class SystemParamBean extends BaseModel {
+public class SystemParamBean extends BaseModel{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -40,5 +40,6 @@ public class SystemParamBean extends BaseModel {
 		this.description = description;
 	}
 	
+
 	
 }

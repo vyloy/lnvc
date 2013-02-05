@@ -15,25 +15,23 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 
 import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.dto.LCMConferenceRoleBean;
 import com.lorent.common.dto.LCMConferenceTypeBean;
 import com.lorent.common.dto.LCMMobileBean;
-import com.lorent.common.tree.BroadcastEvent;
 import com.lorent.common.util.PasswordUtil;
 import com.lorent.common.util.SMSUtil;
-import com.lorent.exception.RpcServerException;
+import com.lorent.dto.XmlrpcConf;
+import com.lorent.exception.ArgsException;
 import com.lorent.model.ConferenceBean;
 import com.lorent.model.ConferenceNewBean;
 import com.lorent.model.ConferenceRoleBean;
 import com.lorent.model.ConferenceTypeBean;
 import com.lorent.model.CustomerBean;
-import com.lorent.model.McuMixerBean;
 import com.lorent.model.McuServerBean;
 import com.lorent.model.MonitorNetBean;
+import com.lorent.model.SystemParamBean;
 import com.lorent.model.UserBean;
 import com.lorent.trigger.McuRestoreTrigger;
 import com.lorent.trigger.QuartzTrigger;
@@ -647,14 +645,20 @@ public class ConferenecHandler extends BaseHandler {
 		return true;
 	}
 	
-	private boolean existConf(String confno)throws Exception{
-		ConferenceNewBean bean = new ConferenceNewBean();
-		bean.setConfNo(confno);
-		List<ConferenceNewBean> all = serviceFacade.getConferenceNewService().getByExample(bean);
-		if(all == null || all.size() == 0){
-			return false;
-		}else{
-			return true;
+	public boolean existConf(String confno)throws Exception{
+		try{
+			ConferenceNewBean bean = new ConferenceNewBean();
+			bean.setConfNo(confno);
+			bean.setDel(1);
+			List<ConferenceNewBean> all = serviceFacade.getConferenceNewService().getByExample(bean);
+			if(all == null || all.size() == 0){
+				return false;
+			}else{
+				return true;
+			}
+		}catch(Exception e){
+			log.error("existConf", e);
+			throw new Exception(e.getMessage());
 		}
 		
 	}
@@ -852,6 +856,21 @@ public class ConferenecHandler extends BaseHandler {
 		return serviceFacade.getConferenceNewService().getCurrentForwardConfInfo();
 	}
 	
+	public Object[] getForwardConferenceByConfNo(String confNo) throws Exception{
+		CustomerBean firstValidCustomer = serviceFacade.getCustomerService().getFirstValidCustomer();
+		String xmlrpcUrl = firstValidCustomer.getMcuServer().getServerUrl();
+//		List<XmlrpcConf> confs = McuXmlrpc.getForwardConferenceList(xmlrpcUrl);
+		Object[] result = new Object[4];
+		XmlrpcConf xmlrpcConf = McuXmlrpc.getForwardConferenceByConfNo(xmlrpcUrl, confNo);
+		if (xmlrpcConf != null) {
+			result[0] = xmlrpcConf.getConfno();
+//			result[1] = xmlrpcConf.getLayout();
+			result[2] = xmlrpcConf.getMemberCount();
+//			result[3] = xmlrpcConf.getQuality();
+		}
+		return result;
+	}
+	
 	public boolean broadcastVideoCommand(String confNo,String from,Object[] toLccnos,HashMap command) throws Exception{
 //		OpenfireUtil.getInstance().sendGroupBroadcast(BroadcastEvent.BROADCAST_CONF_COMMAND, new Object[]{from,toLccnos,command});
 		String[] members = new String[toLccnos.length];
@@ -860,6 +879,21 @@ public class ConferenecHandler extends BaseHandler {
 		}
 		OpenfireUtil.getInstance().sendConfVideoCommand(confNo,from, members, command);
 		return true;
+	}
+	
+	public Map<String, String> getSystemProperties(String module)throws Exception{
+		Map<String, String> map = new HashMap<String, String>();
+		try{
+			List<SystemParamBean> paras = serviceFacade.getStaticService().getSystemParamsByModule(module);
+			for(SystemParamBean para : paras){
+				map.put(para.getKey(), para.getValue());
+			}
+			return map;
+		}catch(Exception e){
+			log.error("getSystemProperties error ", e);
+			throw new Exception(e.getMessage());
+		}
+		
 	}
 	
 	//--------------------------------------供 VOVO 调用(不带业务逻辑)end ----------------------------------

@@ -60,6 +60,45 @@ public class MemberListPanel extends javax.swing.JPanel {
 		memberList.setCellRenderer(new MyListCellRenderer());
 		DefaultListModel model = (DefaultListModel) memberList.getModel();
 		model.removeAllElements();
+		refreshOperatePanel();
+		menu = new javax.swing.JPopupMenu();
+		grantNarratorMenuItem = new javax.swing.JMenuItem("授予主讲人权限");
+		revokeNarratorMenuItem = new javax.swing.JMenuItem("取消主讲人权限");
+		grantCompereMenuItem = new javax.swing.JMenuItem("授予主持人权限");
+		menu.add(grantNarratorMenuItem);
+		menu.add(revokeNarratorMenuItem);
+		menu.add(grantCompereMenuItem);
+		grantNarratorMenuItem
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						grantOrRevokeAuthority(Constants.GRANT_AUTHORITY,
+								Constants.NARRATOR_STR);//授予主讲人权限
+					}
+
+				});
+		revokeNarratorMenuItem
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						grantOrRevokeAuthority(Constants.REVOKE_AUTHORITY,
+								Constants.NARRATOR_STR);//取消主讲人权限
+					}
+
+				});
+		grantCompereMenuItem
+				.addActionListener(new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						grantOrRevokeAuthority(Constants.GRANT_AUTHORITY,
+								Constants.COMPERE_STR);//取消主持人权限
+					}
+
+				});
+		memberList.setToolTipText(StringUtil.getUIString("toolTipText.MemberListPanel.memberlist"));
+	}
+
+	public void refreshOperatePanel() {
 		this.operatePanel.setVisible(false);
 		this.inviteButton.setVisible(false);
 		this.kickButton.setVisible(false);
@@ -71,42 +110,13 @@ public class MemberListPanel extends javax.swing.JPanel {
 			this.operatePanel.setVisible(true);
 			this.kickButton.setVisible(true);
 		}
-		menu = new javax.swing.JPopupMenu();
-		grantNarratorMenuItem = new javax.swing.JMenuItem("授予主讲人权限");
-		revokeNarratorMenuItem = new javax.swing.JMenuItem("取消主讲人权限");
-		grantCompereMenuItem = new javax.swing.JMenuItem("授予主持人权限");
-		menu.add(grantNarratorMenuItem);
-		menu.add(revokeNarratorMenuItem);
-		menu.add(grantCompereMenuItem);
-		grantNarratorMenuItem.addActionListener(new java.awt.event.ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				grantOrRevokeAuthority(Constants.GRANT_AUTHORITY,Constants.NARRATOR_STR);//授予主讲人权限
-			}
-			
-		});
-		revokeNarratorMenuItem.addActionListener(new java.awt.event.ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				grantOrRevokeAuthority(Constants.REVOKE_AUTHORITY,Constants.NARRATOR_STR);//取消主讲人权限
-			}
-			
-		});
-		grantCompereMenuItem.addActionListener(new java.awt.event.ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				grantOrRevokeAuthority(Constants.GRANT_AUTHORITY,Constants.COMPERE_STR);//取消主持人权限
-			}
-			
-		});
 	}
-	
-	
-	public void grantOrRevokeAuthority(int flag,String roleName){
+
+	public void grantOrRevokeAuthority(int flag, String roleName) {
 		this.menu.setVisible(false);
-		MemberListItem item = (MemberListItem) memberList
-		.getSelectedValue();
-		ControllerFacade.execute("authorityController", "grantOrRevokeConfAuthority", item , flag, roleName);
+		MemberListItem item = (MemberListItem) memberList.getSelectedValue();
+		ControllerFacade.execute("authorityController",
+				"grantOrRevokeConfAuthority", item, flag, roleName);
 	}
 
 	private class MyListCellRenderer extends DefaultListCellRenderer {
@@ -156,7 +166,8 @@ public class MemberListPanel extends javax.swing.JPanel {
 			model.removeAllElements();
 			for (MemberDto member : members) {
 				MemberListItem memberListItem = new MemberListItem();
-				memberListItem.setData(member, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
+				memberListItem.setData(member, PermissionUtil
+						.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 				model.addElement(memberListItem);
 			}
 			this.revalidate();
@@ -180,17 +191,19 @@ public class MemberListPanel extends javax.swing.JPanel {
 		} else {
 			log.info("已有" + member.getName() + "号码，不需要加入");
 		}
-		memberListItem.setData(member, PermissionUtil.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
+		memberListItem.setData(member, PermissionUtil
+				.hasPermission(PermissionUtil.AUTHORITY_OPERATE));
 	}
 
 	public void updateOneMember(MemberDto member) {
-		MemberListItem memberListItem = getMemberListItemByName(member.getName());
+		MemberListItem memberListItem = getMemberListItemByName(member
+				.getName());
 		//暂时只更新音视频状态
 		memberListItem.updateVideoSoundStatus(memberListItem.getData());
 		this.revalidate();
 		this.repaint();
 	}
-	
+
 	public void removeOneMember(String member) {
 		DefaultListModel model = (DefaultListModel) memberList.getModel();
 		MemberDto temp = getMemberByName(member);
@@ -246,12 +259,6 @@ public class MemberListPanel extends javax.swing.JPanel {
 		});
 	}
 
-	/** This method is called from within the constructor to
-	 * initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is
-	 * always regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
@@ -266,6 +273,7 @@ public class MemberListPanel extends javax.swing.JPanel {
 
 		memberList
 				.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		memberList.setToolTipText("");
 		memberList.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				memberListMouseClicked(evt);
@@ -336,21 +344,22 @@ public class MemberListPanel extends javax.swing.JPanel {
 			memberList.setSelectedIndex(locationToIndex);
 			Object selectedValue = memberList.getSelectedValue();
 			MemberListItem item = (MemberListItem) selectedValue;
-			if(item != null){
-				ControllerFacade.execute("videoViewsController", "showMemberVideo",
-						item);
+			if (item != null) {
+				ControllerFacade.execute("videoViewsController",
+						"showMemberVideo", item);
 			}
-		}else if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1
-				&& evt.getClickCount() == 1){
+		} else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1
+				&& evt.getClickCount() == 1) {
 			int locationToIndex = memberList.locationToIndex(evt.getPoint());
 			memberList.setSelectedIndex(locationToIndex);
 			Object selectedValue = memberList.getSelectedValue();
 			MemberListItem item = (MemberListItem) selectedValue;
-			if(item != null){
-				Rectangle cellBounds = memberList.getCellBounds(locationToIndex, locationToIndex);
+			if (item != null) {
+				Rectangle cellBounds = memberList.getCellBounds(
+						locationToIndex, locationToIndex);
 				item.handleClick(evt.getPoint(), cellBounds);
 			}
-		}else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+		} else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
 			int locationToIndex = memberList.locationToIndex(evt.getPoint());
 			memberList.setSelectedIndex(locationToIndex);
 			MemberListItem item = (MemberListItem) memberList
@@ -358,10 +367,13 @@ public class MemberListPanel extends javax.swing.JPanel {
 			if (item != null) {
 				LoginInfo info = DataUtil.getLoginInfo();
 				MemberDto myInfo = this.getMemberByName(info.getUsername());
-				if (myInfo.getRole() != null && myInfo.getRole().getPermissions().containsKey(
-						PermissionUtil.AUTHORITY_OPERATE)) {
-					String[] memberinfo = (String[])ControllerFacade.execute("phoneController", "getMemberInfoByUserName", item.getData().getName());
-					if(memberinfo == null || ! memberinfo[5].equals("1")){//不是我们的客户端不能更改权限
+				if (myInfo.getRole() != null
+						&& myInfo.getRole().getPermissions().containsKey(
+								PermissionUtil.AUTHORITY_OPERATE)) {
+					String[] memberinfo = (String[]) ControllerFacade.execute(
+							"phoneController", "getMemberInfoByUserName", item
+									.getData().getName());
+					if (memberinfo == null || !memberinfo[5].equals("1")) {//不是我们的客户端不能更改权限
 						log.info("not lvmc client");
 						return;
 					}
@@ -373,9 +385,9 @@ public class MemberListPanel extends javax.swing.JPanel {
 						this.grantNarratorMenuItem.setEnabled(true);
 						this.revokeNarratorMenuItem.setEnabled(false);
 					}
-					if(!item.getData().getName().equals(info.getUsername())){
+					if (!item.getData().getName().equals(info.getUsername())) {
 						this.grantCompereMenuItem.setEnabled(true);
-					}else{
+					} else {
 						this.grantCompereMenuItem.setEnabled(false);
 					}
 					this.menu.show(this, evt.getX(), evt.getY());
@@ -397,25 +409,25 @@ public class MemberListPanel extends javax.swing.JPanel {
 	public JList getMemberList() {
 		return memberList;
 	}
-	
-	public void setVisibleOfInviteButton(boolean f){
+
+	public void setVisibleOfInviteButton(boolean f) {
 		this.operatePanel.setVisible(f);
 		this.inviteButton.setVisible(f);
 	}
-	
-	public void setVisibleOfKickButton(boolean f){
+
+	public void setVisibleOfKickButton(boolean f) {
 		this.operatePanel.setVisible(f);
 		this.kickButton.setVisible(f);
 	}
-	
-	public static void main(String[] args){
-		List<String> list = new ArrayList<String>(); 
+
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<String>();
 		list.add("gg");
 		String str = new String("gg");
 		list.remove(str);
 		System.out.println(list.contains(str));
 	}
-	
+
 	public List<MemberListItem> getAllMemberListItem() {
 		DefaultListModel model = (DefaultListModel) memberList.getModel();
 		List<MemberListItem> items = new ArrayList<MemberListItem>();

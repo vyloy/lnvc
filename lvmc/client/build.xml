@@ -29,15 +29,16 @@
 				<include name="**" />
 			</fileset>
 		</copy>
-		<copy todir="${lvmc.pack.dir}">
+		<copy todir="${lvmc.pack.dir}" >
 			<fileset dir="${basedir}">
 				<patternset refid="copy.files" />
 			</fileset>
 			<fileset dir="${basedir}/bin">
 				<include name="lvmc_lib/**" />
-				<include name="lvmc.jar" />
+				<include name="lvmc-ucs.jar" />
 			</fileset>
 		</copy>
+		<move file="${lvmc.pack.dir}/lvmc-ucs.jar" tofile="${lvmc.pack.dir}/lvmc.jar"></move>
 		<antcall target="buildexe">
 		</antcall>
 		<mkdir dir="${dest.dir}" />

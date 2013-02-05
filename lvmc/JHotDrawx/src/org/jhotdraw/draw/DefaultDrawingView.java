@@ -1015,7 +1015,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 	
 	private transient volatile boolean dragging = false;
 	
-	private transient LinkedBlockingQueue<Updater<View>> waitQueue = new LinkedBlockingQueue<Updater<View>>();
+	private transient LinkedBlockingQueue<BroadcastCommand> waitQueue = new LinkedBlockingQueue<BroadcastCommand>();
 	
 	private PageQuickAccessPanel pageQuickAccessPanel=new PageQuickAccessPanel();
 	
@@ -1030,14 +1030,14 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 		public void run() {
 			try{
 				while(!isInterrupted()){
-					Updater<View> u = waitQueue.take();
+					BroadcastCommand c = waitQueue.take();
 					synchronized(draggingLock){
 						while(dragging){
 							draggingLock.wait(300);
 						}
 					}
-					u.change(DefaultDrawingView.this);
-					logger.info("Executed {}",u);
+					c.getUpdater().change(DefaultDrawingView.this);
+					logger.info("Executed {}",c);
 				}
 			}catch(InterruptedException e){
 			}
@@ -1087,7 +1087,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView,
 						if(!dragging||transform){
 							updater.change(this);
 						}else{
-							waitQueue.offer(updater);
+							waitQueue.offer(command);
 						}
 					}
 				}

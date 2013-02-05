@@ -40,6 +40,8 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		}
 		this.jPanel4.setVisible(false);
 		this.jPanel5.setVisible(false);
+		Boolean enableAdvance = Boolean.valueOf(DataUtil.getSystemPara("video.advance.setup"));
+		this.advanceSetupBtn.setEnabled(enableAdvance);
 	}
 
 	/** This method is called from within the constructor to
@@ -92,7 +94,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 		jPanel38 = new javax.swing.JPanel();
 		jCheckBox3 = new javax.swing.JCheckBox();
 		jPanel36 = new javax.swing.JPanel();
-		jButton1 = new javax.swing.JButton();
+		advanceSetupBtn = new javax.swing.JButton();
 		jPanel6 = new javax.swing.JPanel();
 		jPanel8 = new javax.swing.JPanel();
 		jPanel12 = new javax.swing.JPanel();
@@ -366,13 +368,13 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 
 		jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		jButton1.setText("\u66f4\u591a\u5c5e\u6027\u8bbe\u7f6e");
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		advanceSetupBtn.setText("\u89c6\u9891\u8d28\u91cf\u8bbe\u7f6e");
+		advanceSetupBtn.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
 			}
 		});
-		jPanel36.add(jButton1);
+		jPanel36.add(advanceSetupBtn);
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
@@ -390,7 +392,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 367,
 				Short.MAX_VALUE));
 		jPanel8Layout.setVerticalGroup(jPanel8Layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 168,
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 167,
 				Short.MAX_VALUE));
 
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -514,7 +516,7 @@ public class VideoEquipmentSetupDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JComboBox CameraComboBox;
 	private javax.swing.JButton cancelButton;
-	private javax.swing.JButton jButton1;
+	private javax.swing.JButton advanceSetupBtn;
 	private javax.swing.JCheckBox jCheckBox3;
 	private javax.swing.JComboBox jComboBox2;
 	private javax.swing.JComboBox jComboBox4;

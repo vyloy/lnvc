@@ -72,10 +72,10 @@ public class ProcessUtil {
     public void restartApplication() throws Exception {
         //log.info("重启程序");
         String path = System.getProperty("user.dir");
-        String cmd = "cmd /c \"" + path + "/" + Constants.APPLICATION_NAME + "\"";
+        String cmd = "createprocess.exe IntegrityLevel=High \"exeManager.exe 1 \\\"" + path + "\\\" " + Constants.APPLICATION_NAME + "\"";
         log.info(cmd);
         Runtime.getRuntime().exec(cmd);
-        Thread.sleep(1000);
+//        Thread.sleep(100);
         System.exit(0);
     }
     

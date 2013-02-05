@@ -27,6 +27,7 @@ import org.jdesktop.swingx.painter.ImagePainter.ScaleType;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.lvmc.controller.ControllerFacade;
 import com.lorent.lvmc.util.ConfigUtil;
+import com.lorent.lvmc.util.StringUtil;
 
 /**
  *
@@ -60,6 +61,7 @@ public class LoginFrame extends JFrame {
 			e.printStackTrace();
 		}
 		autoLoginCb.setVisible(false);
+		setTitle(StringUtil.getUIString("LoginFrame.title"));
 	}
 
 	//GEN-BEGIN:initComponents
@@ -78,9 +80,9 @@ public class LoginFrame extends JFrame {
 		autoLoginCb = new javax.swing.JCheckBox();
 		confPasswdIt = new com.lorent.common.component.PasswdInput();
 		registerBtn = new com.lorent.common.component.CommonButton();
+		selectConfListButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("\u767b\u5f55");
 		setMinimumSize(new java.awt.Dimension(334, 183));
 		setResizable(false);
 
@@ -109,6 +111,8 @@ public class LoginFrame extends JFrame {
 
 		confnoIt.setLabel("\u4f1a\u8bae\u5ba4");
 
+		serverIPIt.setEnable(false);
+		serverIPIt.setEnabled(false);
 		serverIPIt.setLabel("\u670d\u52a1\u5668");
 
 		usernameCb.setEditable(true);
@@ -121,7 +125,7 @@ public class LoginFrame extends JFrame {
 		});
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-		jLabel1.setText("\u7528\u6237\u540d");
+		jLabel1.setText("\u7528\u6237\u53f7\u7801");
 
 		savePasswdCb.setText("\u4fdd\u5b58\u5bc6\u7801");
 		savePasswdCb.setOpaque(false);
@@ -142,6 +146,17 @@ public class LoginFrame extends JFrame {
 				registerBtnActionPerformed(evt);
 			}
 		});
+
+		selectConfListButton.setText("...");
+		selectConfListButton.setToolTipText("\u9009\u62e9\u4f1a\u8bae\u5ba4");
+		selectConfListButton
+				.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		selectConfListButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						selectConfListButtonActionPerformed(evt);
+					}
+				});
 
 		javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(
 				jXPanel1);
@@ -169,7 +184,7 @@ public class LoginFrame extends JFrame {
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																				186,
+																				182,
 																				Short.MAX_VALUE)
 																		.addComponent(
 																				confirmBtn,
@@ -209,12 +224,16 @@ public class LoginFrame extends JFrame {
 																						.addGroup(
 																								jXPanel1Layout
 																										.createParallelGroup(
-																												javax.swing.GroupLayout.Alignment.TRAILING)
+																												javax.swing.GroupLayout.Alignment.TRAILING,
+																												false)
 																										.addGroup(
 																												jXPanel1Layout
 																														.createSequentialGroup()
 																														.addComponent(
-																																jLabel1)
+																																jLabel1,
+																																javax.swing.GroupLayout.DEFAULT_SIZE,
+																																javax.swing.GroupLayout.DEFAULT_SIZE,
+																																Short.MAX_VALUE)
 																														.addPreferredGap(
 																																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 																														.addComponent(
@@ -236,7 +255,14 @@ public class LoginFrame extends JFrame {
 																																confnoIt,
 																																javax.swing.GroupLayout.PREFERRED_SIZE,
 																																javax.swing.GroupLayout.DEFAULT_SIZE,
-																																javax.swing.GroupLayout.PREFERRED_SIZE))))))
+																																javax.swing.GroupLayout.PREFERRED_SIZE))))
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				selectConfListButton,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				26,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)))
 										.addContainerGap()));
 		jXPanel1Layout
 				.setVerticalGroup(jXPanel1Layout
@@ -265,11 +291,20 @@ public class LoginFrame extends JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(
-												confnoIt,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGroup(
+												jXPanel1Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING,
+																false)
+														.addComponent(
+																selectConfListButton,
+																0, 0,
+																Short.MAX_VALUE)
+														.addComponent(
+																confnoIt,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																javax.swing.GroupLayout.DEFAULT_SIZE,
+																Short.MAX_VALUE))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(
@@ -296,7 +331,8 @@ public class LoginFrame extends JFrame {
 																savePasswdCb))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												13, Short.MAX_VALUE)
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
 										.addGroup(
 												jXPanel1Layout
 														.createParallelGroup(
@@ -318,6 +354,13 @@ public class LoginFrame extends JFrame {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void selectConfListButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		ControllerFacade.execute("mainController", "showSelectConfListDialog",
+				this);
+	}
 
 	private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		ControllerFacade.execute("mainController", "showRegisterUserDialog");
@@ -351,8 +394,9 @@ public class LoginFrame extends JFrame {
 						.setString("password", passwdIt.getText().trim())
 						.setString("confno", confnoIt.getText().trim())
 						.setString("serverIP", serverIPIt.getText().trim())
-						.setString("confpassword", confPasswdIt.getText().trim())
-						.setBoolean("autoLogin",
+						.setString("confpassword",
+								confPasswdIt.getText().trim()).setBoolean(
+								"autoLogin",
 								autoLoginCb.getModel().isSelected())
 						.setBoolean("savePasswd",
 								savePasswdCb.getModel().isSelected())
@@ -438,7 +482,18 @@ public class LoginFrame extends JFrame {
 	private com.lorent.common.component.PasswdInput passwdIt;
 	private com.lorent.common.component.CommonButton registerBtn;
 	private javax.swing.JCheckBox savePasswdCb;
+	private javax.swing.JButton selectConfListButton;
 	private com.lorent.common.component.TextInput serverIPIt;
 	private javax.swing.JComboBox usernameCb;
+
 	// End of variables declaration//GEN-END:variables
+
+	public com.lorent.common.component.TextInput getServerIPIt() {
+		return serverIPIt;
+	}
+
+	public com.lorent.common.component.TextInput getConfnoIt() {
+		return confnoIt;
+	}
+
 }

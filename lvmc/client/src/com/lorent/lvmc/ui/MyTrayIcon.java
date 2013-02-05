@@ -23,7 +23,8 @@ public class MyTrayIcon {
 	private JPTrayIcon trayIcon;
 	private SystemTray tray;
 	
-	private JMenuItem exitMI;
+	private JMenuItem exitFromLoginMI;
+	private JMenuItem exitFromMainMI;
 	private JMenuItem logoutMI;
 	private JMenuItem aboutMI;
 	private JMenuItem systemSetupMI;
@@ -35,12 +36,20 @@ public class MyTrayIcon {
 	}
 	
 	private void createMenu() {
-		exitMI = new JMenuItem(StringUtil.getUIString("trayicon.menu.exit"));
-		exitMI.addActionListener(new ActionListener() {
+		exitFromLoginMI = new JMenuItem(StringUtil.getUIString("trayicon.menu.exit"));
+		exitFromLoginMI.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ControllerFacade.execute("mainController", "exitFromTrayIcon");
+			}
+		});
+		exitFromMainMI = new JMenuItem(StringUtil.getUIString("trayicon.menu.exit"));
+		exitFromMainMI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControllerFacade.execute("mainController", "exitApplication");
 			}
 		});
 		logoutMI = new JMenuItem(StringUtil.getUIString("trayicon.menu.logout"));
@@ -76,7 +85,9 @@ public class MyTrayIcon {
 	
 	private JPopupMenu getLoginMenu(){
 		JPopupMenu loginMenu = new JPopupMenu();
-		loginMenu.add(exitMI);
+		loginMenu.add(aboutMI);
+		loginMenu.addSeparator();
+		loginMenu.add(exitFromLoginMI);
 		return loginMenu;
 	}
 	
@@ -86,7 +97,7 @@ public class MyTrayIcon {
 		mainMenu.add(aboutMI);
 		mainMenu.addSeparator();
 		mainMenu.add(logoutMI);
-		mainMenu.add(exitMI);
+		mainMenu.add(exitFromMainMI);
 		return mainMenu;
 	}
 	
@@ -125,5 +136,6 @@ public class MyTrayIcon {
 	public void showMainMenu() throws Exception{
 		trayIcon.setJPopupMenu(getMainMenu());
 	}
+
 
 }

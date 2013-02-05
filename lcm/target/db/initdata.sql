@@ -37,13 +37,25 @@ INSERT INTO conf_role_authority (authority_id, role_id) VALUES (6, 1);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (7, 2);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (8, 1);
 INSERT INTO conf_role_authority (authority_id, role_id) VALUES (9, 2);
-INSERT INTO conf_role_authority (authority_id, role_id) VALUES (10, 2);
+--INSERT INTO conf_role_authority (authority_id, role_id) VALUES (10, 2);
 
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 1);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 2);
 INSERT INTO conference_type_role (conference_type_id, conference_role_id) VALUES (1, 3);
 
-INSERT INTO sys_params(module, "key", "value") VALUES ('lcm', 'version', 1);
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lcm', 'version', '1', 'lcm版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.readable.version', '1.0.0', '最新版本名称');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'update.site', 'http://www.lorentnetworks.com', '更新地址');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'compatible.real.version', '1', '兼容版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'newest.real.version', '1', '最新版本');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'cs.port', '5062', 'cs端口');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'video.advance.setup', 'false', '视频高级设置');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.buffersize', '5120', '上传buffer大小(B)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.sleep.millisecond', '100', '上传间隔时间(ms)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '3072', '下载buffer大小(B)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100', '下载间隔时间(ms)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '5242880', '上传最大文件大小(B)');
+
 
 alter table conference_type_role add column maxnum integer default -1;
 alter table conference_type_role add column minnum integer default -1;

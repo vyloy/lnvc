@@ -111,6 +111,7 @@ public abstract class AbstractFigure
     
     protected Object readResolve() throws ObjectStreamException{
     	listenerList=new EventListenerList();
+    	transformed=new FIFOHashMap();
     	return this;
     }
     

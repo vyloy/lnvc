@@ -4,11 +4,15 @@
  */
 package com.lorent.lvmc.controller;
 
+import java.awt.Desktop;
 import java.awt.Frame;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,12 +20,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 import org.jhotdraw.samples.svg.SVGPanels;
 import org.jivesoftware.smack.packet.Presence;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.lorent.common.dto.LCMConferenceDto;
 import com.lorent.common.util.ParaUtil;
 import com.lorent.common.util.PasswordUtil;
@@ -33,6 +38,7 @@ import com.lorent.lvmc.dto.MemberDto;
 import com.lorent.lvmc.service.FetchMemberInfoService;
 import com.lorent.lvmc.ui.AboutDialog;
 import com.lorent.lvmc.ui.ChatMainPanel;
+import com.lorent.lvmc.ui.ConfListDialog;
 import com.lorent.lvmc.ui.DockingLayoutMeetingPanel;
 import com.lorent.lvmc.ui.InviteDialog;
 import com.lorent.lvmc.ui.LoginFrame;
@@ -128,6 +134,56 @@ public class MainController extends BaseController{
 
     }
     
+    private boolean showUpdate = false;
+    private boolean checkClientVersion(){
+    	int clientVersion = Integer.parseInt(StringUtil.getAppString("real.version"));
+    	Integer newestVersion = Integer.parseInt(DataUtil.getSystemPara("newest.real.version"));
+    	Integer compatibleVersion = Integer.parseInt(DataUtil.getSystemPara("compatible.real.version"));
+    	if(newestVersion != null && compatibleVersion != null){
+    		if(clientVersion == newestVersion){//已是最新版本
+    			return true;
+    		}else if(clientVersion >= compatibleVersion){//是兼容版本
+    			new Thread(){
+    				public void run() {
+    					if(showUpdate){
+    						return;
+    					}
+    					showUpdate = true;
+    					String temp = StringUtil.getUIString("update.clientUpdateInfo");
+    	    			Object[] options = {StringUtil.getUIString("update.download"), StringUtil.getUIString("update.seeLater")};
+    	    			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    	    			if(ret == 0){
+    	    				Desktop desktop = Desktop.getDesktop();  
+    	    				try {
+    							desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
+    						} catch (Exception e) {
+    							log.error("show update site error", e);
+    						}
+    	    			}
+    				};
+    			}.start();
+    			//获取最新版本信息并显示
+    			return true;
+    		}else{//低于兼容版本
+    			String temp = StringUtil.getUIString("update.clientMustUpdate");
+    			Object[] options = {StringUtil.getUIString("update.download")};
+    			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    			if(ret == 0){
+    				Desktop desktop = Desktop.getDesktop();  
+    				try {
+						desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
+					} catch (Exception e) {
+						log.error("show update site error", e);
+					}
+    			}
+    			System.exit(0);
+    			return false;
+    		}
+    	}else{//服务器没有客户端版本信息
+    		return true;//TODO 暂时不处理
+    	}
+    }
+    
     public void doLogin(ParaUtil paras)throws Exception{
     	String username = paras.getValue("username");
     	String password = paras.getValue("password");
@@ -137,13 +193,39 @@ public class MainController extends BaseController{
     	String confno = paras.getValue("confno");
     	String serverIP = paras.getValue("serverIP");
     	
+    	//获取系统属性
+    	Map<String, String> systemProperties = Launcher.getLCMUtil(serverIP).getSystemProperties("lvmc");
+    	DataUtil.setValue(Key.SystemParas, systemProperties);
+    	
+    	//判断客户端是否需要更新
+    	if(!checkClientVersion()){
+    		return;
+    	}
+    	
     	//判断用户是否有效
     	boolean userIsValid = Launcher.getLCMUtil(serverIP).userIsValid(username);
     	if (!userIsValid) {
-    		JOptionPane.showMessageDialog(null, "用户不存在或未激活");
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.user.NotActive"));
 			return;
 		}
     	//判断会议是否存在
+    	boolean existConf = Launcher.getLCMUtil(serverIP).existConf(confno);
+    	if(!existConf){
+    		JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confNotExist"));
+			return;
+    	}
+    	//判断会议是否超出人数限制 
+    	int maxnum = Launcher.getLCMUtil(serverIP).getConfUserNum();
+    	Object[] xmlrpcConf = Launcher.getLCMUtil(serverIP).getForwardConferenceByConfNo(confno);
+    	Integer memberCount = (Integer) xmlrpcConf[2];
+    	if(memberCount == null){
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("lcm.getMcuConfUserError"));
+    		return;
+    	}
+    	if (maxnum <= memberCount) {
+			JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.confIsMaxNum"));
+    		return;
+		}
     	
     	
         //判断会议密码
@@ -151,7 +233,7 @@ public class MainController extends BaseController{
 		LCMConferenceDto lcmConferenceDto = confList.get(confno);
 		if (lcmConferenceDto != null) {
 			if (!lcmConferenceDto.getPassword().equals(PasswordUtil.getEncString(confpassword))) {
-				JOptionPane.showMessageDialog(null, "会议密码错误");
+				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("login.conf.passworderror"));
 //				throw new Exception("会议密码错误");
 				return;
 			}
@@ -168,7 +250,7 @@ public class MainController extends BaseController{
         MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
         log.info("MainFrame create end");
         DataUtil.setValue(DataUtil.Key.TopWindow, mainFrame);
-        mainFrame.setTitle(StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
+        mainFrame.setTitle(StringUtil.getUIString("base.title")+"  --  "+StringUtil.getUIString("base.conference.title") + loginInfo.getConferenceTitle() + " " + StringUtil.getUIString("base.confno") + paras.getValue("confno") + " " 
             + StringUtil.getUIString("base.username") + paras.getValue("username"));
         mainFrame.getTitleLabel().setText(mainFrame.getTitle());
         
@@ -192,6 +274,8 @@ public class MainController extends BaseController{
     public void showRegisterUserDialog() throws Exception{
     	LoginFrame loginFrame = ViewManager.getComponent(LoginFrame.class);
     	RegisterUserDialog dialog = new RegisterUserDialog(loginFrame, true);
+    	String serverIP = loginFrame.getServerIPIt().getText();
+    	dialog.getServerIpInput().setText(serverIP);
     	ViewManager.setWindowCenterLocation(dialog);
     	dialog.setVisible(true);
     }
@@ -384,6 +468,7 @@ public class MainController extends BaseController{
 //    	w.getDockingLayoutMeetingPanel().addPanel(p, StringUtil.getUIString("MemberListPanel.title"), "memberListPanel", null);
             createMemberList();
             w.getDockingLayoutMeetingPanel().addPanel(ViewManager.getComponent(MemberListPanel.class), StringUtil.getUIString("MemberListPanel.title"), "memberListPanel", null,StringUtil.getUIString("MemberListPanel.img"));
+            ViewManager.getComponent(MemberListPanel.class).refreshOperatePanel();
             w.getDockingLayoutMeetingPanel().addPanel(ViewManager.getComponent(ChatMainPanel.class), StringUtil.getUIString("ChatMainPanel.title"), "chatMainPanel", null,StringUtil.getUIString("ChatMainPanel.img"));
             initChatMainPanelCombox();
 //            List<MemberDto> members = getMemberList();
@@ -474,12 +559,12 @@ public class MainController extends BaseController{
             this.showMessageDialog(StringUtil.getErrorString("info.tip"), StringUtil.getErrorString("maincontroller.showLogin.soundcard.error"));
 //            return;
         }
-    	if((Boolean)DataUtil.getValue(Key.Restart)){
-    		String reason = ConfigUtil.getProperty("RestartReason");
-    		if(!reason.equals("")){
-    			this.showMessageDialog(StringUtil.getErrorString("info.tip"), reason);
-    		}
-    	}
+//    	if((Boolean)DataUtil.getValue(Key.Restart)){
+//    		String reason = ConfigUtil.getProperty("RestartReason");
+//    		if(!reason.equals("")){
+//    			this.showMessageDialog(StringUtil.getErrorString("info.tip"), reason);
+//    		}
+//    	}
     	UIManager.setLookAndFeel(ConfigUtil.getProperty("DefaultLookAndFeelClassName", "com.jtattoo.plaf.mcwin.McWinLookAndFeel"));
 //    	ViewManager.changeLookAndFeelOnLoginFrame(ViewManager.getLookAndFeelByConf(ConfigUtil.getProperty("desktop.style")));
     	log.info("显示trayicon");
@@ -663,12 +748,12 @@ public class MainController extends BaseController{
     	if (packet.getType() == Presence.Type.unavailable) {
     		if (!Launcher.isStartedFromOutSide && DataUtil.getLoginInfo() != null) {
         		if (username.equals(DataUtil.getLoginInfo().getUsername()) && !packet.isAvailable()) {
-            		log.info("kickByRoom "+username+" "+packet+" "+packet.toXML());
+            		log.info("kickByRoom "+username);
             		MainFrame mainFrame = ViewManager.getComponent(MainFrame.class);
             		mainFrame.setExtendedState(mainFrame.MAXIMIZED_BOTH);
             		mainFrame.toFront();
-        			JOptionPane.showMessageDialog(mainFrame, StringUtil.getUIString("kickByRoom.text"));
-        			exitApplicationWithoutConfirm(false, null);
+//        			JOptionPane.showMessageDialog(mainFrame, StringUtil.getUIString("kickByRoom.text"));
+        			exitApplicationWithoutConfirm(false, StringUtil.getUIString("kickByRoom.lvmc.text"));
         		}
     		}
         	else if(Launcher.isStartedFromOutSide && DataUtil.getLoginInfo() != null 
@@ -686,7 +771,7 @@ public class MainController extends BaseController{
 		}
     }
     
-    public void exitApplicationWithoutConfirm(boolean isRestartApp, String restartReason) throws Exception{
+    public void exitApplicationWithoutConfirm(boolean isRestartApp, String exitReason) throws Exception{
         log.info("退出应用程序");
         try{
             ControllerFacade.execute("phoneController", "exitApplication", ((LoginInfo)DataUtil.getValue(DataUtil.Key.LoginInfo)).getConfno());
@@ -702,13 +787,18 @@ public class MainController extends BaseController{
 //        services.getScreenShareService().unInitScreenShareService();
         ControllerFacade.execute("shareDesktopController", "stopScreenShare");
         
+    	if(exitReason!=null && !exitReason.equals("")){
+    		JOptionPane.showMessageDialog(null, exitReason);
+    	}
         if(isRestartApp){
         	ConfigUtil.setProperty("restart", true + "");
-        	ConfigUtil.setProperty("RestartReason", restartReason);
             ProcessUtil.getInstance().restartApplication();
+        }else{
+        	 System.exit(0);
         }
-        Thread.sleep(500);
-        System.exit(0);
+//        Thread.sleep(500);
+       
+
     }
     
     public void exitApplication() throws Exception{
@@ -883,5 +973,26 @@ public class MainController extends BaseController{
     	book.setVisible(true);
     }
     
-    
+    public void showSelectConfListDialog(LoginFrame frame) throws Exception{
+    	String ip = frame.getServerIPIt().getText().trim();
+    	ConfListDialog dialog = new ConfListDialog(frame, true);
+    	ViewManager.setWindowCenterLocation(dialog);
+    	
+    	DefaultTableModel model = (DefaultTableModel) dialog.getConfListTable().getModel();
+    	Map<String, LCMConferenceDto> confList = Launcher.getLCMUtil(ip).getConfList();
+    	Set<Entry<String, LCMConferenceDto>> entrySet = confList.entrySet();
+    	for (Entry<String, LCMConferenceDto> entry : entrySet) {
+			LCMConferenceDto value = entry.getValue();
+			
+			model.addRow(new Object[]{value.getConfNo(),value.getConferenceName(),value.getDescription()});
+		}
+    	dialog.setVisible(true);
+    	
+    	boolean clickedOK = dialog.isClickedOK();
+    	int selectedRow = dialog.getConfListTable().getSelectedRow();
+    	if (clickedOK && selectedRow != -1) {
+			String conf = (String) dialog.getConfListTable().getModel().getValueAt(selectedRow, 0);
+			frame.getConfnoIt().setText(conf);
+		}
+    }
 }

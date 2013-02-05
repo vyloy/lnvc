@@ -25,8 +25,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.jhotdraw.samples.svg.figures.IdentifiableTransform;
+import org.jhotdraw.samples.svg.figures.MoveFigures;
 import org.jhotdraw.samples.svg.figures.ReverseTransforms;
-import org.jhotdraw.samples.svg.figures.TransformFigures;
 
 import com.lorent.whiteboard.client.Client;
 import com.lorent.whiteboard.model.RemoteFigure;
@@ -124,10 +124,14 @@ public class DragTracker extends AbstractTool {
     		return;
     	}
     	if(draggedFigures!=null&&!draggedFigures.isEmpty()){
-            TransformFigures updater = new TransformFigures();
-            updater.add(draggedFigures);
-            updater.setAffineTransform(tx);
-        	Client.getInstance().broadcast(updater);
+//            TransformFigures updater = new TransformFigures();
+//            updater.add(draggedFigures);
+//            updater.setAffineTransform(tx);
+//        	Client.getInstance().broadcast(updater);
+    		MoveFigures u = new MoveFigures();
+    		u.add(draggedFigures);
+        	Client.getInstance().broadcast(u);
+    		
         }
     }
     

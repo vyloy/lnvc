@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.command.ResultCommand;
-import com.lorent.whiteboard.command.SubsequentlyRunnable;
 import com.lorent.whiteboard.model.CommandsManager;
 
 public class BroadcastResultCommand implements ResultCommand {
@@ -45,9 +44,13 @@ public class BroadcastResultCommand implements ResultCommand {
 	public void subsequentlyRun(CommandsManager manager) {
 		BroadcastCommand result = manager.broadcastSuccessed(whiteboardId,oldCommandId);
 		if(result!=null){
-			boolean accepted = manager.acceptCommandId(result.getWhiteboardId(),commandId);
-			if (result instanceof SubsequentlyRunnable && accepted) {
-				((SubsequentlyRunnable) result).subsequentlyRun(manager);
+//			boolean accepted = manager.acceptCommandId(result.getWhiteboardId(),commandId);
+//			if (result instanceof SubsequentlyRunnable && accepted) {
+//				((SubsequentlyRunnable) result).subsequentlyRun(manager);
+//			}
+			if(result.isNeedToReExecute()){
+				result.commandId=commandId;
+				result.subsequentlyRun(manager);
 			}
 		}else{
 			logger.warn("manager.broadcastSuccessed return null");

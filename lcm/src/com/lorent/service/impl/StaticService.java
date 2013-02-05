@@ -66,7 +66,17 @@ public class StaticService {
 		return daoFacade.getStaticDao().getList(clazz);
 	}
 	
-
+	public List<SystemParamBean> getSystemParamsByModule(String module)throws Exception{
+		return daoFacade.getStaticDao().getSystemParamsByModule(module);
+	}
+	
+	public void save(Object obj){
+		daoFacade.getStaticDao().save(obj);
+	}
+	
+	public void delete(Object entity){
+		daoFacade.getStaticDao().delete(entity);
+	}
 	
 	
 	/* =========================== getters and setters ========================= */

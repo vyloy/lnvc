@@ -10,9 +10,8 @@ import org.jhotdraw.draw.Figure;
 import com.alibaba.fastjson.JSONObject;
 import com.lorent.whiteboard.model.Initializable;
 import com.lorent.whiteboard.model.RemoteFigure;
-import com.lorent.whiteboard.model.Updater;
 
-public abstract class SingleUpdater extends AbstractNormalResultUpdater implements Updater<DefaultDrawingView>,Initializable{
+public abstract class SingleUpdater extends AbstractNormalResultUpdater implements Initializable{
 
 	private static final long serialVersionUID = 1L;
 	protected long id;

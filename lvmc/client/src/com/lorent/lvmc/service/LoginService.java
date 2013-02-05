@@ -122,7 +122,8 @@ public class LoginService extends BaseService {
         
         LCCUtil instance = LCCUtil.getInstance();
         String mcuIP = serverIP;
-        String mcuLocalPort = ConfigUtil.getProperty("csPort");
+//        String mcuLocalPort = ConfigUtil.getProperty("csPort");
+        String mcuLocalPort = DataUtil.getSystemPara("cs.port");
         try {
 //            Thread.sleep(1000);
             if(DataUtil.getLvmcJNIListener() !=null ){
@@ -218,7 +219,8 @@ public class LoginService extends BaseService {
 
         LCCUtil instance = LCCUtil.getInstance();
         String mcuIP = serverIP;
-        String mcuLocalPort = ConfigUtil.getProperty("csPort");
+//        String mcuLocalPort = ConfigUtil.getProperty("csPort");
+        String mcuLocalPort = DataUtil.getSystemPara("cs.port");
         try {
 //            Thread.sleep(1000);
             if(DataUtil.getLvmcJNIListener() !=null ){

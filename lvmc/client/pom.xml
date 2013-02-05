@@ -89,20 +89,55 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lvmc_lib/</classpathPrefix>
-                            <mainClass>com.lorent.lvmc.ucs.Start</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<excludes>
+						<exclude>*.jar</exclude>
+						<exclude>lvmc_lib/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>second-artifact</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>install</phase>
+						<configuration>
+							<classifier>ucs</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lvmc_lib/</classpathPrefix>
+									<mainClass>com.lorent.lvmc.ucs.Start</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+					<execution>
+						<id>first-artifact</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>install</phase>
+						<configuration>
+							<classifier>lvmc</classifier>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lvmc_lib/</classpathPrefix>
+									<mainClass>com.lorent.lvmc.Launcher</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
 		</plugins>
 	</build>
 </project>
