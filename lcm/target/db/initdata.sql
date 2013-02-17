@@ -55,6 +55,7 @@ INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharef
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '3072', '下载buffer大小(B)');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100', '下载间隔时间(ms)');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '5242880', '上传最大文件大小(B)');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'help.site', 'http://www.lorentnetworks.com', '帮助文档网址');
 
 
 alter table conference_type_role add column maxnum integer default -1;

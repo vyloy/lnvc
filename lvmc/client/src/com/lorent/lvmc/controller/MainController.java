@@ -153,12 +153,7 @@ public class MainController extends BaseController{
     	    			Object[] options = {StringUtil.getUIString("update.download"), StringUtil.getUIString("update.seeLater")};
     	    			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
     	    			if(ret == 0){
-    	    				Desktop desktop = Desktop.getDesktop();  
-    	    				try {
-    							desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
-    						} catch (Exception e) {
-    							log.error("show update site error", e);
-    						}
+    						showUrl(DataUtil.getSystemPara("update.site"));
     	    			}
     				};
     			}.start();
@@ -169,12 +164,7 @@ public class MainController extends BaseController{
     			Object[] options = {StringUtil.getUIString("update.download")};
     			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
     			if(ret == 0){
-    				Desktop desktop = Desktop.getDesktop();  
-    				try {
-						desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
-					} catch (Exception e) {
-						log.error("show update site error", e);
-					}
+    				showUrl(DataUtil.getSystemPara("update.site"));
     			}
     			System.exit(0);
     			return false;
@@ -994,5 +984,26 @@ public class MainController extends BaseController{
 			String conf = (String) dialog.getConfListTable().getModel().getValueAt(selectedRow, 0);
 			frame.getConfnoIt().setText(conf);
 		}
+    }
+    
+    public void showHelp(){
+    	showUrl(DataUtil.getSystemPara("help.site"));
+    }
+    
+    public void showUrl(String url){
+		Desktop desktop = Desktop.getDesktop();  
+		try {
+			desktop.browse(new URI(url));
+		} catch (Exception e) {
+			log.error("show url error " + url, e);
+		}
+    }
+    public void showMail(String mailto){
+    	Desktop desktop = Desktop.getDesktop();  
+    	try {
+    		desktop.mail(new URI("mailto:" + mailto));
+    	} catch (Exception e) {
+    		log.error("show mail error " + mailto, e);
+    	}
     }
 }

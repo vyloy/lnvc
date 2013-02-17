@@ -6,11 +6,15 @@
 
 package com.lorent.lvmc.ui;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.net.URI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
+import com.lorent.lvmc.controller.ControllerFacade;
+import com.lorent.lvmc.util.DataUtil;
 import com.lorent.lvmc.util.StringUtil;
 
 /**
@@ -18,6 +22,11 @@ import com.lorent.lvmc.util.StringUtil;
  * @author  Jack
  */
 public class AboutDialog extends JDialog {
+
+	private String qqNO = "2564915235";
+	private String companyWebUrl = "http://www.lorentnetworks.com";
+	private String productWebUrl;
+	private String mailurl = "service@cn.lorentnetworks.com";
 
 	/** Creates new form AboutDialog */
 	public AboutDialog(java.awt.Frame parent, Boolean modal) {
@@ -32,12 +41,19 @@ public class AboutDialog extends JDialog {
 		this.companyLbl.setText(StringUtil.getUIString("about.company"));
 		this.companySiteLbl
 				.setText(StringUtil.getUIString("about.companySite"));
+		this.companySite.setText("<html><a href=''>" + companyWebUrl
+				+ "</a></html>");
+		productWebUrl = DataUtil.getSystemPara("update.site");
 		this.productSiteLbl
 				.setText(StringUtil.getUIString("about.productSite"));
+		this.productSite.setText("<html><a href=''>" + productWebUrl
+				+ "</a></html>");
 		this.emailLbl.setText(StringUtil.getUIString("about.email"));
+		this.email.setText("<html><a href=''>" + mailurl + "</a></html>");
 		this.phoneLbl.setText(StringUtil.getUIString("about.phone"));
 		this.version.setText(StringUtil.getAppString("readable.version"));
 		this.company.setText(StringUtil.getUIString("about.lorent"));
+		this.qq.setText("<html><a href=''>" + qqNO + "</a></html>");
 	}
 
 	//GEN-BEGIN:initComponents
@@ -59,6 +75,8 @@ public class AboutDialog extends JDialog {
 		email = new javax.swing.JLabel();
 		phoneLbl = new javax.swing.JLabel();
 		phone = new javax.swing.JLabel();
+		qqLbl = new javax.swing.JLabel();
+		qq = new javax.swing.JLabel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("about");
@@ -83,21 +101,46 @@ public class AboutDialog extends JDialog {
 		company.setText("lorentnetworks");
 
 		companySite.setText("http://www.lorentnetworks.com/");
+		companySite.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				companySiteMouseClicked(evt);
+			}
+		});
 
 		productSiteLbl.setFont(new java.awt.Font("宋体", 1, 12));
 		productSiteLbl.setText("Product:");
 
 		productSite.setText("http://www.lorentnetworks.com/");
+		productSite.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				productSiteMouseClicked(evt);
+			}
+		});
 
 		emailLbl.setFont(new java.awt.Font("宋体", 1, 12));
 		emailLbl.setText("email:");
 
 		email.setText("service@cn.lorentnetworks.com");
+		email.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				emailMouseClicked(evt);
+			}
+		});
 
 		phoneLbl.setFont(new java.awt.Font("宋体", 1, 12));
 		phoneLbl.setText("phone:");
 
 		phone.setText("0757-81207132");
+
+		qqLbl.setFont(new java.awt.Font("宋体", 1, 12));
+		qqLbl.setText("QQ:");
+
+		qq.setText("<html><a href=\"#\">2564915235</a></html>");
+		qq.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				qqMouseClicked(evt);
+			}
+		});
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
@@ -180,7 +223,20 @@ public class AboutDialog extends JDialog {
 																				appName,
 																				javax.swing.GroupLayout.PREFERRED_SIZE,
 																				247,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)))
+																				javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.addContainerGap()
+																		.addComponent(
+																				qqLbl,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				75,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				qq)))
 										.addContainerGap(31, Short.MAX_VALUE)));
 		jPanel1Layout
 				.setVerticalGroup(jPanel1Layout
@@ -251,13 +307,40 @@ public class AboutDialog extends JDialog {
 																javax.swing.GroupLayout.Alignment.TRAILING)
 														.addComponent(phoneLbl)
 														.addComponent(phone))
-										.addContainerGap(12, Short.MAX_VALUE)));
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addGroup(
+												jPanel1Layout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.TRAILING)
+														.addComponent(qqLbl)
+														.addComponent(qq))
+										.addContainerGap(17, Short.MAX_VALUE)));
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_END);
 
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void emailMouseClicked(java.awt.event.MouseEvent evt) {
+		ControllerFacade.execute("mainController", "showMail", mailurl);
+	}
+
+	private void productSiteMouseClicked(java.awt.event.MouseEvent evt) {
+		ControllerFacade.execute("mainController", "showUrl", productWebUrl);
+	}
+
+	private void companySiteMouseClicked(java.awt.event.MouseEvent evt) {
+		ControllerFacade.execute("mainController", "showUrl", companyWebUrl);
+	}
+
+	private void qqMouseClicked(java.awt.event.MouseEvent evt) {
+		ControllerFacade
+				.execute("mainController", "showUrl",
+						"http://wpa.qq.com/msgrd?v=3&uin=" + qqNO
+								+ "&site=qq&menu=yes");
+	}
 
 	/**
 	 * @param args the command line arguments
@@ -292,6 +375,8 @@ public class AboutDialog extends JDialog {
 	private javax.swing.JLabel phoneLbl;
 	private javax.swing.JLabel productSite;
 	private javax.swing.JLabel productSiteLbl;
+	private javax.swing.JLabel qq;
+	private javax.swing.JLabel qqLbl;
 	private javax.swing.JLabel version;
 	private javax.swing.JLabel versionLbl;
 	// End of variables declaration//GEN-END:variables
