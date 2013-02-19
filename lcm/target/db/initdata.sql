@@ -1,4 +1,4 @@
-INSERT INTO extensions_conf (context, exten, priority, app, appdata) VALUES ('default', '_xxxxx', 1, 'Dial', 'SIP/${EXTEN},,');
+﻿INSERT INTO extensions_conf (context, exten, priority, app, appdata) VALUES ('default', '_xxxxx', 1, 'Dial', 'SIP/${EXTEN},,');
 INSERT INTO extensions_conf (context, exten, priority, app, appdata) VALUES ('default', '_xxxx', 1, 'Dial', 'SIP/${EXTEN},,');
 
 INSERT INTO sys_media (media_name, media_path, status, file_name, customer_id, media_desc, original_name) VALUES ('movie', '/opt/lcp/media/movie.mp4', 1, 'movie.mp4', 2, '', 'movie.mp4');
@@ -55,7 +55,7 @@ INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharef
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.buffersize', '3072', '下载buffer大小(B)');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.download.sleep.millisecond', '100', '下载间隔时间(ms)');
 INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'sharefile.upload.maxfilesize', '5242880', '上传最大文件大小(B)');
-INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'help.site', 'ftp://119.145.168.112:2121/lvmc/lvmc_manual.pdf', '帮助文档网址');
+INSERT INTO sys_params(module, "key", "value", descript) VALUES ('lvmc', 'help.site', 'ftp://119.145.168.112/lvmc/lvmc_manual.pdf', '帮助文档网址');
 
 
 alter table conference_type_role add column maxnum integer default -1;
