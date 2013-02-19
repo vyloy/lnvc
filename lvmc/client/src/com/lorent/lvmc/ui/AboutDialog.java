@@ -46,7 +46,7 @@ public class AboutDialog extends JDialog {
 		productWebUrl = DataUtil.getSystemPara("update.site");
 		this.productSiteLbl
 				.setText(StringUtil.getUIString("about.productSite"));
-		this.productSite.setText("<html><a href=''>" + productWebUrl
+		this.productSite.setText("<html><a href=''>" + "查看"
 				+ "</a></html>");
 		this.emailLbl.setText(StringUtil.getUIString("about.email"));
 		this.email.setText("<html><a href=''>" + mailurl + "</a></html>");
