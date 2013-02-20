@@ -46,8 +46,7 @@ public class AboutDialog extends JDialog {
 		productWebUrl = DataUtil.getSystemPara("update.site");
 		this.productSiteLbl
 				.setText(StringUtil.getUIString("about.productSite"));
-		this.productSite.setText("<html><a href=''>" + "查看"
-				+ "</a></html>");
+		this.productSite.setText("<html><a href=''>" + "查看" + "</a></html>");
 		this.emailLbl.setText(StringUtil.getUIString("about.email"));
 		this.email.setText("<html><a href=''>" + mailurl + "</a></html>");
 		this.phoneLbl.setText(StringUtil.getUIString("about.phone"));
@@ -188,11 +187,6 @@ public class AboutDialog extends JDialog {
 																								emailLbl,
 																								javax.swing.GroupLayout.PREFERRED_SIZE,
 																								75,
-																								javax.swing.GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								phoneLbl,
-																								javax.swing.GroupLayout.PREFERRED_SIZE,
-																								75,
 																								javax.swing.GroupLayout.PREFERRED_SIZE))
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -209,9 +203,7 @@ public class AboutDialog extends JDialog {
 																						.addComponent(
 																								productSite)
 																						.addComponent(
-																								email)
-																						.addComponent(
-																								phone)))
+																								email)))
 														.addGroup(
 																jPanel1Layout
 																		.createSequentialGroup()
@@ -236,7 +228,20 @@ public class AboutDialog extends JDialog {
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 																		.addComponent(
-																				qq)))
+																				qq))
+														.addGroup(
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.addContainerGap()
+																		.addComponent(
+																				phoneLbl,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				75,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				phone)))
 										.addContainerGap(31, Short.MAX_VALUE)));
 		jPanel1Layout
 				.setVerticalGroup(jPanel1Layout
@@ -305,17 +310,17 @@ public class AboutDialog extends JDialog {
 												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.TRAILING)
-														.addComponent(phoneLbl)
-														.addComponent(phone))
+														.addComponent(qqLbl)
+														.addComponent(qq))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addGroup(
 												jPanel1Layout
 														.createParallelGroup(
 																javax.swing.GroupLayout.Alignment.TRAILING)
-														.addComponent(qqLbl)
-														.addComponent(qq))
-										.addContainerGap(17, Short.MAX_VALUE)));
+														.addComponent(phoneLbl)
+														.addComponent(phone))
+										.addContainerGap(21, Short.MAX_VALUE)));
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_END);
 

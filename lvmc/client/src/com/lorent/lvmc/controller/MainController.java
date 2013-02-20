@@ -321,23 +321,23 @@ public class MainController extends BaseController{
 			
 		}
     	else{
-    		if (serverip.length() > 15) {
-				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.morethan15"));
-				return false;
-			}
-    		else{
-    			//"\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b"
-    			String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
-    			Pattern pattern = Pattern.compile(regex);
-    			Matcher matcher = pattern.matcher(serverip);
-    			if (!matcher.matches()) {
-					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.formaterror"));
-					return false;
-				}
-    		}
+//    		if (serverip.length() > 15) {
+//				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.morethan15"));
+//				return false;
+//			}
+//    		else{
+//    			//"\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b"
+//    			String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+//    			Pattern pattern = Pattern.compile(regex);
+//    			Matcher matcher = pattern.matcher(serverip);
+//    			if (!matcher.matches()) {
+//					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.formaterror"));
+//					return false;
+//				}
+//    		}
     	}
     	String password = dialog.getPasswdInput().getText();
     	String repassword = dialog.getRePasswdInput().getText();
