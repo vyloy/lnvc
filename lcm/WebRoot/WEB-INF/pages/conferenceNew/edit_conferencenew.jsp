@@ -47,10 +47,11 @@
   	$.ajax({
 	    url: basepath + 'app/conferenceNewAction_toSearchTypeRoleUserInfo_conferenceroles.action?conferenceType='+ typeValue + '&rnd='+ Math.random(),
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'html',
 	    timeout: 5000000,
-	    error: function(){
-	        alert(1111);
+	    error: function(XMLHttpRequest, textStatus, errorThrown){
+	        alert(textStatus);
+	        alert(errorThrown);
 	    },
 	    success: showrole
 	});
@@ -61,7 +62,7 @@
   	$('#dialogue_form_conferenceNew_defaultRoleId').find('option').remove();
   	$('#dialogue_form_conferenceNew_defaultRoleId').append("<option value=''>请选择</option>");
   	
-  	var list = data.list;
+  	var list = eval('('+data+')').list;
   	for(i=0;i<list.length;i++){
   		if(list[i]!=null){
   			//alert(list[i].key + '==' + list[i].rolevalue);
@@ -115,6 +116,22 @@
     		</tr>
     		<tr>
     			<td class="dialogue_td_text">
+    				<s:text name="page.text.confpass" />
+    			</td>
+    			<td class="dialogue_td_input" colspan="3">
+    				<s:password name="conferenceNew.password" theme="simple" showPassword="true"></s:password>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td class="dialogue_td_text">
+    				<s:text name="page.conf.desc" />
+    			</td>
+    			<td class="dialogue_td_input" colspan="3">
+    				<s:textarea name="conferenceNew.description" theme="simple" cssClass="dialogue_textarea" />
+    			</td>
+    		</tr>
+    		<tr>
+    			<td class="dialogue_td_text">
     				为选择参会者：
     			</td>
     			<td class="dialogue_td_input">
@@ -128,7 +145,7 @@
     			</td>
     		</tr>
     	</table>
-    	<div style="overflow-y:auto; height: 160px;width: 80%;" id="userinfo">
+    	<div style="overflow-y:auto; height: 160px;width: 80%; margin-left: auto; margin-right: auto;" id="userinfo">
     			<jsp:include flush="true" page="/WEB-INF/pages/conferenceNew/userlist.jsp"/>
 		</div>
   	</s:form>

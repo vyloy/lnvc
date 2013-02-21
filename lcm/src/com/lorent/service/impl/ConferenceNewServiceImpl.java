@@ -154,8 +154,9 @@ ConferenceNewService{
 			
 			//MCU创建会议
 //			UserBean user = ThreadLocaleUtil.getUser();
+			String serverUrl = serviceFacade.getCustomerService().getFirstValidCustomer().getMcuServer().getServerUrl();
 			try{
-				McuUtil.createForwardConference(confNo,user.getCustomer().getMcuServer().getServerUrl());
+				McuUtil.createForwardConference(confNo,serverUrl);
 			}catch(Exception e){
 				throw new ServerException("server.mcuCreateConfFail", e);
 			}
@@ -165,7 +166,7 @@ ConferenceNewService{
 			try{
 				OpenfireUtil.getInstance().createConferenceRoom(conferenceNew, confMembers, false, user);
 			}catch(Exception e){
-				McuUtil.removeForwardConference(user.getCustomer().getMcuServer().getServerUrl(), confNo);
+				McuUtil.removeForwardConference(serverUrl, confNo);
 				throw new ServerException("server.imsConnectFail", e);
 			}
 			
@@ -349,9 +350,10 @@ ConferenceNewService{
 			List<String> confNos = daoFacade.getConferenceNewDao().getConferenceNoByConferenceIds(ids);//.queryByHql("select cn.confNo from ConferenceNewBean cn where cn.id in ("+ strIds +")");
 			
 //			UserBean user = ThreadLocaleUtil.getUser();
+			String serverUrl = serviceFacade.getCustomerService().getFirstValidCustomer().getMcuServer().getServerUrl();
 			for(String confno:confNos){
 				try{
-					McuUtil.removeForwardConference(user.getCustomer().getMcuServer().getServerUrl(),confno);
+					McuUtil.removeForwardConference(serverUrl,confno);
 				}catch(Exception e){
 					log.error("removeConferenceNew", e);
 					throw new ServerException("server.mcuRemoveConfFail", e);
@@ -435,6 +437,9 @@ ConferenceNewService{
 	@Override
 	public boolean validateConfData(String[] paras, int conftype)
 			throws Exception {
+		if(paras == null){
+			throw new ArgsException("args.userrolenotexists");
+		}
 		Map<String, Counter> map = new HashMap<String, Counter>();
 		for(String para : paras){
 			String roleId = para.split("_")[0];

@@ -13,6 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
+import com.lorent.common.util.PasswordUtil;
 import com.lorent.exception.ArgsException;
 import com.lorent.model.ConferenceNewBean;
 import com.lorent.model.ConferenceRoleBean;
@@ -143,6 +144,7 @@ public class ConferenceNewAction extends BaseAction<ConferenceNewBean,Integer>{
 		Integer[]ids = getSelectedIds();
 		if(ids==null)return null;
 		setConferenceNew(serviceFacade.getConferenceNewService().get(ids[0]));
+		conferenceNew.setPassword(PasswordUtil.getDesString(conferenceNew.getPassword()));
 		//查询所有的会议类型
 		this.setConferenceTypes(serviceFacade.getConferenceTypeService().getByExample(new ConferenceTypeBean()));
 		Integer[] typeIds = {this.getConferenceNew().getConferenceTypeId()};
@@ -200,7 +202,8 @@ public class ConferenceNewAction extends BaseAction<ConferenceNewBean,Integer>{
 		if(conferenceNew.getId()==null){
 			UserBean user = ThreadLocaleUtil.getUser();
 			conferenceNewPo.setCreator(user.getId());
-			String customerCode = user.getCustomer().getCustomerCode();
+			conferenceNewPo.setPassword(PasswordUtil.getEncString(conferenceNewPo.getPassword()));
+			String customerCode = serviceFacade.getCustomerService().getFirstValidCustomer().getCustomerCode();
 			try{
 				serviceFacade.getConferenceNewService().createConfNo(conferenceNewPo, customerCode, Constant.CONF_TYPE_NEWCONFERENCE);
 				serviceFacade.getConferenceNewService().createConferenceNew(conferenceNewPo, urIds);
@@ -210,7 +213,7 @@ public class ConferenceNewAction extends BaseAction<ConferenceNewBean,Integer>{
 				throw e;
 			}
 		}else{
-			
+			conferenceNewPo.setPassword(PasswordUtil.getEncString(conferenceNewPo.getPassword()));
 			serviceFacade.getConferenceNewService().renewConferenceNew(conferenceNewPo, urIds);
 		}
 		
