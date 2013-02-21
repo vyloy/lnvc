@@ -393,13 +393,14 @@ public class MainController extends BaseController{
 				}
 			} catch (Exception e) {
 				String message = e.getMessage();
-				String substring = message.substring(message.indexOf(":")+1);
+				String substring = message.substring(message.indexOf(":") + 1);
 				if (substring.trim().equals("Connection refused: connect")) {
 					substring = StringUtil.getErrorString("registerUser.reg.connectRefused");
+				} else if (substring.trim().equals("Connection timed out: connect")) {
+					substring = "连接服务器失败";
 				}
 				JOptionPane.showMessageDialog(null, substring);
 				log.error("注册失败",e);
-				e.printStackTrace();
 			}
 		}
     }
