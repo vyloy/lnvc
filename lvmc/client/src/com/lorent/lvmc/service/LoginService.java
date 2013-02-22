@@ -59,7 +59,9 @@ public class LoginService extends BaseService {
 //        LCCUtil.getInstance().doUninit();
         
         MyMultiUserChat chat = DataUtil.getValue(DataUtil.Key.ReadyToLeaveRoom);
-        chat.removeListeners();
+        if(chat != null){
+        	chat.removeListeners();
+        }
         
         LvmcOpenfireUtil.doRemoveListener();
         if(LvmcUtil.isUCSAPP()){

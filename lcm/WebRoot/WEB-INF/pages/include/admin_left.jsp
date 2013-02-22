@@ -39,6 +39,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							title="<s:text name="page.systemparas.set" />">
 						<s:text name="page.systemparas.set" />
 					</a></div>
+					<div><a href="app/conferenceNewAction_toConferenceNewList_conferencenewlist.action" target="index_iframe">
+						<s:text name="page.display.text.conferencenew" />
+					</a></div>
 					<!-- 会议录音管理 
 					<div><a href="app/recordMediaAction_toRecordList_recordMediaList.action" target="index_iframe"
 							title="<s:text name="page.display.text.resourceadmin.recordmediaconfig" />">
@@ -119,9 +122,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							title="<s:text name="page.display.text.authoritymanager.authoritydefine"/>">
 						<s:text name="page.display.text.authoritymanager.authoritydefine"></s:text>
 					</a></div>
-					<!--  <div><a href="app/conferenceNewAction_toConferenceNewList_conferencenewlist.action" target="index_iframe">
-						<s:text name="page.display.text.conferencenew" />
-					</a></div>-->
     			</li>
     			<%--<li class="menu"><s:text name="page.display.text.mediaadmin" /></li>
     			<li class="menu_list">

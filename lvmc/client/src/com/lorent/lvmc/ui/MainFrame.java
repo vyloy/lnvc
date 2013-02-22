@@ -153,13 +153,20 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		otherToolsButton
 				.setToolTipText(StringUtil
 						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.screenshot.txt"));
-		setupButton.setText(StringUtil.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
-		setupButton.setToolTipText(StringUtil.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
+		setupButton
+				.setText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
+		setupButton
+				.setToolTipText(StringUtil
+						.getUIString("com.lorent.lvmc.ui.DefaultLayoutMeetingPanel.systemsetup.txt"));
 		guestbookBtn.setText(StringUtil.getUIString("guestbook.btn"));
-		guestbookBtn.setToolTipText(StringUtil.getUIString("toolTipText.MainFrame.guestbookBtn"));
+		guestbookBtn.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.guestbookBtn"));
 		aboutBtn.setText(StringUtil.getUIString("main.menu.aboutus"));
-		aboutBtn.setToolTipText(StringUtil.getUIString("toolTipText.MainFrame.aboutbtn"));
+		aboutBtn.setToolTipText(StringUtil
+				.getUIString("toolTipText.MainFrame.aboutbtn"));
 		otherToolsButton.setText(StringUtil.getUIString("mainMenu.otherTools"));
+		helpBtn.setText(StringUtil.getUIString("mainMenu.help"));
 		instance = this;
 	}
 
@@ -198,6 +205,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		otherToolsButton = new javax.swing.JButton();
 		setupButton = new javax.swing.JButton();
 		guestbookBtn = new javax.swing.JButton();
+		helpBtn = new javax.swing.JButton();
 		aboutBtn = new javax.swing.JButton();
 		logoPanel = new javax.swing.JPanel();
 
@@ -441,6 +449,20 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		});
 		jToolBar1.add(guestbookBtn);
 
+		helpBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/lvmc/resource/images/help.png"))); // NOI18N
+		helpBtn.setFocusable(false);
+		helpBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		helpBtn.setMaximumSize(new java.awt.Dimension(58, 57));
+		helpBtn.setPreferredSize(new java.awt.Dimension(58, 57));
+		helpBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		helpBtn.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				helpBtnActionPerformed(evt);
+			}
+		});
+		jToolBar1.add(helpBtn);
+
 		aboutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/lorent/lvmc/resource/images/main-about.png"))); // NOI18N
 		aboutBtn.setFocusable(false);
@@ -474,6 +496,10 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void helpBtnActionPerformed(java.awt.event.ActionEvent evt) {
+		ControllerFacade.execute("mainController", "showHelp");
+	}
 
 	private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {
 		ControllerFacade.execute("mainController", "showAboutDialog");
@@ -648,6 +674,7 @@ public class MainFrame extends javax.swing.JFrame implements MainWindow {
 	// Variables declaration - do not modify
 	private javax.swing.JButton aboutBtn;
 	private javax.swing.JButton guestbookBtn;
+	private javax.swing.JButton helpBtn;
 	private javax.swing.JButton jButton3;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;

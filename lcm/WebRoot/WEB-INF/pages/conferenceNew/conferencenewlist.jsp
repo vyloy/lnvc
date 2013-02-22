@@ -51,8 +51,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</s:param>
   		<s:param name="selectAll">1</s:param>
   		<security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_CUSTOMER_ADMIN,ROLE_CUSTOMER_USER,ROLE_CUSTOMER_DEP_ADMIN">
-			<s:param name="editUrl">app/conferenceNewAction_toEditConferenceNew_edit_conferencenew.action*600*400*edit</s:param>
-  			<s:param name="addUrl">app/conferenceNewAction_addConferenceNew_edit_conferencenew.action*600*400*add</s:param>
+			<s:param name="editUrl">app/conferenceNewAction_toEditConferenceNew_edit_conferencenew.action*600*500*edit</s:param>
+  			<s:param name="addUrl">app/conferenceNewAction_addConferenceNew_edit_conferencenew.action*600*500*add</s:param>
   			<s:param name="deleteUrl">app/conferenceNewAction_deleteConferenceNew_conferencenewlist.action*delete</s:param>  		
   		</security:authorize>
   		<s:param name="searchUrl">search</s:param>

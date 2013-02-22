@@ -153,12 +153,7 @@ public class MainController extends BaseController{
     	    			Object[] options = {StringUtil.getUIString("update.download"), StringUtil.getUIString("update.seeLater")};
     	    			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
     	    			if(ret == 0){
-    	    				Desktop desktop = Desktop.getDesktop();  
-    	    				try {
-    							desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
-    						} catch (Exception e) {
-    							log.error("show update site error", e);
-    						}
+    						showUrl(DataUtil.getSystemPara("update.site"));
     	    			}
     				};
     			}.start();
@@ -169,12 +164,7 @@ public class MainController extends BaseController{
     			Object[] options = {StringUtil.getUIString("update.download")};
     			int ret = JOptionPane.showOptionDialog(null, temp, null, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
     			if(ret == 0){
-    				Desktop desktop = Desktop.getDesktop();  
-    				try {
-						desktop.browse(new URI(DataUtil.getSystemPara("update.site")));
-					} catch (Exception e) {
-						log.error("show update site error", e);
-					}
+    				showUrl(DataUtil.getSystemPara("update.site"));
     			}
     			System.exit(0);
     			return false;
@@ -331,23 +321,23 @@ public class MainController extends BaseController{
 			
 		}
     	else{
-    		if (serverip.length() > 15) {
-				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.morethan15"));
-				return false;
-			}
-    		else{
-    			//"\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b"
-    			String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
-                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
-    			Pattern pattern = Pattern.compile(regex);
-    			Matcher matcher = pattern.matcher(serverip);
-    			if (!matcher.matches()) {
-					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.formaterror"));
-					return false;
-				}
-    		}
+//    		if (serverip.length() > 15) {
+//				JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.morethan15"));
+//				return false;
+//			}
+//    		else{
+//    			//"\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b"
+//    			String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+//                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+//    			Pattern pattern = Pattern.compile(regex);
+//    			Matcher matcher = pattern.matcher(serverip);
+//    			if (!matcher.matches()) {
+//					JOptionPane.showMessageDialog(null, StringUtil.getErrorString("registerUser.reg.serverip.formaterror"));
+//					return false;
+//				}
+//    		}
     	}
     	String password = dialog.getPasswdInput().getText();
     	String repassword = dialog.getRePasswdInput().getText();
@@ -403,13 +393,14 @@ public class MainController extends BaseController{
 				}
 			} catch (Exception e) {
 				String message = e.getMessage();
-				String substring = message.substring(message.indexOf(":")+1);
+				String substring = message.substring(message.indexOf(":") + 1);
 				if (substring.trim().equals("Connection refused: connect")) {
 					substring = StringUtil.getErrorString("registerUser.reg.connectRefused");
+				} else if (substring.trim().equals("Connection timed out: connect")) {
+					substring = "连接服务器失败";
 				}
 				JOptionPane.showMessageDialog(null, substring);
 				log.error("注册失败",e);
-				e.printStackTrace();
 			}
 		}
     }
@@ -994,5 +985,26 @@ public class MainController extends BaseController{
 			String conf = (String) dialog.getConfListTable().getModel().getValueAt(selectedRow, 0);
 			frame.getConfnoIt().setText(conf);
 		}
+    }
+    
+    public void showHelp(){
+    	showUrl(DataUtil.getSystemPara("help.site"));
+    }
+    
+    public void showUrl(String url){
+		Desktop desktop = Desktop.getDesktop();  
+		try {
+			desktop.browse(new URI(url));
+		} catch (Exception e) {
+			log.error("show url error " + url, e);
+		}
+    }
+    public void showMail(String mailto){
+    	Desktop desktop = Desktop.getDesktop();  
+    	try {
+    		desktop.mail(new URI("mailto:" + mailto));
+    	} catch (Exception e) {
+    		log.error("show mail error " + mailto, e);
+    	}
     }
 }

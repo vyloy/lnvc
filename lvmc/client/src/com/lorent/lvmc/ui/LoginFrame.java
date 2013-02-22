@@ -111,7 +111,6 @@ public class LoginFrame extends JFrame {
 
 		confnoIt.setLabel("\u4f1a\u8bae\u5ba4");
 
-		serverIPIt.setEnable(false);
 		serverIPIt.setEnabled(false);
 		serverIPIt.setLabel("\u670d\u52a1\u5668");
 
@@ -184,7 +183,7 @@ public class LoginFrame extends JFrame {
 																				javax.swing.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																				182,
+																				186,
 																				Short.MAX_VALUE)
 																		.addComponent(
 																				confirmBtn,
@@ -331,8 +330,7 @@ public class LoginFrame extends JFrame {
 																savePasswdCb))
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
+												15, Short.MAX_VALUE)
 										.addGroup(
 												jXPanel1Layout
 														.createParallelGroup(

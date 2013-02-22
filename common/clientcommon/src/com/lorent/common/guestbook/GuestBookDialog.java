@@ -41,6 +41,7 @@ public class GuestBookDialog extends javax.swing.JDialog {
 		java.awt.GridBagConstraints gridBagConstraints;
 
 		jPanel3 = new javax.swing.JPanel();
+		jLabel1 = new javax.swing.JLabel();
 		descLbl = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
@@ -54,6 +55,10 @@ public class GuestBookDialog extends javax.swing.JDialog {
 
 		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10,
 				5));
+
+		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/com/lorent/common/guestbook/guestbook.png"))); // NOI18N
+		jPanel3.add(jLabel1);
 
 		descLbl.setFont(new java.awt.Font("宋体", 0, 18));
 		descLbl.setText("jLabel1");
@@ -115,17 +120,19 @@ public class GuestBookDialog extends javax.swing.JDialog {
 	//GEN-END:initComponents
 
 	private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {
-		try{
+		try {
 			beforeSubmit(contextArea.getText());
-			JOptionPane.showMessageDialog(this, strUtil.getString("guestbook.sendsuccess"));
+			JOptionPane.showMessageDialog(this, strUtil
+					.getString("guestbook.sendsuccess"));
 			this.dispose();
-		}catch(Exception e){
-			JOptionPane.showMessageDialog(this, e.getMessage(), strUtil.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), strUtil
+					.getString("error.title"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
-	protected void beforeSubmit(String text) throws Exception{
-		
+
+	protected void beforeSubmit(String text) throws Exception {
+
 	}
 
 	/**
@@ -150,6 +157,7 @@ public class GuestBookDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JTextArea contextArea;
 	private javax.swing.JLabel descLbl;
+	private javax.swing.JLabel jLabel1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;

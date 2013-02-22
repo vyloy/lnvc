@@ -67,7 +67,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="registerBtn" min="-2" pref="64" max="-2" attributes="0"/>
-                          <EmptySpace pref="182" max="32767" attributes="0"/>
+                          <EmptySpace pref="186" max="32767" attributes="0"/>
                           <Component id="confirmBtn" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -124,7 +124,7 @@
                       <Component id="autoLoginCb" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="savePasswdCb" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="confirmBtn" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="registerBtn" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
@@ -155,7 +155,6 @@
         </Component>
         <Component class="com.lorent.common.component.TextInput" name="serverIPIt">
           <Properties>
-            <Property name="enable" type="boolean" value="false"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="label" type="java.lang.String" value="&#x670d;&#x52a1;&#x5668;"/>
           </Properties>
